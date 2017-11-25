@@ -1,27 +1,24 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common;
-using Yaba.Common.DTOs.BudgetDTOs;
+using Yaba.Common.DTOs.TabDTOs;
 
 namespace Yaba.Entities
 {
-    public class EFBudgetRepository : IBudgetRepository
+    public class EFTabRepository : ITabRepository
     {
         private readonly IYabaDBContext _context;
 
-        public EFBudgetRepository(IYabaDBContext context)
+        public EFTabRepository(IYabaDBContext context)
         {
             _context = context;
         }
 
-        public async Task<BudgetDTO> FindBudget(int id)
+        public Task<TabDTO> FindTab(int id)
         {
-            var budget = _context.Budgets.FirstOrDefault(b => b.Id.Equals(id));
-            if (budget == null) return null;
-            return new BudgetDTO
-            {
-                Name = budget.Name,
-            };
+            throw new NotImplementedException();
         }
 
         #region IDisposable Support
@@ -44,7 +41,7 @@ namespace Yaba.Entities
         }
 
         // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~EFBudgetRepository() {
+        // ~EFTabRepository() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
         // }

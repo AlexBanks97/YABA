@@ -13,9 +13,10 @@ using Yaba.Entities.TabEntitites;
 namespace Yaba.Entities.Migrations
 {
     [DbContext(typeof(YabaDBContext))]
-    partial class YabaDBContextModelSnapshot : ModelSnapshot
+    [Migration("20171125153919_Tab Migration")]
+    partial class TabMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
