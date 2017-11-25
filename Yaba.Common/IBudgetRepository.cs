@@ -8,6 +8,6 @@ namespace Yaba.Common
 {
     public interface IBudgetRepository : IDisposable
     {
-        Task<BudgetDTO> FindBudget(int id);
+        Task<BudgetDTO> FindBudget(Guid id);
     }
 }

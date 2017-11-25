@@ -10,6 +10,10 @@ namespace Yaba.Entities
         private readonly string _connectionString;
 
         public DbSet<Budget> Budgets { get; set; }
+        
+        public YabaDBContext() {}
+
+        public YabaDBContext(DbContextOptions<YabaDBContext> options) : base(options) {}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
