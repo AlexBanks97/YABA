@@ -8,13 +8,19 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yaba.Web", "Yaba.Web\Yaba.Web.csproj", "{FC3C2DC5-FCE6-4853-800F-DAE57627F1FC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yaba.Entities", "Yaba.Entities\Yaba.Entities.csproj", "{98B3C039-5F01-48A9-8632-08800C5C7BE6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8661E567-918F-41EE-8023-829D349A1675} = {8661E567-918F-41EE-8023-829D349A1675}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yaba.Mobile", "Yaba.Mobile\Yaba.Mobile.csproj", "{D16097DC-A600-44EC-BA6B-811B9334EE23}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4BCE2010-8A21-4E05-9921-43CA50E28C2E}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		global.json = global.json
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yaba.Entities.Test", "Yaba.Entities.Test\Yaba.Entities.Test.csproj", "{0FA293C9-EBEF-4C00-96B8-F8D13DD05223}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +46,10 @@ Global
 		{D16097DC-A600-44EC-BA6B-811B9334EE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D16097DC-A600-44EC-BA6B-811B9334EE23}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D16097DC-A600-44EC-BA6B-811B9334EE23}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0FA293C9-EBEF-4C00-96B8-F8D13DD05223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FA293C9-EBEF-4C00-96B8-F8D13DD05223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FA293C9-EBEF-4C00-96B8-F8D13DD05223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FA293C9-EBEF-4C00-96B8-F8D13DD05223}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
