@@ -12,12 +12,16 @@ namespace Yaba.Entities
 
         public DbSet<Budget> Budgets { get; set; }
         public DbSet<Tab> Tabs { get; set; }
+        
+        public YabaDBContext() {}
 
+        public YabaDBContext(DbContextOptions<YabaDBContext> options) : base(options) {}
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                optionsBuilder.UseSqlServer(_connectionString);
             }
         }
 
