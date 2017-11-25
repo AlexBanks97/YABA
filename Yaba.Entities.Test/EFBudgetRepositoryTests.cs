@@ -22,7 +22,7 @@ namespace Yaba.Entities.Test
         }
         
         [Fact]
-        public async void Hejsa()
+        public async void FindBudget_returns_budget()
         {
             var options = new DbContextOptionsBuilder<YabaDBContext>()
                 .UseInMemoryDatabase("test")
