@@ -22,7 +22,7 @@ namespace Yaba.Entities.Test
         }
         
         [Fact]
-        public async void FindBudget_returns_budget()
+        public async void FindBudget_given_existing_id_returns_budget()
         {
             var options = new DbContextOptionsBuilder<YabaDBContext>()
                 .UseInMemoryDatabase("test")
@@ -38,6 +38,20 @@ namespace Yaba.Entities.Test
             var budgetDTO = await repo.FindBudget(budget.Id);
             
             Assert.Equal("New Budget", budgetDTO.Name);
+        }
+        
+        [Fact]
+        public async void FindBudget_given_nonexisting_id_returns_null()
+        {
+            var options = new DbContextOptionsBuilder<YabaDBContext>()
+                .UseInMemoryDatabase("test")
+                .Options;
+            var context = new YabaDBContext(options);
+            
+            var repo = new EFBudgetRepository(context);
+            var budgetDTO = await repo.FindBudget(Guid.Empty);
+            
+            Assert.Null(budgetDTO);
         }
 
         [Fact]
