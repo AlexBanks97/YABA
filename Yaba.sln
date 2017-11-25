@@ -1,13 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yaba.Common", "Yaba.Common\Yaba.Common.csproj", "{8661E567-918F-41EE-8023-829D349A1675}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yaba.Common", "Yaba.Common\Yaba.Common.csproj", "{8661E567-918F-41EE-8023-829D349A1675}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yaba.Web", "Yaba.Web\Yaba.Web.csproj", "{FC3C2DC5-FCE6-4853-800F-DAE57627F1FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yaba.Web", "Yaba.Web\Yaba.Web.csproj", "{FC3C2DC5-FCE6-4853-800F-DAE57627F1FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yaba.Entities", "Yaba.Entities\Yaba.Entities.csproj", "{98B3C039-5F01-48A9-8632-08800C5C7BE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yaba.Entities", "Yaba.Entities\Yaba.Entities.csproj", "{98B3C039-5F01-48A9-8632-08800C5C7BE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yaba.Mobile", "Yaba.Mobile\Yaba.Mobile.csproj", "{D16097DC-A600-44EC-BA6B-811B9334EE23}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4BCE2010-8A21-4E05-9921-43CA50E28C2E}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +34,12 @@ Global
 		{98B3C039-5F01-48A9-8632-08800C5C7BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98B3C039-5F01-48A9-8632-08800C5C7BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98B3C039-5F01-48A9-8632-08800C5C7BE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D16097DC-A600-44EC-BA6B-811B9334EE23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D16097DC-A600-44EC-BA6B-811B9334EE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D16097DC-A600-44EC-BA6B-811B9334EE23}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D16097DC-A600-44EC-BA6B-811B9334EE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D16097DC-A600-44EC-BA6B-811B9334EE23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D16097DC-A600-44EC-BA6B-811B9334EE23}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
