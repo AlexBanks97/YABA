@@ -2,14 +2,25 @@ using Moq;
 using System;
 using System.Linq;
 using System.Net.Cache;
+using System.Threading;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using Xunit;
+using Yaba.Common.DTOs.BudgetDTOs;
 using Yaba.Entities.BudgetEntities;
 
 namespace Yaba.Entities.Test
 {
     public class EFBudgetRepositoryTests
     {
+        [Fact]
+        public void Using_repository_disposes_of_context()
+        {
+            var mock = new Mock<IYabaDBContext>();
+            using (var repo = new EFBudgetRepository(mock.Object)) ;
+            mock.Verify(m => m.Dispose(), Times.Once);
+        }
+        
         [Fact]
         public async void Hejsa()
         {
@@ -27,6 +38,23 @@ namespace Yaba.Entities.Test
             var budgetDTO = await repo.FindBudget(budget.Id);
             
             Assert.Equal("New Budget", budgetDTO.Name);
+        }
+
+        [Fact]
+        public async void CreateBudget_creates_budgets()
+        {
+            var entity = default(Budget);
+            var mock = new Mock<IYabaDBContext>();
+            mock.Setup(m => m.Budgets.Add(It.IsAny<Budget>()))
+                .Callback<Budget>(t => entity = t);
+
+            using (var repo = new EFBudgetRepository(mock.Object))
+            {
+                var bcdto = new BudgetCreateDTO {Name = "My Budget"};
+                await repo.CreateBudget(bcdto);
+            }
+            
+            Assert.Equal("My Budget", entity.Name);
         }
     }
 }
