@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Yaba.Common;
 using Yaba.Common.DTOs.BudgetDTOs;
+using Yaba.Entities.BudgetEntities;
 
 namespace Yaba.Entities
 {
@@ -24,6 +25,20 @@ namespace Yaba.Entities
                 Name = budget.Name,
             };
         }
+
+        public async Task<Guid> CreateBudget(BudgetCreateDTO budget)
+        {
+            var budgetEntity = new Budget
+            {
+                Name = budget.Name,
+            };
+
+            _context.Budgets.Add(budgetEntity);
+            await _context.SaveChangesAsync();
+            return budgetEntity.Id;
+        }
+        
+        
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls

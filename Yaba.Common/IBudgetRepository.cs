@@ -9,5 +9,6 @@ namespace Yaba.Common
     public interface IBudgetRepository : IDisposable
     {
         Task<BudgetDTO> FindBudget(Guid id);
+        Task<Guid> CreateBudget(BudgetCreateDTO budget);
     }
 }
