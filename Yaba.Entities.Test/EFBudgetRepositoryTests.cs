@@ -1,5 +1,6 @@
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Cache;
 using System.Threading;
@@ -19,6 +20,28 @@ namespace Yaba.Entities.Test
             var mock = new Mock<IYabaDBContext>();
             using (var repo = new EFBudgetRepository(mock.Object)) ;
             mock.Verify(m => m.Dispose(), Times.Once);
+        }
+        
+        [Fact]
+        public async void FindAllBudgets_returns_collection_of_budgets()
+        {
+            var options = new DbContextOptionsBuilder<YabaDBContext>()
+                .UseInMemoryDatabase("test")
+                .Options;
+            var context = new YabaDBContext(options);
+
+            var budget1 = new Budget {Name = "First"};
+            var budget2 = new Budget {Name = "Second"};
+            var budget3 = new Budget {Name = "Third"};
+
+            context.Budgets.AddRange(budget1, budget2, budget3);
+            await context.SaveChangesAsync();
+
+            using (var repo = new EFBudgetRepository(context))
+            {
+                var budgets = await repo.FindAllBudgets();
+                Assert.Equal(3, budgets.Count);
+            }
         }
         
         [Fact]

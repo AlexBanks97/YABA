@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Yaba.Common;
+using Yaba.Entities;
 
 namespace Yaba.Web
 {
@@ -19,8 +21,16 @@ namespace Yaba.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<YabaDBContext>(options =>
+            {
+               // options.UseSqlServer("CONNECTION STRING...");
+                options.UseInMemoryDatabase("inmemdb");
+            });
+
+            services.AddScoped<IYabaDBContext, YabaDBContext>();
+            services.AddScoped<IBudgetRepository, EFBudgetRepository>();
+                
             services.AddMvc();
-            Console.WriteLine(Configuration["MySecret"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Yaba.Common;
@@ -36,6 +37,14 @@ namespace Yaba.Entities
             _context.Budgets.Add(budgetEntity);
             await _context.SaveChangesAsync();
             return budgetEntity.Id;
+        }
+
+        public async Task<ICollection<BudgetDTO>> FindAllBudgets()
+        {
+            return _context.Budgets.Select(b => new BudgetDTO
+            {
+                Name = b.Name,
+            }).ToList();
         }
         
         
