@@ -26,18 +26,21 @@ namespace Yaba.Entities.Test
             var options = new DbContextOptionsBuilder<YabaDBContext>()
                 .UseInMemoryDatabase("test")
                 .Options;
-            var context = new YabaDBContext(options);
 
-            var expected = new Tab { Balance = 42, State = State.Active };
+            using (var context = new YabaDBContext(options))
+            {
+                var expected = new Tab { Balance = 42, State = State.Active };
 
-            await context.Tabs.AddAsync(expected);
-            await context.SaveChangesAsync();
+                await context.Tabs.AddAsync(expected);
+                await context.SaveChangesAsync();
 
-            var repo = new EFTabRepository(context);
-            var result = await repo.FindTab(expected.Id);
+                var repo = new EFTabRepository(context);
+                var result = await repo.FindTab(expected.Id);
 
-            Assert.Equal(expected.Balance, result.Balance);
-            Assert.Equal(expected.State, result.State);
+                Assert.Equal(expected.Balance, result.Balance);
+                Assert.Equal(expected.State, result.State);
+                context.Database.EnsureDeleted();
+            }
 
         }
     }
