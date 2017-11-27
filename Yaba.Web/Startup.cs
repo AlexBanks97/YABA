@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +14,6 @@ namespace Yaba.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
         }
 
         public IConfiguration Configuration { get; }
@@ -23,8 +23,15 @@ namespace Yaba.Web
         {
             services.AddDbContext<YabaDBContext>(options =>
             {
-               // options.UseSqlServer("CONNECTION STRING...");
-                options.UseInMemoryDatabase("inmemdb");
+                var connectionString = Configuration.GetConnectionString("DefaultConnection");
+                if (connectionString == "inmemory")
+                {
+                    options.UseInMemoryDatabase("yaba-in-memory");
+                }
+                else
+                {
+                    options.UseSqlServer(connectionString);
+                }
             });
 
             services.AddScoped<IYabaDBContext, YabaDBContext>();
