@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 using Yaba.Common;
 using Yaba.Entities;
 
@@ -36,6 +37,15 @@ namespace Yaba.Web
 
             services.AddScoped<IYabaDBContext, YabaDBContext>();
             services.AddScoped<IBudgetRepository, EFBudgetRepository>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "Yaba REST API",
+                    Version = "v1",
+                });
+            });
                 
             services.AddMvc();
         }
@@ -49,6 +59,11 @@ namespace Yaba.Web
             }
 
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Yaba REST API");
+            });
         }
     }
 }
