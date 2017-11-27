@@ -14,6 +14,13 @@ namespace Yaba.Entities.Test
 {
     public class EFBudgetRepositoryTests
     {
+        private static DbContextOptions<YabaDBContext> GetInMemoryDatabase()
+        {
+            return new DbContextOptionsBuilder<YabaDBContext>()
+                .UseInMemoryDatabase("in_memory_test_database")
+                .Options;
+        }
+
         [Fact]
         public void Using_repository_disposes_of_context()
         {
@@ -34,13 +41,14 @@ namespace Yaba.Entities.Test
             var budget2 = new Budget {Name = "Second"};
             var budget3 = new Budget {Name = "Third"};
 
-            context.Budgets.AddRange(budget1, budget2, budget3);
-            await context.SaveChangesAsync();
-
             using (var repo = new EFBudgetRepository(context))
             {
+                context.Budgets.AddRange(budget1, budget2, budget3);
+                await context.SaveChangesAsync();
+
                 var budgets = await repo.FindAllBudgets();
                 Assert.Equal(3, budgets.Count);
+                context.Database.EnsureDeleted();
             }
         }
         
@@ -54,13 +62,14 @@ namespace Yaba.Entities.Test
 
             var budget = new Budget {Name = "New Budget"};
 
-            context.Budgets.Add(budget);
-            await context.SaveChangesAsync();
-            
-            var repo = new EFBudgetRepository(context);
-            var budgetDTO = await repo.FindBudget(budget.Id);
-            
-            Assert.Equal("New Budget", budgetDTO.Name);
+            using (var repo = new EFBudgetRepository(context))
+            {
+                context.Budgets.Add(budget);
+                await context.SaveChangesAsync();
+                var budgetDTO = await repo.FindBudget(budget.Id);
+                Assert.Equal("New Budget", budgetDTO.Name);
+                context.Database.EnsureDeleted();
+            }
         }
         
         [Fact]
@@ -70,11 +79,13 @@ namespace Yaba.Entities.Test
                 .UseInMemoryDatabase("test")
                 .Options;
             var context = new YabaDBContext(options);
-            
-            var repo = new EFBudgetRepository(context);
-            var budgetDTO = await repo.FindBudget(Guid.Empty);
-            
-            Assert.Null(budgetDTO);
+
+            using (var repo = new EFBudgetRepository(context))
+            {
+                var budgetDTO = await repo.FindBudget(Guid.Empty);
+                Assert.Null(budgetDTO);
+                context.Database.EnsureDeleted();
+            }
         }
 
         [Fact]
@@ -82,11 +93,11 @@ namespace Yaba.Entities.Test
         {
             var entity = default(Budget);
             var mock = new Mock<IYabaDBContext>();
-            mock.Setup(m => m.Budgets.Add(It.IsAny<Budget>()))
-                .Callback<Budget>(t => entity = t);
-
+            
             using (var repo = new EFBudgetRepository(mock.Object))
             {
+                mock.Setup(m => m.Budgets.Add(It.IsAny<Budget>()))
+                .Callback<Budget>(t => entity = t);
                 var bcdto = new BudgetCreateDTO {Name = "My Budget"};
                 await repo.CreateBudget(bcdto);
             }
