@@ -16,7 +16,7 @@ namespace Yaba.Entities
             _context = context;
         }
 
-        public Task<TabDTO> FindTab(int id)
+        public Task<TabDTO> FindTab(Guid id)
         {
             throw new NotImplementedException();
         }
