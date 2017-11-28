@@ -34,7 +34,7 @@ namespace Yaba.Web.Test
             }
         }
 
-        [Fact]
+        [Fact(DisplayName = "Get Budget given GUID returns OK")]
         public async void Get_given_existing_guid_returns_OK_with_budget()
         {
             var budget = new BudgetDTO {Name = "Budget"};
@@ -52,7 +52,7 @@ namespace Yaba.Web.Test
             }
         }
 
-        [Fact]
+        [Fact(DisplayName = "Get Budget given non-existing GUID returns NotFound")]
         public async void Get_given_nonexisting_guid_returns_NotFound()
         {
             var guid = Guid.NewGuid();
