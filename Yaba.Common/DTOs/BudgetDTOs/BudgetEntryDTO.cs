@@ -14,5 +14,7 @@ namespace Yaba.Common.DTOs.BudgetDTOs
         public DateTime Date { get; set; }
 
         public BudgetCategoryDTO BudgetCategory { get; set; }
+
+        public Guid BudgetCategoryId { get; set; }
     }
 }

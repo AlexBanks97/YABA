@@ -13,6 +13,6 @@ namespace Yaba.Common.DTOs.BudgetDTOs
 
         public Recurrence Recurrence { get; set; }
 
-        public BudgetDTO Budget { get; set; }
+        public BudgetDTO budget { get; set; }
     }
 }

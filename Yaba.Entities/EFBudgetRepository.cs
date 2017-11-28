@@ -69,7 +69,25 @@ namespace Yaba.Entities
 
         public async Task<bool> AddEntryToCategory(BudgetEntryDTO entry)
         {
-            throw new NotImplementedException();
+            if(entry == null)
+            {
+                return false;
+            }
+            var budgetCategory = await _context.BudgetCategories.FindAsync(entry.BudgetCategoryId);
+            var budgetEntry = new BudgetEntry
+            {
+                Amount = entry.Amount,
+                Date = entry.Date,
+                Description = entry.Description,
+                BudgetCategory = budgetCategory
+            };
+            var result = _context.BudgetEntries.Add(budgetEntry);
+            if(result == null)
+            {
+                return false;
+            }
+            await _context.SaveChangesAsync();
+            return true;
         }
 
 
