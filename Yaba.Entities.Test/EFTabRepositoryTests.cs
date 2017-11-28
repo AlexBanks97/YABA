@@ -23,15 +23,15 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void FindTab_Given_Guid_Returns_Tab()
         {
-            var context = Util.GetNewContext();
+            var context = Util.GetNewContext(nameof(FindTab_Given_Guid_Returns_Tab));
 
             var expected = new Tab { Balance = 42, State = State.Active };
-
-            await context.Tabs.AddAsync(expected);
-            await context.SaveChangesAsync();
-
+            
             using (var repo = new EFTabRepository(context))
             {
+                context.Tabs.Add(expected);
+                context.SaveChanges();
+                
                 var result = await repo.FindTab(expected.Id);
                 Assert.Equal(expected.Balance, result.Balance);
                 Assert.Equal(expected.State, result.State);
@@ -41,7 +41,7 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void FindTab_Given_nonexisting_guid_returns_null()
         {
-            var context = Util.GetNewContext();
+            var context = Util.GetNewContext(nameof(FindTab_Given_nonexisting_guid_returns_null));
             using(var repo = new EFTabRepository(context))
             {
                 var result = await repo.FindTab(Guid.NewGuid());

@@ -7,18 +7,21 @@ namespace Yaba.Entities.Test
 {
     public class Util
     {
-        internal static DbContextOptions<YabaDBContext> GetInMemoryDatabase()
+        
+        
+        internal static DbContextOptions<YabaDBContext> GetInMemoryDatabase(string name = "default_in_memory")
         {
             return new DbContextOptionsBuilder<YabaDBContext>()
-                .UseInMemoryDatabase("in_memory_test_database")
+                .UseInMemoryDatabase(name)
                 .Options;
         }
 
-        internal static IYabaDBContext GetNewContext()
+        internal static YabaDBContext GetNewContext(string name)
         {
-            var ctx = new YabaDBContext(GetInMemoryDatabase());
-            ctx.Database.EnsureDeleted();
-            return ctx;
+            var context = new YabaDBContext(GetInMemoryDatabase(name));
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+            return context;
         }
     }
 }

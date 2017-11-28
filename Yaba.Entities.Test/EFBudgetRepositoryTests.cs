@@ -27,7 +27,7 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void FindAllBudgets_returns_collection_of_budgets()
         {
-            var context = Util.GetNewContext();
+            var context = Util.GetNewContext(nameof(FindAllBudgets_returns_collection_of_budgets));
 
             var budget1 = new Budget {Name = "First"};
             var budget2 = new Budget {Name = "Second"};
@@ -46,7 +46,7 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void FindBudget_given_existing_id_returns_budget()
         {
-            var context = Util.GetNewContext();
+            var context = Util.GetNewContext(nameof(FindBudget_given_existing_id_returns_budget));
 
             var budget = new Budget {Name = "New Budget"};
 
@@ -62,7 +62,7 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void FindBudget_given_nonexisting_id_returns_null()
         {
-            var context = Util.GetNewContext();
+            var context = Util.GetNewContext(nameof(FindBudget_given_nonexisting_id_returns_null));
 
             using (var repo = new EFBudgetRepository(context))
             {
@@ -91,7 +91,7 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void UpdateBudget_updates_existing_budget()
         {
-            var context = Util.GetNewContext();
+            var context = Util.GetNewContext(nameof(UpdateBudget_updates_existing_budget));
             var budget = new Budget
             {
                 Name = "Not updated"
@@ -115,7 +115,7 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void UpdateBudget_given_dto_with_no_id_returns_false()
         {
-            var context = Util.GetNewContext();
+            var context = Util.GetNewContext(nameof(UpdateBudget_given_dto_with_no_id_returns_false));
             using (var repo = new EFBudgetRepository(context))
             {
                 var updated = await repo.UpdateBudget(new BudgetCreateUpdateDTO());
@@ -126,7 +126,7 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void UpdateBudget_given_dto_with_nonexisting_id_returns_false()
         {
-            var context = Util.GetNewContext();
+            var context = Util.GetNewContext(nameof(UpdateBudget_given_dto_with_nonexisting_id_returns_false));
             using (var repo = new EFBudgetRepository(context))
             {
                 var dto = new BudgetCreateUpdateDTO
