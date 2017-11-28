@@ -19,6 +19,29 @@ namespace Yaba.Entities
             _context = context;
         }
 
+        public async Task<Guid> CreateTab(TabDTO tab)
+        {
+            var tabEntity = new Tab
+            {
+                Balance = tab.Balance,
+                State = tab.State
+            };
+
+            _context.Tabs.Add(tabEntity);
+            await _context.SaveChangesAsync();
+            return tabEntity.Id;
+        }
+
+        public Task<TabDTO> UpdateTab(TabDTO tab)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ICollection<TabDTO>> FindAllTabs()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<TabDTO> FindTab(Guid id)
         {
             var tab = await _context.Tabs
@@ -56,7 +79,9 @@ namespace Yaba.Entities
              return tabDTO; */
         }
 
-        #region IDisposable Support
+        #region 
+
+        IDisposable Support;
         private bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
@@ -89,6 +114,9 @@ namespace Yaba.Entities
             // TODO: uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
         }
+
+        
+
         #endregion
     }
 }
