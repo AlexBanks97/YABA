@@ -12,7 +12,7 @@ namespace Yaba.Entities.Test
 {
     public class EFTabRepositoryTests
     {
-        [Fact(Skip="not impl yet")]
+        [Fact]
         public void Using_repository_disposes_of_context()
         {
             var mock = new Mock<IYabaDBContext>();
@@ -20,28 +20,33 @@ namespace Yaba.Entities.Test
             mock.Verify(m => m.Dispose(), Times.Once);
         }
 
-        [Fact(Skip="not impl yet")]
+        [Fact]
         public async void FindTab_Given_Guid_Returns_Tab()
         {
-            var options = new DbContextOptionsBuilder<YabaDBContext>()
-                .UseInMemoryDatabase("test")
-                .Options;
+            var context = Util.GetNewContext(nameof(FindTab_Given_Guid_Returns_Tab));
 
-            using (var context = new YabaDBContext(options))
+            var expected = new Tab { Balance = 42, State = State.Active };
+            
+            using (var repo = new EFTabRepository(context))
             {
-                var expected = new Tab { Balance = 42, State = State.Active };
-
-                await context.Tabs.AddAsync(expected);
-                await context.SaveChangesAsync();
-
-                var repo = new EFTabRepository(context);
+                context.Tabs.Add(expected);
+                context.SaveChanges();
+                
                 var result = await repo.FindTab(expected.Id);
-
                 Assert.Equal(expected.Balance, result.Balance);
                 Assert.Equal(expected.State, result.State);
-                context.Database.EnsureDeleted();
             }
+        }
 
+        [Fact]
+        public async void FindTab_Given_nonexisting_guid_returns_null()
+        {
+            var context = Util.GetNewContext(nameof(FindTab_Given_nonexisting_guid_returns_null));
+            using(var repo = new EFTabRepository(context))
+            {
+                var result = await repo.FindTab(Guid.NewGuid());
+                Assert.Null(result);
+            }
         }
     }
 }

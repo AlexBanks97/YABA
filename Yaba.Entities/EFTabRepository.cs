@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,23 +21,39 @@ namespace Yaba.Entities
 
         public async Task<TabDTO> FindTab(Guid id)
         {
-            var tab = await _context.Tabs.FindAsync(id);
-            if (tab == null) return null;
-            TabDTO tabDTO = new TabDTO();
-            tabDTO.Balance = tab.Balance;
-            tabDTO.State = tab.State;
-            tabDTO.TabItems = tab.TabItems
-                .Select(t => new TabItemDTO
-                    {
-                       Amount = t.Amount,
-                       Description = t.Description,
-                       Category = new TabCategoryDTO
-                       {
-                           Name = t.Category.Name
-                       },
-                       Tab = tabDTO
-                    }).ToList();
-            return tabDTO;
+            var tab = await _context.Tabs
+                .Include(t => t.TabItems)
+                .SingleOrDefaultAsync(b => b.Id == id);
+            if (tab == null)
+            {
+                return null;
+            }
+            return new TabDTO
+            {
+                Balance = tab.Balance,
+                State = tab.State,
+                TabItems = tab.TabItems
+                    .Select(t => new TabItemDTO())
+                    .ToList(),
+            };
+
+            /* var tab = await _context.Tabs.Include(t => t.TabItems).FirstOrDefaultAsync(t => t.Id == id);
+             if (tab == null) return null;
+             TabDTO tabDTO = new TabDTO();
+             tabDTO.Balance = tab.Balance;
+             tabDTO.State = tab.State;
+             tabDTO.TabItems = tab.TabItems
+                 .Select(t => new TabItemDTO
+                     {
+                        Amount = t.Amount,
+                        Description = t.Description,
+                        Category = new TabCategoryDTO
+                        {
+                            Name = t.Category.Name
+                        },
+                        Tab = tabDTO
+                     }).ToList();
+             return tabDTO; */
         }
 
         #region IDisposable Support

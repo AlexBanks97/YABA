@@ -5,7 +5,7 @@ using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities
 {
-    public partial class YabaDBContext : DbContext, IYabaDBContext
+    public class YabaDBContext : DbContext, IYabaDBContext
     {
 
         private readonly string _connectionString;
