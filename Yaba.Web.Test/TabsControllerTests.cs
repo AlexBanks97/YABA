@@ -37,7 +37,7 @@ namespace Yaba.Web.Test
 
         }
 
-        [Fact]
+        [Fact(DisplayName = "Get Tab given GUID returns OK")]
         public async void Get_given_existing_guid_returns_OK_with_tab()
         {
             var tab = new TabDTO { Balance = 42, State = State.Active };
@@ -54,7 +54,7 @@ namespace Yaba.Web.Test
             }
         }
 
-        [Fact]
+        [Fact(DisplayName = "Get Tab given non-existing GUID returns NotFound")]
         public async void Get_given_nonexisting_guid_returns_NotFound()
         {
             var guid = Guid.NewGuid();

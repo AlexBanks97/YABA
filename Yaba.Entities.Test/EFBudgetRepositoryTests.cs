@@ -16,7 +16,7 @@ namespace Yaba.Entities.Test
     {
         
 
-        [Fact]
+        [Fact (DisplayName = "Using repository disposes the context - Budget")]
         public void Using_repository_disposes_of_context()
         {
             var mock = new Mock<IYabaDBContext>();
@@ -24,7 +24,7 @@ namespace Yaba.Entities.Test
             mock.Verify(m => m.Dispose(), Times.Once);
         }
         
-        [Fact]
+        [Fact(DisplayName = "FindAllBudgets returns a collection of budgets")]
         public async void FindAllBudgets_returns_collection_of_budgets()
         {
             var context = Util.GetNewContext(nameof(FindAllBudgets_returns_collection_of_budgets));
@@ -43,7 +43,7 @@ namespace Yaba.Entities.Test
             }
         }
         
-        [Fact]
+        [Fact(DisplayName = "FindBudget with existing id returns a budget")]
         public async void FindBudget_given_existing_id_returns_budget()
         {
             var context = Util.GetNewContext(nameof(FindBudget_given_existing_id_returns_budget));
@@ -59,7 +59,7 @@ namespace Yaba.Entities.Test
             }
         }
         
-        [Fact]
+        [Fact(DisplayName = "FindBudget given non-existing id returns null")]
         public async void FindBudget_given_nonexisting_id_returns_null()
         {
             var context = Util.GetNewContext(nameof(FindBudget_given_nonexisting_id_returns_null));
@@ -71,7 +71,7 @@ namespace Yaba.Entities.Test
             }
         }
 
-        [Fact]
+        [Fact(DisplayName = "CreateBudget creates a budget")]
         public async void CreateBudget_creates_budgets()
         {
             var entity = default(Budget);
@@ -88,7 +88,7 @@ namespace Yaba.Entities.Test
             Assert.Equal("My Budget", entity.Name);
         }
 
-        [Fact]
+        [Fact (DisplayName = "UpdateBudget updates an existing budget")]
         public async void UpdateBudget_updates_existing_budget()
         {
             var context = Util.GetNewContext(nameof(UpdateBudget_updates_existing_budget));
@@ -112,7 +112,7 @@ namespace Yaba.Entities.Test
             }
         }
 
-        [Fact]
+        [Fact (DisplayName = "UpdateBudget given DTO with no ID returns false")]
         public async void UpdateBudget_given_dto_with_no_id_returns_false()
         {
             var context = Util.GetNewContext(nameof(UpdateBudget_given_dto_with_no_id_returns_false));
@@ -123,7 +123,7 @@ namespace Yaba.Entities.Test
             }
         }
 
-        [Fact]
+        [Fact (DisplayName = "UpdateBudget given DTO with non-existing id returns false")]
         public async void UpdateBudget_given_dto_with_nonexisting_id_returns_false()
         {
             var context = Util.GetNewContext(nameof(UpdateBudget_given_dto_with_nonexisting_id_returns_false));
@@ -136,6 +136,75 @@ namespace Yaba.Entities.Test
                 var updated = await repo.UpdateBudget(dto);
                 Assert.False(updated);
             }
+        }
+
+        [Fact]
+        public async void AddEntry_given_valid_entry_returns_true()
+        {
+            var result = false;
+            var budget = new Budget { Name = "hello"};
+            var categories = new BudgetCategory {  Name="helloCategory", Budget = budget};
+            budget.Categories = new List<BudgetCategory>{ categories };
+
+            var context = Util.GetNewContext(nameof(AddEntry_given_valid_entry_returns_true));
+            using(var repo = new EFBudgetRepository(context))
+            {
+                context.Budgets.Add(budget);
+                context.BudgetCategories.Add(categories);
+
+                var entry = new BudgetEntryDTO
+                {
+                    Amount = 10,
+                    Date = DateTime.Now,
+                    Description = "",
+                    BudgetCategory = new BudgetCategoryDTO
+                    {
+                        Id = categories.Id
+                    }
+                };
+                result = await repo.AddEntryToCategory(entry);
+            }
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async void AddEntry_given_entry_with_no_budgetCategory_returns_false()
+        {
+            var result = false;
+            var budget = new Budget { Name = "hello" };
+            var categories = new BudgetCategory { Name = "helloCategory", Budget = budget };
+            budget.Categories = new List<BudgetCategory> { categories };
+
+            var context = Util.GetNewContext(nameof(AddEntry_given_entry_with_no_budgetCategory_returns_false));
+            using (var repo = new EFBudgetRepository(context))
+            {
+                context.Budgets.Add(budget);
+                context.BudgetCategories.Add(categories);
+
+                var entry = new BudgetEntryDTO
+                {
+                    Amount = 10,
+                    Date = DateTime.Now,
+                    Description = ""
+                };
+                result = await repo.AddEntryToCategory(entry);
+            }
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async void AddEntry_given_default_entry_returns_false()
+        {
+            var result = false;
+            var context = Util.GetNewContext(nameof(AddEntry_given_default_entry_returns_false));
+            using (var repo = new EFBudgetRepository(context))
+            {
+                var entry = default(BudgetEntryDTO);
+
+                result = await repo.AddEntryToCategory(entry);
+            }
+
+            Assert.False(result);
         }
     }
 }

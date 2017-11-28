@@ -43,9 +43,13 @@ namespace Yaba.Entities
             return true;
         }
 
-        public Task<ICollection<TabDTO>> FindAllTabs()
+        public async Task<ICollection<TabDTO>> FindAllTabs()
         {
-            throw new NotImplementedException();
+            return _context.Tabs.Select(t => new TabDTO
+            {
+                Balance = t.Balance,
+                State = t.State
+            }).ToList();
         }
 
         public async Task<TabDTO> FindTab(Guid id)
