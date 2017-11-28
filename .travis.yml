@@ -4,6 +4,6 @@ sudo: required
 mono: none
 dotnet: 2.0.0
 script:
-  - dotnet restore && dotnet build
+  - dotnet restore
   - dotnet test Yaba.Entities.Test
   - dotnet test Yaba.Web.Test
