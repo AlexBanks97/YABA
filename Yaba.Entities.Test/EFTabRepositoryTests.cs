@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Yaba.Common;
+using Yaba.Common.DTOs.TabDTOs;
 using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities.Test
@@ -42,11 +43,30 @@ namespace Yaba.Entities.Test
         public async void FindTab_Given_nonexisting_guid_returns_null()
         {
             var context = Util.GetNewContext(nameof(FindTab_Given_nonexisting_guid_returns_null));
-            using(var repo = new EFTabRepository(context))
+            using (var repo = new EFTabRepository(context))
             {
                 var result = await repo.FindTab(Guid.NewGuid());
                 Assert.Null(result);
             }
+        }
+
+        [Fact]
+        public async void CreateTab_Creates_Tab()
+        {
+            var entity = default(Tab);
+            var mock = new Mock<IYabaDBContext>();
+
+            using (var repo = new EFTabRepository(mock.Object))
+            {
+                mock.Setup(m => m.Tabs.Add(It.IsAny<Tab>()))
+                .Callback<Tab>(t => entity = t);
+
+                var tabToAdd = new TabDTO { Balance = 120, State = State.Active };
+                await repo.CreateTab(tabToAdd);
+            }
+
+            Assert.Equal(120, entity.Balance);
+            Assert.Equal(State.Active, entity.State);
         }
     }
 }
