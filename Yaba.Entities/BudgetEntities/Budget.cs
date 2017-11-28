@@ -14,8 +14,8 @@ namespace Yaba.Entities.BudgetEntities
         public string Name { get; set; }
         
 
-        public ICollection<Category> Categories { get; set; }
-        public ICollection<Income> Incomes { get; set; }
-        public ICollection<Expense> Expenses { get; set; }
+        public ICollection<BudgetCategory> Categories { get; set; }
+        public ICollection<BudgetIncome> Incomes { get; set; }
+        public ICollection<BudgetExpense> Expenses { get; set; }
     }
 }
