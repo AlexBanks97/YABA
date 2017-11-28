@@ -39,10 +39,7 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void FindAllBudgets_returns_collection_of_budgets()
         {
-            var options = new DbContextOptionsBuilder<YabaDBContext>()
-                .UseInMemoryDatabase("test")
-                .Options;
-            var context = new YabaDBContext(options);
+            var context = GetNewContext();
 
             var budget1 = new Budget {Name = "First"};
             var budget2 = new Budget {Name = "Second"};
@@ -55,17 +52,13 @@ namespace Yaba.Entities.Test
 
                 var budgets = await repo.FindAllBudgets();
                 Assert.Equal(3, budgets.Count);
-                context.Database.EnsureDeleted();
             }
         }
         
         [Fact]
         public async void FindBudget_given_existing_id_returns_budget()
         {
-            var options = new DbContextOptionsBuilder<YabaDBContext>()
-                .UseInMemoryDatabase("test")
-                .Options;
-            var context = new YabaDBContext(options);
+            var context = GetNewContext();
 
             var budget = new Budget {Name = "New Budget"};
 
@@ -75,23 +68,18 @@ namespace Yaba.Entities.Test
                 await context.SaveChangesAsync();
                 var budgetDTO = await repo.FindBudget(budget.Id);
                 Assert.Equal("New Budget", budgetDTO.Name);
-                context.Database.EnsureDeleted();
             }
         }
         
         [Fact]
         public async void FindBudget_given_nonexisting_id_returns_null()
         {
-            var options = new DbContextOptionsBuilder<YabaDBContext>()
-                .UseInMemoryDatabase("test")
-                .Options;
-            var context = new YabaDBContext(options);
+            var context = GetNewContext();
 
             using (var repo = new EFBudgetRepository(context))
             {
                 var budgetDTO = await repo.FindBudget(Guid.Empty);
                 Assert.Null(budgetDTO);
-                context.Database.EnsureDeleted();
             }
         }
 
