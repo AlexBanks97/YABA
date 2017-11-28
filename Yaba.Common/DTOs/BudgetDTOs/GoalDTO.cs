@@ -6,6 +6,7 @@ namespace Yaba.Common.DTOs.BudgetDTOs
 {
     public class GoalDTO
     {
+        public Guid Id { get; set; }
         public decimal Amount { get; set; }
 
         public Recurrence Recurrence { get; set; }
