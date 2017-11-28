@@ -137,5 +137,25 @@ namespace Yaba.Entities.Test
                 Assert.False(updated);
             }
         }
+
+        [Fact]
+        public async void AddEntry_given_valid_entry_returns_true()
+        {
+            var context = Util.GetNewContext(nameof(AddEntry_given_valid_entry_returns_true));
+            using(var repo = new EFBudgetRepository(context))
+            {
+                
+            }
+        }
+
+        [Fact]
+        public async void AddEntry_given_entry_with_no_category_returns_false()
+        {
+            var context = Util.GetNewContext(nameof(AddEntry_given_valid_entry_returns_true));
+            using (var repo = new EFBudgetRepository(context))
+            {
+
+            }
+        }
     }
 }
