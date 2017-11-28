@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace Yaba.Entities
 
         public async Task<TabDTO> FindTab(Guid id)
         {
-            var tab = await _context.Tabs.FindAsync(id);
+            var tab = await _context.Tabs.Include(t => t.TabItems).FirstOrDefaultAsync(t => t.Id == id);
             if (tab == null) return null;
             TabDTO tabDTO = new TabDTO();
             tabDTO.Balance = tab.Balance;
