@@ -32,7 +32,7 @@ namespace Yaba.Entities
             return tabEntity.Id;
         }
 
-        public Task<TabDTO> UpdateTab(TabDTO tab)
+        public Task<bool> UpdateTab(TabDTO tab)
         {
             throw new NotImplementedException();
         }
