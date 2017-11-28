@@ -16,7 +16,7 @@ namespace Yaba.Entities.Test
     {
         
 
-        [Fact (DisplayName = "Using repository disposes the context")]
+        [Fact (DisplayName = "Using repository disposes the context - Budget")]
         public void Using_repository_disposes_of_context()
         {
             var mock = new Mock<IYabaDBContext>();
