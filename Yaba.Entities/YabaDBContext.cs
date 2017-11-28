@@ -10,9 +10,19 @@ namespace Yaba.Entities
 
         private readonly string _connectionString;
 
+        // Budget-related entities
         public DbSet<Budget> Budgets { get; set; }
-        public DbSet<Tab> Tabs { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Income> Incomes { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Entry> Entries { get; set; }
+        public DbSet<Goal> Goals { get; set; }
         
+        // Tab-related entities
+        public DbSet<Tab> Tabs { get; set; }
+        public DbSet<TabItem> TabItems { get; set; }
+        public DbSet<TabCategory> TabCategories { get; set; }
+
         public YabaDBContext() {}
 
         public YabaDBContext(DbContextOptions<YabaDBContext> options) : base(options) {}
