@@ -8,16 +8,11 @@ namespace Yaba.Common
 {
     public interface ITabRepository : IDisposable
     {
-<<<<<<< HEAD
         Task<TabDTO> FindTab(Guid id);    
-=======
-        Task<TabDTO> FindTab(Guid id);
-
         Task<Guid> CreateTab(TabDTO tab);
 
         Task<TabDTO> UpdateTab(TabDTO tab);
 
         Task<ICollection<TabDTO>> FindAllTabs();
->>>>>>> added new methods to ITabRepository interface
     }
 }

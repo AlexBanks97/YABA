@@ -20,7 +20,7 @@ namespace Yaba.Entities.Test
         public void Using_repository_disposes_of_context()
         {
             var mock = new Mock<IYabaDBContext>();
-            using (var repo = new EFBudgetRepository(mock.Object)) ;
+            using (var repo = new EFBudgetRepository(mock.Object));
             mock.Verify(m => m.Dispose(), Times.Once);
         }
         

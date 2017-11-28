@@ -38,18 +38,17 @@ namespace Yaba.Entities.Test
                 Assert.Equal(expected.State, result.State);
             }
         }
-<<<<<<< HEAD
 
         [Fact]
         public async void FindTab_Given_nonexisting_guid_returns_null()
         {
             var context = Util.GetNewContext(nameof(FindTab_Given_nonexisting_guid_returns_null));
-            using(var repo = new EFTabRepository(context))
+            using (var repo = new EFTabRepository(context))
             {
                 var result = await repo.FindTab(Guid.NewGuid());
                 Assert.Null(result);
             }
-=======
+        }
 
         [Fact]
         public async void CreateTab_Creates_Tab()
@@ -68,7 +67,6 @@ namespace Yaba.Entities.Test
 
             Assert.Equal(120, entity.Balance);
             Assert.Equal(State.Active, entity.State);
->>>>>>> Added passing test for CreateTab
         }
     }
 }
