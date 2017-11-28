@@ -13,7 +13,7 @@ namespace Yaba.Entities.Test
 {
     public class EFTabRepositoryTests
     {
-        [Fact]
+        [Fact(DisplayName = "Using respository disposes context - Tab")]
         public void Using_repository_disposes_of_context()
         {
             var mock = new Mock<IYabaDBContext>();
@@ -21,7 +21,7 @@ namespace Yaba.Entities.Test
             mock.Verify(m => m.Dispose(), Times.Once);
         }
 
-        [Fact]
+        [Fact(DisplayName = "FindTab given existing GUID returns a tab")]
         public async void FindTab_Given_Guid_Returns_Tab()
         {
             var context = Util.GetNewContext(nameof(FindTab_Given_Guid_Returns_Tab));
@@ -39,7 +39,7 @@ namespace Yaba.Entities.Test
             }
         }
 
-        [Fact]
+        [Fact(DisplayName = "FindTab given non-existing GUID returns null")]
         public async void FindTab_Given_nonexisting_guid_returns_null()
         {
             var context = Util.GetNewContext(nameof(FindTab_Given_nonexisting_guid_returns_null));
