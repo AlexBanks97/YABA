@@ -73,30 +73,37 @@ namespace Yaba.Entities.Test
         public async void UpdateTab_Given_Existing_Tab_Returns_True()
         {
             var context = Util.GetNewContext(nameof(UpdateTab_Given_Existing_Tab_Returns_True));
-            var tab = new TabDTO { Balance = 42 };
+            var tab = new Tab { Balance = 42, State = State.Active };
 
-            await context.AddAsync(tab);
+            context.Tabs.Add(tab);
             await context.SaveChangesAsync();
 
-            tab.Balance = 100;
-            var result = false;
-            using(var repo = new EFTabRepository(context))
+            using (var repo = new EFTabRepository(context))
             {
-                result = await repo.UpdateTab(tab);    
+                var dto = new TabUpdateDTO
+                {
+                    Id = tab.Id,
+                    Balance = 100,
+                    State = State.Archived,
+                };
+                var updated = await repo.UpdateTab(dto);
+                Assert.True(updated);
+                Assert.Equal(100, tab.Balance);
+                Assert.Equal(State.Archived, tab.State);
             }
-            Assert.True(result);
+            
         }
 
         [Fact]
         public async void UpdateTab_Given_nonexisting_Tab_Returns_False()
         {
             var context = Util.GetNewContext(nameof(UpdateTab_Given_nonexisting_Tab_Returns_False));
-            var result = false;
             using (var repo = new EFTabRepository(context))
             {
-                result = await repo.UpdateTab(new TabDTO());
+                var updated = await repo.UpdateTab(new TabUpdateDTO { Id = Guid.NewGuid() });
+                Assert.False(updated);
+
             }
-            Assert.False(result);
         }
     }
 }
