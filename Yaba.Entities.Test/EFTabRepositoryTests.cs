@@ -13,7 +13,7 @@ namespace Yaba.Entities.Test
 {
     public class EFTabRepositoryTests
     {
-        [Fact]
+        [Fact(DisplayName = "Using respository disposes context - Tab")]
         public void Using_repository_disposes_of_context()
         {
             var mock = new Mock<IYabaDBContext>();
@@ -21,7 +21,7 @@ namespace Yaba.Entities.Test
             mock.Verify(m => m.Dispose(), Times.Once);
         }
 
-        [Fact]
+        [Fact(DisplayName = "FindTab given existing GUID returns a tab")]
         public async void FindTab_Given_Guid_Returns_Tab()
         {
             var context = Util.GetNewContext(nameof(FindTab_Given_Guid_Returns_Tab));
@@ -39,7 +39,7 @@ namespace Yaba.Entities.Test
             }
         }
 
-        [Fact]
+        [Fact(DisplayName = "FindTab given non-existing GUID returns null")]
         public async void FindTab_Given_nonexisting_guid_returns_null()
         {
             var context = Util.GetNewContext(nameof(FindTab_Given_nonexisting_guid_returns_null));
@@ -50,7 +50,26 @@ namespace Yaba.Entities.Test
             }
         }
 
-        [Fact]
+        [Fact (DisplayName = "FindAllTabs finds all tabs")]
+        public async void FindAllTabs_finds_all_tabs()
+        {
+            var context = Util.GetNewContext(nameof(FindAllTabs_finds_all_tabs));
+
+            var tab1 = new Tab { Balance = 120, State = State.Active };
+            var tab2 = new Tab { Balance = 240, State = State.Active };
+            var tab3 = new Tab { Balance = 480, State = State.Active };
+
+            using (var repo = new EFTabRepository(context))
+            {
+                context.Tabs.AddRange(tab1, tab2, tab3);
+                await context.SaveChangesAsync();
+
+                var tabs = await repo.FindAllTabs();
+                Assert.Equal(3, tabs.Count);
+            }
+        }
+
+        [Fact (DisplayName = "CreateTab creates a tab")]
         public async void CreateTab_Creates_Tab()
         {
             var entity = default(Tab);
