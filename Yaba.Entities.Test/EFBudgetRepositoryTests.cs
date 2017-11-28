@@ -141,17 +141,40 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void AddEntry_given_valid_entry_returns_true()
         {
+            //Arrange
+            var result = false;
+            var budget = new Budget { Name = "hello"};
+            var categories = new BudgetCategory {  Name="helloCategory", Budget = budget};
+            budget.Categories.Add(categories);
+
             var context = Util.GetNewContext(nameof(AddEntry_given_valid_entry_returns_true));
             using(var repo = new EFBudgetRepository(context))
             {
-                
+                context.Budgets.Add(budget);
+                context.BudgetCategories.Add(categories);
+
+                var entry = new BudgetEntryDTO
+                {
+                    Amount = 10,
+                    Date = DateTime.Now,
+                    Description = "",
+                    budgetCategory = new BudgetCategoryDTO
+                    {
+                        Id = categories.Id
+                    }
+                };
+
+                //Act
+                result = await repo.AddEntryToCategory(entry);
             }
+
+            Assert.True(result);
         }
 
         [Fact]
         public async void AddEntry_given_entry_with_no_category_returns_false()
         {
-            var context = Util.GetNewContext(nameof(AddEntry_given_valid_entry_returns_true));
+            var context = Util.GetNewContext(nameof(AddEntry_given_entry_with_no_category_returns_false));
             using (var repo = new EFBudgetRepository(context))
             {
 

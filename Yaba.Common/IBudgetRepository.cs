@@ -12,5 +12,7 @@ namespace Yaba.Common
         Task<ICollection<BudgetDTO>> FindAllBudgets();
         Task<Guid> CreateBudget(BudgetCreateUpdateDTO budget);
         Task<bool> UpdateBudget(BudgetCreateUpdateDTO budget);
+
+        Task<bool> AddEntryToCategory(BudgetEntryDTO entry);
     }
 }

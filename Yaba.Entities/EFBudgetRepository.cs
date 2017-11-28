@@ -67,6 +67,11 @@ namespace Yaba.Entities
             return true;
         }
 
+        public async Task<bool> AddEntryToCategory(BudgetEntryDTO entry)
+        {
+            throw new NotImplementedException();
+        }
+
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
