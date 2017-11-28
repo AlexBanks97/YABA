@@ -38,7 +38,7 @@ namespace Yaba.Web.Controllers
 
         // POST api/budgets
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]BudgetCreateDTO budget)
+        public async Task<IActionResult> Post([FromBody]BudgetCreateUpdateDTO budget)
         {
             if (!ModelState.IsValid)
             {
