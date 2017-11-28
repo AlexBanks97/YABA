@@ -21,6 +21,13 @@ namespace Yaba.Entities.Test
                 .Options;
         }
 
+        private static IYabaDBContext GetNewContext()
+        {
+            var ctx = new YabaDBContext(GetInMemoryDatabase());
+            ctx.Database.EnsureDeleted();
+            return ctx;
+        }
+
         [Fact]
         public void Using_repository_disposes_of_context()
         {
@@ -32,10 +39,7 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void FindAllBudgets_returns_collection_of_budgets()
         {
-            var options = new DbContextOptionsBuilder<YabaDBContext>()
-                .UseInMemoryDatabase("test")
-                .Options;
-            var context = new YabaDBContext(options);
+            var context = GetNewContext();
 
             var budget1 = new Budget {Name = "First"};
             var budget2 = new Budget {Name = "Second"};
@@ -48,17 +52,13 @@ namespace Yaba.Entities.Test
 
                 var budgets = await repo.FindAllBudgets();
                 Assert.Equal(3, budgets.Count);
-                context.Database.EnsureDeleted();
             }
         }
         
         [Fact]
         public async void FindBudget_given_existing_id_returns_budget()
         {
-            var options = new DbContextOptionsBuilder<YabaDBContext>()
-                .UseInMemoryDatabase("test")
-                .Options;
-            var context = new YabaDBContext(options);
+            var context = GetNewContext();
 
             var budget = new Budget {Name = "New Budget"};
 
@@ -68,23 +68,18 @@ namespace Yaba.Entities.Test
                 await context.SaveChangesAsync();
                 var budgetDTO = await repo.FindBudget(budget.Id);
                 Assert.Equal("New Budget", budgetDTO.Name);
-                context.Database.EnsureDeleted();
             }
         }
         
         [Fact]
         public async void FindBudget_given_nonexisting_id_returns_null()
         {
-            var options = new DbContextOptionsBuilder<YabaDBContext>()
-                .UseInMemoryDatabase("test")
-                .Options;
-            var context = new YabaDBContext(options);
+            var context = GetNewContext();
 
             using (var repo = new EFBudgetRepository(context))
             {
                 var budgetDTO = await repo.FindBudget(Guid.Empty);
                 Assert.Null(budgetDTO);
-                context.Database.EnsureDeleted();
             }
         }
 
@@ -98,11 +93,61 @@ namespace Yaba.Entities.Test
             {
                 mock.Setup(m => m.Budgets.Add(It.IsAny<Budget>()))
                 .Callback<Budget>(t => entity = t);
-                var bcdto = new BudgetCreateDTO {Name = "My Budget"};
+                var bcdto = new BudgetCreateUpdateDTO {Name = "My Budget"};
                 await repo.CreateBudget(bcdto);
             }
             
             Assert.Equal("My Budget", entity.Name);
+        }
+
+        [Fact]
+        public async void UpdateBudget_updates_existing_budget()
+        {
+            var context = GetNewContext();
+            var budget = new Budget
+            {
+                Name = "Not updated"
+            };
+            context.Budgets.Add(budget);
+            await context.SaveChangesAsync();
+
+            using (var repo = new EFBudgetRepository(context))
+            {
+                var updatedBudget = new BudgetCreateUpdateDTO
+                {
+                    Id = budget.Id,
+                    Name = "Updated",
+                };
+                var updated = await repo.UpdateBudget(updatedBudget);
+                Assert.True(updated);
+                Assert.Equal("Updated", budget.Name);
+            }
+        }
+
+        [Fact]
+        public async void UpdateBudget_given_dto_with_no_id_returns_false()
+        {
+            var context = GetNewContext();
+            using (var repo = new EFBudgetRepository(context))
+            {
+                var updated = await repo.UpdateBudget(new BudgetCreateUpdateDTO());
+                Assert.False(updated);
+            }
+        }
+
+        [Fact]
+        public async void UpdateBudget_given_dto_with_nonexisting_id_returns_false()
+        {
+            var context = GetNewContext();
+            using (var repo = new EFBudgetRepository(context))
+            {
+                var dto = new BudgetCreateUpdateDTO
+                {
+                    Id = Guid.NewGuid(),
+                };
+                var updated = await repo.UpdateBudget(dto);
+                Assert.False(updated);
+            }
         }
     }
 }

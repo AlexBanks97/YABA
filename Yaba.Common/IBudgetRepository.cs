@@ -10,6 +10,7 @@ namespace Yaba.Common
     {
         Task<BudgetDTO> FindBudget(Guid id);
         Task<ICollection<BudgetDTO>> FindAllBudgets();
-        Task<Guid> CreateBudget(BudgetCreateDTO budget);
+        Task<Guid> CreateBudget(BudgetCreateUpdateDTO budget);
+        Task<bool> UpdateBudget(BudgetCreateUpdateDTO budget);
     }
 }

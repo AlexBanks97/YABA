@@ -27,7 +27,7 @@ namespace Yaba.Entities
             };
         }
 
-        public async Task<Guid> CreateBudget(BudgetCreateDTO budget)
+        public async Task<Guid> CreateBudget(BudgetCreateUpdateDTO budget)
         {
             var budgetEntity = new Budget
             {
@@ -46,8 +46,25 @@ namespace Yaba.Entities
                 Name = b.Name,
             }).ToList();
         }
-        
-        
+
+        public async Task<bool> UpdateBudget(BudgetCreateUpdateDTO budget)
+        {
+            if (budget.Id == null)
+            {
+                return false;                
+            }
+            var entity = await _context.Budgets.FindAsync(budget.Id);
+            if (entity == null)
+            {
+                return false;
+            }
+
+            entity.Name = budget.Name;
+            
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
