@@ -141,7 +141,6 @@ namespace Yaba.Entities.Test
         [Fact]
         public async void AddEntry_given_valid_entry_returns_true()
         {
-            //Arrange
             var result = false;
             var budget = new Budget { Name = "hello"};
             var categories = new BudgetCategory {  Name="helloCategory", Budget = budget};
@@ -158,34 +157,50 @@ namespace Yaba.Entities.Test
                     Amount = 10,
                     Date = DateTime.Now,
                     Description = "",
-                    BudgetCategoryId = categories.Id
+                    BudgetCategory = new BudgetCategoryDTO
+                    {
+                        Id = categories.Id
+                    }
                 };
-
-                //Act
                 result = await repo.AddEntryToCategory(entry);
             }
-
             Assert.True(result);
         }
 
         [Fact]
-        public async void AddEntry_given_entry_with_no_category_returns_false()
+        public async void AddEntry_given_entry_with_no_budgetCategory_returns_false()
         {
-            //Arrange
             var result = false;
             var budget = new Budget { Name = "hello" };
             var categories = new BudgetCategory { Name = "helloCategory", Budget = budget };
             budget.Categories = new List<BudgetCategory> { categories };
 
-            var context = Util.GetNewContext(nameof(AddEntry_given_entry_with_no_category_returns_false));
+            var context = Util.GetNewContext(nameof(AddEntry_given_entry_with_no_budgetCategory_returns_false));
             using (var repo = new EFBudgetRepository(context))
             {
                 context.Budgets.Add(budget);
                 context.BudgetCategories.Add(categories);
 
+                var entry = new BudgetEntryDTO
+                {
+                    Amount = 10,
+                    Date = DateTime.Now,
+                    Description = ""
+                };
+                result = await repo.AddEntryToCategory(entry);
+            }
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async void AddEntry_given_default_entry_returns_false()
+        {
+            var result = false;
+            var context = Util.GetNewContext(nameof(AddEntry_given_default_entry_returns_false));
+            using (var repo = new EFBudgetRepository(context))
+            {
                 var entry = default(BudgetEntryDTO);
 
-                //Act
                 result = await repo.AddEntryToCategory(entry);
             }
 

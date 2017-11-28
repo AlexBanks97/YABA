@@ -69,11 +69,11 @@ namespace Yaba.Entities
 
         public async Task<bool> AddEntryToCategory(BudgetEntryDTO entry)
         {
-            if(entry == null)
+            if(entry == null || entry.BudgetCategory == default(BudgetCategoryDTO))
             {
                 return false;
             }
-            var budgetCategory = await _context.BudgetCategories.FindAsync(entry.BudgetCategoryId);
+            var budgetCategory = await _context.BudgetCategories.FindAsync(entry.BudgetCategory.Id);
             var budgetEntry = new BudgetEntry
             {
                 Amount = entry.Amount,
