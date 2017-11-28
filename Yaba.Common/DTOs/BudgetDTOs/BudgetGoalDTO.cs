@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Text;
-using Yaba.Common;
 
-namespace Yaba.Entities.BudgetEntities
+namespace Yaba.Common.DTOs.BudgetDTOs
 {
-    public class Goal
+    public class BudgetGoalDTO
     {
         public Guid Id { get; set; }
-
         public decimal Amount { get; set; }
 
         public Recurrence Recurrence { get; set; }
 
-        public Category Category { get; set; }
+        public BudgetCategoryDTO BudgetCategory { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace Yaba.Entities
             if (budget == null) return null;
             return new BudgetDTO
             {
+                Id = budget.Id,
                 Name = budget.Name,
             };
         }
@@ -43,6 +44,7 @@ namespace Yaba.Entities
         {
             return _context.Budgets.Select(b => new BudgetDTO
             {
+                Id = b.Id,
                 Name = b.Name,
             }).ToList();
         }

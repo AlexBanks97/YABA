@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Yaba.Common.DTOs.BudgetDTOs
 {
-    public class ExpenseDTO
+    public class BudgetExpenseDTO
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
 
         public decimal Amount { get; set; }
