@@ -12,12 +12,12 @@ namespace Yaba.Entities
 
         // Budget-related entities
         public DbSet<Budget> Budgets { get; set; }
-        public DbSet<BudgetCategory> Categories { get; set; }
-        public DbSet<BudgetIncome> Incomes { get; set; }
-        public DbSet<BudgetExpense> Expenses { get; set; }
-        public DbSet<BudgetEntry> Entries { get; set; }
-        public DbSet<BudgetGoal> Goals { get; set; }
-        
+        public DbSet<BudgetCategory> BudgetCategories { get; set; }
+        public DbSet<BudgetIncome> BudgetIncomes { get; set; }
+        public DbSet<BudgetExpense> BudgetExpenses { get; set; }
+        public DbSet<BudgetEntry> BudgetEntries { get; set; }
+        public DbSet<BudgetGoal> BudgetGoals { get; set; }
+
         // Tab-related entities
         public DbSet<Tab> Tabs { get; set; }
         public DbSet<TabItem> TabItems { get; set; }
