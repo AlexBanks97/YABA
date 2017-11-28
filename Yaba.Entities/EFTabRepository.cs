@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common;
 using Yaba.Common.DTOs.TabDTOs;
+using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities
 {
@@ -16,9 +18,25 @@ namespace Yaba.Entities
             _context = context;
         }
 
-        public Task<TabDTO> FindTab(Guid id)
+        public async Task<TabDTO> FindTab(Guid id)
         {
-            throw new NotImplementedException();
+            var tab = await _context.Tabs.FindAsync(id);
+            if (tab == null) return null;
+            TabDTO tabDTO = new TabDTO();
+            tabDTO.Balance = tab.Balance;
+            tabDTO.State = tab.State;
+            tabDTO.TabItems = tab.TabItems
+                .Select(t => new TabItemDTO
+                    {
+                       Amount = t.Amount,
+                       Description = t.Description,
+                       Category = new TabCategoryDTO
+                       {
+                           Name = t.Category.Name
+                       },
+                       Tab = tabDTO
+                    }).ToList();
+            return tabDTO;
         }
 
         #region IDisposable Support
