@@ -1,7 +1,10 @@
-﻿namespace Yaba.Common.DTOs.BudgetDTOs
+﻿using System;
+
+namespace Yaba.Common.DTOs.BudgetDTOs
 {
-    public class BudgetCreateDTO
+    public class BudgetCreateUpdateDTO
     {
+        public Guid? Id { get; set; }
         public string Name { get; set; }
     }
 }
