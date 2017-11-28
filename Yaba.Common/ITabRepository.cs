@@ -11,7 +11,7 @@ namespace Yaba.Common
         Task<TabDTO> FindTab(Guid id);    
         Task<Guid> CreateTab(TabDTO tab);
 
-        Task<bool> UpdateTab(TabDTO tab);
+        Task<bool> UpdateTab(TabUpdateDTO tab);
 
         Task<ICollection<TabDTO>> FindAllTabs();
     }
