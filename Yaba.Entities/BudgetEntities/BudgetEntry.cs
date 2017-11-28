@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Yaba.Entities.BudgetEntities
 {
-    public class Entry
+    public class BudgetEntry
     {
         public Guid Id { get; set; }
 
@@ -16,6 +16,6 @@ namespace Yaba.Entities.BudgetEntities
 
         public DateTime Date { get; set; }
 
-        public Category Category { get; set; }
+        public BudgetCategory BudgetCategory { get; set; }
     }
 }
