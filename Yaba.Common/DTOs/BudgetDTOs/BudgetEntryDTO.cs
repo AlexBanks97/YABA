@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Yaba.Common.DTOs.BudgetDTOs
 {
-    public class EntryDTO
+    public class BudgetEntryDTO
     {
         public Guid Id { get; set; }
         public decimal Amount { get; set; }
@@ -13,6 +13,6 @@ namespace Yaba.Common.DTOs.BudgetDTOs
 
         public DateTime Date { get; set; }
 
-        public CategoryDTO Category { get; set; }
+        public BudgetCategoryDTO BudgetCategory { get; set; }
     }
 }

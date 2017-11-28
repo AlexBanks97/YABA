@@ -4,13 +4,16 @@ using System.Text;
 
 namespace Yaba.Common.DTOs.BudgetDTOs
 {
-    public class GoalDTO
+    public class BudgetIncomeDTO
     {
         public Guid Id { get; set; }
+
+        public string Name { get; set; }
+
         public decimal Amount { get; set; }
 
         public Recurrence Recurrence { get; set; }
 
-        public CategoryDTO Category { get; set; }
+        public BudgetDTO Budget { get; set; }
     }
 }
