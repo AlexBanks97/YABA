@@ -32,14 +32,14 @@ namespace Yaba.Entities
             };
         }
 
-        public async Task<ICollection<TabItemSimpleDTO>> FindFrom(TabDTO tab)
+        public async Task<IEnumerable<ITabItemDTO>> FindFrom(TabDTO tab)
         {
-            return tab.TabItems.Select(t => new TabItemSimpleDTO
+            var tabItems = new List<ITabItemDTO>();
+            foreach (var tabItem in tab.TabItems)
             {
-                Amount = t.Amount,
-                Description = t.Description,
-                Category = t.Category != null ? new TabCategoryDTO { Name = t.Category.Name} : null
-            }).ToList();
+                tabItems.Add(tabItem);
+            }
+            return tabItems;
         }
 
         public Task<bool> Update()
