@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
+using Yaba.Common.DTOs.TabDTOs;
 using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities.Test
@@ -70,5 +72,40 @@ namespace Yaba.Entities.Test
                 Assert.Null(actual);
             }
         }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(5)]
+        [InlineData(10)]
+        public async void FindFrom_Given_Tab_Returns_TabItems(int count)
+        {
+            var context = Util.GetNewContext(nameof(FindFrom_Given_Tab_Returns_TabItems));
+
+            var tabItems = new List<TabItem>();
+            for(var i = 0; i < count; i++)
+            {
+                tabItems.Add(new TabItem());
+            }
+
+            var tab = new Tab { TabItems = tabItems };
+            context.Tabs.Add(tab);
+            await context.SaveChangesAsync();
+
+            using (var repo = new EFTabItemRepository(context))
+            {
+                var tabitems = repo.FindFrom(new TabDTO
+                {
+                    TabItems = tabItems.Select(t => new TabItemDTO { )
+                });
+            }
+
+            
+
+
+
+        }
+
+
     }
 }
