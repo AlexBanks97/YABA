@@ -94,10 +94,11 @@ namespace Yaba.Entities.Test
 
             using (var repo = new EFTabItemRepository(context))
             {
-                var tabitems = repo.FindFrom(new TabDTO
+                var tabItemsDTO = await repo.FindFrom(new TabDTO
                 {
-                    TabItems = tabItems.Select(t => new TabItemDTO { )
+                    TabItems = tabItems.ToTabItemSimpleDTO().ToList()
                 });
+                Assert.Equal(count, tabItemsDTO.ToList().Count);
             }
 
             
