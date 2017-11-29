@@ -87,5 +87,42 @@ namespace Yaba.Entities.Test
             Assert.Equal(120, entity.Balance);
             Assert.Equal(State.Active, entity.State);
         }
+
+        [Fact]
+        public async void UpdateTab_Given_Existing_Tab_Returns_True()
+        {
+            var context = Util.GetNewContext(nameof(UpdateTab_Given_Existing_Tab_Returns_True));
+            var tab = new Tab { Balance = 42, State = State.Active };
+
+            context.Tabs.Add(tab);
+            await context.SaveChangesAsync();
+
+            using (var repo = new EFTabRepository(context))
+            {
+                var dto = new TabUpdateDTO
+                {
+                    Id = tab.Id,
+                    Balance = 100,
+                    State = State.Archived,
+                };
+                var updated = await repo.UpdateTab(dto);
+                Assert.True(updated);
+                Assert.Equal(100, tab.Balance);
+                Assert.Equal(State.Archived, tab.State);
+            }
+            
+        }
+
+        [Fact]
+        public async void UpdateTab_Given_nonexisting_Tab_Returns_False()
+        {
+            var context = Util.GetNewContext(nameof(UpdateTab_Given_nonexisting_Tab_Returns_False));
+            using (var repo = new EFTabRepository(context))
+            {
+                var updated = await repo.UpdateTab(new TabUpdateDTO { Id = Guid.NewGuid() });
+                Assert.False(updated);
+
+            }
+        }
     }
 }
