@@ -6,7 +6,7 @@ using Yaba.Common.DTOs.BudgetDTOs;
 
 namespace Yaba.Common
 {
-    public interface IBudgetIncomeRepo : IDisposable
+    public interface IBudgetIncomeRepository : IDisposable
     {
         Task<BudgetIncomeDTO> FindBudgetIncome(Guid budgetIncomeId);
 
