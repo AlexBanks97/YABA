@@ -9,9 +9,9 @@ namespace Yaba.Entities.Test
     public class EFTabItemRepositoryTests
     {
         [Fact]
-        public async void Find_Given_Existing_Id_Returns_TabItem()
+        public async void Find_Given_Existing_Id_And_Amount_Returns_TabItem()
         {
-            var context = Util.GetNewContext(nameof(Find_Given_Existing_Id_Returns_TabItem));
+            var context = Util.GetNewContext(nameof(Find_Given_Existing_Id_And_Amount_Returns_TabItem));
 
             var tabitem = new TabItem { Amount = 42 };
 
@@ -41,8 +41,25 @@ namespace Yaba.Entities.Test
                 Assert.NotNull(actual.Category);
                 Assert.Equal("Food", actual.Category.Name);
             }
-
         }
+
+        [Fact]
+        public async void Find_Given_Existing_Id_Without_Category_Returns_TabItem_Without_Category()
+        {
+            var context = Util.GetNewContext(nameof(Find_Given_Existing_Id_With_Category_Returns_TabItem_With_Category));
+
+            var tabitem = new TabItem();
+
+            context.TabItems.Add(tabitem);
+            await context.SaveChangesAsync();
+
+            using (var repo = new EFTabItemRepository(context))
+            {
+                var actual = await repo.Find(tabitem.Id);
+                Assert.Null(actual.Category);
+            }
+        }
+
 
         [Fact]
         public async void Find_Given_Nonexistent_Id_Returns_Null()
