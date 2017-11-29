@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common;
@@ -14,17 +15,24 @@ namespace Yaba.Entities
         {
             _context = context;
         }
-        public Task<Guid> Create(TabItemDTO tabItemDTO)
+        public Task<Guid> Create(TabItemSimpleDTO tabItemDTO)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TabItemDTO> Find(Guid id)
+        public async Task<TabItemSimpleDTO> Find(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = _context.TabItems.SingleOrDefault(t => t.Id == id);
+            if (entity == null) return null;
+            return new TabItemSimpleDTO
+            {
+                Amount = entity.Amount,
+                Category = entity.Category != null ? new TabCategoryDTO { Name = entity.Category.Name } : null,
+                Description = entity.Description
+            };
         }
 
-        public Task<ICollection<TabItemDTO>> FindAll()
+        public Task<ICollection<TabItemSimpleDTO>> FindAll()
         {
             throw new NotImplementedException();
         }
