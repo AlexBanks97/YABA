@@ -111,7 +111,7 @@ namespace Yaba.Web.Test
         // WE NEED MALFORMED (BADREQUEST TEST)
 
         // [HttpDelete("{categoryId}")]
-        // public async Task<IActionResult> Put(Guid budgetId, Guid categoryId)
+        // public async Task<IActionResult> Delete(Guid budgetId, Guid categoryId)
         [Fact]
         public async void Delete_given_existing_id_returns_NoContent()
         {
@@ -122,7 +122,7 @@ namespace Yaba.Web.Test
 
             using (var ctrl = new CategoriesController(mock.Object))
             {
-                var response = await ctrl.Put(Guid.Empty, guid);
+                var response = await ctrl.Delete(Guid.Empty, guid);
                 Assert.IsType<NoContentResult>(response);
             }
         }
@@ -137,7 +137,7 @@ namespace Yaba.Web.Test
 
             using (var ctrl = new CategoriesController(mock.Object))
             {
-                var response = await ctrl.Put(Guid.Empty, guid);
+                var response = await ctrl.Delete(Guid.Empty, guid);
                 Assert.IsType<NotFoundResult>(response);
             }
         }

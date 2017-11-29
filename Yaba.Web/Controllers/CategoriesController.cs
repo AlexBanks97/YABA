@@ -62,7 +62,7 @@ namespace Yaba.Web.Controllers
         }
 
         [HttpDelete("{categoryId}")]
-        public async Task<IActionResult> Put(Guid budgetId, Guid categoryId)
+        public async Task<IActionResult> Delete(Guid budgetId, Guid categoryId)
         {
             var deleted = await _repository.Delete(categoryId);
             if (!deleted)
