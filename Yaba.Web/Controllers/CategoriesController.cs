@@ -21,7 +21,7 @@ namespace Yaba.Web.Controllers
         [HttpGet]
         public async Task<ICollection<CategorySimpleDto>> Get(Guid budgetId)
         {
-            return await _repository.Find();
+            return await _repository.FindFromBudget(budgetId);
         }
 
         [HttpGet("{categoryId}")]
