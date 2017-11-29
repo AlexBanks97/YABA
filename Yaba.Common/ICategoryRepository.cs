@@ -8,6 +8,7 @@ namespace Yaba.Common
     public interface ICategoryRepository : IDisposable
     {
         Task<ICollection<CategorySimpleDto>> Find();
+        Task<ICollection<CategorySimpleDto>> FindFromBudget(Guid budgetId);
         Task<CategoryDetailsDto> Find(Guid id);
         Task<Guid?> Create(CategoryCreateDto category);
         Task<bool> Update(CategorySimpleDto category);

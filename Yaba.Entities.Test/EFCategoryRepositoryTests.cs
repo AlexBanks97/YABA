@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using Yaba.Common.DTOs.Category;
@@ -68,6 +70,40 @@ namespace Yaba.Entities.Test
                 Assert.Null(category);
             }
         }
+
+        [Fact]
+        public async void FindFromBudget_given_existing_budget_id_returns_list_of_categories()
+        {
+            var ctx = Util.GetNewContext(nameof(FindFromBudget_given_existing_budget_id_returns_list_of_categories));
+            var budget = new Budget();
+            ctx.Budgets.Add(budget);
+            await ctx.SaveChangesAsync();
+            ctx.BudgetCategories.AddRange(new []
+            {
+                new BudgetCategory { Budget = budget },
+                new BudgetCategory { Budget = budget },
+            });
+            await ctx.SaveChangesAsync();
+            
+            using (var repo = new EFCategoryRepository(ctx))
+            {
+                var cats = await repo.FindFromBudget(budget.Id);
+                Assert.Equal(2, cats.Count);
+            }
+        }
+
+        [Fact]
+        public async void FindFromBudget_given_nonexisting_budget_id_returns_empty_list()
+        {
+            var ctx = Util.GetNewContext(nameof(FindFromBudget_given_nonexisting_budget_id_returns_empty_list));
+            using (var repo = new EFCategoryRepository(ctx))
+            {
+                var cats = await repo.FindFromBudget(Guid.NewGuid());
+                Assert.Empty(cats);
+            }
+        }
+        
+        
 
         [Fact]
         public async void Create_creates_new_category()

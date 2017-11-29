@@ -5,6 +5,7 @@ using Yaba.Common;
 using Yaba.Common.DTOs.Category;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Remotion.Linq.Clauses;
 using Yaba.Entities.BudgetEntities;
 
 namespace Yaba.Entities
@@ -31,6 +32,17 @@ namespace Yaba.Entities
                     Id = category.Id,
                     Name = category.Name,
                 };
+            return cats.ToList();
+        }
+
+        public async Task<ICollection<CategorySimpleDto>> FindFromBudget(Guid budgetId)
+        {
+            var cats = from category in _context.BudgetCategories
+                       where category.Budget.Id == budgetId
+                       select new CategorySimpleDto {
+                            Id = category.Id,
+                            Name = category.Name,
+                        };
             return cats.ToList();
         }
 
