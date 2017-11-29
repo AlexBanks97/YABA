@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common;
 using Yaba.Common.DTOs.BudgetDTOs;
+using Yaba.Entities.BudgetEntities;
 
 namespace Yaba.Entities
 {
@@ -16,9 +18,25 @@ namespace Yaba.Entities
             _context = context;
         }
 
-        public Task<Guid> CreateBudgetIncome(BudgetIncomeDTO budgetIncome)
+        public async Task<Guid> CreateBudgetIncome(BudgetIncomeCreateDTO budgetIncome)
         {
-            throw new NotImplementedException();
+            var budget = await _context.Budgets.SingleOrDefaultAsync(b => b.Id == budgetIncome.BudgetId);
+            if(budget == null)
+            {
+                return Guid.Empty;
+            }
+
+            var newBudgetIncome = new BudgetIncome
+            {
+                Name = budgetIncome.Name,
+                Amount = budgetIncome.Amount,
+                Recurrence = budgetIncome.Recurrence,
+                Budget = budget
+            };
+
+            _context.BudgetIncomes.Add(newBudgetIncome);
+            await _context.SaveChangesAsync();
+            return newBudgetIncome.Id;
         }
 
         public Task<ICollection<BudgetIncomeDTO>> FindAllBudgetIncomes()
@@ -28,7 +46,7 @@ namespace Yaba.Entities
 
         public Task<BudgetIncomeDTO> FindBudgetIncome(Guid budgetIncomeId)
         {
-            
+            throw new NotImplementedException();
         }
 
         public Task<ICollection<BudgetIncomeDTO>> FindBudgetIncomesFromSpecificBudget(Guid BudgetId)
@@ -36,7 +54,7 @@ namespace Yaba.Entities
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateBudgetIncome(BudgetIncomeDTO budgetIncome)
+        public Task<bool> UpdateBudgetIncome(BudgetIncomeUpdateDTO budgetIncome)
         {
             throw new NotImplementedException();
         }
@@ -50,7 +68,7 @@ namespace Yaba.Entities
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    _context.Dispose();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.

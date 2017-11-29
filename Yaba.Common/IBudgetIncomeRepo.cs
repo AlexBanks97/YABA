@@ -14,8 +14,8 @@ namespace Yaba.Common
 
         Task<ICollection<BudgetIncomeDTO>> FindAllBudgetIncomes();
 
-        Task<Guid> CreateBudgetIncome(BudgetIncomeDTO budgetIncome);
+        Task<Guid> CreateBudgetIncome(BudgetIncomeCreateDTO budgetIncome);
 
-        Task<bool> UpdateBudgetIncome(BudgetIncomeDTO budgetIncome);
+        Task<bool> UpdateBudgetIncome(BudgetIncomeUpdateDTO budgetIncome);
     }
 }
