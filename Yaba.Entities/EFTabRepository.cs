@@ -32,9 +32,15 @@ namespace Yaba.Entities
             return tabEntity.Id;
         }
 
-        public Task<TabDTO> UpdateTab(TabDTO tab)
+        public async Task<bool> UpdateTab(TabUpdateDTO tab)
         {
-            throw new NotImplementedException();
+            var entity = await _context.Tabs.SingleOrDefaultAsync(t => t.Id == tab.Id);
+            if (entity == null) return false;
+            // set entity balance to tab balance if tab is not null, otherwise keep original value.
+            entity.Balance = tab.Balance ?? entity.Balance; 
+            entity.State = tab.State ?? entity.State;
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<ICollection<TabDTO>> FindAllTabs()
