@@ -81,7 +81,7 @@ namespace Yaba.Entities
             var entity = await _context.BudgetIncomes.SingleOrDefaultAsync(bi => budgetIncome.Id == bi.Id);
             if (entity == null) return false;
 
-            entity.Name = budgetIncome.Name;
+            entity.Name = budgetIncome.Name ?? entity.Name;
             entity.Amount = budgetIncome.Amount;
             entity.Recurrence = budgetIncome.Recurrence;
 

@@ -86,5 +86,31 @@ namespace Yaba.Entities.Test
                 Assert.Equal(2, incomesToFind.Count);
             }
         }
+
+        [Fact(DisplayName = "UpdateBudgetIncome returns true")]
+        public async void Update_Budget_Income_Returns_True()
+        {
+            var context = Util.GetNewContext(nameof(Update_Budget_Income_Returns_True));
+            var budgetIncome = new BudgetIncome { Name = "Paycheck" };
+
+            context.BudgetIncomes.Add(budgetIncome);
+            await context.SaveChangesAsync();
+
+            using (var repo = new EFBudgetIncomeRepository(context))
+            {
+                var dto = new BudgetIncomeUpdateDTO
+                {
+                    Id = budgetIncome.Id,
+                    Name = "Paycheck v2",
+                    Amount = 1500,
+                    Recurrence = Recurrence.Monthly
+                };
+                var updated = await repo.UpdateBudgetIncome(dto);
+                Assert.True(updated);
+                Assert.Equal("Paycheck v2", budgetIncome.Name);
+                Assert.Equal(1500, budgetIncome.Amount);
+                Assert.Equal(Recurrence.Monthly, budgetIncome.Recurrence);
+            }
+        }
     }
 }
