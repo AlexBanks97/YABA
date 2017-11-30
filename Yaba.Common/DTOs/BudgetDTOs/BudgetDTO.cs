@@ -9,7 +9,7 @@ namespace Yaba.Common.DTOs.BudgetDTOs
         public Guid Id { get; set; }
         public string Name { get; set; }
         public ICollection<BudgetCategoryDTO> Categories { get; set; }
-        public ICollection<BudgetIncomeDTO> Incomes { get; set; }
+        public ICollection<BudgetIncomeSimpleDTO> Incomes { get; set; }
         public ICollection<BudgetExpenseDTO> Expenses { get; set; }
     }
 }
