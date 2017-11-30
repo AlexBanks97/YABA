@@ -51,9 +51,19 @@ namespace Yaba.Entities
             }).ToList();   
         }
 
-        public Task<BudgetIncomeDTO> FindBudgetIncome(Guid budgetIncomeId)
+        public async Task<BudgetIncomeDTO> FindBudgetIncome(Guid budgetIncomeId)
         {
-            throw new NotImplementedException();
+
+            var budgetIncome = _context.BudgetIncomes.FirstOrDefault(bi => bi.Id == budgetIncomeId);
+            if (budgetIncome == null) { return null; }
+
+            return new BudgetIncomeDTO
+            {
+                Id = budgetIncome.Id,
+                Name = budgetIncome.Name,
+                Amount = budgetIncome.Amount,
+                Recurrence = budgetIncome.Recurrence,
+            };
         }
 
         public Task<ICollection<BudgetIncomeDTO>> FindBudgetIncomesFromSpecificBudget(Guid BudgetId)
