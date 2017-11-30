@@ -9,7 +9,7 @@ using Yaba.Entities.BudgetEntities;
 
 namespace Yaba.Entities.Test
 {
-    public class EFCategoryRepositoryTests
+    public class EFBudgetCategoryRepositoryTests
     {
         
         /**
@@ -35,7 +35,7 @@ namespace Yaba.Entities.Test
             });
             await ctx.SaveChangesAsync();
 
-            using (var repo = new EFCategoryRepository(ctx))
+            using (var repo = new EFBudgetCategoryRepository(ctx))
             {
                 var categories = await repo.Find();
                 Assert.Equal(3, categories.Count);
@@ -53,7 +53,7 @@ namespace Yaba.Entities.Test
             ctx.BudgetCategories.Add(entity);
             await ctx.SaveChangesAsync();
 
-            using (var repo = new EFCategoryRepository(ctx))
+            using (var repo = new EFBudgetCategoryRepository(ctx))
             {
                 var category = await repo.Find(entity.Id);
                 Assert.Equal("Find Category", category.Name);
@@ -64,7 +64,7 @@ namespace Yaba.Entities.Test
         public async void Find_given_nonexisting_id_returns_null()
         {
             var ctx = Util.GetNewContext(nameof(Find_given_nonexisting_id_returns_null));
-            using (var repo = new EFCategoryRepository(ctx))
+            using (var repo = new EFBudgetCategoryRepository(ctx))
             {
                 var category = await repo.Find(Guid.NewGuid());
                 Assert.Null(category);
@@ -85,7 +85,7 @@ namespace Yaba.Entities.Test
             });
             await ctx.SaveChangesAsync();
             
-            using (var repo = new EFCategoryRepository(ctx))
+            using (var repo = new EFBudgetCategoryRepository(ctx))
             {
                 var cats = await repo.FindFromBudget(budget.Id);
                 Assert.Equal(2, cats.Count);
@@ -96,7 +96,7 @@ namespace Yaba.Entities.Test
         public async void FindFromBudget_given_nonexisting_budget_id_returns_empty_list()
         {
             var ctx = Util.GetNewContext(nameof(FindFromBudget_given_nonexisting_budget_id_returns_empty_list));
-            using (var repo = new EFCategoryRepository(ctx))
+            using (var repo = new EFBudgetCategoryRepository(ctx))
             {
                 var cats = await repo.FindFromBudget(Guid.NewGuid());
                 Assert.Empty(cats);
@@ -109,7 +109,7 @@ namespace Yaba.Entities.Test
         public async void Create_creates_new_category()
         {
             var ctx = Util.GetNewContext(nameof(Create_creates_new_category));
-            using (var repo = new EFCategoryRepository(ctx))
+            using (var repo = new EFBudgetCategoryRepository(ctx))
             {
                 var cat = new CategoryCreateDto
                 {
@@ -134,7 +134,7 @@ namespace Yaba.Entities.Test
             ctx.BudgetCategories.Add(entity);
             await ctx.SaveChangesAsync();
 
-            using (var repo = new EFCategoryRepository(ctx))
+            using (var repo = new EFBudgetCategoryRepository(ctx))
             {
                 var update = new CategorySimpleDto
                 {
@@ -152,7 +152,7 @@ namespace Yaba.Entities.Test
         public async void Update_given_nonexisting_id_returns_false()
         {
             var ctx = Util.GetNewContext(nameof(Update_given_nonexisting_id_returns_false));
-            using (var repo = new EFCategoryRepository(ctx))
+            using (var repo = new EFBudgetCategoryRepository(ctx))
             {
                 var updated = await repo.Update(new CategorySimpleDto());
                 Assert.False(updated);
@@ -170,7 +170,7 @@ namespace Yaba.Entities.Test
             ctx.BudgetCategories.Add(entity);
             await ctx.SaveChangesAsync();
 
-            using (var repo = new EFCategoryRepository(ctx))
+            using (var repo = new EFBudgetCategoryRepository(ctx))
             {
                 var deleted = await repo.Delete(entity.Id);
 
@@ -185,7 +185,7 @@ namespace Yaba.Entities.Test
         public async void Delete_given_nonexisting_id_returns_false()
         {
             var ctx = Util.GetNewContext(nameof(Delete_given_existing_id_removes_entity));
-            using (var repo = new EFCategoryRepository(ctx))
+            using (var repo = new EFBudgetCategoryRepository(ctx))
             {
                 var deleted = await repo.Delete(Guid.NewGuid());
                 Assert.False(deleted);

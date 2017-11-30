@@ -10,11 +10,11 @@ using Yaba.Entities.BudgetEntities;
 
 namespace Yaba.Entities
 {
-    public class EFCategoryRepository : ICategoryRepository
+    public class EFBudgetCategoryRepository : ICategoryRepository
     {
         private readonly IYabaDBContext _context;
 
-        public EFCategoryRepository(IYabaDBContext context)
+        public EFBudgetCategoryRepository(IYabaDBContext context)
         {
             _context = context;
         }
