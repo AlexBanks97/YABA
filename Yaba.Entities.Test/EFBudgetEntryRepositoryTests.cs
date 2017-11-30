@@ -5,6 +5,7 @@ using System.Text;
 using Xunit;
 using Yaba.Entities.BudgetEntities;
 using Yaba.Common.DTOs.BudgetDTOs;
+using Yaba.Common.DTOs.BudgetEntry;
 
 namespace Yaba.Entities.Test
 {
@@ -22,7 +23,7 @@ namespace Yaba.Entities.Test
             ctx.BudgetCategories.Add(cat);
             ctx.SaveChanges();
 
-            var entry = new BudgetEntryDTO
+            var entry = new BudgetEntryCreateDto
             {
                 Amount = 2,
                 Description = "hey",

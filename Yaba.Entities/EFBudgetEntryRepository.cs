@@ -18,7 +18,7 @@ namespace Yaba.Entities
         {
             _context = context;
         }
-        public async Task<Guid> CreateBudgetEntry(BudgetEntryDTO entry)
+        public async Task<Guid> CreateBudgetEntry(BudgetEntryCreateDto entry)
         {
             var budgetCategory = await _context.BudgetCategories.FindAsync(entry.BudgetCategory.Id);
             var budgetEntry = new BudgetEntry
