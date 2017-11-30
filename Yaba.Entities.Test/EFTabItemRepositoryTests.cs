@@ -94,19 +94,39 @@ namespace Yaba.Entities.Test
 
             using (var repo = new EFTabItemRepository(context))
             {
-                var tabItemsDTO = await repo.FindFrom(new TabDTO
-                {
-                    TabItems = tabItems.ToTabItemSimpleDTO().ToList()
-                });
+                var tabItemsDTO = await repo.FindFrom(tab.ToDTO());
                 Assert.Equal(count, tabItemsDTO.ToList().Count);
             }
-
-            
-
-
-
         }
 
+        [Fact]
+        public async void FindFrom_Given_Tab_Returns_TabItems_With_Same_Values()
+        {
+            var context = Util.GetNewContext(nameof(FindFrom_Given_Tab_Returns_TabItems_With_Same_Values));
 
+            var tabItems = new List<TabItem>();
+            tabItems.Add(new TabItem
+            {
+                Amount = 42,
+                Description = "Pizza last week",
+                Category = new TabCategory { Name = "Food" }
+            });
+
+            var tab = new Tab { TabItems = tabItems };
+
+            context.Tabs.Add(tab);
+            await context.SaveChangesAsync();
+
+            using (var repo = new EFTabItemRepository(context))
+            {
+                var tabItemsDTO = await repo.FindFrom(tab.ToDTO());
+                var tabItem = tabItemsDTO.First();
+                Assert.Equal(1, tabItemsDTO.Count());
+                Assert.Equal(42, tabItem.Amount);
+                Assert.Equal("Pizza last week", tabItem.Description);
+                Assert.Equal("Food", tabItem.Category.Name);
+                
+            }
+        }
     }
 }
