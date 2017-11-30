@@ -76,10 +76,20 @@ namespace Yaba.Entities
 
 
 
-        public Task<bool> UpdateBudgetIncome(BudgetIncomeUpdateDTO budgetIncome)
+        public async Task<bool> UpdateBudgetIncome(BudgetIncomeUpdateDTO budgetIncome)
         {
-            throw new NotImplementedException();
+            var entity = await _context.BudgetIncomes.SingleOrDefaultAsync(bi => budgetIncome.Id == bi.Id);
+            if (entity == null) return false;
+
+            entity.Name = budgetIncome.Name;
+            entity.Amount = budgetIncome.Amount;
+            entity.Recurrence = budgetIncome.Recurrence;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
+
+
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
