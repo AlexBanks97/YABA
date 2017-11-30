@@ -18,9 +18,19 @@ namespace Yaba.Entities
         {
             _context = context;
         }
-        public Task<Guid> CreateBudgetEntry(BudgetEntryDTO entry)
+        public async Task<Guid> CreateBudgetEntry(BudgetEntryDTO entry)
         {
-            throw new NotImplementedException();
+            var budgetCategory = await _context.BudgetCategories.FindAsync(entry.BudgetCategory.Id);
+            var budgetEntry = new BudgetEntry
+            {
+                Amount = entry.Amount,
+                Date = entry.Date,
+                Description = entry.Description,
+                BudgetCategory = budgetCategory
+            };
+            var result = _context.BudgetEntries.Add(budgetEntry);
+            await _context.SaveChangesAsync();
+            return budgetEntry.Id;
         }
 
         public async Task<bool> DeleteBudgetEntry(Guid Id)

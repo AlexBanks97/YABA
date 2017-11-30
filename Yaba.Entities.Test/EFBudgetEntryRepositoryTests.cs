@@ -10,6 +10,38 @@ namespace Yaba.Entities.Test
 {
     public class EFBudgetEntryRepositoryTests
     {
+        //Create BudgetEntry
+        [Fact]
+        public async void CreateBudgetEntry_Given_budgetEntry_dto_returns_the_id_of_the_entry()
+        {
+            var ctx = Util.GetNewContext(nameof(CreateBudgetEntry_Given_budgetEntry_dto_returns_the_id_of_the_entry));
+            var cat = new BudgetCategory
+            {
+                Name = "1"
+            };
+            ctx.BudgetCategories.Add(cat);
+            ctx.SaveChanges();
+
+            var entry = new BudgetEntryDTO
+            {
+                Amount = 2,
+                Description = "hey",
+                BudgetCategory = new BudgetCategoryDTO { Id = cat.Id,Name = cat.Name}
+            };
+
+            BudgetEntry actual = null;
+            Guid id = new Guid();
+            using(var repo = new EFBudgetEntryRepository(ctx))
+            {
+                id = await repo.CreateBudgetEntry(entry);
+                actual = ctx.BudgetEntries.Find(id);
+            }
+            Assert.NotNull(id);
+            Assert.Equal(actual.Description, entry.Description);
+            Assert.Equal(actual.Amount, entry.Amount);
+        }
+
+
         //Update BudgetEntry
         [Fact]
         public async void UpdateBudgetEntry_Given_existing_budgetEntry_Updates_and_returns_true()
