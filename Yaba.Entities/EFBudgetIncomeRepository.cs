@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common;
@@ -39,9 +40,15 @@ namespace Yaba.Entities
             return newBudgetIncome.Id;
         }
 
-        public Task<ICollection<BudgetIncomeDTO>> FindAllBudgetIncomes()
+        public async Task<ICollection<BudgetIncomeDTO>> FindAllBudgetIncomes()
         {
-            throw new NotImplementedException();
+            return _context.BudgetIncomes.Select(bi => new BudgetIncomeDTO
+            {
+                Id = bi.Id,
+                Name = bi.Name,
+                Amount = bi.Amount,
+                Recurrence = bi.Recurrence,
+            }).ToList();   
         }
 
         public Task<BudgetIncomeDTO> FindBudgetIncome(Guid budgetIncomeId)
