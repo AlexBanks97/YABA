@@ -47,16 +47,17 @@ namespace Yaba.Web.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var success = await _repository.UpdateTab(tab);
-            if (success)
-            {
-                return NoContent();
-            }
+
+            if (success) return NoContent();
             return NotFound();
         }
 
-        public async Task<IActionResult> Delete(TabDTO tab)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var deleted = await _repository.Delete(id);
+            if (deleted) return NoContent();
+            return NotFound();
         }
     }
 }

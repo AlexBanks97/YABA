@@ -134,5 +134,33 @@ namespace Yaba.Web.Test
                 Assert.IsType<NotFoundResult>(response);
             }
         }
+
+        [Fact]
+        public async void Delete_Given_Tab_Returns_NoContent()
+        {
+            var mock = new Mock<ITabRepository>();
+            mock.Setup(m => m.Delete(It.IsAny<Guid>()))
+                .ReturnsAsync(true);
+
+            using (var ctrl = new TabsController(mock.Object))
+            {
+                var response = await ctrl.Delete(Guid.NewGuid());
+                Assert.IsType<NoContentResult>(response);
+            }
+        }
+
+        [Fact]
+        public async void Delete_Given_Non_Existing_Tab_Returns_NotFound()
+        {
+            var mock = new Mock<ITabRepository>();
+            mock.Setup(m => m.Delete(It.IsAny<Guid>()))
+                .ReturnsAsync(false);
+
+            using (var ctrl = new TabsController(mock.Object))
+            {
+                var response = await ctrl.Delete(Guid.NewGuid());
+                Assert.IsType<NotFoundResult>(response);
+            }
+        }
     }
 }
