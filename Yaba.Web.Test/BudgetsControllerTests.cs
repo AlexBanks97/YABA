@@ -29,8 +29,9 @@ namespace Yaba.Web.Test
 
             using (var controller = new BudgetsController(mock.Object))
             {
-                var actual = await controller.Get();
-                Assert.Equal(count, actual.Count());
+                var response = await controller.Get() as OkObjectResult;
+                var value = response.Value as IEnumerable<BudgetDTO>;
+                Assert.Equal(count, value.Count());
             }
         }
 
