@@ -61,14 +61,7 @@ namespace Yaba.Entities
             {
                 return null;
             }
-            return new TabDTO
-            {
-                Balance = tab.Balance,
-                State = tab.State,
-                TabItems = tab.TabItems
-                    .Select(t => new TabItemDTO())
-                    .ToList(),
-            };
+            return tab.ToDTO();
 
             /* var tab = await _context.Tabs.Include(t => t.TabItems).FirstOrDefaultAsync(t => t.Id == id);
              if (tab == null) return null;
