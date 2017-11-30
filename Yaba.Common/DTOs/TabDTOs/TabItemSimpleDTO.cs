@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Yaba.Common.DTOs.TabDTOs
 {
-    public class TabItemSimpleDTO : ITabItemDTO
+    public class TabItemSimpleDTO
     {
         public decimal Amount { get; set; }
         public string Description { get; set; }
