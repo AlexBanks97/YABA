@@ -19,7 +19,7 @@ namespace Yaba.Entities
             _context = context;
         }
 
-        public async Task<Guid> CreateTab(TabDTO tab)
+        public async Task<Guid> CreateTab(TabCreateDTO tab)
         {
             var tabEntity = new Tab
             {
@@ -60,6 +60,18 @@ namespace Yaba.Entities
             if (tab == null) return null;
             return tab.ToDTO();
 
+        }
+
+        public async Task<bool> Delete(Guid id)
+        {
+            var entity = await _context.Tabs
+                .SingleOrDefaultAsync(t => t.Id == id);
+
+            if (entity == null) return false;
+
+            _context.Tabs.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         #region 

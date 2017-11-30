@@ -80,7 +80,7 @@ namespace Yaba.Entities.Test
                 mock.Setup(m => m.Tabs.Add(It.IsAny<Tab>()))
                 .Callback<Tab>(t => entity = t);
 
-                var tabToAdd = new TabDTO { Balance = 120, State = State.Active };
+                var tabToAdd = new TabCreateDTO { Balance = 120, State = State.Active };
                 await repo.CreateTab(tabToAdd);
             }
 
@@ -122,6 +122,38 @@ namespace Yaba.Entities.Test
                 var updated = await repo.UpdateTab(new TabUpdateDTO { Id = Guid.NewGuid() });
                 Assert.False(updated);
 
+            }
+        }
+
+        [Fact]
+        public async void Delete_Given_Existing_Tab_Returns_True()
+        {
+            var context = Util.GetNewContext(nameof(Delete_Given_Existing_Tab_Returns_True));
+
+            var tab = new Tab
+            {
+                Balance = 42,
+                State = State.Active
+            };
+
+            context.Tabs.Add(tab);
+            await context.SaveChangesAsync();
+
+            using (var repo = new EFTabRepository(context))
+            {
+                var deleted = await repo.Delete(tab.Id);
+                Assert.True(deleted);
+            }
+        }
+
+        [Fact]
+        public async void Delete_Given_Non_Existing_Tab_Returns_False()
+        {
+            var context = Util.GetNewContext(nameof(Delete_Given_Existing_Tab_Returns_True));
+            using (var repo = new EFTabRepository(context))
+            {
+                var deleted = await repo.Delete(Guid.NewGuid());
+                Assert.False(deleted);
             }
         }
     }

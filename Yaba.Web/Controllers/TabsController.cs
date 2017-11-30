@@ -25,6 +25,8 @@ namespace Yaba.Web.Controllers
         }
 
         // GET api/budgets/{guid}
+        [HttpGet]
+        [Route("tabId:Guid")]
         public async Task<IActionResult> Get(Guid id)
         {
             var tab = await _repository.FindTab(id);
@@ -32,5 +34,30 @@ namespace Yaba.Web.Controllers
             return Ok(tab); // Returns 200
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] TabCreateDTO tab)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState); // returns 404
+            var guid = await _repository.CreateTab(tab);
+            return CreatedAtAction(nameof(Get), new {guid}, null);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] TabUpdateDTO tab)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var success = await _repository.UpdateTab(tab);
+
+            if (success) return NoContent();
+            return NotFound();
+        }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var deleted = await _repository.Delete(id);
+            if (deleted) return NoContent();
+            return NotFound();
+        }
     }
 }
