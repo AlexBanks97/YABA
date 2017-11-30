@@ -6,6 +6,7 @@ using Yaba.Common.DTOs.Category;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Remotion.Linq.Clauses;
+using Yaba.Common.DTOs.BudgetDTOs;
 using Yaba.Entities.BudgetEntities;
 
 namespace Yaba.Entities
@@ -49,6 +50,7 @@ namespace Yaba.Entities
         public async Task<CategoryDetailsDto> Find(Guid id)
         {
             var category = await _context.BudgetCategories
+                .Include(c => c.Entries)
                 .SingleOrDefaultAsync(c => c.Id == id);
             if (category == null)
             {
@@ -58,19 +60,35 @@ namespace Yaba.Entities
             {
                 Id = category.Id,
                 Name = category.Name,
+                Entries = category.Entries
+                    .Select(e => new BudgetEntryDTO
+                    {
+                        Id = e.Id,
+                        Amount = e.Amount,
+                        Description = e.Description,
+                    })
+                    .ToList(),
             };
         }
 
         public async Task<Guid?> Create(CategoryCreateDto category)
         {
+            var budget = _context.Budgets.SingleOrDefault(b => b.Id == category.BudgetId);
+
+            if (budget == null)
+            {
+                return null;
+            }
+            
             var entity = new BudgetCategory
             {
                 Name = category.Name,
+                Budget = budget,
             };
+            
             _context.BudgetCategories.Add(entity);
             await _context.SaveChangesAsync();
             return entity.Id;
-
         }
 
         public async Task<bool> Update(CategorySimpleDto category)

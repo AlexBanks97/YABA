@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Yaba.Common.DTOs.BudgetDTOs;
 
 namespace Yaba.Common.DTOs.Category
@@ -8,6 +9,6 @@ namespace Yaba.Common.DTOs.Category
         public Guid Id { get; set; }
         public string Name { get; set; }
 
-        public BudgetEntryDTO Entries { get; set; }
+        public ICollection<BudgetEntryDTO> Entries { get; set; }
     }
 }

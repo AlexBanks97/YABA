@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Yaba.Common;
 using Yaba.Common.DTOs.BudgetDTOs;
+using Yaba.Common.DTOs.Category;
 using Yaba.Entities.BudgetEntities;
 
 namespace Yaba.Entities
@@ -17,14 +19,25 @@ namespace Yaba.Entities
             _context = context;
         }
         
-        public async Task<BudgetDTO> FindBudget(Guid id)
+        public async Task<BudgetDetailsDto> FindBudget(Guid id)
         {
-            var budget = _context.Budgets.FirstOrDefault(b => b.Id == id);
+            var budget = _context.Budgets
+                .Include(b => b.Categories)
+                .Include(b => b.Incomes)
+                .FirstOrDefault(b => b.Id == id);
             if (budget == null) return null;
-            return new BudgetDTO
+            return new BudgetDetailsDto
             {
                 Id = budget.Id,
                 Name = budget.Name,
+                
+                Categories = budget.Categories
+                    .Select(c => new CategorySimpleDto { Id = c.Id, Name = c.Name} )
+                    .ToList(),
+                
+                Incomes = budget.Incomes
+                    .Select(i => new BudgetIncomeSimpleDTO { Id = i.Id, Name = i.Name })
+                    .ToList(),
             };
         }
 
@@ -40,9 +53,9 @@ namespace Yaba.Entities
             return budgetEntity.Id;
         }
 
-        public async Task<ICollection<BudgetDTO>> FindAllBudgets()
+        public async Task<ICollection<BudgetSimpleDTO>> FindAllBudgets()
         {
-            return _context.Budgets.Select(b => new BudgetDTO
+            return _context.Budgets.Select(b => new BudgetSimpleDTO
             {
                 Id = b.Id,
                 Name = b.Name,
