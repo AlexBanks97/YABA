@@ -7,6 +7,7 @@ using Yaba.Common;
 using Yaba.Common.DTOs.Category;
 using Yaba.Common.DTOs.BudgetEntry;
 using Yaba.Common.DTOs.BudgetDTOs;
+using Yaba.Entities.BudgetEntities;
 
 namespace Yaba.Entities
 {
@@ -22,14 +23,41 @@ namespace Yaba.Entities
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteBudgetEntry(Guid Id)
+        public async Task<bool> DeleteBudgetEntry(Guid Id)
         {
-            throw new NotImplementedException();
+            var entry = _context.BudgetEntries.SingleOrDefault(e => e.Id == Id);
+            if(entry == null)
+            {
+                return false;
+            }
+            _context.BudgetEntries.Remove(entry);
+            var NumberOfRowsRemoved = await _context.SaveChangesAsync();
+            return true;
         }
 
-        public Task<ICollection<BudgetEntryDTO>> Find()
+        public async Task<ICollection<BudgetEntryDTO>> Find()
         {
-            throw new NotImplementedException();
+            var allEntries = _context.BudgetEntries;
+
+            var result = new List<BudgetEntryDTO>();
+
+            foreach (BudgetEntry entry in allEntries)
+            {
+                var BudgetCategoryDTO = new BudgetCategoryDTO
+                {
+                     Id = entry.BudgetCategory.Id,
+                      Name = entry.BudgetCategory.Name
+                };
+                result.Add(new BudgetEntryDTO
+                {
+                    Id = entry.Id,
+                    Amount = entry.Amount,
+                    Date = entry.Date,
+                    BudgetCategory = BudgetCategoryDTO,
+                    Description = entry.Description
+                });
+            }
+            return result;
         }
 
         public async Task<BudgetEntryDetailsDto> Find(Guid BudgetEntryId)
@@ -54,14 +82,57 @@ namespace Yaba.Entities
             };
         }
 
-        public Task<ICollection<BudgetEntryDTO>> FindFromBudgetCategory(Guid BudgetCategoryId)
+        public async Task<ICollection<BudgetEntryDTO>> FindFromBudgetCategory(Guid BudgetCategoryId)
         {
-            throw new NotImplementedException();
+            var cat = _context.BudgetCategories.FirstOrDefault(c => c.Id == BudgetCategoryId);
+            if(cat == null)
+            {
+                return null;
+            }
+            var BudgetCategoryDTO = new BudgetCategoryDTO
+            {
+                 Id = cat.Id,
+                 Name = cat.Name
+            };
+            var entries = _context.BudgetEntries.Select(b => b).Where(b => b.BudgetCategory.Id == cat.Id);
+
+            var result = new List<BudgetEntryDTO>();
+
+            foreach(BudgetEntry entry in entries)
+            {
+                result.Add(new BudgetEntryDTO
+                {
+                    Id = entry.Id,
+                    Amount = entry.Amount,
+                    Date = entry.Date,
+                    BudgetCategory = BudgetCategoryDTO,
+                    Description = entry.Description
+                });
+            }
+            return result;
         }
 
-        public Task<bool> UpdateBudgetEntry(BudgetEntryDTO entry)
+        public async Task<bool> UpdateBudgetEntry(BudgetEntryDTO entry)
         {
-            throw new NotImplementedException();
+            var entity = _context.BudgetEntries
+                .SingleOrDefault(c => c.Id == entry.Id);
+            if (entity == null)
+            {
+                return false;
+            }
+
+            if (entry.BudgetCategory != null) {
+                var BudgetCategory = new BudgetCategory {
+                    Id = entry.BudgetCategory.Id,
+                    Name = entry.BudgetCategory.Name
+                };
+                entity.BudgetCategory = BudgetCategory;
+            }
+
+            entity.Description = entry.Description;
+            entity.Amount = entry.Amount;
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         #region IDisposable Support
