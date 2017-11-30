@@ -122,7 +122,7 @@ namespace Yaba.Web.Test
         }
 
         [Fact]
-        public async void Put_Given_Non_Existing_Tab_Returns_BadRequest()
+        public async void Put_Given_Non_Existing_Tab_Returns_NotFound()
         {
             var mock = new Mock<ITabRepository>();
             mock.Setup(m => m.UpdateTab(It.IsAny<TabUpdateDTO>()))
