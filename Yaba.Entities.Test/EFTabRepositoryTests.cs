@@ -80,7 +80,7 @@ namespace Yaba.Entities.Test
                 mock.Setup(m => m.Tabs.Add(It.IsAny<Tab>()))
                 .Callback<Tab>(t => entity = t);
 
-                var tabToAdd = new TabDTO { Balance = 120, State = State.Active };
+                var tabToAdd = new TabCreateDTO { Balance = 120, State = State.Active };
                 await repo.CreateTab(tabToAdd);
             }
 

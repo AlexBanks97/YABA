@@ -19,7 +19,7 @@ namespace Yaba.Entities
             _context = context;
         }
 
-        public async Task<Guid> CreateTab(TabDTO tab)
+        public async Task<Guid> CreateTab(TabCreateDTO tab)
         {
             var tabEntity = new Tab
             {
