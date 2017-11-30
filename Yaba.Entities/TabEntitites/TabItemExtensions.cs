@@ -7,7 +7,7 @@ namespace Yaba.Entities.TabEntitites
 {
     public static class TabItemExtensions
     {
-        public static ITabItemDTO ToTabItemSimpleDTO(this TabItem tabItem)
+        public static TabItemSimpleDTO ToTabItemSimpleDTO(this TabItem tabItem)
         {
             return new TabItemSimpleDTO
             {
@@ -17,7 +17,7 @@ namespace Yaba.Entities.TabEntitites
             };
         }
 
-        public static IEnumerable<ITabItemDTO> ToTabItemSimpleDTO(this IEnumerable<TabItem> tabItems)
+        public static IEnumerable<TabItemSimpleDTO> ToTabItemSimpleDTO(this IEnumerable<TabItem> tabItems)
         {
             foreach (var tabItem in tabItems)
             {
