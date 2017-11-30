@@ -12,224 +12,224 @@ using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities.Migrations
 {
-    [DbContext(typeof(YabaDBContext))]
-    partial class YabaDBContextModelSnapshot : ModelSnapshot
-    {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
+	[DbContext(typeof(YabaDBContext))]
+	partial class YabaDBContextModelSnapshot : ModelSnapshot
+	{
+		protected override void BuildModel(ModelBuilder modelBuilder)
+		{
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+			modelBuilder
+				.HasAnnotation("ProductVersion", "2.0.1-rtm-125")
+				.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Yaba.Entities.BudgetEntities.Budget", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("Yaba.Entities.BudgetEntities.Budget", b =>
+				{
+					b.Property<Guid>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+					b.Property<string>("Name")
+						.IsRequired()
+						.HasMaxLength(50);
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.ToTable("Budgets");
-                });
+					b.ToTable("Budgets");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.BudgetEntities.Category", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("Yaba.Entities.BudgetEntities.Category", b =>
+				{
+					b.Property<Guid>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("BudgetId");
+					b.Property<Guid?>("BudgetId");
 
-                    b.Property<Guid?>("GoalId");
+					b.Property<Guid?>("GoalId");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+					b.Property<string>("Name")
+						.IsRequired()
+						.HasMaxLength(50);
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("BudgetId");
+					b.HasIndex("BudgetId");
 
-                    b.HasIndex("GoalId")
-                        .IsUnique()
-                        .HasFilter("[GoalId] IS NOT NULL");
+					b.HasIndex("GoalId")
+						.IsUnique()
+						.HasFilter("[GoalId] IS NOT NULL");
 
-                    b.ToTable("Category");
-                });
+					b.ToTable("Category");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.BudgetEntities.Entry", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("Yaba.Entities.BudgetEntities.Entry", b =>
+				{
+					b.Property<Guid>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount");
+					b.Property<decimal>("Amount");
 
-                    b.Property<Guid?>("CategoryId");
+					b.Property<Guid?>("CategoryId");
 
-                    b.Property<DateTime>("Date");
+					b.Property<DateTime>("Date");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(150);
+					b.Property<string>("Description")
+						.HasMaxLength(150);
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+					b.HasIndex("CategoryId");
 
-                    b.ToTable("Entry");
-                });
+					b.ToTable("Entry");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.BudgetEntities.Expense", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("Yaba.Entities.BudgetEntities.Expense", b =>
+				{
+					b.Property<Guid>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount");
+					b.Property<decimal>("Amount");
 
-                    b.Property<Guid?>("BudgetId");
+					b.Property<Guid?>("BudgetId");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+					b.Property<string>("Name")
+						.IsRequired()
+						.HasMaxLength(50);
 
-                    b.Property<int>("Recurrence");
+					b.Property<int>("Recurrence");
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("BudgetId");
+					b.HasIndex("BudgetId");
 
-                    b.ToTable("Expense");
-                });
+					b.ToTable("Expense");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.BudgetEntities.Goal", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("Yaba.Entities.BudgetEntities.Goal", b =>
+				{
+					b.Property<Guid>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount");
+					b.Property<decimal>("Amount");
 
-                    b.Property<int>("Recurrence");
+					b.Property<int>("Recurrence");
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.ToTable("Goal");
-                });
+					b.ToTable("Goal");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.BudgetEntities.Income", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("Yaba.Entities.BudgetEntities.Income", b =>
+				{
+					b.Property<Guid>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount");
+					b.Property<decimal>("Amount");
 
-                    b.Property<Guid?>("BudgetId");
+					b.Property<Guid?>("BudgetId");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+					b.Property<string>("Name")
+						.IsRequired()
+						.HasMaxLength(50);
 
-                    b.Property<int>("Recurrence");
+					b.Property<int>("Recurrence");
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("BudgetId");
+					b.HasIndex("BudgetId");
 
-                    b.ToTable("Income");
-                });
+					b.ToTable("Income");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.TabEntitites.Tab", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("Yaba.Entities.TabEntitites.Tab", b =>
+				{
+					b.Property<Guid>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Balance");
+					b.Property<decimal>("Balance");
 
-                    b.Property<int>("State");
+					b.Property<int>("State");
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.ToTable("Tabs");
-                });
+					b.ToTable("Tabs");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.TabEntitites.TabCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("Yaba.Entities.TabEntitites.TabCategory", b =>
+				{
+					b.Property<Guid>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+					b.Property<string>("Name");
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.ToTable("TabCategory");
-                });
+					b.ToTable("TabCategory");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.TabEntitites.TabItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("Yaba.Entities.TabEntitites.TabItem", b =>
+				{
+					b.Property<Guid>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount");
+					b.Property<decimal>("Amount");
 
-                    b.Property<Guid?>("CategoryId");
+					b.Property<Guid?>("CategoryId");
 
-                    b.Property<string>("Description");
+					b.Property<string>("Description");
 
-                    b.Property<Guid?>("TabId");
+					b.Property<Guid?>("TabId");
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+					b.HasIndex("CategoryId");
 
-                    b.HasIndex("TabId");
+					b.HasIndex("TabId");
 
-                    b.ToTable("TabItem");
-                });
+					b.ToTable("TabItem");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.BudgetEntities.Category", b =>
-                {
-                    b.HasOne("Yaba.Entities.BudgetEntities.Budget", "Budget")
-                        .WithMany("Categories")
-                        .HasForeignKey("BudgetId");
+			modelBuilder.Entity("Yaba.Entities.BudgetEntities.Category", b =>
+				{
+					b.HasOne("Yaba.Entities.BudgetEntities.Budget", "Budget")
+						.WithMany("Categories")
+						.HasForeignKey("BudgetId");
 
-                    b.HasOne("Yaba.Entities.BudgetEntities.Goal", "Goal")
-                        .WithOne("Category")
-                        .HasForeignKey("Yaba.Entities.BudgetEntities.Category", "GoalId");
-                });
+					b.HasOne("Yaba.Entities.BudgetEntities.Goal", "Goal")
+						.WithOne("Category")
+						.HasForeignKey("Yaba.Entities.BudgetEntities.Category", "GoalId");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.BudgetEntities.Entry", b =>
-                {
-                    b.HasOne("Yaba.Entities.BudgetEntities.Category", "Category")
-                        .WithMany("Entries")
-                        .HasForeignKey("CategoryId");
-                });
+			modelBuilder.Entity("Yaba.Entities.BudgetEntities.Entry", b =>
+				{
+					b.HasOne("Yaba.Entities.BudgetEntities.Category", "Category")
+						.WithMany("Entries")
+						.HasForeignKey("CategoryId");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.BudgetEntities.Expense", b =>
-                {
-                    b.HasOne("Yaba.Entities.BudgetEntities.Budget", "Budget")
-                        .WithMany("Expenses")
-                        .HasForeignKey("BudgetId");
-                });
+			modelBuilder.Entity("Yaba.Entities.BudgetEntities.Expense", b =>
+				{
+					b.HasOne("Yaba.Entities.BudgetEntities.Budget", "Budget")
+						.WithMany("Expenses")
+						.HasForeignKey("BudgetId");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.BudgetEntities.Income", b =>
-                {
-                    b.HasOne("Yaba.Entities.BudgetEntities.Budget", "Budget")
-                        .WithMany("Incomes")
-                        .HasForeignKey("BudgetId");
-                });
+			modelBuilder.Entity("Yaba.Entities.BudgetEntities.Income", b =>
+				{
+					b.HasOne("Yaba.Entities.BudgetEntities.Budget", "Budget")
+						.WithMany("Incomes")
+						.HasForeignKey("BudgetId");
+				});
 
-            modelBuilder.Entity("Yaba.Entities.TabEntitites.TabItem", b =>
-                {
-                    b.HasOne("Yaba.Entities.TabEntitites.TabCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
+			modelBuilder.Entity("Yaba.Entities.TabEntitites.TabItem", b =>
+				{
+					b.HasOne("Yaba.Entities.TabEntitites.TabCategory", "Category")
+						.WithMany()
+						.HasForeignKey("CategoryId");
 
-                    b.HasOne("Yaba.Entities.TabEntitites.Tab", "Tab")
-                        .WithMany("TabItems")
-                        .HasForeignKey("TabId");
-                });
+					b.HasOne("Yaba.Entities.TabEntitites.Tab", "Tab")
+						.WithMany("TabItems")
+						.HasForeignKey("TabId");
+				});
 #pragma warning restore 612, 618
-        }
-    }
+		}
+	}
 }

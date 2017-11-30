@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Yaba.Entities.TabEntitites
 {
-    public class TabCategory
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+	public class TabCategory
+	{
+		public Guid Id { get; set; }
+		public string Name { get; set; }
 
-    }
+	}
 }

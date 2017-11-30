@@ -12,32 +12,32 @@ using Yaba.Entities;
 
 namespace Yaba.Web
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var host = BuildWebHost(args);
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			var host = BuildWebHost(args);
 
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var context = services.GetRequiredService<IYabaDBContext>();
-                    DbInitializer.Initialize(context);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-            
-            host.Run();
-        }
+			using (var scope = host.Services.CreateScope())
+			{
+				var services = scope.ServiceProvider;
+				try
+				{
+					var context = services.GetRequiredService<IYabaDBContext>();
+					DbInitializer.Initialize(context);
+				}
+				catch
+				{
+					// ignored
+				}
+			}
 
-        private static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
-    }
+			host.Run();
+		}
+
+		private static IWebHost BuildWebHost(string[] args) =>
+			WebHost.CreateDefaultBuilder(args)
+				.UseStartup<Startup>()
+				.Build();
+	}
 }

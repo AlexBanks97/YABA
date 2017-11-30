@@ -12,58 +12,58 @@ using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test
 {
-    public class BudgetsControllerTests
-    {
-        [Fact]
-        public async void Get_given_no_params_returns_Ok_with_list_of_budgets()
-        {
-            var mock = new Mock<IBudgetRepository>();
-            var budgets = new List<BudgetSimpleDto>
-            {
-                new BudgetSimpleDto(),
-                new BudgetSimpleDto(),
-            };
-            mock.Setup(m => m.All())
-                .ReturnsAsync(budgets);
+	public class BudgetsControllerTests
+	{
+		[Fact]
+		public async void Get_given_no_params_returns_Ok_with_list_of_budgets()
+		{
+			var mock = new Mock<IBudgetRepository>();
+			var budgets = new List<BudgetSimpleDto>
+			{
+				new BudgetSimpleDto(),
+				new BudgetSimpleDto(),
+			};
+			mock.Setup(m => m.All())
+				.ReturnsAsync(budgets);
 
-            using (var ctrl = new BudgetsController(mock.Object))
-            {
-                var response = await ctrl.Get() as OkObjectResult;
-                Assert.Equal(budgets, response.Value);
-            }
-        }
+			using (var ctrl = new BudgetsController(mock.Object))
+			{
+				var response = await ctrl.Get() as OkObjectResult;
+				Assert.Equal(budgets, response.Value);
+			}
+		}
 
-        [Fact(DisplayName = "Get Budget given GUID returns OK")]
-        public async void Get_given_existing_guid_returns_OK_with_budget()
-        {
-            var budget = new BudgetDetailsDto {Name = "Budget"};
+		[Fact(DisplayName = "Get Budget given GUID returns OK")]
+		public async void Get_given_existing_guid_returns_OK_with_budget()
+		{
+			var budget = new BudgetDetailsDto {Name = "Budget"};
 
-            var guid = Guid.NewGuid();
-            
-            var mock = new Mock<IBudgetRepository>();
-            mock.Setup(m => m.Find(guid))
-                .ReturnsAsync(budget);
+			var guid = Guid.NewGuid();
 
-            using (var controller = new BudgetsController(mock.Object))
-            {
-                var actual = await controller.Get(guid) as OkObjectResult;
-                Assert.Equal(budget, actual.Value);
-            }
-        }
+			var mock = new Mock<IBudgetRepository>();
+			mock.Setup(m => m.Find(guid))
+				.ReturnsAsync(budget);
 
-        [Fact(DisplayName = "Get Budget given non-existing GUID returns NotFound")]
-        public async void Get_given_nonexisting_guid_returns_NotFound()
-        {
-            var guid = Guid.NewGuid();
-            var mock = new Mock<IBudgetRepository>();
-            mock.Setup(m => m.Find(guid))
-                .ReturnsAsync(default(BudgetDetailsDto));
+			using (var controller = new BudgetsController(mock.Object))
+			{
+				var actual = await controller.Get(guid) as OkObjectResult;
+				Assert.Equal(budget, actual.Value);
+			}
+		}
 
-            using (var controller = new BudgetsController(mock.Object))
-            {
-                var response = await controller.Get(guid);
-                Assert.IsType<NotFoundResult>(response);
-            }
-        }
-    }
+		[Fact(DisplayName = "Get Budget given non-existing GUID returns NotFound")]
+		public async void Get_given_nonexisting_guid_returns_NotFound()
+		{
+			var guid = Guid.NewGuid();
+			var mock = new Mock<IBudgetRepository>();
+			mock.Setup(m => m.Find(guid))
+				.ReturnsAsync(default(BudgetDetailsDto));
+
+			using (var controller = new BudgetsController(mock.Object))
+			{
+				var response = await controller.Get(guid);
+				Assert.IsType<NotFoundResult>(response);
+			}
+		}
+	}
 }

@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Yaba.Common
 {
-    public enum Recurrence
-    {
-        Daily,
-        Weekly,
-        Monthly,
-        Yearly,
-    }
+	public enum Recurrence
+	{
+		Daily,
+		Weekly,
+		Monthly,
+		Yearly,
+	}
 }
