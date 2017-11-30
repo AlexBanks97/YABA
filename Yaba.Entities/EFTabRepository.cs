@@ -62,6 +62,18 @@ namespace Yaba.Entities
 
         }
 
+        public async Task<bool> Delete(Guid id)
+        {
+            var entity = await _context.Tabs
+                .SingleOrDefaultAsync(t => t.Id == id);
+
+            if (entity == null) return false;
+
+            _context.Tabs.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         #region 
 
         IDisposable Support;
