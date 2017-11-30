@@ -50,5 +50,23 @@ namespace Yaba.Entities.Test
                 Assert.Equal(3, budgetFinder.Count);
             }
         }
+
+        [Fact(DisplayName = "FindBudgetIncome by Id returns budget indcome with supplied Id")]
+        public async void Find_Budget_Income_With_Specific_Id_Returns_Specific_Budget_Income()
+        {
+            var context = Util.GetNewContext(nameof(Find_Budget_Income_With_Specific_Id_Returns_Specific_Budget_Income));
+
+            var budgetIncome = new BudgetIncome { Name = "Life support from pops", Amount = 8000, Recurrence = Recurrence.Monthly };
+
+            using (var repo = new EFBudgetIncomeRepository(context))
+            {
+                context.BudgetIncomes.Add(budgetIncome);
+                await context.SaveChangesAsync();
+                var budgetIncomeToFind = repo.FindBudgetIncome(budgetIncome.Id);
+                Assert.Equal("Life support from pops", budgetIncome.Name);
+                Assert.Equal(8000, budgetIncome.Amount);
+                Assert.Equal(Recurrence.Monthly, budgetIncome.Recurrence);
+            }
+        }
     }
 }
