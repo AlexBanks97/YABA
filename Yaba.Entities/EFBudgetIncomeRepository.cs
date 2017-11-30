@@ -22,7 +22,7 @@ namespace Yaba.Entities
         public async Task<Guid> CreateBudgetIncome(BudgetIncomeCreateDTO budgetIncome)
         {
             var budget = await _context.Budgets.SingleOrDefaultAsync(b => b.Id == budgetIncome.BudgetId);
-            if(budget == null)
+            if (budget == null)
             {
                 return Guid.Empty;
             }
@@ -48,7 +48,7 @@ namespace Yaba.Entities
                 Name = bi.Name,
                 Amount = bi.Amount,
                 Recurrence = bi.Recurrence,
-            }).ToList();   
+            }).ToList();
         }
 
         public async Task<BudgetIncomeDTO> FindBudgetIncome(Guid budgetIncomeId)
@@ -66,10 +66,15 @@ namespace Yaba.Entities
             };
         }
 
-        public Task<ICollection<BudgetIncomeDTO>> FindBudgetIncomesFromSpecificBudget(Guid BudgetId)
+        public async Task<ICollection<BudgetIncomeDTO>> FindAllBudgetIncomesFromSpecificBudget(BudgetDTO budget)
         {
-            throw new NotImplementedException();
+            var incomes = budget.Incomes;
+            if (incomes == null) return null;
+            return incomes;
         }
+    
+
+
 
         public Task<bool> UpdateBudgetIncome(BudgetIncomeUpdateDTO budgetIncome)
         {
