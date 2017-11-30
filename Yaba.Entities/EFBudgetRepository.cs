@@ -67,29 +67,6 @@ namespace Yaba.Entities
             return true;
         }
 
-        public async Task<bool> AddEntryToCategory(BudgetEntryDTO entry)
-        {
-            if(entry == null || entry.BudgetCategory == default(BudgetCategoryDTO))
-            {
-                return false;
-            }
-            var budgetCategory = await _context.BudgetCategories.FindAsync(entry.BudgetCategory.Id);
-            var budgetEntry = new BudgetEntry
-            {
-                Amount = entry.Amount,
-                Date = entry.Date,
-                Description = entry.Description,
-                BudgetCategory = budgetCategory
-            };
-            var result = _context.BudgetEntries.Add(budgetEntry);
-            if(result == null)
-            {
-                return false;
-            }
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
