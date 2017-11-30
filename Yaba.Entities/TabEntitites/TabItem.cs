@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Yaba.Entities.TabEntitites
 {
     public class TabItem
@@ -12,6 +9,5 @@ namespace Yaba.Entities.TabEntitites
         public Tab Tab { get; set; }
         public TabCategory Category { get; set; }
         // Add prop for user whom created tab item
-
     }
 }
