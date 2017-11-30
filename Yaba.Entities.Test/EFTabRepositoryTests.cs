@@ -124,5 +124,37 @@ namespace Yaba.Entities.Test
 
             }
         }
+
+        [Fact]
+        public async void Delete_Given_Existing_Tab_Returns_True()
+        {
+            var context = Util.GetNewContext(nameof(Delete_Given_Existing_Tab_Returns_True));
+
+            var tab = new Tab
+            {
+                Balance = 42,
+                State = State.Active
+            };
+
+            context.Tabs.Add(tab);
+            await context.SaveChangesAsync();
+
+            using (var repo = new EFTabRepository(context))
+            {
+                var deleted = await repo.Delete(tab.Id);
+                Assert.True(deleted);
+            }
+        }
+
+        [Fact]
+        public async void Delete_Given_Non_Existing_Tab_Returns_False()
+        {
+            var context = Util.GetNewContext(nameof(Delete_Given_Existing_Tab_Returns_True));
+            using (var repo = new EFTabRepository(context))
+            {
+                var deleted = await repo.Delete(Guid.NewGuid());
+                Assert.False(deleted);
+            }
+        }
     }
 }
