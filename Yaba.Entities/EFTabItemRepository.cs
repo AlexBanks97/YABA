@@ -1,72 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common;
-using Yaba.Common.DTOs.BudgetDTOs;
-using Yaba.Entities.BudgetEntities;
+using Yaba.Common.DTOs.TabDTOs;
 
 namespace Yaba.Entities
 {
-    public class EFBudgetRepository : IBudgetRepository
+    public class EFTabItemRepository : ITabItemRepository
     {
         private readonly IYabaDBContext _context;
-
-        public EFBudgetRepository(IYabaDBContext context)
+        public EFTabItemRepository(IYabaDBContext context)
         {
             _context = context;
         }
-        
-        public async Task<BudgetDTO> FindBudget(Guid id)
+        public Task<Guid> Create(TabItemSimpleDTO tabItemDTO)
         {
-            var budget = _context.Budgets.FirstOrDefault(b => b.Id == id);
-            if (budget == null) return null;
-            return new BudgetDTO
+            throw new NotImplementedException();
+        }
+
+        public async Task<TabItemSimpleDTO> Find(Guid id)
+        {
+            var entity = _context.TabItems.SingleOrDefault(t => t.Id == id);
+            if (entity == null) return null;
+            return new TabItemSimpleDTO
             {
-                Id = budget.Id,
-                Name = budget.Name,
+                Amount = entity.Amount,
+                Category = entity.Category != null ? new TabCategoryDTO { Name = entity.Category.Name } : null,
+                Description = entity.Description
             };
         }
 
-        public async Task<Guid> CreateBudget(BudgetCreateUpdateDTO budget)
+        public async Task<IEnumerable<TabItemSimpleDTO>> FindFrom(TabDTO tab)
         {
-            var budgetEntity = new Budget
+            var tabItems = new List<TabItemSimpleDTO>();
+            foreach (var tabItem in tab.TabItems)
             {
-                Name = budget.Name,
-            };
-
-            _context.Budgets.Add(budgetEntity);
-            await _context.SaveChangesAsync();
-            return budgetEntity.Id;
-        }
-
-        public async Task<ICollection<BudgetDTO>> FindAllBudgets()
-        {
-            return _context.Budgets.Select(b => new BudgetDTO
-            {
-                Id = b.Id,
-                Name = b.Name,
-            }).ToList();
-        }
-
-        public async Task<bool> UpdateBudget(BudgetCreateUpdateDTO budget)
-        {
-            if (budget.Id == null)
-            {
-                return false;                
+                tabItems.Add(tabItem); // We can't yield return because of async
             }
-            var entity = await _context.Budgets.FindAsync(budget.Id);
-            if (entity == null)
-            {
-                return false;
-            }
-
-            entity.Name = budget.Name;
-            
-            await _context.SaveChangesAsync();
-            return true;
+            return tabItems;
         }
 
+        public Task<bool> Update()
+        {
+            throw new NotImplementedException();
+        }
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -88,7 +67,7 @@ namespace Yaba.Entities
         }
 
         // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~EFBudgetRepository() {
+        // ~EFTabItemRepository() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
         // }
