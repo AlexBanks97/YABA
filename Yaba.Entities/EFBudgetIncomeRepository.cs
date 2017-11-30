@@ -66,7 +66,7 @@ namespace Yaba.Entities
             };
         }
 
-        public async Task<ICollection<BudgetIncomeDTO>> FindAllBudgetIncomesFromSpecificBudget(BudgetDTO budget)
+        public async Task<ICollection<BudgetIncomeSimpleDTO>> FindAllBudgetIncomesFromSpecificBudget(BudgetDTO budget)
         {
             var incomes = budget.Incomes;
             if (incomes == null) return null;

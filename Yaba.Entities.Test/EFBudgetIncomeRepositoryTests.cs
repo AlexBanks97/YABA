@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using Yaba.Common;
+using Yaba.Common.DTOs.BudgetDTOs;
 using Yaba.Entities.BudgetEntities;
 
 namespace Yaba.Entities.Test
@@ -66,6 +67,23 @@ namespace Yaba.Entities.Test
                 Assert.Equal("Life support from pops", budgetIncome.Name);
                 Assert.Equal(8000, budgetIncome.Amount);
                 Assert.Equal(Recurrence.Monthly, budgetIncome.Recurrence);
+            }
+        }
+
+        [Fact(DisplayName = "FindAllBudgetIncomesFromSpecificBudget returns a collection of incomes for the budget")]
+        public async void Find_All_Budget_Incomes_Within_Specific_Budget_Returns_Collection_Of_Incomes()
+        {
+            var context = Util.GetNewContext(nameof(Find_All_Budget_Incomes_Within_Specific_Budget_Returns_Collection_Of_Incomes));
+
+            var budgetIncome1 = new BudgetIncomeSimpleDTO { Name = "Life support from mom", Amount = 12000, Recurrence = Recurrence.Monthly };
+            var budgetIncome2 = new BudgetIncomeSimpleDTO { Name = "Life support from pops", Amount = 8000, Recurrence = Recurrence.Monthly };
+
+            var budget = new BudgetDTO { Name = "Main budget", Incomes = new List<BudgetIncomeSimpleDTO> { budgetIncome1, budgetIncome2 } };
+
+            using (var repo = new EFBudgetIncomeRepository(context))
+            {
+                var incomesToFind = await repo.FindAllBudgetIncomesFromSpecificBudget(budget);
+                Assert.Equal(2, incomesToFind.Count);
             }
         }
     }
