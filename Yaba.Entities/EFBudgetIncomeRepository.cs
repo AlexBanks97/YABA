@@ -10,7 +10,7 @@ using Yaba.Entities.BudgetEntities;
 
 namespace Yaba.Entities
 {
-    class EFBudgetIncomeRepository : IBudgetIncomeRepository
+    public class EFBudgetIncomeRepository : IBudgetIncomeRepository
     {
         private readonly IYabaDBContext _context;
 
