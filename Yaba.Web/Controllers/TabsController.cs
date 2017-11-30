@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Yaba.Common;
-using Yaba.Common.DTOs.TabDTOs;
+using Yaba.Common.DTO.TabDTOs;
 
 namespace Yaba.Web.Controllers
 {

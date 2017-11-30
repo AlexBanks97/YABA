@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Yaba.Common;
-using Yaba.Common.DTOs.TabDTOs;
+using Yaba.Common.DTO.TabDTOs;
+using Yaba.Entities.Budget;
 using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities.Test

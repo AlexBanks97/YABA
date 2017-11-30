@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Yaba.Common;
-using Yaba.Common.DTOs.Category;
+using Yaba.Common.Budget;
+using Yaba.Common.Budget.DTO.Category;
 
 namespace Yaba.Web.Controllers
 {

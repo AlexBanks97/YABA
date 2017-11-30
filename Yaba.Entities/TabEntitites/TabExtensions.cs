@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Yaba.Common.DTOs.TabDTOs;
+using Yaba.Common.DTO.TabDTOs;
 
 namespace Yaba.Entities.TabEntitites
 {

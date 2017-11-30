@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 using Yaba.Common;
-using Yaba.Common.DTOs.Category;
+using Yaba.Common.Budget;
+using Yaba.Common.Budget.DTO.Category;
 using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test

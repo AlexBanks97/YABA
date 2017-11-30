@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Yaba.Entities.BudgetEntities;
+using Yaba.Entities.Budget;
 
 namespace Yaba.Entities
 {
@@ -12,41 +12,41 @@ namespace Yaba.Entities
                 return;
             }
 
-            var myBudget = new Budget {Name = "My Budget"};
-            var companyBudget = new Budget {Name = "Company Budget"};
+            var myBudget = new Budget.BudgetEntity {Name = "My Budget"};
+            var companyBudget = new Budget.BudgetEntity {Name = "Company Budget"};
             context.Budgets.AddRange(myBudget, companyBudget);
 
-            var foodCat = new BudgetCategory
+            var foodCat = new CategoryEntity
             {
                 Name = "Food",
-                Budget = myBudget,
+                BudgetEntity = myBudget,
             };
-            var billCat = new BudgetCategory
+            var billCat = new CategoryEntity
             {
                 Name = "Bills",
-                Budget = myBudget,
+                BudgetEntity = myBudget,
             };
-            var officeCat = new BudgetCategory
+            var officeCat = new CategoryEntity
             {
                 Name = "Office Supplies",
-                Budget = companyBudget,
+                BudgetEntity = companyBudget,
             };
             context.BudgetCategories.AddRange(foodCat, billCat, officeCat);
 
             var entries = new[]
             {
-                new BudgetEntry {Amount = 65.0m, Description = "Hawaii Pizza", BudgetCategory = foodCat},
-                new BudgetEntry {Amount = 120.75m, Description = "Indkøb Netto", BudgetCategory = foodCat},
-                new BudgetEntry {Amount = 30.0m, Description = "Kebab", BudgetCategory = foodCat},
-                new BudgetEntry {Amount = 82.50m, Description = "Bland-selv slik", BudgetCategory = foodCat},
+                new EntryEntity {Amount = 65.0m, Description = "Hawaii Pizza", CategoryEntity = foodCat},
+                new EntryEntity {Amount = 120.75m, Description = "Indkøb Netto", CategoryEntity = foodCat},
+                new EntryEntity {Amount = 30.0m, Description = "Kebab", CategoryEntity = foodCat},
+                new EntryEntity {Amount = 82.50m, Description = "Bland-selv slik", CategoryEntity = foodCat},
 
-                new BudgetEntry {Amount = 150.0m, Description = "Mobilregning", BudgetCategory = billCat},
-                new BudgetEntry {Amount = 200.0m, Description = "A-kasse", BudgetCategory = billCat},
-                new BudgetEntry {Amount = 300.0m, Description = "Afbetaling (narkogæld)", BudgetCategory = billCat},
+                new EntryEntity {Amount = 150.0m, Description = "Mobilregning", CategoryEntity = billCat},
+                new EntryEntity {Amount = 200.0m, Description = "A-kasse", CategoryEntity = billCat},
+                new EntryEntity {Amount = 300.0m, Description = "Afbetaling (narkogæld)", CategoryEntity = billCat},
 
-                new BudgetEntry {Amount = 150.0m, Description = "Post-its", BudgetCategory = officeCat},
-                new BudgetEntry {Amount = 531.5m, Description = "Personalemad", BudgetCategory = officeCat},
-                new BudgetEntry {Amount = 20.0m, Description = "Kuglepen", BudgetCategory = officeCat},
+                new EntryEntity {Amount = 150.0m, Description = "Post-its", CategoryEntity = officeCat},
+                new EntryEntity {Amount = 531.5m, Description = "Personalemad", CategoryEntity = officeCat},
+                new EntryEntity {Amount = 20.0m, Description = "Kuglepen", CategoryEntity = officeCat},
             };
             context.BudgetEntries.AddRange(entries);
             

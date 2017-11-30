@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Yaba.Common;
-using Yaba.Common.DTOs.BudgetDTOs;
+using Yaba.Common.Budget;
+using Yaba.Common.Budget.DTO;
 
 namespace Yaba.Web.Controllers
 {
@@ -22,7 +23,7 @@ namespace Yaba.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var budgets = await _repository.FindAllBudgets();
+            var budgets = await _repository.All();
             return Ok(budgets);
         }
 
@@ -31,7 +32,7 @@ namespace Yaba.Web.Controllers
         [Route("{budgetId:Guid}")]
         public async Task<IActionResult> Get(Guid budgetId)
         {
-            var budget = await _repository.FindBudget(budgetId);
+            var budget = await _repository.Find(budgetId);
             if (budget == null)
             {
                 return NotFound();
@@ -41,26 +42,26 @@ namespace Yaba.Web.Controllers
 
         // POST api/budgets
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] BudgetCreateUpdateDTO budget)
+        public async Task<IActionResult> Post([FromBody] BudgetCreateUpdateDto budget)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var guid = await _repository.CreateBudget(budget);
+            var guid = await _repository.Create(budget);
             
             return CreatedAtAction(nameof(Get), new { budgetId = guid }, null);
         }
 
         // PUT api/values/5
         [HttpPut("{budgetId:Guid}")]
-        public async Task<IActionResult> Put(Guid budgetId, [FromBody] BudgetCreateUpdateDTO budget)
+        public async Task<IActionResult> Put(Guid budgetId, [FromBody] BudgetCreateUpdateDto budget)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            var _ = await _repository.UpdateBudget(budget);
+            var _ = await _repository.Update(budget);
             return NoContent();
         }
 

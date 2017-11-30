@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
-using Yaba.Common.DTOs.TabDTOs;
 using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities.Test

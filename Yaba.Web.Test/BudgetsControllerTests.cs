@@ -6,32 +6,30 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 using Yaba.Common;
-using Yaba.Common.DTOs.BudgetDTOs;
+using Yaba.Common.Budget;
+using Yaba.Common.Budget.DTO;
 using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test
 {
     public class BudgetsControllerTests
     {
-        [Theory]
-        [InlineData(0)]
-        [InlineData(3)]
-        [InlineData(10)]
-        public async void Get_given_no_params_returns_list_of_budgets(int count)
+        [Fact]
+        public async void Get_given_no_params_returns_Ok_with_list_of_budgets()
         {
-            var budgets = new List<BudgetSimpleDTO>();
-            for (var i = 0; i < count; i++)
-                budgets.Add(new BudgetSimpleDTO());
-            
             var mock = new Mock<IBudgetRepository>();
-            mock.Setup(m => m.FindAllBudgets())
+            var budgets = new List<BudgetSimpleDto>
+            {
+                new BudgetSimpleDto(),
+                new BudgetSimpleDto(),
+            };
+            mock.Setup(m => m.All())
                 .ReturnsAsync(budgets);
 
-            using (var controller = new BudgetsController(mock.Object))
+            using (var ctrl = new BudgetsController(mock.Object))
             {
-                var response = await controller.Get() as OkObjectResult;
-                var value = response.Value as IEnumerable<BudgetDTO>;
-                Assert.Equal(count, value.Count());
+                var response = await ctrl.Get() as OkObjectResult;
+                Assert.Equal(budgets, response.Value);
             }
         }
 
@@ -43,7 +41,7 @@ namespace Yaba.Web.Test
             var guid = Guid.NewGuid();
             
             var mock = new Mock<IBudgetRepository>();
-            mock.Setup(m => m.FindBudget(guid))
+            mock.Setup(m => m.Find(guid))
                 .ReturnsAsync(budget);
 
             using (var controller = new BudgetsController(mock.Object))
@@ -58,7 +56,7 @@ namespace Yaba.Web.Test
         {
             var guid = Guid.NewGuid();
             var mock = new Mock<IBudgetRepository>();
-            mock.Setup(m => m.FindBudget(guid))
+            mock.Setup(m => m.Find(guid))
                 .ReturnsAsync(default(BudgetDetailsDto));
 
             using (var controller = new BudgetsController(mock.Object))

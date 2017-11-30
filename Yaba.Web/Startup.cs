@@ -6,7 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using Yaba.Common;
+using Yaba.Common.Budget;
 using Yaba.Entities;
+using Yaba.Entities.Budget;
 
 namespace Yaba.Web
 {
@@ -37,7 +39,7 @@ namespace Yaba.Web
 
             services.AddScoped<IYabaDBContext, YabaDBContext>();
             services.AddScoped<IBudgetRepository, EFBudgetRepository>();
-            services.AddScoped<ICategoryRepository, EFBudgetCategoryRepository>();
+            services.AddScoped<ICategoryRepository, EFCategoryRepository>();
 
             services.AddSwaggerGen(c =>
             {
