@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -16,22 +17,41 @@ namespace Yaba.Web.Test
 		// [HttpGet]
 		// public async Task<ICollection<CategorySimpleDto>> Get(Guid budgetId)
 		[Fact]
-		public async void Get_given_budgetId_returns_collections()
+		public async void GetAll_given_no_params_returns_all_categories()
 		{
 			var mock = new Mock<ICategoryRepository>();
-			var guid = Guid.NewGuid();
-			mock.Setup(r => r.FindFromBudget(guid))
-				.ReturnsAsync(new[]
-				{
-					new CategorySimpleDto(),
-					new CategorySimpleDto(),
-					new CategorySimpleDto(),
-				});
+			var categories = new List<CategorySimpleDto>
+			{
+				new CategorySimpleDto(),
+				new CategorySimpleDto(),
+				new CategorySimpleDto(),
+			};
+			mock.Setup(r => r.Find())
+				.ReturnsAsync(categories);
 
 			using (var controller = new CategoriesController(mock.Object))
 			{
-				var cats = await controller.Get(guid);
-				Assert.Equal(3, cats.Count);
+				var response = await controller.GetAll() as OkObjectResult;
+				Assert.Equal(categories, response.Value);
+			}
+		}
+
+		[Fact]
+		public async void GetAll_given_budgetId_returns_Ok_with_budget_categories()
+		{
+			var mock = new Mock<ICategoryRepository>();
+			var guid = Guid.NewGuid();
+			var categories = new List<CategorySimpleDto>
+			{
+				new CategorySimpleDto(),
+			};
+			mock.Setup(r => r.FindFromBudget(guid))
+				.ReturnsAsync(categories);
+
+			using (var ctrl = new CategoriesController(mock.Object))
+			{
+				var response = await ctrl.GetAll(guid) as OkObjectResult;
+				Assert.Equal(categories, response.Value);
 			}
 		}
 
@@ -48,7 +68,7 @@ namespace Yaba.Web.Test
 
 			using (var ctrl = new CategoriesController(mock.Object))
 			{
-				var response = await ctrl.Get(guid, guid) as OkObjectResult;
+				var response = await ctrl.Get(guid) as OkObjectResult;
 				Assert.Equal(dto, response.Value);
 			}
 		}
@@ -62,7 +82,7 @@ namespace Yaba.Web.Test
 
 			using (var ctrl = new CategoriesController(mock.Object))
 			{
-				var response = await ctrl.Get(Guid.Empty, Guid.NewGuid());
+				var response = await ctrl.Get(Guid.NewGuid());
 				Assert.IsType<NotFoundResult>(response);
 			}
 		}
@@ -78,7 +98,7 @@ namespace Yaba.Web.Test
 
 			using (var ctrl = new CategoriesController(mock.Object))
 			{
-				var response = await ctrl.Post(Guid.Empty, new CategoryCreateDto {Name = ""});
+				var response = await ctrl.Post(new CategoryCreateDto {Name = ""});
 				Assert.IsType<CreatedAtActionResult>(response);
 			}
 		}
@@ -89,7 +109,7 @@ namespace Yaba.Web.Test
 			var mock = new Mock<ICategoryRepository>();
 			using (var ctrl = new CategoriesController(mock.Object))
 			{
-				var response = await ctrl.Post(Guid.Empty, new CategoryCreateDto());
+				var response = await ctrl.Post(new CategoryCreateDto());
 				Assert.IsType<BadRequestResult>(response);
 			}
 		}
@@ -105,7 +125,7 @@ namespace Yaba.Web.Test
 
 			using (var ctrl = new CategoriesController(mock.Object))
 			{
-				var response = await ctrl.Put(Guid.Empty, Guid.NewGuid(), new CategorySimpleDto { Name = "New Name" });
+				var response = await ctrl.Put(Guid.NewGuid(), new CategorySimpleDto { Name = "New Name" });
 				Assert.IsType<NoContentResult>(response);
 			}
 		}
@@ -123,7 +143,7 @@ namespace Yaba.Web.Test
 
 			using (var ctrl = new CategoriesController(mock.Object))
 			{
-				var response = await ctrl.Delete(Guid.Empty, guid);
+				var response = await ctrl.Delete(guid);
 				Assert.IsType<NoContentResult>(response);
 			}
 		}
@@ -138,7 +158,7 @@ namespace Yaba.Web.Test
 
 			using (var ctrl = new CategoriesController(mock.Object))
 			{
-				var response = await ctrl.Delete(Guid.Empty, guid);
+				var response = await ctrl.Delete(guid);
 				Assert.IsType<NotFoundResult>(response);
 			}
 		}
