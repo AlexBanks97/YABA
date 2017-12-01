@@ -28,9 +28,13 @@ namespace Yaba.Web.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+		[Route("{incomeId:Guid}")]
+		public async Task<IActionResult> GetById(Guid id)
         {
-            return "value";
+			var budgetIncome = await _repository.FindBudgetIncome(id);
+			if(budgetIncome == null) { return NotFound(); }
+
+			return Ok(budgetIncome);
         }
 
         // POST api/values
