@@ -24,7 +24,7 @@ namespace Yaba.Web.Test
 				new IncomeSimpleDto()
 			};
 
-			mock.Setup(f => f.FindAllBudgetIncomes());
+			mock.Setup(f => f.FindAllBudgetIncomes()).ReturnsAsync(incomes);
 
 			using (var controller = new IncomeController(mock.Object))
 			{
@@ -39,18 +39,14 @@ namespace Yaba.Web.Test
 			var mock = new Mock<IIncomeRepository>();
 
 			var guid = Guid.NewGuid();
+			var income = new IncomeSimpleDto();
 
-			var incomes = new List<IncomeSimpleDto>
-			{
-				new IncomeSimpleDto()
-			};
-
-			mock.Setup(m => m.FindBudgetIncome(guid));
+			mock.Setup(m => m.FindBudgetIncome(guid)).ReturnsAsync(income);
 
 			using (var controller = new IncomeController(mock.Object))
 			{
 				var response = await controller.Get(guid) as OkObjectResult;
-				Assert.Equal(incomes, response.Value);
+				Assert.Equal(income, response.Value);
 			}
 		}
 
@@ -61,7 +57,7 @@ namespace Yaba.Web.Test
 
 			var guid = Guid.NewGuid();
 			var dto = new IncomeSimpleDto { Name = "Paycheck " };
-			mock.Setup(m => m.FindBudgetIncome(guid));
+			mock.Setup(m => m.FindBudgetIncome(guid)).ReturnsAsync(dto);
 
 			using (var controller = new IncomeController(mock.Object))
 			{
@@ -73,7 +69,17 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Get_Given_Nonexisting_Id_Returns_Not_Found()
 		{
+			var mock = new Mock<IIncomeRepository>();
+			var guid = Guid.NewGuid();
 
+			mock.Setup(m => m.FindBudgetIncome(guid))
+				.ReturnsAsync(default(IncomeSimpleDto));
+
+			using (var controller = new IncomeController(mock.Object))
+			{
+				var response = await controller.Get(guid) as NotFoundObjectResult;
+				
+			}
 		}
 
 		[Fact]
