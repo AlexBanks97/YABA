@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Yaba.Common.Budget;
+using Yaba.Common.Budget.DTO.Income;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,20 +28,26 @@ namespace Yaba.Web.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet]
 		[Route("{incomeId:Guid}")]
-		public async Task<IActionResult> GetById(Guid id)
+		public async Task<IActionResult> Get(Guid incomeId)
         {
-			var budgetIncome = await _repository.FindBudgetIncome(id);
+			var budgetIncome = await _repository.FindBudgetIncome(incomeId);
 			if(budgetIncome == null) { return NotFound(); }
 
 			return Ok(budgetIncome);
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
+		// POST api/values
+		[HttpPost]
+		public async Task<IActionResult> Post([FromBody] IncomeCreateDto income)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			var guid = await _repository.CreateBudgetIncome(income);
+			return CreatedAtAction(nameof(Get), new { incomeId = guid }, null);
         }
 
         // PUT api/values/5
