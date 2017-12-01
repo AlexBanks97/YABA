@@ -55,6 +55,22 @@ namespace Yaba.Web.Test
 		}
 
 		[Fact]
+		public async void Get_Given_Exisiting_Id_With_Content_Returns_Ok()
+		{
+			var mock = new Mock<IIncomeRepository>();
+
+			var guid = Guid.NewGuid();
+			var dto = new IncomeSimpleDto { Name = "Paycheck " };
+			mock.Setup(m => m.FindBudgetIncome(guid));
+
+			using (var controller = new IncomeController(mock.Object))
+			{
+				var response = await controller.Get(guid) as OkObjectResult;
+				Assert.Equal(dto, response.Value);
+			}
+		}
+
+		[Fact]
 		public async void Post_Creates_New_DTO_Returns_Ok()
 		{
 
