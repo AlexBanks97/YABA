@@ -126,5 +126,22 @@ namespace Yaba.Entities.Test.Budget
 			}
 			
 		}
+
+		[Fact]
+		public async void Delete_Returns_True_On_Existing_Key()
+		{
+			var context = Util.GetNewContext(nameof(Delete_Returns_True_On_Existing_Key));
+			
+			var budgetIncomeToDelete = new IncomeEntity { Name = "Delete me", Amount = 0 };
+			context.BudgetIncomes.Add(budgetIncomeToDelete);
+			await context.SaveChangesAsync();
+
+			using (var repo = new EFIncomeRepository(context))
+			{
+				var deleted = await repo.DeleteBudgetIncome(budgetIncomeToDelete.Id);
+				Assert.True(deleted);
+			}
+		}
+
 	}
 }
