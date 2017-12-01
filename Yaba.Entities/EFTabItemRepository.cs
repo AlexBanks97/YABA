@@ -18,7 +18,13 @@ namespace Yaba.Entities
 		}
 		public async Task<Guid> Create(TabItemCreateDTO tabItemDTO)
 		{
-			var tabItem = new TabItem { Amount = tabItemDTO.Amount };
+			var tab = _context.Tabs.SingleOrDefault(t => t.Id == tabItemDTO.TabId);
+			if (tab == null) return Guid.Empty;
+			var tabItem = new TabItem
+			{
+				Tab = tab,
+				Amount = tabItemDTO.Amount,
+			};
 			_context.TabItems.Add(tabItem);
 			await _context.SaveChangesAsync();
 			return tabItem.Id;
