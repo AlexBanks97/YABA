@@ -4,9 +4,9 @@ sudo: required
 mono: none
 dotnet: 2.0.0
 install:
-  - npm install -g eclint@2.4.3
+# - npm install -g eclint@2.4.3
 script:
-  - eclint check **/*.cs
+# - eclint check **/*.cs
   - dotnet restore
   - dotnet test Yaba.Entities.Test
   - dotnet test Yaba.Web.Test
