@@ -196,5 +196,19 @@ namespace Yaba.Entities.Test
 				Assert.False(deleted);
 			}
 		}
+
+		[Fact]
+		public async void Create_Given_Valid_TabItem_Returns_Guid()
+		{
+			var context = Util.GetNewContext(nameof(Create_Given_Valid_TabItem_Returns_Guid));
+
+			using (var repo = new EFTabItemRepository(context))
+			{
+				var dto = new TabItemCreateDTO { Amount = 42 };
+				var guid = await repo.Create(dto);
+				var entity = context.TabItems.SingleOrDefault(t => t.Id == guid);
+				Assert.NotNull(entity);
+			}
+		}
 	}
 }
