@@ -196,5 +196,39 @@ namespace Yaba.Entities.Test
 				Assert.False(deleted);
 			}
 		}
+
+		[Fact]
+		public async void Create_Given_Valid_TabItem_Returns_Guid()
+		{
+			var context = Util.GetNewContext(nameof(Create_Given_Valid_TabItem_Returns_Guid));
+
+			var tab = new Tab();
+			context.Tabs.Add(tab);
+			await context.SaveChangesAsync();
+
+			using (var repo = new EFTabItemRepository(context))
+			{
+				var dto = new TabItemCreateDTO
+				{
+					Amount = 42,
+					TabId = tab.Id,
+				};
+				var guid = await repo.Create(dto);
+				var entity = context.TabItems.SingleOrDefault(t => t.Id == guid);
+				Assert.NotNull(entity);
+			}
+		}
+
+		[Fact]
+		public async void Create_Given_Invalid_TabItem_Returns_EmptyGuid()
+		{
+			var context = Util.GetNewContext(nameof(Create_Given_Valid_TabItem_Returns_Guid));
+			using (var repo = new EFTabItemRepository(context))
+			{
+				var dto = new TabItemCreateDTO();
+				var guid = await repo.Create(dto);
+				Assert.Equal(Guid.Empty, guid);
+			}
+		}
 	}
 }
