@@ -59,6 +59,15 @@ namespace Yaba.Entities
 			return true;
 		}
 
+		public async Task<bool> Delete(Guid id)
+		{
+			var entity = _context.TabItems.SingleOrDefault(t => t.Id == id);
+			if (entity == null) return false;
+			_context.TabItems.Remove(entity);
+			await _context.SaveChangesAsync();
+			return true;
+		}
+
 		#region IDisposable Support
 		private bool disposedValue = false; // To detect redundant calls
 
