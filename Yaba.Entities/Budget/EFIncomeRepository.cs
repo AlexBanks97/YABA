@@ -101,8 +101,6 @@ namespace Yaba.Entities.Budget
 			return true;
 		}
 
-
-
 		#region IDisposable Support
 		private bool disposedValue = false; // To detect redundant calls
 
