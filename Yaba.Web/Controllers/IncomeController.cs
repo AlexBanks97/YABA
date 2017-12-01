@@ -64,8 +64,14 @@ namespace Yaba.Web.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(Guid incomeId)
         {
+			var deleted = await _repository.DeleteBudgetIncome(incomeId);
+			if(!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			return NoContent();
         }
     }
 }
