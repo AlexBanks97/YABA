@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Yaba.Common
 {
-    public enum State
-    {
-        Archived,
-        Active
-    }
+	public enum State
+	{
+		Archived,
+		Active
+	}
 }
