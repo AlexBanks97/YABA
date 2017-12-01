@@ -90,10 +90,12 @@ namespace Yaba.Entities.Budget
 
 		public async Task<bool> DeleteBudgetIncome(Guid budgetIncome)
 		{
-			if (budgetIncome == null) { return false; }
+			var entity = await _context.BudgetIncomes
+				.SingleOrDefaultAsync(t => t.Id == budgetIncome);
 
-			var incomeToRemove = _context.BudgetIncomes.Find(budgetIncome);
-			var toRemove = _context.BudgetIncomes.Remove(incomeToRemove);
+			if (entity == null) { return false; }
+
+			var toRemove = _context.BudgetIncomes.Remove(entity);
 
 			if (toRemove == null) { return false; }
 
