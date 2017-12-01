@@ -11,7 +11,7 @@ namespace Yaba.Common
 		Task<Guid> Create(TabItemSimpleDTO tabItemDTO);
 		Task<TabItemSimpleDTO> Find(Guid id);
 		Task<IEnumerable<TabItemSimpleDTO>> FindFrom(TabDTO tab);
-		Task<bool> Update();
+		Task<bool> Update(TabItemSimpleDTO tabItemDTO);
 
 	}
 }

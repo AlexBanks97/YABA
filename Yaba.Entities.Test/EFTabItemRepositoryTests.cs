@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
+using Yaba.Common.DTO.TabDTOs;
 using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities.Test
@@ -124,7 +125,47 @@ namespace Yaba.Entities.Test
 				Assert.Equal(42, tabItem.Amount);
 				Assert.Equal("Pizza last week", tabItem.Description);
 				Assert.Equal("Food", tabItem.Category.Name);
+			}
+		}
 
+		[Fact]
+		public async void Update_Given_Tab_Returns_True()
+		{
+			var context = Util.GetNewContext(nameof(Update_Given_Tab_Returns_True));
+
+			var tabItem = new TabItem { Amount = 100 };
+
+			context.TabItems.Add(tabItem);
+			await context.SaveChangesAsync();
+
+			using (var repo = new EFTabItemRepository(context))
+			{
+				var dto = new TabItemSimpleDTO
+				{
+					Id = tabItem.Id,
+					Amount = 200,
+				};
+
+				var updated = await repo.Update(dto);
+				Assert.True(updated);
+				Assert.Equal(200, tabItem.Amount);
+			}
+		}
+
+		[Fact]
+		public async void Update_Given_Non_Existing_Tab_Returns_False()
+		{
+			var context = Util.GetNewContext(nameof(Update_Given_Tab_Returns_True));
+			using (var repo = new EFTabItemRepository(context))
+			{
+				var dto = new TabItemSimpleDTO
+				{
+					Id = Guid.NewGuid(),
+					Amount = 200,
+				};
+
+				var updated = await repo.Update(dto);
+				Assert.False(updated);
 			}
 		}
 	}
