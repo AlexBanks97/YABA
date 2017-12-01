@@ -88,7 +88,20 @@ namespace Yaba.Entities.Budget
 			return true;
 		}
 
+		public async Task<bool> DeleteBudgetIncome(Guid budgetIncome)
+		{
+			var entity = await _context.BudgetIncomes
+				.SingleOrDefaultAsync(t => t.Id == budgetIncome);
 
+			if (entity == null) { return false; }
+
+			var toRemove = _context.BudgetIncomes.Remove(entity);
+
+			if (toRemove == null) { return false; }
+
+			await _context.SaveChangesAsync();
+			return true;
+		}
 
 		#region IDisposable Support
 		private bool disposedValue = false; // To detect redundant calls

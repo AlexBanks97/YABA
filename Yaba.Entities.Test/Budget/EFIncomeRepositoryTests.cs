@@ -5,6 +5,8 @@ using Yaba.Common;
 using Yaba.Common.Budget.DTO;
 using Yaba.Common.Budget.DTO.Income;
 using Yaba.Entities.Budget;
+using System;
+using System.Linq;
 
 namespace Yaba.Entities.Test.Budget
 {
@@ -111,5 +113,35 @@ namespace Yaba.Entities.Test.Budget
 				Assert.Equal(Recurrence.Monthly, budgetIncome.Recurrence);
 			}
 		}
+
+		[Fact]
+		public async void Delete_Returns_False_On_NonExisting_Key()
+		{
+			var context = Util.GetNewContext(nameof(Delete_Returns_False_On_NonExisting_Key));
+
+			using (var repo = new EFIncomeRepository(context))
+			{
+				var deleted = await repo.DeleteBudgetIncome(Guid.NewGuid());
+				Assert.False(deleted);
+			}
+			
+		}
+
+		[Fact]
+		public async void Delete_Returns_True_On_Existing_Key()
+		{
+			var context = Util.GetNewContext(nameof(Delete_Returns_True_On_Existing_Key));
+			
+			var budgetIncomeToDelete = new IncomeEntity { Name = "Delete me", Amount = 0 };
+			context.BudgetIncomes.Add(budgetIncomeToDelete);
+			await context.SaveChangesAsync();
+
+			using (var repo = new EFIncomeRepository(context))
+			{
+				var deleted = await repo.DeleteBudgetIncome(budgetIncomeToDelete.Id);
+				Assert.True(deleted);
+			}
+		}
+
 	}
 }

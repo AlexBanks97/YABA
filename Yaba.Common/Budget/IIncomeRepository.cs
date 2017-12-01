@@ -16,6 +16,8 @@ namespace Yaba.Common.Budget
 
 		Task<Guid> CreateBudgetIncome(IncomeCreateDto income);
 
+		Task<bool> DeleteBudgetIncome(Guid budgetIncome);
+
 		Task<bool> UpdateBudgetIncome(IncomeUpdateDto income);
 	}
 }
