@@ -39,7 +39,7 @@ namespace Yaba.Web.Controllers
 		{
 			if (!ModelState.IsValid) return BadRequest(ModelState); // returns 404
 			var guid = await _repository.CreateTab(tab);
-			return CreatedAtAction(nameof(Get), new {guid}, null);
+			return CreatedAtAction(nameof(Get), new {id = guid}, null);
 		}
 
 		[HttpPut]
