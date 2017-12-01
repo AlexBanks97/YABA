@@ -1,10 +1,38 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using Xunit;
+using Yaba.Common.Budget;
+using Yaba.Common.Budget.DTO.Income;
+using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test
 {
     class IncomeControllerTests
     {
+		[Fact]
+		public async void GetAll_Given_No_Params_Returns_All()
+		{
+			var mock = new Mock<IIncomeRepository>();
+
+			var incomes = new List<IncomeSimpleDto>
+			{
+				new IncomeSimpleDto(),
+				new IncomeSimpleDto(),
+				new IncomeSimpleDto()
+			};
+
+			mock.Setup(f => f.FindAllBudgetIncomes());
+
+			using (var controller = new IncomeController(mock.Object))
+			{
+				var response = await controller.Get() as OkObjectResult;
+				Assert.Equal(incomes, response.Value);
+			}
+		}
+
+		
     }
 }
