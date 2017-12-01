@@ -182,6 +182,7 @@ namespace Yaba.Entities.Test
 			{
 				var deleted = await repo.Delete(tabItem.Id);
 				Assert.True(deleted);
+				Assert.Null(context.TabItems.SingleOrDefault(t => t.Id == tabItem.Id));
 			}
 		}
 
