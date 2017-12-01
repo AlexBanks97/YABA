@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -16,22 +17,41 @@ namespace Yaba.Web.Test
 		// [HttpGet]
 		// public async Task<ICollection<CategorySimpleDto>> Get(Guid budgetId)
 		[Fact]
-		public async void Get_given_no_params_returns_all_categories()
+		public async void GetAll_given_no_params_returns_all_categories()
 		{
 			var mock = new Mock<ICategoryRepository>();
-			var guid = Guid.NewGuid();
+			var categories = new List<CategorySimpleDto>
+			{
+				new CategorySimpleDto(),
+				new CategorySimpleDto(),
+				new CategorySimpleDto(),
+			};
 			mock.Setup(r => r.Find())
-				.ReturnsAsync(new[]
-				{
-					new CategorySimpleDto(),
-					new CategorySimpleDto(),
-					new CategorySimpleDto(),
-				});
+				.ReturnsAsync(categories);
 
 			using (var controller = new CategoriesController(mock.Object))
 			{
-				var cats = await controller.Get();
-				Assert.Equal(3, cats.Count);
+				var response = await controller.GetAll() as OkObjectResult;
+				Assert.Equal(categories, response.Value);
+			}
+		}
+
+		[Fact]
+		public async void GetAll_given_budgetId_returns_Ok_with_budget_categories()
+		{
+			var mock = new Mock<ICategoryRepository>();
+			var guid = Guid.NewGuid();
+			var categories = new List<CategorySimpleDto>
+			{
+				new CategorySimpleDto(),
+			};
+			mock.Setup(r => r.FindFromBudget(guid))
+				.ReturnsAsync(categories);
+
+			using (var ctrl = new CategoriesController(mock.Object))
+			{
+				var response = await ctrl.GetAll(guid) as OkObjectResult;
+				Assert.Equal(categories, response.Value);
 			}
 		}
 

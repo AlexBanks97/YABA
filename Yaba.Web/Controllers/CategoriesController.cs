@@ -20,9 +20,16 @@ namespace Yaba.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ICollection<CategorySimpleDto>> Get()
+		public async Task<IActionResult> GetAll([FromQuery] Guid? budgetId = null)
 		{
-			return await _repository.Find();
+			if (budgetId.HasValue)
+			{
+				return Ok(await _repository.FindFromBudget(budgetId.Value));
+			}
+			else
+			{
+				return Ok(await _repository.Find());
+			}
 		}
 
 		[HttpGet("{categoryId}")]
