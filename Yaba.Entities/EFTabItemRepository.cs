@@ -16,9 +16,18 @@ namespace Yaba.Entities
 		{
 			_context = context;
 		}
-		public Task<Guid> Create(TabItemSimpleDTO tabItemDTO)
+		public async Task<Guid> Create(TabItemCreateDTO tabItemDTO)
 		{
-			throw new NotImplementedException();
+			var tab = _context.Tabs.SingleOrDefault(t => t.Id == tabItemDTO.TabId);
+			if (tab == null) return Guid.Empty;
+			var tabItem = new TabItem
+			{
+				Tab = tab,
+				Amount = tabItemDTO.Amount,
+			};
+			_context.TabItems.Add(tabItem);
+			await _context.SaveChangesAsync();
+			return tabItem.Id;
 		}
 
 		public async Task<TabItemSimpleDTO> Find(Guid id)
