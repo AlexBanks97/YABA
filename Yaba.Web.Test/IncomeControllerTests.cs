@@ -33,6 +33,10 @@ namespace Yaba.Web.Test
 			}
 		}
 
-		
+		[Fact]
+		public async void GetById_Given_Id_Returns_Income_With_Id()
+		{
+
+		}
     }
 }
