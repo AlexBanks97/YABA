@@ -1,5 +1,7 @@
 # 💸 &nbsp;&nbsp; Y A B A &nbsp;&nbsp; [![Build Status](https://travis-ci.com/praffn/YABA.svg?token=ygVuHxbjsy4ghqmgtPST&branch=develop)](https://travis-ci.com/praffn/YABA)
 
+<center><h1>🎉&nbsp;&nbsp;200 Commits Celebration&nbsp;&nbsp;🎈</h1></center>
+
 ## Database migrations
 To run migrations make sure you are scoped to the `Yaba.Entities`.
 
