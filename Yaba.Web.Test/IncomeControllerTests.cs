@@ -106,6 +106,18 @@ namespace Yaba.Web.Test
 				var response = await controller.Post(new IncomeCreateDto());
 				Assert.IsType<BadRequestResult>(response);
 			}
-		} 
+		}
+
+		[Fact]
+		public async void Put_Given_Income_Returns_No_Content()
+		{
+
+		}
+
+		[Fact]
+		public async void Put_Given_Bad_Model_State_Returns_Bad_Request()
+		{
+
+		}
     }
 }
