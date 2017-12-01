@@ -184,5 +184,16 @@ namespace Yaba.Entities.Test
 				Assert.True(deleted);
 			}
 		}
+
+		[Fact]
+		public async void Delete_Given_Non_Existing_TabItem_Returns_False()
+		{
+			var context = Util.GetNewContext(nameof(Delete_Given_Non_Existing_TabItem_Returns_False));
+			using (var repo = new EFTabItemRepository(context))
+			{
+				var deleted = await repo.Delete(Guid.NewGuid());
+				Assert.False(deleted);
+			}
+		}
 	}
 }
