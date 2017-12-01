@@ -46,11 +46,15 @@ namespace Yaba.Entities
 		public async Task<bool> Update(TabItemSimpleDTO tabItemDTO)
 		{
 			var entity = _context.TabItems.SingleOrDefault(t => t.Id == tabItemDTO.Id);
+			
 			if (entity == null) return false;
+			
 			entity.Amount = tabItemDTO.Amount;
 			entity.Description = tabItemDTO.Description ?? entity.Description;
 			entity.Category = tabItemDTO.Category != null ? new TabCategory { Name = tabItemDTO.Category.Name } : null; // WARNING: This needs to be remade.
+			
 			_context.TabItems.Update(entity);
+			
 			await _context.SaveChangesAsync();
 			return true;
 		}
