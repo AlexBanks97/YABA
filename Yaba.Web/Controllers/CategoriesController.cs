@@ -9,7 +9,7 @@ using Yaba.Common.Budget.DTO.Category;
 
 namespace Yaba.Web.Controllers
 {
-	[Route("api/budgets/{budgetId}/[controller]")]
+	[Route("api/budgets/categories")]
 	public class CategoriesController : Controller
 	{
 		private readonly ICategoryRepository _repository;
@@ -20,13 +20,20 @@ namespace Yaba.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ICollection<CategorySimpleDto>> Get(Guid budgetId)
+		public async Task<IActionResult> GetAll([FromQuery] Guid? budgetId = null)
 		{
-			return await _repository.FindFromBudget(budgetId);
+			if (budgetId.HasValue)
+			{
+				return Ok(await _repository.FindFromBudget(budgetId.Value));
+			}
+			else
+			{
+				return Ok(await _repository.Find());
+			}
 		}
 
 		[HttpGet("{categoryId}")]
-		public async Task<IActionResult> Get(Guid budgetId, Guid categoryId)
+		public async Task<IActionResult> Get(Guid categoryId)
 		{
 			var category = await _repository.Find(categoryId);
 			if (category == null)
@@ -37,18 +44,18 @@ namespace Yaba.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Post(Guid budgetId, [FromBody] CategoryCreateDto category)
+		public async Task<IActionResult> Post([FromBody] CategoryCreateDto category)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 			var guid = await _repository.Create(category);
-			return CreatedAtAction(nameof(Get), new {guid}, null);
+			return CreatedAtAction(nameof(Get), new { categoryId = guid}, null);
 		}
 
 		[HttpPut("{categoryId}")]
-		public async Task<IActionResult> Put(Guid budgetId, Guid categoryId, [FromBody] CategorySimpleDto category)
+		public async Task<IActionResult> Put(Guid categoryId, [FromBody] CategorySimpleDto category)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -63,7 +70,7 @@ namespace Yaba.Web.Controllers
 		}
 
 		[HttpDelete("{categoryId}")]
-		public async Task<IActionResult> Delete(Guid budgetId, Guid categoryId)
+		public async Task<IActionResult> Delete(Guid categoryId)
 		{
 			var deleted = await _repository.Delete(categoryId);
 			if (!deleted)

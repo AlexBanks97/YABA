@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Moq;
 using Xunit;
 using Yaba.Common.Budget.DTO;
@@ -129,6 +130,33 @@ namespace Yaba.Entities.Test.Budget
 				};
 				var updated = await repo.Update(dto);
 				Assert.False(updated);
+			}
+		}
+
+		[Fact]
+		public async void Delete_given_nonexisting_id_returns_false()
+		{
+			var context = Util.GetNewContext(nameof(Delete_given_nonexisting_id_returns_false));
+			using (var repo = new EFBudgetRepository(context))
+			{
+				var deleted = await repo.Delete(Guid.NewGuid());
+				Assert.False(deleted);
+			}
+		}
+
+		[Fact]
+		public async void Delete_given_existing_id_deletes_and_returns_true()
+		{
+			var ctx = Util.GetNewContext(nameof(Delete_given_existing_id_deletes_and_returns_true));
+			var budget = new BudgetEntity {Name = "Delete"};
+			ctx.Budgets.Add(budget);
+			ctx.SaveChanges();
+
+			using (var repo = new EFBudgetRepository(ctx))
+			{
+				var deleted = await repo.Delete(budget.Id);
+				Assert.True(deleted);
+				Assert.Null(ctx.Budgets.SingleOrDefault(b => b.Id == budget.Id));
 			}
 		}
 	}

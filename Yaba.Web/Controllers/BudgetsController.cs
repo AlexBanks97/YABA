@@ -69,7 +69,12 @@ namespace Yaba.Web.Controllers
 		[HttpDelete("{budgetId:Guid}")]
 		public async Task<IActionResult> Delete(Guid budgetId)
 		{
-			throw new NotImplementedException();
+			var deleted = await _repository.Delete(budgetId);
+			if (!deleted)
+			{
+				return NotFound();
+			}
+			return NoContent();
 		}
 
 	}

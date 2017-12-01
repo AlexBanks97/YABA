@@ -80,6 +80,19 @@ namespace Yaba.Entities.Budget
 			return true;
 		}
 
+		public async Task<bool> Delete(Guid budgetId)
+		{
+			var entity = await _context.Budgets
+				.SingleOrDefaultAsync(b => b.Id == budgetId);
+			if (entity == null)
+			{
+				return false;
+			}
+			_context.Budgets.Remove(entity);
+			await _context.SaveChangesAsync();
+			return true;
+		}
+
 		public void Dispose()
 		{
 			_context?.Dispose();
