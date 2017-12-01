@@ -60,13 +60,14 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void post_given_valid_model_returns_Created_status_code()
 		{
-			var entry = new EntryCreateDto();
+			var guid = Guid.NewGuid();
 			var mock = new Mock<IEntryRepository>();
-			mock.Setup(m => m.CreateBudgetEntry(It.IsAny<EntryCreateDto>())).ReturnsAsync(new Guid());
+			mock.Setup(m => m.CreateBudgetEntry(It.IsAny<EntryCreateDto>())).ReturnsAsync(guid);
 
 			using(var ctrl = new BudgetEntryController(mock.Object))
 			{
-				var result = await ctrl.Post(entry) as CreatedAtActionResult;
+				var result = await ctrl.Post(new EntryCreateDto()) as CreatedAtActionResult;
+				Assert.Equal(guid, result.RouteValues.Values.First());
 				Assert.IsType<Guid>(result.RouteValues.Values.First());
 			}
 		}
