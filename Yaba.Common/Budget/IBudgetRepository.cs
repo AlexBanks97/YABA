@@ -11,6 +11,6 @@ namespace Yaba.Common.Budget
 		Task<ICollection<BudgetSimpleDto>> All();
 		Task<Guid> Create(BudgetCreateUpdateDto budget);
 		Task<bool> Update(BudgetCreateUpdateDto budget);
-
+		Task<bool> Delete(Guid budgetId);
 	}
 }
