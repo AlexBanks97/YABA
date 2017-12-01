@@ -123,9 +123,18 @@ namespace Yaba.Web.Test
 		}
 
 		[Fact]
-		public async void Put_Given_Bad_Model_State_Returns_Bad_Request()
+		public async void Delete_Given_Id_Returns_NoContent()
 		{
+			var mock = new Mock<IIncomeRepository>();
+			var guid = Guid.NewGuid();
+			mock.Setup(m => m.DeleteBudgetIncome(guid))
+				.ReturnsAsync(true);
 
+			using (var controller = new IncomeController(mock.Object))
+			{
+				var response = await controller.Delete(guid);
+				Assert.IsType<NoContentResult>(response);
+			}
 		}
     }
 }
