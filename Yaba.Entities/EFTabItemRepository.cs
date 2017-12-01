@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common;
 using Yaba.Common.DTO.TabDTOs;
+using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities
 {
@@ -42,9 +43,16 @@ namespace Yaba.Entities
 			return tabItems;
 		}
 
-		public Task<bool> Update()
+		public async Task<bool> Update(TabItemSimpleDTO tabItemDTO)
 		{
-			throw new NotImplementedException();
+			var entity = _context.TabItems.SingleOrDefault(t => t.Id == tabItemDTO.Id);
+			if (entity == null) return false;
+			entity.Amount = tabItemDTO.Amount;
+			entity.Description = tabItemDTO.Description ?? entity.Description;
+			entity.Category = tabItemDTO.Category != null ? new TabCategory { Name = tabItemDTO.Category.Name } : null; // WARNING: This needs to be remade.
+			_context.TabItems.Update(entity);
+			await _context.SaveChangesAsync();
+			return true;
 		}
 
 		#region IDisposable Support
