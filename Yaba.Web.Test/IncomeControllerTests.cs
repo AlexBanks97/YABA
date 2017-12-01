@@ -36,7 +36,22 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void GetById_Given_Id_Returns_Income_With_Id()
 		{
+			var mock = new Mock<IIncomeRepository>();
 
+			var guid = Guid.NewGuid();
+
+			var incomes = new List<IncomeSimpleDto>
+			{
+				new IncomeSimpleDto()
+			};
+
+			mock.Setup(m => m.FindBudgetIncome(guid));
+
+			using (var controller = new IncomeController(mock.Object))
+			{
+				var response = await controller.GetById(guid) as OkObjectResult;
+				Assert.Equal(incomes, response.Value);
+			}
 		}
     }
 }
