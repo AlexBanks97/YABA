@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Yaba.Web.Test
 {
-    class BudgetEntryControllerTests
+    public class BudgetEntryControllerTests
     {
 		[Fact]
 		public async void get_Given_No_Id_returns_OK_plus_List_of_entries()
@@ -52,7 +52,7 @@ namespace Yaba.Web.Test
 
 			using(var ctrl = new BudgetEntryController(mock.Object))
 			{
-				var result = await ctrl.Get(new Guid()) as OkObjectResult;
+				var result = await ctrl.Get(new Guid());
 				Assert.IsType<NotFoundResult>(result);
 			}
 		}
@@ -67,7 +67,7 @@ namespace Yaba.Web.Test
 			using(var ctrl = new BudgetEntryController(mock.Object))
 			{
 				var result = await ctrl.Post(entry) as CreatedAtActionResult;
-				Assert.IsType<Guid>(result.Value);
+				Assert.IsType<Guid>(result.RouteValues.Values.First());
 			}
 		}
 
