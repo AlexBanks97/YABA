@@ -53,5 +53,11 @@ namespace Yaba.Web.Test
 				Assert.Equal(incomes, response.Value);
 			}
 		}
+
+		[Fact]
+		public async void Post_Creates_New_DTO_Returns_Ok()
+		{
+
+		}
     }
 }
