@@ -71,6 +71,12 @@ namespace Yaba.Web.Test
 		}
 
 		[Fact]
+		public async void Get_Given_Nonexisting_Id_Returns_Not_Found()
+		{
+
+		}
+
+		[Fact]
 		public async void Post_Creates_New_DTO_Returns_Ok()
 		{
 
