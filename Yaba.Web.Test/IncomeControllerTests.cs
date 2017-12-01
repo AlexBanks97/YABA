@@ -10,7 +10,7 @@ using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test
 {
-    class IncomeControllerTests
+    public class IncomeControllerTests
     {
 		[Fact]
 		public async void GetAll_Given_No_Params_Returns_All()
@@ -72,20 +72,40 @@ namespace Yaba.Web.Test
 			var mock = new Mock<IIncomeRepository>();
 			var guid = Guid.NewGuid();
 
-			mock.Setup(m => m.FindBudgetIncome(guid))
+			mock.Setup(m => m.FindBudgetIncome(It.IsAny<Guid>()))
 				.ReturnsAsync(default(IncomeSimpleDto));
 
 			using (var controller = new IncomeController(mock.Object))
 			{
-				var response = await controller.Get(guid) as NotFoundObjectResult;
-				
+				var response = await controller.Get(guid);
+				Assert.IsType<NotFoundResult>(response);
 			}
 		}
 
 		[Fact]
-		public async void Post_Creates_New_DTO_Returns_Ok()
+		public async void Post_Creates_New_DTO_With_Content_Returns_Created_At_Action()
 		{
+			var mock = new Mock<IIncomeRepository>();
 
+			mock.Setup(m => m.CreateBudgetIncome(It.IsAny<IncomeCreateDto>()))
+				.ReturnsAsync(Guid.NewGuid);
+
+			using (var controller = new IncomeController(mock.Object))
+			{
+				var response = await controller.Post(new IncomeCreateDto { Name = "Paycheck" });
+				Assert.IsType<CreatedAtActionResult>(response);
+			}
 		}
+
+		[Fact(Skip = "Fix this")]
+		public async void Post_Given_Bad_Model_State_Returns_Bad_Request()
+		{
+			var mock = new Mock<IIncomeRepository>();
+			using (var controller = new IncomeController(mock.Object))
+			{
+				var response = await controller.Post(new IncomeCreateDto());
+				Assert.IsType<BadRequestResult>(response);
+			}
+		} 
     }
 }
