@@ -111,7 +111,15 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Put_Given_Income_Returns_No_Content()
 		{
+			var mock = new Mock<IIncomeRepository>();
+			mock.Setup(m => m.UpdateBudgetIncome(It.IsAny<IncomeUpdateDto>()))
+				.ReturnsAsync(true);
 
+			using (var controller = new IncomeController(mock.Object))
+			{
+				var response = await controller.Put(Guid.NewGuid(), new IncomeUpdateDto { Name = "New Year, new me" });
+				Assert.IsType<NoContentResult>(response);
+			}
 		}
 
 		[Fact]
