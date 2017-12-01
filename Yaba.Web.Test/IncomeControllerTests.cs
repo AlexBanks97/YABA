@@ -34,7 +34,7 @@ namespace Yaba.Web.Test
 		}
 
 		[Fact]
-		public async void GetById_Given_Id_Returns_Income_With_Id()
+		public async void Get_Given_Id_Returns_Income_With_Id()
 		{
 			var mock = new Mock<IIncomeRepository>();
 
@@ -49,7 +49,7 @@ namespace Yaba.Web.Test
 
 			using (var controller = new IncomeController(mock.Object))
 			{
-				var response = await controller.GetById(guid) as OkObjectResult;
+				var response = await controller.Get(guid) as OkObjectResult;
 				Assert.Equal(incomes, response.Value);
 			}
 		}
