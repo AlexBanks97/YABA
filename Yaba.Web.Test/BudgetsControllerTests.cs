@@ -65,5 +65,34 @@ namespace Yaba.Web.Test
 				Assert.IsType<NotFoundResult>(response);
 			}
 		}
+
+		[Fact(DisplayName = "Delete given nonexisting guid returns NotFound")]
+		public async void Delete_given_nonexisting_guid_returns_NotFound()
+		{
+			var guid = Guid.NewGuid();
+			var mock = new Mock<IBudgetRepository>();
+			mock.Setup(m => m.Delete(guid))
+				.ReturnsAsync(false);
+
+			using (var ctrl = new BudgetsController(mock.Object))
+			{
+				var response = await ctrl.Delete(guid);
+				Assert.IsType<NotFoundResult>(response);
+			}
+		}
+
+		[Fact(DisplayName = "Delete given existing guid returns NoContent")]
+		public async void Delete_given_existing_guid_returns_NoContent()
+		{
+			var mock = new Mock<IBudgetRepository>();
+			mock.Setup(m => m.Delete(It.IsAny<Guid>()))
+				.ReturnsAsync(true);
+
+			using (var ctrl = new BudgetsController(mock.Object))
+			{
+				var response = await ctrl.Delete(Guid.NewGuid());
+				Assert.IsType<NoContentResult>(response);
+			}
+		}
 	}
 }
