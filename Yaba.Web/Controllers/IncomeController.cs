@@ -51,9 +51,15 @@ namespace Yaba.Web.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut("{incomeId:Guid}")]
+        public async Task<IActionResult> Put(Guid incomeId, [FromBody]IncomeUpdateDto income)
         {
+			if(!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			var update = await _repository.UpdateBudgetIncome(income);
+			return NoContent(); 
         }
 
         // DELETE api/values/5
