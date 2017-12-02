@@ -39,6 +39,7 @@ namespace Yaba.Web
 
 			services.AddScoped<IYabaDBContext, YabaDBContext>();
 			services.AddScoped<IBudgetRepository, EFBudgetRepository>();
+			services.AddScoped<IEntryRepository, EFEntryRepository>();
 			services.AddScoped<ICategoryRepository, EFCategoryRepository>();
 
 			services.AddSwaggerGen(c =>
