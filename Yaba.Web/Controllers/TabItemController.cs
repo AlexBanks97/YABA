@@ -24,6 +24,10 @@ namespace Yaba.Web.Controllers
 		public async Task<IActionResult> Get(Guid tabItemId)
         {
 			var tabItem = await _repository.Find(tabItemId);
+			if (tabItem == null)
+			{
+				return NotFound();
+			}
 			return Ok(tabItemId);
         }
 
