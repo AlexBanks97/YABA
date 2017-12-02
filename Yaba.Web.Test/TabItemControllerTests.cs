@@ -156,6 +156,19 @@ namespace Yaba.Web.Test
 			}
 		}
 
+		[Fact]
+		public async void Delete_given_nonexisting_id_returns_NotFound()
+		{
+			var mock = new Mock<ITabItemRepository>();
+			var guid = Guid.NewGuid();
+			mock.Setup(r => r.Delete(guid))
+				.ReturnsAsync(false);
 
+			using (var controller = new TabItemController(mock.Object))
+			{
+				var response = await controller.Delete(guid);
+				Assert.IsType<NotFoundResult>(response);
+			}
+		}
 	}
 }
