@@ -68,5 +68,22 @@ namespace Yaba.Entities.Test
 				Assert.Null(dto);
 			}
 		}
+
+		[Fact]
+		public async void FindFromTabItem_Given_Valid_Tab_Id_With_Invalid_TabItemCategory_Returns_null()
+		{
+			var context = Util.GetNewContext(nameof(FindFromTabItem_Given_Valid_Tab_Id_Returns_dto));
+
+			var tabItem = new TabItem();
+
+			context.TabItems.Add(tabItem);
+			await context.SaveChangesAsync();
+
+			using (var repo = new EFTabItemCategoryRepository(context))
+			{
+				var dto = await repo.FindFromTabItemId(tabItem.Id);
+				Assert.Null(dto);
+			}
+		}
 	}
 }

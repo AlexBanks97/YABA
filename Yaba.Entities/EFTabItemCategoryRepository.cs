@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common.DTO.TabDTOs;
@@ -29,12 +30,24 @@ namespace Yaba.Entities
 
 		public async Task<TabItemCategorySimpleDTO> Find(Guid id)
 		{
-			throw new NotImplementedException();
+			var entity = _context.TabItemCategories.SingleOrDefault(c => c.Id == id);
+			if (entity == null) return null;
+			return new TabItemCategorySimpleDTO
+			{
+				Id = entity.Id,
+				Name = entity.Name,
+			};
 		}
 
 		public async Task<TabItemCategorySimpleDTO> FindFromTabItemId(Guid tabItemID)
 		{
-			throw new NotImplementedException();
+			var tabEntity = _context.TabItems.SingleOrDefault(t => t.Id == tabItemID);
+			if (tabEntity == null || tabEntity.Category == null) return null;
+			return new TabItemCategorySimpleDTO
+			{
+				Id = tabEntity.Category.Id,
+				Name = tabEntity.Category.Name,
+			};
 		}
 
 		public async Task<bool> Update(TabItemCategorySimpleDTO category)

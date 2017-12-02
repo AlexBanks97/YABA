@@ -32,7 +32,7 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Find_Given_Existing_Id_With_Category_Returns_TabItem_With_Category));
 
-			var tabitem = new TabItem { Category = new TabCategory { Name = "Food" } };
+			var tabitem = new TabItem { Category = new TabItemCategory { Name = "Food" } };
 
 			context.TabItems.Add(tabitem);
 			await context.SaveChangesAsync();
@@ -109,7 +109,7 @@ namespace Yaba.Entities.Test
 			{
 				Amount = 42,
 				Description = "Pizza last week",
-				Category = new TabCategory { Name = "Food" }
+				Category = new TabItemCategory { Name = "Food" }
 			});
 
 			var tab = new Tab { TabItems = tabItems };
