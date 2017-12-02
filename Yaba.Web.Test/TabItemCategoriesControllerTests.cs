@@ -111,13 +111,40 @@ namespace Yaba.Web.Test
 		}
 
 		[Fact]
-		public async void Put_Given_Non_Existing_TabITemCategory_Returns_BadRequest()
+		public async void Put_Given_Non_Existing_TabItemCategory_Returns_BadRequest()
 		{
 			var mock = new Mock<ITabItemCategoryRepository>();
 
 			using (var ctrl = new TabItemCategoriesController(mock.Object))
 			{
 				var result = await ctrl.Put(new TabItemCategoryDTO());
+				Assert.IsType<BadRequestResult>(result);
+			}
+		}
+
+		[Fact]
+		public async void Delete_Given_Existing_TabItemCategory_Returns_NoContent()
+		{
+			var mock = new Mock<ITabItemCategoryRepository>();
+			var dto = new TabItemCategoryDTO() { Id = Guid.NewGuid() };
+			mock.Setup(c => c.Delete(dto))
+				.ReturnsAsync(true);
+
+			using (var ctrl = new TabItemCategoriesController(mock.Object))
+			{
+				var result = await ctrl.Delete(dto.Id);
+				Assert.IsType<NoContentResult>(result);
+			}
+		}
+
+		[Fact]
+		public async void Delete_Given_Non_Existing_TabItemCategory_Returns_BadRequest()
+		{
+			var mock = new Mock<ITabItemCategoryRepository>();
+
+			using (var ctrl = new TabItemCategoriesController(mock.Object))
+			{
+				var result = await ctrl.Delete(Guid.NewGuid());
 				Assert.IsType<BadRequestResult>(result);
 			}
 		}
