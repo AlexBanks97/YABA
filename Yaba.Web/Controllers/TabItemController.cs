@@ -3,19 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Yaba.Common;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Yaba.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/tabitems")]
     public class TabItemController : Controller
     {
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+		private readonly ITabItemRepository _repository;
+
+		public TabItemController(ITabItemRepository repository)
+		{
+			_repository = repository;
+		}
+		// GET: api/values
+		[HttpGet]
+		[Route("{tabItemId:Guid}")]
+		public async Task<IActionResult> Get(Guid tabItemId)
         {
-            return new string[] { "value1", "value2" };
+			var tabItem = await _repository.Find(tabItemId);
+			return Ok(tabItemId);
         }
 
         // GET api/values/5
