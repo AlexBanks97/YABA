@@ -8,11 +8,11 @@ namespace Yaba.Common.Budget
 {
 	public interface IIncomeRepository : IDisposable
 	{
-		Task<IncomeDto> FindBudgetIncome(Guid budgetIncomeId);
+		Task<IncomeSimpleDto> FindBudgetIncome(Guid budgetIncomeId);
 
 		Task<ICollection<IncomeSimpleDto>> FindAllBudgetIncomesFromSpecificBudget(BudgetDto BudgetId);
 
-		Task<ICollection<IncomeDto>> FindAllBudgetIncomes();
+		Task<ICollection<IncomeSimpleDto>> FindAllBudgetIncomes();
 
 		Task<Guid> CreateBudgetIncome(IncomeCreateDto income);
 

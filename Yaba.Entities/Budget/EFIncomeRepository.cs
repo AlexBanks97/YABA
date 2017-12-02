@@ -39,9 +39,9 @@ namespace Yaba.Entities.Budget
 			return newBudgetIncome.Id;
 		}
 
-		public async Task<ICollection<IncomeDto>> FindAllBudgetIncomes()
+		public async Task<ICollection<IncomeSimpleDto>> FindAllBudgetIncomes()
 		{
-			return _context.BudgetIncomes.Select(bi => new IncomeDto
+			return _context.BudgetIncomes.Select(bi => new IncomeSimpleDto
 			{
 				Id = bi.Id,
 				Name = bi.Name,
@@ -50,13 +50,13 @@ namespace Yaba.Entities.Budget
 			}).ToList();
 		}
 
-		public async Task<IncomeDto> FindBudgetIncome(Guid budgetIncomeId)
+		public async Task<IncomeSimpleDto> FindBudgetIncome(Guid budgetIncomeId)
 		{
 
-			var budgetIncome = _context.BudgetIncomes.FirstOrDefault(bi => bi.Id == budgetIncomeId);
+			var budgetIncome = await _context.BudgetIncomes.SingleOrDefaultAsync(bi => bi.Id == budgetIncomeId);
 			if (budgetIncome == null) { return null; }
 
-			return new IncomeDto
+			return new IncomeSimpleDto
 			{
 				Id = budgetIncome.Id,
 				Name = budgetIncome.Name,
