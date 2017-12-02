@@ -13,7 +13,7 @@ namespace Yaba.Entities.TabEntitites
 			{
 				Amount = tabItem.Amount,
 				Description = tabItem.Description,
-				Category = tabItem.Category != null ? new TabCategoryDTO { Name = tabItem.Category.Name } : null
+				Category = tabItem.Category != null ? new TabItemCategoryDTO { Name = tabItem.Category.Name } : null
 			};
 		}
 
