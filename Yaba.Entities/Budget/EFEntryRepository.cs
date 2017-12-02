@@ -17,7 +17,7 @@ namespace Yaba.Entities.Budget
 		}
 		public async Task<Guid> CreateBudgetEntry(EntryCreateDto entry)
 		{
-			var budgetCategory = await _context.BudgetCategories.FindAsync(entry.Category.Id);
+			var budgetCategory = _context.BudgetCategories.SingleOrDefault(e => e.Id == entry.Category.Id);
 			var budgetEntry = new EntryEntity
 			{
 				Amount = entry.Amount,
