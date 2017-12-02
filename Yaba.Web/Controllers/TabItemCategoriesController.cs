@@ -24,7 +24,7 @@ namespace Yaba.Web.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return BadRequest();
+				return BadRequest(ModelState);
 			}
 			var tabCategory = await _repository.Find(tabCategoryId);
 			if (tabCategory == null) return NotFound();
@@ -36,7 +36,7 @@ namespace Yaba.Web.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return BadRequest();
+				return BadRequest(ModelState);
 			}
 			var tabCategory = await _repository.FindFromTabItemId(tab.Id);
 			if (tabCategory == null) return NotFound();
@@ -48,7 +48,7 @@ namespace Yaba.Web.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return BadRequest();
+				return BadRequest(ModelState);
 			}
 			var guid = await _repository.Create(category);
 			if (guid == Guid.Empty) return BadRequest();
@@ -57,7 +57,13 @@ namespace Yaba.Web.Controllers
 
 		public async Task<IActionResult> Put(TabItemCategoryDTO category)
 		{
-			throw new NotImplementedException();
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			var updated = await _repository.Update(category);
+			if (!updated) return BadRequest();
+			return NoContent();
 		}
 
 		public async Task<IActionResult> Delete(Guid id)
