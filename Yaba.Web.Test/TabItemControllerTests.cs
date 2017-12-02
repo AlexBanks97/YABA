@@ -105,7 +105,15 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Post_given_tab_returns_createdataction()
 		{
+			var mock = new Mock<ITabItemRepository>();
+			mock.Setup(m => m.Create(It.IsAny<TabItemCreateDTO>()))
+				.ReturnsAsync(Guid.NewGuid());
 
+			using (var controller = new TabItemController(mock.Object))
+			{
+				var response = await controller.Post(new TabItemCreateDTO { Amount = 120 });
+				Assert.IsType<CreatedAtActionResult>(response);
+			}
 		}
     }
 }
