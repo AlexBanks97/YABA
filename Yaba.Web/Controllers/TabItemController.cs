@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Yaba.Common;
+using Yaba.Common.DTO.TabDTOs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,10 +33,16 @@ namespace Yaba.Web.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+        [HttpGet]
+		[Route("{tabId:Guid}")]
+		public async Task<IActionResult> Get(TabDTO tabId)
+		{
+			var tabItem = await _repository.FindFrom(tabId);
+			if(tabItem == null)
+			{
+				return NotFound();
+			}
+			return Ok();
         }
 
         // POST api/values
