@@ -67,9 +67,9 @@ namespace Yaba.Web.Controllers
         public async Task<IActionResult> Delete(Guid incomeId)
         {
 			var deleted = await _repository.DeleteBudgetIncome(incomeId);
-			if(!ModelState.IsValid)
+			if(!deleted)
 			{
-				return BadRequest(ModelState);
+				return NotFound();
 			}
 			return NoContent();
         }

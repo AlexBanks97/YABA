@@ -138,17 +138,17 @@ namespace Yaba.Web.Test
 		}
 
 		[Fact]
-		public async void Delete_Given_Nonexisting_Id_Returns_BadRequest()
+		public async void Delete_Given_Nonexisting_Id_Returns_NotFound()
 		{
 			var mock = new Mock<IIncomeRepository>();
-			var guid = Guid.Empty;
+			var guid = Guid.NewGuid();
 
 			mock.Setup(m => m.DeleteBudgetIncome(guid)).ReturnsAsync(false);
 
 			using (var controller = new IncomeController(mock.Object))
 			{
 				var response = await controller.Delete(guid);
-				Assert.IsType<BadRequestResult>(response);
+				Assert.IsType<NotFoundResult>(response);
 			}
 		}
     }
