@@ -43,9 +43,16 @@ namespace Yaba.Web.Controllers
 			return Ok(tabCategory);
 		}
 
-		public async Task<IActionResult> Post(TabItemCategoryCreateDTO category)
+		[HttpPost]
+		public async Task<IActionResult> Post([FromBody] TabItemCategoryCreateDTO category)
 		{
-			throw new NotImplementedException();
+			if (!ModelState.IsValid)
+			{
+				return BadRequest();
+			}
+			var guid = await _repository.Create(category);
+			if (guid == Guid.Empty) return BadRequest();
+			return CreatedAtAction(nameof(Get), new { tabCategoryId = guid }, null);
 		}
 
 		public async Task<IActionResult> Put(TabItemCategoryDTO category)
