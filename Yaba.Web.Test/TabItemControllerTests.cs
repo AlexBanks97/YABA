@@ -130,7 +130,15 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Put_given_tabItem_returns_nocontent()
 		{
+			var mock = new Mock<ITabItemRepository>();
+			mock.Setup(m => m.Update(It.IsAny<TabItemSimpleDTO>()))
+				.ReturnsAsync(true);
 
+			using (var controller = new TabItemController(mock.Object))
+			{
+				var response = await controller.Put(Guid.NewGuid(), new TabItemSimpleDTO { Description = "Who can relate, whoa!" });
+				Assert.IsType<NoContentResult>(response);
+			}
 		}
 
 		[Fact]
