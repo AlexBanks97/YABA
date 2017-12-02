@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Yaba.Common.DTO.TabDTOs;
 using Yaba.Common.Tab;
 using Yaba.Common.Tab.TabItemDTOs;
-using Yaba.Common.Tab.TabItemDTOs.Category;
+using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities
 {
@@ -20,39 +20,52 @@ namespace Yaba.Entities
 
 		public async Task<Guid> Create(TabItemCategoryCreateDTO category)
 		{
-			throw new NotImplementedException();
+			var entity = new TabItemCategory { Name = category.Name };
+			_context.TabItemCategories.Add(entity);
+			await _context.SaveChangesAsync();
+			return entity.Id;
 		}
 
-		public async Task<bool> Delete(TabItemCategorySimpleDTO category)
+		public async Task<bool> Delete(TabItemCategoryDTO category)
 		{
-			throw new NotImplementedException();
+			var entity = _context.TabItemCategories.SingleOrDefault(c => c.Id == category.Id);
+			if (entity == null) return false;
+			_context.TabItemCategories.Remove(entity);
+			await _context.SaveChangesAsync();
+			return true;
 		}
 
-		public async Task<TabItemCategorySimpleDTO> Find(Guid id)
+		public async Task<TabItemCategoryDTO> Find(Guid id)
 		{
 			var entity = _context.TabItemCategories.SingleOrDefault(c => c.Id == id);
 			if (entity == null) return null;
-			return new TabItemCategorySimpleDTO
+			return new TabItemCategoryDTO
 			{
 				Id = entity.Id,
 				Name = entity.Name,
 			};
 		}
 
-		public async Task<TabItemCategorySimpleDTO> FindFromTabItemId(Guid tabItemID)
+		public async Task<TabItemCategoryDTO> FindFromTabItemId(Guid tabItemID)
 		{
 			var tabEntity = _context.TabItems.SingleOrDefault(t => t.Id == tabItemID);
 			if (tabEntity == null || tabEntity.Category == null) return null;
-			return new TabItemCategorySimpleDTO
+			return new TabItemCategoryDTO
 			{
 				Id = tabEntity.Category.Id,
 				Name = tabEntity.Category.Name,
 			};
 		}
 
-		public async Task<bool> Update(TabItemCategorySimpleDTO category)
+		public async Task<bool> Update(TabItemCategoryDTO category)
 		{
-			throw new NotImplementedException();
+			var entity = _context.TabItemCategories.SingleOrDefault(c => c.Id == category.Id);
+			if (entity == null) return false;
+
+			entity.Name = category.Name;
+			_context.TabItemCategories.Update(entity);
+			await _context.SaveChangesAsync();
+			return true;
 		}
 
 		#region IDisposable Support
