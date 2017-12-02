@@ -141,6 +141,21 @@ namespace Yaba.Web.Test
 			}
 		}
 
-		
-    }
+		[Fact]
+		public async void Delete_given_existing_id_returns_NoContent()
+		{
+			var mock = new Mock<ITabItemRepository>();
+			var guid = Guid.NewGuid();
+			mock.Setup(m => m.Delete(guid))
+				.ReturnsAsync(true);
+
+			using (var controller = new TabItemController(mock.Object))
+			{
+				var response = await controller.Delete(guid);
+				Assert.IsType<NoContentResult>(response);
+			}
+		}
+
+
+	}
 }
