@@ -6,8 +6,6 @@
 
 <center><h1>🎉&nbsp;&nbsp;200 Commits Celebration&nbsp;&nbsp;🎈</h1></center>
 
-
-
 ## Database migrations
 To run migrations make sure you are scoped to the `Yaba.Entities`.
 
