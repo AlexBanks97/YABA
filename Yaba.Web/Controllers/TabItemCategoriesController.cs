@@ -68,7 +68,13 @@ namespace Yaba.Web.Controllers
 
 		public async Task<IActionResult> Delete(Guid id)
 		{
-			throw new NotImplementedException();
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			var deleted = await _repository.Delete(id);
+			if (!deleted) return BadRequest();
+			return NoContent();
 		}
 
 	}

@@ -126,13 +126,13 @@ namespace Yaba.Web.Test
 		public async void Delete_Given_Existing_TabItemCategory_Returns_NoContent()
 		{
 			var mock = new Mock<ITabItemCategoryRepository>();
-			var dto = new TabItemCategoryDTO() { Id = Guid.NewGuid() };
-			mock.Setup(c => c.Delete(dto))
+			var guid = Guid.NewGuid();
+			mock.Setup(c => c.Delete(guid))
 				.ReturnsAsync(true);
 
 			using (var ctrl = new TabItemCategoriesController(mock.Object))
 			{
-				var result = await ctrl.Delete(dto.Id);
+				var result = await ctrl.Delete(guid);
 				Assert.IsType<NoContentResult>(result);
 			}
 		}
