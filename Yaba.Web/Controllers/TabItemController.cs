@@ -34,7 +34,7 @@ namespace Yaba.Web.Controllers
 
         // GET api/values/5
         [HttpGet]
-		[Route("{tabId:Guid}")]
+		[Route("{tab:TabDTO}")]
 		public async Task<IActionResult> Get(TabDTO tab)
 		{
 			var tabItem = await _repository.FindFrom(tab);
@@ -57,10 +57,17 @@ namespace Yaba.Web.Controllers
 			return CreatedAtAction(nameof(Get), new { tab = tabDto}, null);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+		// PUT api/values/5
+		[HttpPut("{tabItem:Guid}")]
+		public async Task<IActionResult> Put(Guid tabItemId, [FromBody]TabItemSimpleDTO tabItem)
         {
+			if(!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			var itemToUpdate = await _repository.Update(tabItem);
+			return NoContent();
         }
 
         // DELETE api/values/5
