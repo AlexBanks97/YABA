@@ -26,9 +26,9 @@ namespace Yaba.Entities
 			return entity.Id;
 		}
 
-		public async Task<bool> Delete(TabItemCategoryDTO category)
+		public async Task<bool> Delete(Guid categoryId)
 		{
-			var entity = _context.TabItemCategories.SingleOrDefault(c => c.Id == category.Id);
+			var entity = _context.TabItemCategories.SingleOrDefault(c => c.Id == categoryId);
 			if (entity == null) return false;
 			_context.TabItemCategories.Remove(entity);
 			await _context.SaveChangesAsync();

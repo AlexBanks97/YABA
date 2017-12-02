@@ -158,7 +158,7 @@ namespace Yaba.Entities.Test
 					Id = entity.Id,
 					Name = entity.Name,
 				};
-				var deleted = await repo.Delete(dto);
+				var deleted = await repo.Delete(dto.Id);
 				entity = context.TabItemCategories.SingleOrDefault(c => c.Id == dto.Id); // Attempt to retrieve entity again
 				Assert.True(deleted);
 				Assert.Null(entity);
@@ -173,7 +173,7 @@ namespace Yaba.Entities.Test
 			using (var repo = new EFTabItemCategoryRepository(context))
 			{
 				var dto = new TabItemCategoryDTO { Id = Guid.NewGuid() };
-				var deleted = await repo.Delete(dto);
+				var deleted = await repo.Delete(dto.Id);
 				Assert.False(deleted);
 			}
 		}
