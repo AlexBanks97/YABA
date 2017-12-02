@@ -116,6 +116,17 @@ namespace Yaba.Web.Test
 			}
 		}
 
+		[Fact(Skip = "Fix this!")]
+		public async void Post_given_malformed_tabItem_returns_BadRequest()
+		{
+			var mock = new Mock<ITabItemRepository>();
+			using (var controller = new TabItemController(mock.Object))
+			{
+				var response = await controller.Post(new TabItemCreateDTO());
+				Assert.IsType<BadRequestResult>(response);
+			}
+		}
+
 		[Fact]
 		public async void Put_given_tabItem_returns_nocontent()
 		{
