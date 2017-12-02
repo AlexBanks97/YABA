@@ -57,7 +57,7 @@ namespace Yaba.Web.Controllers
 		}
 
 		[HttpPut("{categoryId:Guid}")]
-		public async Task<IActionResult> Put(Guid categoryId, [FromBody]TabItemCategoryDTO category)
+		public async Task<IActionResult> Put([FromBody]TabItemCategoryDTO category)
 		{
 			if (!ModelState.IsValid)
 			{
