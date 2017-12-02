@@ -72,8 +72,14 @@ namespace Yaba.Web.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(Guid tabItemId)
         {
+			var deleted = await _repository.Delete(tabItemId);
+			if(!deleted)
+			{
+				return NotFound();
+			}
+			return NoContent();
         }
     }
 }
