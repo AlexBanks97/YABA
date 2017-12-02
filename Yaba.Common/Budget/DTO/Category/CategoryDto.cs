@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Yaba.Common.Budget.DTO.Entry;
+using Yaba.Common.Budget.DTO.Goal;
 
 namespace Yaba.Common.Budget.DTO.Category
 {

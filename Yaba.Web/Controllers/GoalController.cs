@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Yaba.Common.Budget;
+using Yaba.Common.Budget.DTO.Goal;
 
 namespace Yaba.Web.Controllers
 {
@@ -22,37 +23,52 @@ namespace Yaba.Web.Controllers
 
 		// GET: api/Goal
 		[HttpGet]
-        public Task<IActionResult> Get()
+        public async Task<IActionResult> Get()
         {
-			throw new NotImplementedException();
+			
+			var goals = await repository.Find();
+			return Ok(goals);
         }
 
         // GET: api/Goal/5
         [HttpGet("{id}")]
-        public Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
-			throw new NotImplementedException();
+			var goal = await repository.Find(id);
+			if (goal == null) return NotFound();
+			return Ok(goal);
 		}
         
         // POST: api/Goal
         [HttpPost]
-        public Task<IActionResult> Post([FromBody]string value)
+        public async Task<IActionResult> Post([FromBody]GoalCreateDto goal)
         {
-			throw new NotImplementedException();
+			if (!ModelState.IsValid) return BadRequest(ModelState);
+
+			var id = await repository.CreateGoal(goal);
+			return Ok(id);
 		}
         
         // PUT: api/Goal/5
         [HttpPut("{id}")]
-        public Task<IActionResult> Put(int id, [FromBody]string value)
+        public async Task<IActionResult> Put([FromBody] GoalDto goal)
         {
-			throw new NotImplementedException();
+			if (!ModelState.IsValid) return BadRequest(ModelState);
+
+			var updated = await repository.UpdateGoal(goal);
+
+			if (!updated) return NotFound();
+			return NoContent();
 		}
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-			throw new NotImplementedException();
+			var deleted = await repository.DeleteGoal(id);
+
+			if (!deleted) return NotFound();
+			return NoContent();
 		}
     }
 }
