@@ -94,5 +94,32 @@ namespace Yaba.Web.Test
 				Assert.IsType<BadRequestResult>(result);
 			}
 		}
+
+		[Fact]
+		public async void Put_Given_Existing_TabITemCategory_Returns_NoContent()
+		{
+			var mock = new Mock<ITabItemCategoryRepository>();
+			var dto = new TabItemCategoryDTO();
+			mock.Setup(c => c.Update(dto))
+				.ReturnsAsync(true);
+
+			using (var ctrl = new TabItemCategoriesController(mock.Object))
+			{
+				var result = await ctrl.Put(dto);
+				Assert.IsType<NoContentResult>(result);
+			}
+		}
+
+		[Fact]
+		public async void Put_Given_Non_Existing_TabITemCategory_Returns_BadRequest()
+		{
+			var mock = new Mock<ITabItemCategoryRepository>();
+
+			using (var ctrl = new TabItemCategoriesController(mock.Object))
+			{
+				var result = await ctrl.Put(new TabItemCategoryDTO());
+				Assert.IsType<BadRequestResult>(result);
+			}
+		}
 	}
 }
