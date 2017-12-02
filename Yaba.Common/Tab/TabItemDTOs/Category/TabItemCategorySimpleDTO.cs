@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Yaba.Entities.TabEntitites
+namespace Yaba.Common.Tab.TabItemDTOs.Category
 {
-	public class TabCategory
-	{
+    public class TabItemCategorySimpleDTO
+    {
 		public Guid Id { get; set; }
 		public string Name { get; set; }
-
 	}
 }
