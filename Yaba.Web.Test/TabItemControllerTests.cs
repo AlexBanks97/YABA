@@ -84,5 +84,11 @@ namespace Yaba.Web.Test
 				Assert.IsType<OkResult>(response);
 			}
 		}
+
+		[Fact]
+		public async void Post_given_tab_returns_createdataction()
+		{
+
+		}
     }
 }

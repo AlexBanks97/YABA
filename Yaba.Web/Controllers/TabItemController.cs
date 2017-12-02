@@ -47,13 +47,13 @@ namespace Yaba.Web.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]TabItemCreateDTO tabitem)
+        public async Task<IActionResult> Post([FromBody]TabItemCreateDTO tabItem)
         {
 			if(!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
-			var tabDto = await _repository.Create(tabitem);
+			var tabDto = await _repository.Create(tabItem);
 			return CreatedAtAction(nameof(Get), new { tab = tabDto}, null);
         }
 
