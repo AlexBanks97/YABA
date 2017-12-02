@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -67,8 +68,8 @@ namespace Yaba.Web.Test
 
 			using(var ctrl = new GoalController(mock.Object))
 			{
-				var result = await ctrl.Post(new GoalCreateDto()) as OkObjectResult;
-				Assert.IsType<Guid>(result.Value);
+				var result = await ctrl.Post(new GoalCreateDto()) as CreatedAtActionResult;
+				Assert.IsType<Guid>(result.RouteValues.Values.First());
 			}
 		}
 
