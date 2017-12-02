@@ -81,7 +81,7 @@ namespace Yaba.Entities.Budget
 
 		public async Task<Guid> CreateGoal(GoalCreateDto goal)
 		{
-			var cat = _context.BudgetCategories.Find(goal.CategoryEntity.Id);
+			var cat = _context.BudgetCategories.SingleOrDefault(c => c.Id == goal.CategoryEntity.Id);
 			var goalEntity = new GoalEntity
 			{
 				Amount = goal.Amount,
@@ -95,19 +95,18 @@ namespace Yaba.Entities.Budget
 
 		public async Task<bool> UpdateGoal(GoalDto goalUpdate)
 		{
-			var goal = _context.BudgetGoals.Find(goalUpdate.Id);
+			var goal = _context.BudgetGoals.SingleOrDefault(g => g.Id == goalUpdate.Id);
 			if (goal == null) return false;
 
 			goal.Amount = (goal.Amount == goalUpdate.Amount) ? goal.Amount : goalUpdate.Amount;
 			goal.Recurrence = (goal.Recurrence == goalUpdate.Recurrence) ? goal.Recurrence : goalUpdate.Recurrence;
 			await _context.SaveChangesAsync();
 			return true;
-			
 		}
 
 		public async Task<bool> DeleteGoal(Guid Id)
 		{
-			var goal = _context.BudgetGoals.Find(Id);
+			var goal = _context.BudgetGoals.SingleOrDefault(g => g.Id == Id);
 			if (goal == null) return false;
 			_context.BudgetGoals.Remove(goal);
 			await _context.SaveChangesAsync();
