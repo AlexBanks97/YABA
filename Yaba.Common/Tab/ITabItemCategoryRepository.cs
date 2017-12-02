@@ -13,6 +13,6 @@ namespace Yaba.Common.Tab
 		Task<TabItemCategoryDTO> FindFromTabItemId(Guid tabItemID);
 		Task<Guid> Create(TabItemCategoryCreateDTO category);
 		Task<bool> Update(TabItemCategoryDTO category);
-		Task<bool> Delete(TabItemCategoryDTO category);
+		Task<bool> Delete(Guid categoryId);
 	}
 }
