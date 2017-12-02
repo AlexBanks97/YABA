@@ -141,10 +141,6 @@ namespace Yaba.Web.Test
 			}
 		}
 
-		[Fact]
-		public async void Put_given_no_tabItem_returns_badrequest()
-		{
-
-		}
+		
     }
 }
