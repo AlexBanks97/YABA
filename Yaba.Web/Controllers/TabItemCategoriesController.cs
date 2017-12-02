@@ -32,6 +32,7 @@ namespace Yaba.Web.Controllers
 
 		}
 
+		[HttpGet]
 		public async Task<IActionResult> Get(TabItemSimpleDTO tab)
 		{
 			if (!ModelState.IsValid)
@@ -55,7 +56,8 @@ namespace Yaba.Web.Controllers
 			return CreatedAtAction(nameof(Get), new { tabCategoryId = guid }, null);
 		}
 
-		public async Task<IActionResult> Put(TabItemCategoryDTO category)
+		[HttpPut("{categoryId:Guid}")]
+		public async Task<IActionResult> Put(Guid categoryId, [FromBody]TabItemCategoryDTO category)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -66,16 +68,16 @@ namespace Yaba.Web.Controllers
 			return NoContent();
 		}
 
-		public async Task<IActionResult> Delete(Guid id)
+		[HttpDelete("{categoryId:Guid}")]
+		public async Task<IActionResult> Delete(Guid categoryId)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
-			var deleted = await _repository.Delete(id);
+			var deleted = await _repository.Delete(categoryId);
 			if (!deleted) return BadRequest();
 			return NoContent();
 		}
-
 	}
 }
