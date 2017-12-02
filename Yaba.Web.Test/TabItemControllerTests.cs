@@ -63,6 +63,26 @@ namespace Yaba.Web.Test
 		}
 
 		[Fact]
-		public async void 
+		public async void GetTabItem_from_tab_returns_ok()
+		{
+			var mock = new Mock<ITabItemRepository>();
+			var guid = Guid.NewGuid();
+			var tabItems = new List<TabItemSimpleDTO>
+			{
+				new TabItemSimpleDTO(),
+				new TabItemSimpleDTO(),
+			};
+
+			var tab = new TabDTO { Id = guid, TabItems = tabItems };
+
+			mock.Setup(m => m.FindFrom(tab))
+				.ReturnsAsync(tabItems);
+
+			using (var controller = new TabItemController(mock.Object))
+			{
+				var response = await controller.Get(tab);
+				Assert.IsType<OkResult>(response);
+			}
+		}
     }
 }
