@@ -22,8 +22,8 @@ namespace Yaba.Web.Test
 
 			using (var ctrl = new TabItemCategoriesController(mock.Object))
 			{
-				var result = ctrl.Get(guid);
-				Assert.IsType<OkResult>(result);
+				var result = await ctrl.Get(guid);
+				Assert.IsType<OkObjectResult>(result);
 			}
 		}
 
@@ -33,7 +33,7 @@ namespace Yaba.Web.Test
 			var mock = new Mock<ITabItemCategoryRepository>();
 			using (var ctrl = new TabItemCategoriesController(mock.Object))
 			{
-				var result = ctrl.Get(Guid.NewGuid());
+				var result = await ctrl.Get(Guid.NewGuid());
 				Assert.IsType<NotFoundResult>(result);
 			}
 		}
