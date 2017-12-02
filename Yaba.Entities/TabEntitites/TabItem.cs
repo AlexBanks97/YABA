@@ -7,7 +7,7 @@ namespace Yaba.Entities.TabEntitites
 		public decimal Amount { get; set; }
 		public string Description { get; set; }
 		public Tab Tab { get; set; }
-		public TabCategory Category { get; set; }
+		public TabItemCategory Category { get; set; }
 		// Add prop for user whom created tab item
 	}
 }

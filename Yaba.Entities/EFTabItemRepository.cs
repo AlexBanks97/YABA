@@ -60,7 +60,7 @@ namespace Yaba.Entities
 			
 			entity.Amount = tabItemDTO.Amount;
 			entity.Description = tabItemDTO.Description ?? entity.Description;
-			entity.Category = tabItemDTO.Category != null ? new TabCategory { Name = tabItemDTO.Category.Name } : null; // WARNING: This needs to be remade.
+			entity.Category = tabItemDTO.Category != null ? new TabItemCategory { Name = tabItemDTO.Category.Name } : null; // WARNING: This needs to be remade.
 			
 			_context.TabItems.Update(entity);
 			

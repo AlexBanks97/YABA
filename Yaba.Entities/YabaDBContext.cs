@@ -21,7 +21,7 @@ namespace Yaba.Entities
 		// Tab-related entities
 		public DbSet<Tab> Tabs { get; set; }
 		public DbSet<TabItem> TabItems { get; set; }
-		public DbSet<TabCategory> TabCategories { get; set; }
+		public DbSet<TabItemCategory> TabItemCategories { get; set; }
 
 		public YabaDBContext() {}
 
