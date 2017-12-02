@@ -34,7 +34,13 @@ namespace Yaba.Web.Controllers
 
 		public async Task<IActionResult> Get(TabItemSimpleDTO tab)
 		{
-			throw new NotImplementedException();
+			if (!ModelState.IsValid)
+			{
+				return BadRequest();
+			}
+			var tabCategory = await _repository.FindFromTabItemId(tab.Id);
+			if (tabCategory == null) return NotFound();
+			return Ok(tabCategory);
 		}
 
 		public async Task<IActionResult> Post(TabItemCategoryCreateDTO category)
