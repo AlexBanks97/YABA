@@ -27,20 +27,24 @@ namespace Yaba.Web.Test
 				var response = await controller.Get(guid) as OkObjectResult;
 				Assert.IsType<OkObjectResult>(response);
 			}
+		}
 
-				//var tabItem = new TabItemSimpleDTO { Description = "Pizza", Amount = 300, };
-				//var guid = Guid.NewGuid();
+		[Fact]
+		public async void GetTabItem_given_TabItem_with_id_returns_id()
+		{
+			var mock = new Mock<ITabItemRepository>();
 
-				//var mock = new Mock<ITabItemRepository>();
-				//mock.Setup(m => m.Find(guid))
-				//	.ReturnsAsync(tabItem);
+			var guid = Guid.NewGuid();
+			var tabItem = new TabItemSimpleDTO { Id = guid, Description = "pizza", Amount = 120 };
 
-				//using (var controller = new TabItemController(mock.Object))
-				//{
-				//	var actual = await controller.Get(guid) as OkObjectResult;
-				//	Assert.Equal(tabItem, actual.Value);
-				//}
+			mock.Setup(m => m.Find(guid)).ReturnsAsync(tabItem);
+
+			using (var controller = new TabItemController(mock.Object))
+			{
+				var response = await controller.Get(guid) as OkObjectResult;
+				Assert.Equal(tabItem.Id, response.Value);
 			}
+		}
 
 		[Fact]
 		public async void GetTabItem_given_nonexisting_id_returns_notfound()
