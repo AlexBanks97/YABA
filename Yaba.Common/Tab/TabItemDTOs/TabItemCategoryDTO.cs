@@ -1,6 +1,6 @@
 ﻿namespace Yaba.Common.DTO.TabDTOs
 {
-	public class TabCategoryDTO
+	public class TabItemCategoryDTO
 	{
 		public string Name { get; set; }
 	}

@@ -37,7 +37,7 @@ namespace Yaba.Entities
 			return new TabItemSimpleDTO
 			{
 				Amount = entity.Amount,
-				Category = entity.Category != null ? new TabCategoryDTO { Name = entity.Category.Name } : null,
+				Category = entity.Category != null ? new TabItemCategoryDTO { Name = entity.Category.Name } : null,
 				Description = entity.Description
 			};
 		}
