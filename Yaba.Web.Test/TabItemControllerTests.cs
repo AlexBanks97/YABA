@@ -115,5 +115,13 @@ namespace Yaba.Web.Test
 				Assert.IsType<CreatedAtActionResult>(response);
 			}
 		}
+
+		[Fact]
+		public async void Put_given_tabItem_returns_nocontent()
+		{
+
+		}
+
+
     }
 }
