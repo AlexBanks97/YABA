@@ -10,8 +10,8 @@ using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test
 {
-    public class TabItemCategoriesControllerTests
-    {
+	public class TabItemCategoriesControllerTests
+	{
 		[Fact]
 		public async void Get_Given_Existing_Id_Returns_Ok()
 		{
@@ -34,6 +34,32 @@ namespace Yaba.Web.Test
 			using (var ctrl = new TabItemCategoriesController(mock.Object))
 			{
 				var result = await ctrl.Get(Guid.NewGuid());
+				Assert.IsType<NotFoundResult>(result);
+			}
+		}
+
+		[Fact]
+		public async void Get_Given_Valid_TabItemCategoryDTO_Returns_Ok()
+		{
+			var mock = new Mock<ITabItemCategoryRepository>();
+			var tabItem = new TabItemSimpleDTO() { Id = Guid.NewGuid() };
+			mock.Setup(c => c.FindFromTabItemId(tabItem.Id))
+				.ReturnsAsync(new TabItemCategoryDTO());
+
+			using (var ctrl = new TabItemCategoriesController(mock.Object))
+			{
+				var result = await ctrl.Get(tabItem);
+				Assert.IsType<OkObjectResult>(result);
+			}
+		}
+
+		[Fact]
+		public async void Get_Given_Invalid_TabItemCategoryDTO_Returns_NotFound()
+		{
+			var mock = new Mock<ITabItemCategoryRepository>();
+			using (var ctrl = new TabItemCategoriesController(mock.Object))
+			{
+				var result = await ctrl.Get(new TabItemSimpleDTO());
 				Assert.IsType<NotFoundResult>(result);
 			}
 		}
