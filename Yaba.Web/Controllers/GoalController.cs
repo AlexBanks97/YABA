@@ -46,11 +46,11 @@ namespace Yaba.Web.Controllers
 			if (!ModelState.IsValid) return BadRequest(ModelState);
 
 			var id = await repository.CreateGoal(goal);
-			return Ok(id);
+			return CreatedAtAction(nameof(Get), new { id = id }, null);
 		}
         
         // PUT: api/Goal/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> Put([FromBody] GoalDto goal)
         {
 			if (!ModelState.IsValid) return BadRequest(ModelState);
