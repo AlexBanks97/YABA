@@ -24,7 +24,7 @@ namespace Yaba.Web
 				try
 				{
 					var context = services.GetRequiredService<IYabaDBContext>();
-					DbInitializer.Initialize(context);
+					using (context)  DbInitializer.Initialize(context);
 				}
 				catch
 				{
