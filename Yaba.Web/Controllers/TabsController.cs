@@ -8,6 +8,7 @@ using Yaba.Common.DTO.TabDTOs;
 
 namespace Yaba.Web.Controllers
 {
+	[Route("api/tabs")]
 	public class TabsController : Controller
 	{
 		private readonly ITabRepository _repository;
@@ -28,7 +29,7 @@ namespace Yaba.Web.Controllers
 
 		// GET api/budgets/{guid}
 		[HttpGet]
-		//[Route("tabId:Guid")]
+		[Route("tabId:Guid")]
 		public async Task<IActionResult> Get(Guid id)
 		{
 			var tab = await _repository.FindTab(id);
