@@ -54,6 +54,7 @@ namespace Yaba.Web.Controllers
 			return NotFound();
 		}
 
+		[HttpDelete]
 		public async Task<IActionResult> Delete(Guid id)
 		{
 			if (!ModelState.IsValid) return BadRequest(ModelState);

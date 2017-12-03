@@ -50,7 +50,71 @@ namespace Yaba.Entities
 			};
 			context.BudgetEntries.AddRange(entries);
 
+			var tabs = new[]
+			{
+				new TabEntitites.Tab()
+				{
+
+				},
+				new TabEntitites.Tab()
+				{
+
+				}
+
+			};
+
+			context.Tabs.AddRange(tabs);
+
+			var TabItemCategories = new[]
+			{
+				new TabEntitites.TabItemCategory
+				{
+					Name = "Food"
+				},
+				new TabEntitites.TabItemCategory
+				{
+					Name = "Transportaion"
+				},
+				new TabEntitites.TabItemCategory
+				{
+					Name = "Nightout"
+				}
+			};
+
+			context.TabItemCategories.AddRange(TabItemCategories);
+
+			var tabItems = new[]
+			{
+				new TabEntitites.TabItem()
+				{
+					Amount = 200,
+					Description = "For food and drinks",
+					Tab = tabs[0],
+					Category = TabItemCategories[2]
+				},
+
+				new TabEntitites.TabItem()
+				{
+					Amount = 100,
+					Description = "Entrance",
+					Tab = tabs[1],
+					Category = TabItemCategories[2]
+				},
+
+				new TabEntitites.TabItem()
+				{
+					Amount = 500,
+					Description = "Grocieries",
+					Tab = tabs[1],
+					Category = TabItemCategories[0]
+				}
+
+			};
+
+			context.TabItems.AddRange(tabItems);
+
 			context.SaveChangesAsync().Wait();
 		}
+
 	}
 }
