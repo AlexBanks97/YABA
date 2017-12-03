@@ -34,8 +34,7 @@ namespace Yaba.Web.Controllers
 
         // GET api/values/5
         [HttpGet]
-		[Route("{tab:TabDTO}")]
-		public async Task<IActionResult> Get(TabDTO tab)
+		public async Task<IActionResult> Get([FromBody]TabDTO tab)
 		{
 			var tabItem = await _repository.FindFrom(tab);
 			if(tabItem == null)
