@@ -57,32 +57,6 @@ namespace Yaba.Entities.Budget
 				}
 			}).ToList();
 
-			/*
-			var allEntries = _context.BudgetEntries;
-
-			var result = new List<EntryDto>();
-
-			if (allEntries == null) return result;
-
-			foreach (EntryEntity entry in allEntries)
-			{
-				var BudgetCategoryDTO = new CategoryDto
-				{
-					Id = entry.CategoryEntity.Id,
-					Name = entry.CategoryEntity.Name
-				};
-
-				result.Add(new EntryDto
-				{
-					Id = entry.Id,
-					Amount = entry.Amount,
-					Date = entry.Date,
-					Category = BudgetCategoryDTO,
-					Description = entry.Description
-				});
-			}
-			return result;
-			*/
 		}
 
 		public async Task<EntryDetailsDto> Find(Guid BudgetEntryId)
@@ -102,27 +76,6 @@ namespace Yaba.Entities.Budget
 
 			}).Where(b => b.Id == BudgetEntryId).FirstOrDefault();
 
-
-			/*
-			var entry = _context.BudgetEntries.FirstOrDefault(e => e.Id == BudgetEntryId);
-			if (entry == null)
-			{
-				return null;
-			}
-			var categoryDTO = new CategorySimpleDto
-			{
-				//Id = entry.CategoryEntity.Id,
-				Name = entry.CategoryEntity.Name
-			};
-			return new EntryDetailsDto
-			{
-				Id = entry.Id,
-				Amount = entry.Amount,
-				Description = entry.Description,
-				BudgetCategory = categoryDTO,
-				Date = entry.Date
-			};
-			*/
 		}
 
 		public async Task<ICollection<EntryDto>> FindFromBudgetCategory(Guid BudgetCategoryId)
