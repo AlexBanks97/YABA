@@ -81,7 +81,7 @@ namespace Yaba.Web.Test
 			using (var controller = new TabItemController(mock.Object))
 			{
 				var response = await controller.Get(tab);
-				Assert.IsType<OkResult>(response);
+				Assert.IsType<OkObjectResult>(response);
 			}
 		}
 
