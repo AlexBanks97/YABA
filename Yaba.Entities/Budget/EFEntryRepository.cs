@@ -44,49 +44,38 @@ namespace Yaba.Entities.Budget
 
 		public async Task<ICollection<EntryDto>> Find()
 		{
-			var allEntries = _context.BudgetEntries;
-
-			var result = new List<EntryDto>();
-
-			foreach (EntryEntity entry in allEntries)
+			return _context.BudgetEntries.Select(b => new EntryDto
 			{
-				var BudgetCategoryDTO = new CategoryDto
+				Id = b.Id,
+				Amount = b.Amount,
+				Description = b.Description,
+				Date = b.Date,
+				Category = new CategoryDto
 				{
-					Id = entry.CategoryEntity.Id,
-					Name = entry.CategoryEntity.Name
-				};
-				result.Add(new EntryDto
-				{
-					Id = entry.Id,
-					Amount = entry.Amount,
-					Date = entry.Date,
-					Category = BudgetCategoryDTO,
-					Description = entry.Description
-				});
-			}
-			return result;
+					Id = b.CategoryEntity.Id,
+					Name = b.CategoryEntity.Name,
+				}
+			}).ToList();
+
 		}
 
 		public async Task<EntryDetailsDto> Find(Guid BudgetEntryId)
 		{
-			var entry = _context.BudgetEntries.FirstOrDefault(e => e.Id == BudgetEntryId);
-			if (entry == null)
+			return _context.BudgetEntries.Select(b => new EntryDetailsDto
 			{
-				return null;
-			}
-			var categoryDTO = new CategorySimpleDto
-			{
-				Id = entry.CategoryEntity.Id,
-				Name = entry.CategoryEntity.Name
-			};
-			return new EntryDetailsDto
-			{
-				Id = entry.Id,
-				Amount = entry.Amount,
-				Description = entry.Description,
-				BudgetCategory = categoryDTO,
-				Date = entry.Date
-			};
+				Id = b.Id,
+				Amount = b.Amount,
+				Description = b.Description,
+				Date = b.Date,
+				BudgetCategory = new CategorySimpleDto
+				{
+					Id = b.CategoryEntity.Id,
+					Name = b.CategoryEntity.Name
+				}
+
+
+			}).Where(b => b.Id == BudgetEntryId).FirstOrDefault();
+
 		}
 
 		public async Task<ICollection<EntryDto>> FindFromBudgetCategory(Guid BudgetCategoryId)

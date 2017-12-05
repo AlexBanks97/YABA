@@ -46,7 +46,6 @@ namespace Yaba.Web
 			services.AddScoped<IGoalRepository, EFGoalRepository>();
 			services.AddScoped<IIncomeRepository,EFIncomeRepository>();
 			
-
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info
