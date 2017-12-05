@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Yaba.App</string>
+  <string name="Login">Sign in using Facebook</string>
+
+  <string name="auth0_domain">praffn.eu.auth0.com</string>
+  <string name="auth0_client_id">mb46CJma8ApOBjibmEdJzmcEQaJn976G</string>
+</resources>
