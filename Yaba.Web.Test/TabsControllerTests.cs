@@ -2,12 +2,9 @@
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
 using Yaba.Common;
 using Yaba.Common.DTO.TabDTOs;
-using Yaba.Entities;
 using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test

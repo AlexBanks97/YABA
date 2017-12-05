@@ -1,9 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Moq;
+﻿using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Yaba.Common;
 using Yaba.Common.DTO.TabDTOs;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Yaba.Common
+﻿namespace Yaba.Common
 {
 	public enum Recurrence
 	{
