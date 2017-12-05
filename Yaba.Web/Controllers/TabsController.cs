@@ -8,6 +8,7 @@ using Yaba.Common.DTO.TabDTOs;
 
 namespace Yaba.Web.Controllers
 {
+	[Route("api/tabs")]
 	public class TabsController : Controller
 	{
 		private readonly ITabRepository _repository;
@@ -54,6 +55,7 @@ namespace Yaba.Web.Controllers
 			return NotFound();
 		}
 
+		[HttpDelete]
 		public async Task<IActionResult> Delete(Guid id)
 		{
 			if (!ModelState.IsValid) return BadRequest(ModelState);
