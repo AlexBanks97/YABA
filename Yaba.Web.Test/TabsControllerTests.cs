@@ -14,17 +14,13 @@ namespace Yaba.Web.Test
 {
 	public class TabsControllerTests
 	{
-		[Theory]
-		[InlineData(0)]
-		[InlineData(3)]
-		[InlineData(10)]
-		public async void Get_tabs(int count)
+		[Fact]
+		public async void Get_tabs()
 		{
 			var tabs = new List<TabDTO>();
-			for (var i = 0; i < count; i++)
-			{
-				tabs.Add(new TabDTO());
-			}
+			tabs.Add(new TabDTO());
+			tabs.Add(new TabDTO());
+			tabs.Add(new TabDTO());
 
 			var mock = new Mock<ITabRepository>();
 			mock.Setup(m => m.FindAllTabs())
@@ -32,8 +28,8 @@ namespace Yaba.Web.Test
 
 			using (var controller = new TabsController(mock.Object))
 			{
-				var actual = await controller.Get();
-				Assert.Equal(count, actual.Count());
+				var actual = await controller.Get() as OkObjectResult;
+				Assert.Equal(tabs, actual.Value);
 			}
 
 		}

@@ -19,14 +19,16 @@ namespace Yaba.Web.Controllers
 
 		// GET api/tabs
 		[HttpGet]
-		public async Task<IEnumerable<TabDTO>> Get()
+		public async Task<IActionResult> Get()
 		{
-			return await _repository.FindAllTabs();
+			var tabs = await _repository.FindAllTabs();
+			if (tabs == null) return NotFound();
+			return Ok(tabs);
 		}
 
 		// GET api/budgets/{guid}
 		[HttpGet]
-		[Route("tabId:Guid")]
+		//[Route("tabId:Guid")]
 		public async Task<IActionResult> Get(Guid id)
 		{
 			var tab = await _repository.FindTab(id);
