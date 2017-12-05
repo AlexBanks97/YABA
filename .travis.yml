@@ -1,3 +1,5 @@
+notifications:
+  email: false
 language: csharp
 dist: trusty
 sudo: required
