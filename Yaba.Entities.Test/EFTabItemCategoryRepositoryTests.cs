@@ -7,7 +7,7 @@ using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities.Test
 {
-    public class EFTabItemCategoryRepositoryTests
+	public class EFTabItemCategoryRepositoryTests
     {
 		[Fact]
 		public async void Find_Given_Valid_Id_Returns_DTO_With_Same_Data()
