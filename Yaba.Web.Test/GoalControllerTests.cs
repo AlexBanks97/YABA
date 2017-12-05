@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 using Yaba.Common.Budget;
 using Yaba.Common.Budget.DTO.Goal;
@@ -12,7 +10,7 @@ using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test
 {
-    public class GoalControllerTests
+	public class GoalControllerTests
     {
 		[Fact]
 		public async void Get_with_no_parameters_returns_All_Goals()

@@ -2,7 +2,6 @@
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using Yaba.Common.Budget;
 using Yaba.Common.Budget.DTO.Income;
@@ -10,7 +9,7 @@ using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test
 {
-    public class IncomeControllerTests
+	public class IncomeControllerTests
     {
 		[Fact]
 		public async void GetAll_Given_No_Params_Returns_All()
