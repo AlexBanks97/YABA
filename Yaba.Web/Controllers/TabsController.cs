@@ -29,7 +29,7 @@ namespace Yaba.Web.Controllers
 
 		// GET api/budgets/{guid}
 		[HttpGet]
-		[Route("tabId:Guid")]
+		//[Route("tabId:Guid")]
 		public async Task<IActionResult> Get(Guid id)
 		{
 			var tab = await _repository.FindTab(id);
