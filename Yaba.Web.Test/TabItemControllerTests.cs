@@ -2,7 +2,6 @@
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using Yaba.Common;
 using Yaba.Common.DTO.TabDTOs;
@@ -10,7 +9,7 @@ using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test
 {
-    public class TabItemControllerTests
+	public class TabItemControllerTests
     {
 		[Fact]
 		public async void GetTabItem_given_existing_id_returns_ok()

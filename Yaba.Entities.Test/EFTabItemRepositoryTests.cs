@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 using Yaba.Common.DTO.TabDTOs;
 using Yaba.Entities.TabEntitites;
