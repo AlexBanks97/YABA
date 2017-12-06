@@ -5,43 +5,43 @@ using System.Linq;
 using System.Threading.Tasks;
 using Yaba.Common.Budget;
 using Yaba.Common.Budget.DTO;
-using Yaba.Common.Budget.DTO.Income;
+using Yaba.Common.Budget.DTO.Recurring;
 
 namespace Yaba.Entities.Budget
 {
-	public class EFIncomeRepository : IIncomeRepository
+	public class EFRecurringRepository : IRecurringRepository
 	{
 		private readonly IYabaDBContext _context;
 
-		public EFIncomeRepository(IYabaDBContext context)
+		public EFRecurringRepository(IYabaDBContext context)
 		{
 			_context = context;
 		}
 
-		public async Task<Guid> CreateBudgetIncome(IncomeCreateDto income)
+		public async Task<Guid> CreateBudgetRecurring(RecurringCreateDto recurring)
 		{
-			var budget = await _context.Budgets.SingleOrDefaultAsync(b => b.Id == income.BudgetId);
+			var budget = await _context.Budgets.SingleOrDefaultAsync(b => b.Id == recurring.BudgetId);
 			if (budget == null)
 			{
 				return Guid.Empty;
 			}
 
-			var newBudgetIncome = new IncomeEntity
+			var newBudgetRecurring = new RecurringEntity
 			{
-				Name = income.Name,
-				Amount = income.Amount,
-				Recurrence = income.Recurrence,
+				Name = recurring.Name,
+				Amount = recurring.Amount,
+				Recurrence = recurring.Recurrence,
 				BudgetEntity = budget
 			};
 
-			_context.BudgetIncomes.Add(newBudgetIncome);
+			_context.BudgetRecurrings.Add(newBudgetRecurring);
 			await _context.SaveChangesAsync();
-			return newBudgetIncome.Id;
+			return newBudgetRecurring.Id;
 		}
 
-		public async Task<ICollection<IncomeSimpleDto>> FindAllBudgetIncomes()
+		public async Task<ICollection<RecurringSimpleDto>> FindAllBudgetRecurrings()
 		{
-			return _context.BudgetIncomes.Select(bi => new IncomeSimpleDto
+			return _context.BudgetRecurrings.Select(bi => new RecurringSimpleDto
 			{
 				Id = bi.Id,
 				Name = bi.Name,
@@ -50,52 +50,52 @@ namespace Yaba.Entities.Budget
 			}).ToList();
 		}
 
-		public async Task<IncomeSimpleDto> FindBudgetIncome(Guid budgetIncomeId)
+		public async Task<RecurringSimpleDto> FindBudgetRecurring(Guid budgetRecurringId)
 		{
 
-			var budgetIncome = await _context.BudgetIncomes.SingleOrDefaultAsync(bi => bi.Id == budgetIncomeId);
-			if (budgetIncome == null) { return null; }
+			var budgetRecurring = await _context.BudgetRecurrings.SingleOrDefaultAsync(bi => bi.Id == budgetRecurringId);
+			if (budgetRecurring == null) { return null; }
 
-			return new IncomeSimpleDto
+			return new RecurringSimpleDto
 			{
-				Id = budgetIncome.Id,
-				Name = budgetIncome.Name,
-				Amount = budgetIncome.Amount,
-				Recurrence = budgetIncome.Recurrence,
+				Id = budgetRecurring.Id,
+				Name = budgetRecurring.Name,
+				Amount = budgetRecurring.Amount,
+				Recurrence = budgetRecurring.Recurrence,
 			};
 		}
 
-		public async Task<ICollection<IncomeSimpleDto>> FindAllBudgetIncomesFromSpecificBudget(BudgetDto budget)
+		public async Task<ICollection<RecurringSimpleDto>> FindAllBudgetRecurringsFromSpecificBudget(BudgetDto budget)
 		{
-			var incomes = budget.Incomes;
-			if (incomes == null) return null;
-			return incomes;
+			var recurrings = budget.Recurrings;
+			if (recurrings == null) return null;
+			return recurrings;
 		}
 
 
 
 
-		public async Task<bool> UpdateBudgetIncome(IncomeUpdateDto income)
+		public async Task<bool> UpdateBudgetRecurring(RecurringUpdateDto recurring)
 		{
-			var entity = await _context.BudgetIncomes.SingleOrDefaultAsync(bi => income.Id == bi.Id);
+			var entity = await _context.BudgetRecurrings.SingleOrDefaultAsync(bi => recurring.Id == bi.Id);
 			if (entity == null) return false;
 
-			entity.Name = income.Name ?? entity.Name;
-			entity.Amount = income.Amount;
-			entity.Recurrence = income.Recurrence;
+			entity.Name = recurring.Name ?? entity.Name;
+			entity.Amount = recurring.Amount;
+			entity.Recurrence = recurring.Recurrence;
 
 			await _context.SaveChangesAsync();
 			return true;
 		}
 
-		public async Task<bool> DeleteBudgetIncome(Guid budgetIncome)
+		public async Task<bool> DeleteBudgetRecurring(Guid budgetRecurring)
 		{
-			var entity = await _context.BudgetIncomes
-				.SingleOrDefaultAsync(t => t.Id == budgetIncome);
+			var entity = await _context.BudgetRecurrings
+				.SingleOrDefaultAsync(t => t.Id == budgetRecurring);
 
 			if (entity == null) { return false; }
 
-			var toRemove = _context.BudgetIncomes.Remove(entity);
+			var toRemove = _context.BudgetRecurrings.Remove(entity);
 
 			if (toRemove == null) { return false; }
 

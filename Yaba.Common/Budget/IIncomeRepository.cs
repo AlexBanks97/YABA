@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Yaba.Common.Budget.DTO;
-using Yaba.Common.Budget.DTO.Income;
+using Yaba.Common.Budget.DTO.Recurring;
 
 namespace Yaba.Common.Budget
 {
-	public interface IIncomeRepository : IDisposable
+	public interface IRecurringRepository : IDisposable
 	{
-		Task<IncomeSimpleDto> FindBudgetIncome(Guid budgetIncomeId);
+		Task<RecurringSimpleDto> FindBudgetRecurring(Guid budgetRecurringId);
 
-		Task<ICollection<IncomeSimpleDto>> FindAllBudgetIncomesFromSpecificBudget(BudgetDto BudgetId);
+		Task<ICollection<RecurringSimpleDto>> FindAllBudgetRecurringsFromSpecificBudget(BudgetDto BudgetId);
 
-		Task<ICollection<IncomeSimpleDto>> FindAllBudgetIncomes();
+		Task<ICollection<RecurringSimpleDto>> FindAllBudgetRecurrings();
 
-		Task<Guid> CreateBudgetIncome(IncomeCreateDto income);
+		Task<Guid> CreateBudgetRecurring(RecurringCreateDto recurring);
 
-		Task<bool> DeleteBudgetIncome(Guid budgetIncome);
+		Task<bool> DeleteBudgetRecurring(Guid budgetRecurring);
 
-		Task<bool> UpdateBudgetIncome(IncomeUpdateDto income);
+		Task<bool> UpdateBudgetRecurring(RecurringUpdateDto recurring);
 	}
 }
