@@ -62,43 +62,34 @@ namespace Yaba.Web.Test
 		}
 
 		[Fact]
-		public async void GetTabItem_from_tab_returns_ok()
+		public async void GetAll_Given_Valid_TabId_Returns_Ok_With_TabItems()
 		{
-			var mock = new Mock<ITabItemRepository>();
-			var guid = Guid.NewGuid();
 			var tabItems = new List<TabItemSimpleDTO>
 			{
 				new TabItemSimpleDTO(),
 				new TabItemSimpleDTO(),
 			};
-
-			var tab = new TabDTO { Id = guid, TabItems = tabItems };
-
-			mock.Setup(m => m.FindFrom(tab))
+			var mock = new Mock<ITabItemRepository>();
+			var guid = Guid.NewGuid();
+			mock.Setup(t => t.FindFromTab(guid))
 				.ReturnsAsync(tabItems);
 
-			using (var controller = new TabItemController(mock.Object))
+			using (var ctrl = new TabItemController(mock.Object))
 			{
-				var response = await controller.Get(tab);
-				Assert.IsType<OkObjectResult>(response);
+				var response = await ctrl.GetAll(guid) as OkObjectResult;
+				var result = response.Value as ICollection<TabItemSimpleDTO>;
+				Assert.Equal(tabItems, result);
 			}
 		}
 
-		public async void GetTabItem_from_tab_returns_notfound()
+		public async void GetAll_Given_No_TabId_Returns_Forbidden()
 		{
-			var mock = new Mock<ITabItemRepository>();
-			var guid = Guid.NewGuid();
-
-			var tab = new TabDTO { Id = guid, };
-
-			mock.Setup(m => m.FindFrom(tab))
-				.ReturnsAsync(new List<TabItemSimpleDTO> { });
-
-			using (var controller = new TabItemController(mock.Object))
+			using (var ctrl = new TabItemController(null))
 			{
-				var response = await controller.Get(tab);
-				Assert.IsType<NotFoundResult>(response);
-			}
+				var respone = await ctrl.GetAll(null);
+				Assert.IsType<ForbidResult>(respone);
+
+			};
 		}
 
 		[Fact]
