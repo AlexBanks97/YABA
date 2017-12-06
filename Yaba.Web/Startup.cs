@@ -43,7 +43,7 @@ namespace Yaba.Web
 			services.AddScoped<IEntryRepository, EFEntryRepository>();
 			services.AddScoped<ICategoryRepository, EFCategoryRepository>();
 			services.AddScoped<IGoalRepository, EFGoalRepository>();
-			services.AddScoped<IIncomeRepository,EFIncomeRepository>();
+			services.AddScoped<IRecurringRepository,EFRecurringRepository>();
 			
 			services.AddSwaggerGen(c =>
 			{

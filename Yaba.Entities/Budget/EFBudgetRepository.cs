@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Yaba.Common.Budget;
 using Yaba.Common.Budget.DTO;
 using Yaba.Common.Budget.DTO.Category;
-using Yaba.Common.Budget.DTO.Income;
+using Yaba.Common.Budget.DTO.Recurring;
 
 namespace Yaba.Entities.Budget
 {
@@ -23,7 +23,7 @@ namespace Yaba.Entities.Budget
 		{
 			var budget = _context.Budgets
 				.Include(b => b.Categories)
-				.Include(b => b.Incomes)
+				.Include(b => b.Recurrings)
 				.FirstOrDefault(b => b.Id == id);
 			if (budget == null) return null;
 			return new BudgetDetailsDto
@@ -35,8 +35,8 @@ namespace Yaba.Entities.Budget
 					.Select(c => new CategorySimpleDto { Id = c.Id, Name = c.Name} )
 					.ToList(),
 
-				Incomes = budget.Incomes
-					.Select(i => new IncomeSimpleDto { Id = i.Id, Name = i.Name })
+				Recurrings = budget.Recurrings
+					.Select(i => new RecurringSimpleDto { Id = i.Id, Name = i.Name })
 					.ToList(),
 			};
 		}
