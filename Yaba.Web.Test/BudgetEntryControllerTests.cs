@@ -16,7 +16,7 @@ namespace Yaba.Web.Test
 		public async void get_Given_No_Id_returns_OK_plus_List_of_entries()
 		{
 			var mock = new Mock<IEntryRepository>();
-			var entries = new List<EntryDto> { new EntryDto(), new EntryDto() };
+			var entries = new List<EntrySimpleDto> { new EntrySimpleDto(), new EntrySimpleDto() };
 
 			mock.Setup(m => m.Find())
 				.ReturnsAsync(entries);
