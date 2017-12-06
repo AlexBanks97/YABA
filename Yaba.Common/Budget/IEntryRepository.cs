@@ -8,7 +8,7 @@ namespace Yaba.Common.Budget
 {
 	public interface IEntryRepository : IDisposable
 	{
-		Task<ICollection<EntryDto>> Find();
+		Task<ICollection<EntryBudgetDto>> Find();
 
 		Task<ICollection<EntryDto>> FindFromBudgetCategory(Guid BudgetCategoryId);
 

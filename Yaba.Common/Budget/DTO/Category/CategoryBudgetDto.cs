@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yaba.Common.Budget.DTO.Entry;
-using Yaba.Common.Budget.DTO.Goal;
+using System.Text;
 
 namespace Yaba.Common.Budget.DTO.Category
 {
-	public class CategoryDto
-	{
+    public class CategoryBudgetDto
+    {
 		public Guid Id { get; set; }
 		public string Name { get; set; }
-
 		public BudgetSimpleDto Budget { get; set; }
-		public ICollection<EntryDto> Entries { get; set; }
-		public GoalDto Goal { get; set; }
 	}
 }
