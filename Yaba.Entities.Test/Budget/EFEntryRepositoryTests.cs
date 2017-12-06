@@ -94,7 +94,7 @@ namespace Yaba.Entities.Test.Budget
 			ctx.BudgetEntries.AddRange(entry1, entry2);
 			ctx.SaveChanges();
 
-			ICollection<EntryDto> result = null;
+			ICollection<EntrySimpleDto> result = null;
 			using (var repo = new EFEntryRepository(ctx))
 			{
 				result = await repo.Find();
