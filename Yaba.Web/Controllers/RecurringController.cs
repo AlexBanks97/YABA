@@ -11,11 +11,11 @@ using Yaba.Common.Budget.DTO.Recurring;
 namespace Yaba.Web.Controllers
 {
     [Route("api/[controller]")]
-    public class IncomeController : Controller
+    public class RecurringController : Controller
     {
 		private readonly IRecurringRepository _repository;
 
-		public IncomeController(IRecurringRepository repository)
+		public RecurringController(IRecurringRepository repository)
 		{
 			_repository = repository;
 		}
@@ -23,50 +23,50 @@ namespace Yaba.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-			var budgetIncome = await _repository.FindAllBudgetRecurrings();
-			return Ok(budgetIncome);
+			var recurring = await _repository.FindAllBudgetRecurrings();
+			return Ok(recurring);
         }
 
         // GET api/values/5
         [HttpGet]
-		[Route("{incomeId:Guid}")]
-		public async Task<IActionResult> Get(Guid incomeId)
+		[Route("{recurringId:Guid}")]
+		public async Task<IActionResult> Get(Guid recurringId)
         {
-			var budgetIncome = await _repository.FindBudgetRecurring(incomeId);
-			if(budgetIncome == null) { return NotFound(); }
+			var recurring = await _repository.FindBudgetRecurring(recurringId);
+			if(recurring == null) { return NotFound(); }
 
-			return Ok(budgetIncome);
+			return Ok(recurring);
         }
 
 		// POST api/values
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody] RecurringCreateDto income)
+		public async Task<IActionResult> Post([FromBody] RecurringCreateDto recurring)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
-			var guid = await _repository.CreateBudgetRecurring(income);
+			var guid = await _repository.CreateBudgetRecurring(recurring);
 			return CreatedAtAction(nameof(Get), new { incomeId = guid }, null);
         }
 
         // PUT api/values/5
-        [HttpPut("{incomeId:Guid}")]
-        public async Task<IActionResult> Put(Guid incomeId, [FromBody]RecurringUpdateDto income)
+        [HttpPut("{recurringId:Guid}")]
+        public async Task<IActionResult> Put(Guid recurringId, [FromBody]RecurringUpdateDto recurring)
         {
 			if(!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
-			var update = await _repository.UpdateBudgetRecurring(income);
+			var update = await _repository.UpdateBudgetRecurring(recurring);
 			return NoContent(); 
         }
 
         // DELETE api/values/5
-        [HttpDelete("{incomeId:Guid}")]
-        public async Task<IActionResult> Delete(Guid incomeId)
+        [HttpDelete("{recurringId:Guid}")]
+        public async Task<IActionResult> Delete(Guid recurringId)
         {
-			var deleted = await _repository.DeleteBudgetRecurring(incomeId);
+			var deleted = await _repository.DeleteBudgetRecurring(recurringId);
 			if(!deleted)
 			{
 				return NotFound();

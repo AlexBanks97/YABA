@@ -9,26 +9,26 @@ using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test
 {
-	public class IncomeControllerTests
+	public class RecurringControllerTests
     {
 		[Fact]
 		public async void GetAll_Given_No_Params_Returns_All()
 		{
 			var mock = new Mock<IRecurringRepository>();
 
-			var incomes = new List<RecurringSimpleDto>
+			var recurrings = new List<RecurringSimpleDto>
 			{
 				new RecurringSimpleDto(),
 				new RecurringSimpleDto(),
 				new RecurringSimpleDto()
 			};
 
-			mock.Setup(f => f.FindAllBudgetRecurrings()).ReturnsAsync(incomes);
+			mock.Setup(f => f.FindAllBudgetRecurrings()).ReturnsAsync(recurrings);
 
-			using (var controller = new IncomeController(mock.Object))
+			using (var controller = new RecurringController(mock.Object))
 			{
 				var response = await controller.Get() as OkObjectResult;
-				Assert.Equal(incomes, response.Value);
+				Assert.Equal(recurrings, response.Value);
 			}
 		}
 
@@ -38,14 +38,14 @@ namespace Yaba.Web.Test
 			var mock = new Mock<IRecurringRepository>();
 
 			var guid = Guid.NewGuid();
-			var income = new RecurringSimpleDto();
+			var recurring = new RecurringSimpleDto();
 
-			mock.Setup(m => m.FindBudgetRecurring(guid)).ReturnsAsync(income);
+			mock.Setup(m => m.FindBudgetRecurring(guid)).ReturnsAsync(recurring);
 
-			using (var controller = new IncomeController(mock.Object))
+			using (var controller = new RecurringController(mock.Object))
 			{
 				var response = await controller.Get(guid) as OkObjectResult;
-				Assert.Equal(income, response.Value);
+				Assert.Equal(recurring, response.Value);
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace Yaba.Web.Test
 			var dto = new RecurringSimpleDto { Name = "Paycheck " };
 			mock.Setup(m => m.FindBudgetRecurring(guid)).ReturnsAsync(dto);
 
-			using (var controller = new IncomeController(mock.Object))
+			using (var controller = new RecurringController(mock.Object))
 			{
 				var response = await controller.Get(guid) as OkObjectResult;
 				Assert.Equal(dto, response.Value);
@@ -74,7 +74,7 @@ namespace Yaba.Web.Test
 			mock.Setup(m => m.FindBudgetRecurring(It.IsAny<Guid>()))
 				.ReturnsAsync(default(RecurringSimpleDto));
 
-			using (var controller = new IncomeController(mock.Object))
+			using (var controller = new RecurringController(mock.Object))
 			{
 				var response = await controller.Get(guid);
 				Assert.IsType<NotFoundResult>(response);
@@ -89,7 +89,7 @@ namespace Yaba.Web.Test
 			mock.Setup(m => m.CreateBudgetRecurring(It.IsAny<RecurringCreateDto>()))
 				.ReturnsAsync(Guid.NewGuid);
 
-			using (var controller = new IncomeController(mock.Object))
+			using (var controller = new RecurringController(mock.Object))
 			{
 				var response = await controller.Post(new RecurringCreateDto { Name = "Paycheck" });
 				Assert.IsType<CreatedAtActionResult>(response);
@@ -100,7 +100,7 @@ namespace Yaba.Web.Test
 		public async void Post_Given_Bad_Model_State_Returns_Bad_Request()
 		{
 			var mock = new Mock<IRecurringRepository>();
-			using (var controller = new IncomeController(mock.Object))
+			using (var controller = new RecurringController(mock.Object))
 			{
 				var response = await controller.Post(new RecurringCreateDto());
 				Assert.IsType<BadRequestResult>(response);
@@ -108,13 +108,13 @@ namespace Yaba.Web.Test
 		}
 
 		[Fact]
-		public async void Put_Given_Income_Returns_No_Content()
+		public async void Put_Given_Recurring_Returns_No_Content()
 		{
 			var mock = new Mock<IRecurringRepository>();
 			mock.Setup(m => m.UpdateBudgetRecurring(It.IsAny<RecurringUpdateDto>()))
 				.ReturnsAsync(true);
 
-			using (var controller = new IncomeController(mock.Object))
+			using (var controller = new RecurringController(mock.Object))
 			{
 				var response = await controller.Put(Guid.NewGuid(), new RecurringUpdateDto { Name = "New Year, new me" });
 				Assert.IsType<NoContentResult>(response);
@@ -129,7 +129,7 @@ namespace Yaba.Web.Test
 			mock.Setup(m => m.DeleteBudgetRecurring(guid))
 				.ReturnsAsync(true);
 
-			using (var controller = new IncomeController(mock.Object))
+			using (var controller = new RecurringController(mock.Object))
 			{
 				var response = await controller.Delete(guid);
 				Assert.IsType<NoContentResult>(response);
@@ -144,7 +144,7 @@ namespace Yaba.Web.Test
 
 			mock.Setup(m => m.DeleteBudgetRecurring(guid)).ReturnsAsync(false);
 
-			using (var controller = new IncomeController(mock.Object))
+			using (var controller = new RecurringController(mock.Object))
 			{
 				var response = await controller.Delete(guid);
 				Assert.IsType<NotFoundResult>(response);

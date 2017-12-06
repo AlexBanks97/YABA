@@ -23,7 +23,7 @@ namespace Yaba.Entities.Budget
 		{
 			var budget = _context.Budgets
 				.Include(b => b.Categories)
-				.Include(b => b.Incomes)
+				.Include(b => b.Recurrings)
 				.FirstOrDefault(b => b.Id == id);
 			if (budget == null) return null;
 			return new BudgetDetailsDto
@@ -35,7 +35,7 @@ namespace Yaba.Entities.Budget
 					.Select(c => new CategorySimpleDto { Id = c.Id, Name = c.Name} )
 					.ToList(),
 
-				Incomes = budget.Incomes
+				Recurrings = budget.Recurrings
 					.Select(i => new RecurringSimpleDto { Id = i.Id, Name = i.Name })
 					.ToList(),
 			};

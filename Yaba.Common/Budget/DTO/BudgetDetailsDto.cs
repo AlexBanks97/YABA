@@ -11,7 +11,7 @@ namespace Yaba.Common.Budget.DTO
 		public string Name { get; set; }
 
 		public ICollection<CategorySimpleDto> Categories { get; set; }
-		public ICollection<RecurringSimpleDto> Incomes { get; set; }
+		public ICollection<RecurringSimpleDto> Recurrings { get; set; }
 		// public ICollection<BudgetExpense> Expenses { get; set; }
 	}
 }

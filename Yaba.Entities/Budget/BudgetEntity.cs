@@ -14,7 +14,7 @@ namespace Yaba.Entities.Budget
 
 
 		public ICollection<CategoryEntity> Categories { get; set; }
-		public ICollection<RecurringEntity> Incomes { get; set; }
+		public ICollection<RecurringEntity> Recurrings { get; set; }
 		public ICollection<ExpenseEntity> Expenses { get; set; }
 	}
 }
