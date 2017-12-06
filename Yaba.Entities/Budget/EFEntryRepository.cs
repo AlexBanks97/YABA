@@ -42,24 +42,14 @@ namespace Yaba.Entities.Budget
 			return true;
 		}
 
-		public async Task<ICollection<EntryBudgetDto>> Find()
+		public async Task<ICollection<EntrySimpleDto>> Find()
 		{
-			return _context.BudgetEntries.Select(b => new EntryBudgetDto
+			return _context.BudgetEntries.Select(b => new EntrySimpleDto
 			{
 				Id = b.Id,
 				Amount = b.Amount,
 				Description = b.Description,
 				Date = b.Date,
-				Category = new CategoryBudgetDto
-				{
-					Id = b.CategoryEntity.Id,
-					Name = b.CategoryEntity.Name,
-					Budget = new Common.Budget.DTO.BudgetSimpleDto
-					{
-						Id = b.CategoryEntity.BudgetEntity.Id,
-						Name = b.CategoryEntity.BudgetEntity.Name,
-					}
-				}
 			}).ToList();
 
 		}

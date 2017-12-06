@@ -5,7 +5,7 @@ using Yaba.Common.Budget.DTO.Category;
 
 namespace Yaba.Common.Budget.DTO.Entry
 {
-    public class EntryBudgetDto
+    public class EntrySimpleDto
     {
 		public Guid Id { get; set; }
 		public decimal Amount { get; set; }
@@ -14,6 +14,5 @@ namespace Yaba.Common.Budget.DTO.Entry
 
 		public DateTime Date { get; set; }
 
-		public CategoryBudgetDto Category { get; set; }
 	}
 }
