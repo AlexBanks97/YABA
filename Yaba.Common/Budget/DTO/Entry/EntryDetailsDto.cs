@@ -14,6 +14,7 @@ namespace Yaba.Common.Budget.DTO.Entry
 		
 		public string Description { get; set; }
 
+		[Required]
 		public DateTime Date { get; set; }
 
 		[Required]
