@@ -33,7 +33,7 @@ namespace Yaba.Web.Test
 		}
 
 		[Fact]
-		public async void Get_Given_Id_Returns_Income_With_Id()
+		public async void Get_Given_Id_Returns_Recurring_With_Id()
 		{
 			var mock = new Mock<IRecurringRepository>();
 
