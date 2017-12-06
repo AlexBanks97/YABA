@@ -10,7 +10,7 @@ namespace Yaba.Entities
 		private readonly string _connectionString;
 
 		// Budget-related entities
-		public DbSet<Budget.BudgetEntity> Budgets { get; set; }
+		public DbSet<BudgetEntity> Budgets { get; set; }
 		public DbSet<CategoryEntity> BudgetCategories { get; set; }
 		public DbSet<RecurringEntity> BudgetRecurrings { get; set; }
 		public DbSet<ExpenseEntity> BudgetExpenses { get; set; }
