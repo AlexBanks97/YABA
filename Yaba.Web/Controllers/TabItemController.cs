@@ -34,14 +34,14 @@ namespace Yaba.Web.Controllers
 
         // GET api/values/5
         [HttpGet]
-		public async Task<IActionResult> Get([FromBody]TabDTO tab)
+		public async Task<IActionResult> GetAll([FromQuery] Guid? tabId = null)
 		{
-			var tabItem = await _repository.FindFrom(tab);
-			if(tabItem == null)
+			if (tabId.HasValue)
 			{
-				return NotFound();
+				var tabItems = await _repository.FindFromTab(tabId.Value);
+				return Ok(tabItems);
 			}
-			return Ok(tabItem);
+			return Forbid();
         }
 
         // POST api/values
