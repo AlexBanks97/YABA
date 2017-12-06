@@ -41,14 +41,15 @@ namespace Yaba.Entities
 			};
 		}
 
-		public async Task<IEnumerable<TabItemSimpleDTO>> FindFrom(TabDTO tab)
+		public async Task<IEnumerable<TabItemSimpleDTO>> FindFromTab(Guid tabId)
 		{
-			var tabItems = new List<TabItemSimpleDTO>();
-			foreach (var tabItem in tab.TabItems)
-			{
-				tabItems.Add(tabItem); // We can't yield return because of async
-			}
+			var tabItems = _context.TabItems
+				.Where(t => t.Tab.Id == tabId)
+				.Select(t => t.ToTabItemSimpleDTO());
+
 			return tabItems;
+											
+			
 		}
 
 		public async Task<bool> Update(TabItemSimpleDTO tabItemDTO)
