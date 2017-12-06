@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace Yaba.Common.Budget.DTO.Income
+namespace Yaba.Common.Budget.DTO.Recurring
 {
-	public class IncomeCreateDto
+	public class RecurringUpdateDto
 	{
+		public Guid Id { get; set; }
+
 		public string Name { get; set; }
 
 		public decimal Amount { get; set; }
 
 		public Recurrence Recurrence { get; set; }
-
-		public Guid BudgetId { get; set; }
 	}
 }

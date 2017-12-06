@@ -59,7 +59,7 @@ namespace Yaba.Entities.Budget
 				Id = category.Id,
 				Name = category.Name,
 				Entries = category.Entries
-					.Select(e => new EntryDto
+					.Select(e => new EntrySimpleDto
 					{
 						Id = e.Id,
 						Amount = e.Amount,

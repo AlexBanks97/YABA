@@ -13,7 +13,6 @@ namespace Yaba.Common.Budget.DTO.Category
 		[Required]
 		[StringLength(50)]
 		public string Name { get; set; }
-
-		public ICollection<EntryDto> Entries { get; set; }
+		public ICollection<EntrySimpleDto> Entries { get; set; }
 	}
 }
