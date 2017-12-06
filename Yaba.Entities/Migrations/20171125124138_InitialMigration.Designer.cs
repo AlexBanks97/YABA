@@ -167,7 +167,7 @@ namespace Yaba.Entities.Migrations
 			modelBuilder.Entity("Yaba.Entities.BudgetEntities.Income", b =>
 				{
 					b.HasOne("Yaba.Entities.BudgetEntities.Budget", "Budget")
-						.WithMany("Incomes")
+						.WithMany("Recurrings")
 						.HasForeignKey("BudgetId");
 				});
 #pragma warning restore 612, 618

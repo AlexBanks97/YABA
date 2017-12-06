@@ -4,7 +4,7 @@ using Yaba.Common;
 
 namespace Yaba.Entities.Budget
 {
-	public class IncomeEntity
+	public class RecurringEntity
 	{
 		public Guid Id { get; set; }
 
