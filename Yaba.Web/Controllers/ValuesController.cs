@@ -16,6 +16,13 @@ namespace Yaba.Web.Controllers
 			return new string[] { "value1", "value2" };
 		}
 
+		[HttpGet]
+		[Route("/")]
+		public IActionResult RootGet()
+		{
+			return Ok("Welcome to Yaba's API version 1.0");
+		}
+
 		// GET api/values/5
 		[HttpGet("{id}")]
 		public string Get(int id)
