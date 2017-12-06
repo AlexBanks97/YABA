@@ -8,7 +8,6 @@ namespace Yaba.Common.Budget.DTO.Category
 	{
 		public Guid Id { get; set; }
 		public string Name { get; set; }
-
-		public ICollection<EntryDto> Entries { get; set; }
+		public ICollection<EntrySimpleDto> Entries { get; set; }
 	}
 }
