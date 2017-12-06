@@ -77,9 +77,9 @@ namespace Yaba.Entities.Test
 		[InlineData(1)]
 		[InlineData(5)]
 		[InlineData(10)]
-		public async void FindFrom_Given_Tab_Returns_TabItems(int count)
+		public async void FindFromTab_Given_Tab_Returns_TabItems(int count)
 		{
-			var context = Util.GetNewContext(nameof(FindFrom_Given_Tab_Returns_TabItems));
+			var context = Util.GetNewContext(nameof(FindFromTab_Given_Tab_Returns_TabItems));
 
 			var tabItems = new List<TabItem>();
 			for(var i = 0; i < count; i++)
@@ -93,15 +93,15 @@ namespace Yaba.Entities.Test
 
 			using (var repo = new EFTabItemRepository(context))
 			{
-				var tabItemsDTO = await repo.FindFrom(tab.ToDTO());
+				var tabItemsDTO = await repo.FindFromTab(tab.Id);
 				Assert.Equal(count, tabItemsDTO.ToList().Count);
 			}
 		}
 
 		[Fact]
-		public async void FindFrom_Given_Tab_Returns_TabItems_With_Same_Values()
+		public async void FindFromTab_Given_TabId_Returns_TabItems_With_Same_Values()
 		{
-			var context = Util.GetNewContext(nameof(FindFrom_Given_Tab_Returns_TabItems_With_Same_Values));
+			var context = Util.GetNewContext(nameof(FindFromTab_Given_TabId_Returns_TabItems_With_Same_Values));
 
 			var tabItems = new List<TabItem>();
 			tabItems.Add(new TabItem
@@ -118,7 +118,7 @@ namespace Yaba.Entities.Test
 
 			using (var repo = new EFTabItemRepository(context))
 			{
-				var tabItemsDTO = await repo.FindFrom(tab.ToDTO());
+				var tabItemsDTO = await repo.FindFromTab(tab.Id);
 				var tabItem = tabItemsDTO.First();
 				Assert.Equal(1, tabItemsDTO.Count());
 				Assert.Equal(42, tabItem.Amount);

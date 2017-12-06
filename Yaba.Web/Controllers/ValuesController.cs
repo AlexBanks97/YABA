@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Yaba.Web.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
 	[Route("api/[controller]")]
 	public class ValuesController : Controller
 	{
