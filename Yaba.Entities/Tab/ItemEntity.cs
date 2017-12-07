@@ -1,22 +1,18 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Yaba.Common.DTO.TabDTOs
+namespace Yaba.Entities.Tab
 {
-	public class TabItemDTO
+	public class ItemEntity
 	{
 		public Guid Id { get; set; }
-
 		[Required]
 		public decimal Amount { get; set; }
-		
 		[StringLength(150)]
 		public string Description { get; set; }
-
 		[Required]
-		public TabDTO Tab { get; set; }
-		
-		public TabItemCategoryDTO Category { get; set; }
+		public TabEntity TabEntity { get; set; }
+		public ItemCategoryEntity CategoryEntity { get; set; }
+		// Add prop for user whom created tab item
 	}
-
 }

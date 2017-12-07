@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Yaba.Common.DTO.TabDTOs;
+using Yaba.Common.Tab.DTO;
 
 namespace Yaba.Common
 {

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Yaba.Common.DTO.TabDTOs;
-using Yaba.Common.Tab.TabItemDTOs;
+using Yaba.Common.Tab.DTO.ItemCategory;
 
 namespace Yaba.Common.Tab
 {
-    public interface ITabItemCategoryRepository : IDisposable
+    public interface IItemCategoryRepository : IDisposable
     {
 		Task<TabItemCategoryDTO> Find(Guid id); // Find from TabItemCategory Id.
 		Task<TabItemCategoryDTO> FindFromTabItemId(Guid tabItemID);

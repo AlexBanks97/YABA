@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Yaba.Common.DTO.TabDTOs
+namespace Yaba.Common.Tab.DTO.ItemCategory
 {
 	public class TabItemCategoryDTO
 	{

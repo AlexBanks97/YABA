@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Yaba.Common.Budget;
 using Yaba.Common.Budget.DTO;
 using Yaba.Common.Budget.DTO.Recurring;
 
-namespace Yaba.Entities.Budget
+namespace Yaba.Entities.Budget.Repository
 {
 	public class EFRecurringRepository : IRecurringRepository
 	{

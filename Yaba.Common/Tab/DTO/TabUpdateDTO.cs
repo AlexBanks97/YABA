@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Yaba.Common.DTO.TabDTOs
+namespace Yaba.Common.Tab.DTO
 {
 	public class TabUpdateDTO
 	{

@@ -6,6 +6,7 @@ using Xunit;
 using Yaba.Entities.Budget;
 using Yaba.Common.Budget.DTO.Goal;
 using Yaba.Common.Budget.DTO.Category;
+using Yaba.Entities.Budget.Repository;
 
 namespace Yaba.Entities.Test.Budget
 {

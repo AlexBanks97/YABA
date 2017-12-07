@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Yaba.Entities.Budget;
+using Yaba.Entities.Tab;
 
 namespace Yaba.Entities
 {
@@ -52,11 +53,11 @@ namespace Yaba.Entities
 
 			var tabs = new[]
 			{
-				new TabEntitites.Tab()
+				new Tab.TabEntity()
 				{
 
 				},
-				new TabEntitites.Tab()
+				new Tab.TabEntity()
 				{
 
 				}
@@ -67,15 +68,15 @@ namespace Yaba.Entities
 
 			var TabItemCategories = new[]
 			{
-				new TabEntitites.TabItemCategory
+				new ItemCategoryEntity
 				{
 					Name = "Food"
 				},
-				new TabEntitites.TabItemCategory
+				new ItemCategoryEntity
 				{
 					Name = "Transportaion"
 				},
-				new TabEntitites.TabItemCategory
+				new ItemCategoryEntity
 				{
 					Name = "Nightout"
 				}
@@ -85,28 +86,28 @@ namespace Yaba.Entities
 
 			var tabItems = new[]
 			{
-				new TabEntitites.TabItem()
+				new ItemEntity()
 				{
 					Amount = 200,
 					Description = "For food and drinks",
-					Tab = tabs[0],
-					Category = TabItemCategories[2]
+					TabEntity = tabs[0],
+					CategoryEntity = TabItemCategories[2]
 				},
 
-				new TabEntitites.TabItem()
+				new ItemEntity()
 				{
 					Amount = 100,
 					Description = "Entrance",
-					Tab = tabs[1],
-					Category = TabItemCategories[2]
+					TabEntity = tabs[1],
+					CategoryEntity = TabItemCategories[2]
 				},
 
-				new TabEntitites.TabItem()
+				new ItemEntity()
 				{
 					Amount = 500,
 					Description = "Grocieries",
-					Tab = tabs[1],
-					Category = TabItemCategories[0]
+					TabEntity = tabs[1],
+					CategoryEntity = TabItemCategories[0]
 				}
 
 			};

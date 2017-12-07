@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Yaba.Entities.TabEntitites
+namespace Yaba.Entities.Tab
 {
-	public class TabItemCategory
+	public class ItemCategoryEntity
 	{
 		public Guid Id { get; set; }
 		[Required]

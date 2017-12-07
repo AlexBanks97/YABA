@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Yaba.Common;
-using Yaba.Common.DTO.TabDTOs;
+using Yaba.Common.Tab.DTO.Item;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,9 +13,9 @@ namespace Yaba.Web.Controllers
     [Route("api/tabitems")]
     public class TabItemController : Controller
     {
-		private readonly ITabItemRepository _repository;
+		private readonly ItemRepository _repository;
 
-		public TabItemController(ITabItemRepository repository)
+		public TabItemController(ItemRepository repository)
 		{
 			_repository = repository;
 		}

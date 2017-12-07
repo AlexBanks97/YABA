@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using Yaba.Common;
 using Yaba.Entities;
-using Yaba.Entities.TabEntitites;
 
 namespace Yaba.Entities.Migrations
 {

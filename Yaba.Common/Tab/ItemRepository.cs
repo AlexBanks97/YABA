@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Yaba.Common.DTO.TabDTOs;
+using Yaba.Common.Tab.DTO.Item;
 
 namespace Yaba.Common
 {
-	public interface ITabItemRepository : IDisposable
+	public interface ItemRepository : IDisposable
 	{
 		Task<Guid> Create(TabItemCreateDTO tabItemDTO);
 		Task<TabItemSimpleDTO> Find(Guid id);

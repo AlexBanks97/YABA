@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Yaba.Common.DTO.TabDTOs
+﻿namespace Yaba.Common.Tab.DTO
 {
 	public class TabCreateDTO
 	{

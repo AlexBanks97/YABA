@@ -5,6 +5,7 @@ using Moq;
 using Xunit;
 using Yaba.Common.Budget.DTO.Category;
 using Yaba.Entities.Budget;
+using Yaba.Entities.Budget.Repository;
 
 namespace Yaba.Entities.Test.Budget
 {

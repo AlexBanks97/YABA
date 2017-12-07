@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 using Yaba.Common;
-using Yaba.Common.DTO.TabDTOs;
+using Yaba.Common.Tab.DTO;
 using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test

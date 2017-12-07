@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Yaba.Common;
-using Yaba.Common.DTO.TabDTOs;
-using Yaba.Entities.TabEntitites;
+using Yaba.Common.Tab.DTO.Item;
+using Yaba.Common.Tab.DTO.ItemCategory;
 
-namespace Yaba.Entities
+namespace Yaba.Entities.Tab.Repository
 {
-	public class EFTabItemRepository : ITabItemRepository
+	public class EFItemRepository : ItemRepository
 	{
 		private readonly IYabaDBContext _context;
-		public EFTabItemRepository(IYabaDBContext context)
+		public EFItemRepository(IYabaDBContext context)
 		{
 			_context = context;
 		}
@@ -19,9 +19,9 @@ namespace Yaba.Entities
 		{
 			var tab = _context.Tabs.SingleOrDefault(t => t.Id == tabItemDTO.TabId);
 			if (tab == null) return Guid.Empty;
-			var tabItem = new TabItem
+			var tabItem = new ItemEntity
 			{
-				Tab = tab,
+				TabEntity = tab,
 				Amount = tabItemDTO.Amount,
 			};
 			_context.TabItems.Add(tabItem);
@@ -36,7 +36,7 @@ namespace Yaba.Entities
 			return new TabItemSimpleDTO
 			{
 				Amount = entity.Amount,
-				Category = entity.Category != null ? new TabItemCategoryDTO { Name = entity.Category.Name } : null,
+				Category = entity.CategoryEntity != null ? new TabItemCategoryDTO { Name = entity.CategoryEntity.Name } : null,
 				Description = entity.Description
 			};
 		}
@@ -44,26 +44,26 @@ namespace Yaba.Entities
 		public async Task<IEnumerable<TabItemSimpleDTO>> FindFromTab(Guid tabId)
 		{
 			var tabItems = _context.TabItems
-				.Where(t => t.Tab.Id == tabId)
+				.Where(t => t.TabEntity.Id == tabId)
 				.Select(t => t.ToTabItemSimpleDTO());
 
 			return tabItems;
-											
-			
+
+
 		}
 
 		public async Task<bool> Update(TabItemSimpleDTO tabItemDTO)
 		{
 			var entity = _context.TabItems.SingleOrDefault(t => t.Id == tabItemDTO.Id);
-			
+
 			if (entity == null) return false;
-			
+
 			entity.Amount = tabItemDTO.Amount;
 			entity.Description = tabItemDTO.Description ?? entity.Description;
-			entity.Category = tabItemDTO.Category != null ? new TabItemCategory { Name = tabItemDTO.Category.Name } : null; // WARNING: This needs to be remade.
-			
+			entity.CategoryEntity = tabItemDTO.Category != null ? new ItemCategoryEntity { Name = tabItemDTO.Category.Name } : null; // WARNING: This needs to be remade.
+
 			_context.TabItems.Update(entity);
-			
+
 			await _context.SaveChangesAsync();
 			return true;
 		}

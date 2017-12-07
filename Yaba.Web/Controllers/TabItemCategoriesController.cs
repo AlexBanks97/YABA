@@ -3,17 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Yaba.Common.DTO.TabDTOs;
 using Yaba.Common.Tab;
-using Yaba.Common.Tab.TabItemDTOs;
+using Yaba.Common.Tab.DTO.Item;
+using Yaba.Common.Tab.DTO.ItemCategory;
 
 namespace Yaba.Web.Controllers
 {
     public class TabItemCategoriesController : Controller
     {
-		private readonly ITabItemCategoryRepository _repository;
+		private readonly IItemCategoryRepository _repository;
 
-		public TabItemCategoriesController(ITabItemCategoryRepository repository)
+		public TabItemCategoriesController(IItemCategoryRepository repository)
 		{
 			_repository = repository;
 		}

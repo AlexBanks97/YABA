@@ -7,6 +7,7 @@ using Yaba.Common.Budget.DTO.Recurring;
 using Yaba.Entities.Budget;
 using System;
 using System.Linq;
+using Yaba.Entities.Budget.Repository;
 
 namespace Yaba.Entities.Test.Budget
 {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Yaba.Common.Tab.DTO.Item;
 
-namespace Yaba.Common.DTO.TabDTOs
+namespace Yaba.Common.Tab.DTO
 {
 	public class TabDTO
 	{

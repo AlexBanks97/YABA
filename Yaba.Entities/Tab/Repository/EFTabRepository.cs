@@ -1,13 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Yaba.Common;
-using Yaba.Common.DTO.TabDTOs;
-using Yaba.Entities.TabEntitites;
+using Yaba.Common.Tab.DTO;
 
-namespace Yaba.Entities
+namespace Yaba.Entities.Tab.Repository
 {
 	public class EFTabRepository : ITabRepository
 	{
@@ -20,7 +19,7 @@ namespace Yaba.Entities
 
 		public async Task<Guid> CreateTab(TabCreateDTO tab)
 		{
-			var tabEntity = new Tab
+			var tabEntity = new Tab.TabEntity
 			{
 				Balance = tab.Balance,
 				State = tab.State
