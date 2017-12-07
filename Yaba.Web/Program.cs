@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 using Yaba.Entities;
 
 namespace Yaba.Web
@@ -20,7 +21,7 @@ namespace Yaba.Web
 					var context = services.GetRequiredService<IYabaDBContext>();
 					using (context)
 					{
-						(context as DbContext).Database.Migrate();
+						(context as DbContext).Database.MigrateAsync().Wait();
 						DbInitializer.Initialize(context);
 					}
 				}
