@@ -8,7 +8,7 @@ using Yaba.Common.Tab.DTO.ItemCategory;
 
 namespace Yaba.Entities.Tab.Repository
 {
-	public class EFItemRepository : ItemRepository
+	public class EFItemRepository : IItemRepository
 	{
 		private readonly IYabaDBContext _context;
 		public EFItemRepository(IYabaDBContext context)

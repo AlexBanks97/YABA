@@ -13,9 +13,9 @@ namespace Yaba.Web.Controllers
     [Route("api/tabitems")]
     public class TabItemController : Controller
     {
-		private readonly ItemRepository _repository;
+		private readonly IItemRepository _repository;
 
-		public TabItemController(ItemRepository repository)
+		public TabItemController(IItemRepository repository)
 		{
 			_repository = repository;
 		}

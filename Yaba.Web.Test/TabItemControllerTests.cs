@@ -14,7 +14,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void GetTabItem_given_existing_id_returns_ok()
 		{
-			var mock = new Mock<ItemRepository>();
+			var mock = new Mock<IItemRepository>();
 
 			var guid = Guid.NewGuid();
 			var tabItem = new TabItemSimpleDTO();
@@ -31,7 +31,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void GetTabItem_given_TabItem_with_id_returns_id()
 		{
-			var mock = new Mock<ItemRepository>();
+			var mock = new Mock<IItemRepository>();
 
 			var guid = Guid.NewGuid();
 			var tabItem = new TabItemSimpleDTO { Id = guid, Description = "pizza", Amount = 120 };
@@ -49,7 +49,7 @@ namespace Yaba.Web.Test
 		public async void GetTabItem_given_nonexisting_id_returns_notfound()
 		{
 			var guid = Guid.NewGuid();
-			var mock = new Mock<ItemRepository>();
+			var mock = new Mock<IItemRepository>();
 
 			mock.Setup(m => m.Find(guid))
 				.ReturnsAsync(default(TabItemSimpleDTO));
@@ -69,7 +69,7 @@ namespace Yaba.Web.Test
 				new TabItemSimpleDTO(),
 				new TabItemSimpleDTO(),
 			};
-			var mock = new Mock<ItemRepository>();
+			var mock = new Mock<IItemRepository>();
 			var guid = Guid.NewGuid();
 			mock.Setup(t => t.FindFromTab(guid))
 				.ReturnsAsync(tabItems);
@@ -95,7 +95,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Post_given_tab_returns_createdataction()
 		{
-			var mock = new Mock<ItemRepository>();
+			var mock = new Mock<IItemRepository>();
 			mock.Setup(m => m.Create(It.IsAny<TabItemCreateDTO>()))
 				.ReturnsAsync(Guid.NewGuid());
 
@@ -109,7 +109,7 @@ namespace Yaba.Web.Test
 		[Fact(Skip = "Fix this!")]
 		public async void Post_given_malformed_tabItem_returns_BadRequest()
 		{
-			var mock = new Mock<ItemRepository>();
+			var mock = new Mock<IItemRepository>();
 			using (var controller = new TabItemController(mock.Object))
 			{
 				var response = await controller.Post(new TabItemCreateDTO());
@@ -120,7 +120,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Put_given_tabItem_returns_nocontent()
 		{
-			var mock = new Mock<ItemRepository>();
+			var mock = new Mock<IItemRepository>();
 			mock.Setup(m => m.Update(It.IsAny<TabItemSimpleDTO>()))
 				.ReturnsAsync(true);
 
@@ -134,7 +134,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Delete_given_existing_id_returns_NoContent()
 		{
-			var mock = new Mock<ItemRepository>();
+			var mock = new Mock<IItemRepository>();
 			var guid = Guid.NewGuid();
 			mock.Setup(m => m.Delete(guid))
 				.ReturnsAsync(true);
@@ -149,7 +149,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Delete_given_nonexisting_id_returns_NotFound()
 		{
-			var mock = new Mock<ItemRepository>();
+			var mock = new Mock<IItemRepository>();
 			var guid = Guid.NewGuid();
 			mock.Setup(r => r.Delete(guid))
 				.ReturnsAsync(false);
