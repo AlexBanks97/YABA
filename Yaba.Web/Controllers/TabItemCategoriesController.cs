@@ -22,23 +22,14 @@ namespace Yaba.Web.Controllers
 		[Route("{tabCategoryId:Guid}")]
 		public async Task<IActionResult> Get(Guid tabCategoryId)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
 			var tabCategory = await _repository.Find(tabCategoryId);
 			if (tabCategory == null) return NotFound();
 			return Ok(tabCategory);
-
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Get(TabItemSimpleDTO tab)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
 			var tabCategory = await _repository.FindFromTabItemId(tab.Id);
 			if (tabCategory == null) return NotFound();
 			return Ok(tabCategory);
