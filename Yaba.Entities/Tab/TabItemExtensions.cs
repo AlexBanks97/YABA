@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Yaba.Common.Tab.DTO.Item;
-using Yaba.Common.Tab.DTO.ItemCategory;
 
 namespace Yaba.Entities.Tab
 {
@@ -12,7 +11,6 @@ namespace Yaba.Entities.Tab
 			{
 				Amount = itemEntity.Amount,
 				Description = itemEntity.Description,
-				Category = itemEntity.CategoryEntity != null ? new TabItemCategoryDTO { Name = itemEntity.CategoryEntity.Name } : null
 			};
 		}
 

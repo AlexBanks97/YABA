@@ -28,42 +28,6 @@ namespace Yaba.Entities.Test
 		}
 
 		[Fact]
-		public async void Find_Given_Existing_Id_With_Category_Returns_TabItem_With_Category()
-		{
-			var context = Util.GetNewContext(nameof(Find_Given_Existing_Id_With_Category_Returns_TabItem_With_Category));
-
-			var tabitem = new ItemEntity { CategoryEntity = new ItemCategoryEntity { Name = "Food" } };
-
-			context.TabItems.Add(tabitem);
-			await context.SaveChangesAsync();
-
-			using (var repo = new EFItemRepository(context))
-			{
-				var actual = await repo.Find(tabitem.Id);
-				Assert.NotNull(actual.Category);
-				Assert.Equal("Food", actual.Category.Name);
-			}
-		}
-
-		[Fact]
-		public async void Find_Given_Existing_Id_Without_Category_Returns_TabItem_Without_Category()
-		{
-			var context = Util.GetNewContext(nameof(Find_Given_Existing_Id_With_Category_Returns_TabItem_With_Category));
-
-			var tabitem = new ItemEntity();
-
-			context.TabItems.Add(tabitem);
-			await context.SaveChangesAsync();
-
-			using (var repo = new EFItemRepository(context))
-			{
-				var actual = await repo.Find(tabitem.Id);
-				Assert.Null(actual.Category);
-			}
-		}
-
-
-		[Fact]
 		public async void Find_Given_Nonexistent_Id_Returns_Null()
 		{
 			using (var repo = new EFItemRepository(Util.GetNewContext(nameof(Find_Given_Nonexistent_Id_Returns_Null))))
@@ -83,7 +47,7 @@ namespace Yaba.Entities.Test
 			var context = Util.GetNewContext(nameof(FindFromTab_Given_Tab_Returns_TabItems));
 
 			var tabItems = new List<ItemEntity>();
-			for(var i = 0; i < count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				tabItems.Add(new ItemEntity());
 			}
@@ -109,7 +73,6 @@ namespace Yaba.Entities.Test
 			{
 				Amount = 42,
 				Description = "Pizza last week",
-				CategoryEntity = new ItemCategoryEntity { Name = "Food" }
 			});
 
 			var tab = new Tab.TabEntity { TabItems = tabItems };
@@ -124,7 +87,6 @@ namespace Yaba.Entities.Test
 				Assert.Equal(1, tabItemsDTO.Count());
 				Assert.Equal(42, tabItem.Amount);
 				Assert.Equal("Pizza last week", tabItem.Description);
-				Assert.Equal("Food", tabItem.Category.Name);
 			}
 		}
 

@@ -45,8 +45,8 @@ namespace Yaba.Web
 			services.AddScoped<IEntryRepository, EFEntryRepository>();
 			services.AddScoped<ICategoryRepository, EFCategoryRepository>();
 			services.AddScoped<IGoalRepository, EFGoalRepository>();
-			services.AddScoped<IRecurringRepository,EFRecurringRepository>();
-			
+			services.AddScoped<IRecurringRepository, EFRecurringRepository>();
+
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info

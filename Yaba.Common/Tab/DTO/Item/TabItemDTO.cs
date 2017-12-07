@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Yaba.Common.Tab.DTO.ItemCategory;
 
 namespace Yaba.Common.Tab.DTO.Item
 {
@@ -10,14 +9,13 @@ namespace Yaba.Common.Tab.DTO.Item
 
 		[Required]
 		public decimal Amount { get; set; }
-		
+
 		[StringLength(150)]
 		public string Description { get; set; }
 
 		[Required]
 		public TabDTO Tab { get; set; }
-		
-		public TabItemCategoryDTO Category { get; set; }
+
 	}
 
 }

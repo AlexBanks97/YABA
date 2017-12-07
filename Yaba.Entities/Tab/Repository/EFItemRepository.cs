@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Yaba.Common;
 using Yaba.Common.Tab.DTO.Item;
-using Yaba.Common.Tab.DTO.ItemCategory;
 
 namespace Yaba.Entities.Tab.Repository
 {
@@ -36,8 +35,7 @@ namespace Yaba.Entities.Tab.Repository
 			return new TabItemSimpleDTO
 			{
 				Amount = entity.Amount,
-				Category = entity.CategoryEntity != null ? new TabItemCategoryDTO { Name = entity.CategoryEntity.Name } : null,
-				Description = entity.Description
+				Description = entity.Description,
 			};
 		}
 
@@ -60,8 +58,6 @@ namespace Yaba.Entities.Tab.Repository
 
 			entity.Amount = tabItemDTO.Amount;
 			entity.Description = tabItemDTO.Description ?? entity.Description;
-			entity.CategoryEntity = tabItemDTO.Category != null ? new ItemCategoryEntity { Name = tabItemDTO.Category.Name } : null; // WARNING: This needs to be remade.
-
 			_context.TabItems.Update(entity);
 
 			await _context.SaveChangesAsync();
