@@ -8,6 +8,8 @@ using Yaba.Common;
 using Yaba.Common.Budget;
 using Yaba.Entities;
 using Yaba.Entities.Budget;
+using Yaba.Entities.Budget.Repository;
+using Yaba.Entities.Tab.Repository;
 
 namespace Yaba.Web
 {

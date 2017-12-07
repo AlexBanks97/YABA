@@ -8,7 +8,7 @@ using Yaba.Common.Budget.DTO;
 using Yaba.Common.Budget.DTO.Category;
 using Yaba.Common.Budget.DTO.Recurring;
 
-namespace Yaba.Entities.Budget
+namespace Yaba.Entities.Budget.Repository
 {
 	public class EFBudgetRepository : IBudgetRepository
 	{

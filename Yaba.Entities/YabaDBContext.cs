@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Yaba.Entities.Budget;
-using Yaba.Entities.TabEntitites;
+using Yaba.Entities.Tab;
 
 namespace Yaba.Entities
 {
@@ -10,17 +10,16 @@ namespace Yaba.Entities
 		private readonly string _connectionString;
 
 		// Budget-related entities
-		public DbSet<Budget.BudgetEntity> Budgets { get; set; }
+		public DbSet<BudgetEntity> Budgets { get; set; }
 		public DbSet<CategoryEntity> BudgetCategories { get; set; }
 		public DbSet<RecurringEntity> BudgetRecurrings { get; set; }
-		public DbSet<ExpenseEntity> BudgetExpenses { get; set; }
 		public DbSet<EntryEntity> BudgetEntries { get; set; }
 		public DbSet<GoalEntity> BudgetGoals { get; set; }
 
 		// Tab-related entities
-		public DbSet<Tab> Tabs { get; set; }
-		public DbSet<TabItem> TabItems { get; set; }
-		public DbSet<TabItemCategory> TabItemCategories { get; set; }
+		public DbSet<TabEntity> Tabs { get; set; }
+		public DbSet<ItemEntity> TabItems { get; set; }
+		public DbSet<ItemCategoryEntity> TabItemCategories { get; set; }
 
 		public YabaDBContext() {}
 

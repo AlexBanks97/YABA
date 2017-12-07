@@ -2,9 +2,10 @@
 using System;
 using Xunit;
 using Yaba.Common;
-using Yaba.Common.DTO.TabDTOs;
+using Yaba.Common.Tab.DTO;
 using Yaba.Entities.Budget;
-using Yaba.Entities.TabEntitites;
+using Yaba.Entities.Budget.Repository;
+using Yaba.Entities.Tab.Repository;
 
 namespace Yaba.Entities.Test
 {
@@ -23,7 +24,7 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(FindTab_Given_Guid_Returns_Tab));
 
-			var expected = new Tab { Balance = 42, State = State.Active };
+			var expected = new Tab.TabEntity { Balance = 42, State = State.Active };
 
 			using (var repo = new EFTabRepository(context))
 			{
@@ -52,9 +53,9 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(FindAllTabs_finds_all_tabs));
 
-			var tab1 = new Tab { Balance = 120, State = State.Active };
-			var tab2 = new Tab { Balance = 240, State = State.Active };
-			var tab3 = new Tab { Balance = 480, State = State.Active };
+			var tab1 = new Tab.TabEntity { Balance = 120, State = State.Active };
+			var tab2 = new Tab.TabEntity { Balance = 240, State = State.Active };
+			var tab3 = new Tab.TabEntity { Balance = 480, State = State.Active };
 
 			using (var repo = new EFTabRepository(context))
 			{
@@ -69,13 +70,13 @@ namespace Yaba.Entities.Test
 		[Fact (DisplayName = "CreateTab creates a tab")]
 		public async void CreateTab_Creates_Tab()
 		{
-			var entity = default(Tab);
+			var entity = default(Tab.TabEntity);
 			var mock = new Mock<IYabaDBContext>();
 
 			using (var repo = new EFTabRepository(mock.Object))
 			{
-				mock.Setup(m => m.Tabs.Add(It.IsAny<Tab>()))
-				.Callback<Tab>(t => entity = t);
+				mock.Setup(m => m.Tabs.Add(It.IsAny<Tab.TabEntity>()))
+				.Callback<Tab.TabEntity>(t => entity = t);
 
 				var tabToAdd = new TabCreateDTO { Balance = 120, State = State.Active };
 				await repo.CreateTab(tabToAdd);
@@ -89,7 +90,7 @@ namespace Yaba.Entities.Test
 		public async void UpdateTab_Given_Existing_Tab_Returns_True()
 		{
 			var context = Util.GetNewContext(nameof(UpdateTab_Given_Existing_Tab_Returns_True));
-			var tab = new Tab { Balance = 42, State = State.Active };
+			var tab = new Tab.TabEntity { Balance = 42, State = State.Active };
 
 			context.Tabs.Add(tab);
 			await context.SaveChangesAsync();
@@ -127,7 +128,7 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Delete_Given_Existing_Tab_Returns_True));
 
-			var tab = new Tab
+			var tab = new Tab.TabEntity
 			{
 				Balance = 42,
 				State = State.Active

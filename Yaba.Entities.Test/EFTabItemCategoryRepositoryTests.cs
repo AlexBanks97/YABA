@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Xunit;
-using Yaba.Common.DTO.TabDTOs;
-using Yaba.Common.Tab.TabItemDTOs;
-using Yaba.Entities.TabEntitites;
+using Yaba.Common.Tab.DTO.ItemCategory;
+using Yaba.Entities.Tab;
+using Yaba.Entities.Tab.Repository;
 
 namespace Yaba.Entities.Test
 {
@@ -14,12 +14,12 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Find_Given_Valid_Id_Returns_DTO_With_Same_Data));
 
-			var entity = new TabItemCategory { Name = "Food" };
+			var entity = new ItemCategoryEntity { Name = "Food" };
 
 			context.TabItemCategories.Add(entity);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemCategoryRepository(context))
+			using (var repo = new EFItemCategoryRepository(context))
 			{
 				var dto = await repo.Find(entity.Id);
 				Assert.NotNull(dto);
@@ -31,7 +31,7 @@ namespace Yaba.Entities.Test
 		public async void Find_Given_Invalid_Id_Returns_Null()
 		{
 			var context = Util.GetNewContext(nameof(Find_Given_Valid_Id_Returns_DTO_With_Same_Data));
-			using (var repo = new EFTabItemCategoryRepository(context))
+			using (var repo = new EFItemCategoryRepository(context))
 			{
 				var dto = await repo.Find(Guid.NewGuid());
 				Assert.Null(dto);
@@ -43,14 +43,14 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(FindFromTabItem_Given_Valid_Tab_Id_Returns_dto));
 
-			var category = new TabItemCategory { Name = "Food" };
-			var tabItem = new TabItem { Category = category };
+			var category = new ItemCategoryEntity { Name = "Food" };
+			var tabItem = new ItemEntity { CategoryEntity = category };
 
 			context.TabItemCategories.Add(category);
 			context.TabItems.Add(tabItem);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemCategoryRepository(context))
+			using (var repo = new EFItemCategoryRepository(context))
 			{
 				var dto = await repo.FindFromTabItemId(tabItem.Id);
 				Assert.NotNull(dto);
@@ -62,7 +62,7 @@ namespace Yaba.Entities.Test
 		public async void FindFromTabItem_Given_Invalid_Tab_Id_Returns_null()
 		{
 			var context = Util.GetNewContext(nameof(FindFromTabItem_Given_Invalid_Tab_Id_Returns_null));
-			using (var repo = new EFTabItemCategoryRepository(context))
+			using (var repo = new EFItemCategoryRepository(context))
 			{
 				var dto = await repo.FindFromTabItemId(Guid.NewGuid());
 				Assert.Null(dto);
@@ -74,12 +74,12 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(FindFromTabItem_Given_Valid_Tab_Id_With_Invalid_TabItemCategory_Returns_null));
 
-			var tabItem = new TabItem();
+			var tabItem = new ItemEntity();
 
 			context.TabItems.Add(tabItem);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemCategoryRepository(context))
+			using (var repo = new EFItemCategoryRepository(context))
 			{
 				var dto = await repo.FindFromTabItemId(tabItem.Id);
 				Assert.Null(dto);
@@ -90,7 +90,7 @@ namespace Yaba.Entities.Test
 		public async void Create_Creates_TabItemCategory()
 		{
 			var context = Util.GetNewContext(nameof(Create_Creates_TabItemCategory));
-			using (var repo = new EFTabItemCategoryRepository(context))
+			using (var repo = new EFItemCategoryRepository(context))
 			{
 				var category = new TabItemCategoryCreateDTO { Name = "Food" };
 				var guid = await repo.Create(category);
@@ -104,12 +104,12 @@ namespace Yaba.Entities.Test
 		public async void Update_Given_Valid_TabItemCategory_Returns_True()
 		{
 			var context = Util.GetNewContext(nameof(Update_Given_Valid_TabItemCategory_Returns_True));
-			var entity = new TabItemCategory { Name = "fuud" };
+			var entity = new ItemCategoryEntity { Name = "fuud" };
 
 			context.TabItemCategories.Add(entity);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemCategoryRepository(context))
+			using (var repo = new EFItemCategoryRepository(context))
 			{
 				var dto = new TabItemCategoryDTO
 				{
@@ -129,7 +129,7 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Update_Given_Non_Existent_TabItemCategory_Returns_False));
 
-			using (var repo = new EFTabItemCategoryRepository(context))
+			using (var repo = new EFItemCategoryRepository(context))
 			{
 				var dto = new TabItemCategoryDTO
 				{
@@ -147,11 +147,11 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Delete_Given_Existing_TabItemCategory_Returns_True));
 
-			var entity = new TabItemCategory { Name = "Food" };
+			var entity = new ItemCategoryEntity { Name = "Food" };
 			context.TabItemCategories.Add(entity);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemCategoryRepository(context))
+			using (var repo = new EFItemCategoryRepository(context))
 			{
 				var dto = new TabItemCategoryDTO
 				{
@@ -170,7 +170,7 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Delete_Given_Non_Existing_TabItemCategory_Returns_False));
 
-			using (var repo = new EFTabItemCategoryRepository(context))
+			using (var repo = new EFItemCategoryRepository(context))
 			{
 				var dto = new TabItemCategoryDTO { Id = Guid.NewGuid() };
 				var deleted = await repo.Delete(dto.Id);

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Yaba.Common.DTO.TabDTOs;
-using Yaba.Entities.TabEntitites;
+using Yaba.Common.Tab.DTO.Item;
+using Yaba.Entities.Tab;
+using Yaba.Entities.Tab.Repository;
 
 namespace Yaba.Entities.Test
 {
@@ -14,12 +15,12 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Find_Given_Existing_Id_And_Amount_Returns_TabItem));
 
-			var tabitem = new TabItem { Amount = 42 };
+			var tabitem = new ItemEntity { Amount = 42 };
 
 			context.TabItems.Add(tabitem);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemRepository(context))
+			using (var repo = new EFItemRepository(context))
 			{
 				var actual = await repo.Find(tabitem.Id);
 				Assert.Equal(42, actual.Amount);
@@ -31,12 +32,12 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Find_Given_Existing_Id_With_Category_Returns_TabItem_With_Category));
 
-			var tabitem = new TabItem { Category = new TabItemCategory { Name = "Food" } };
+			var tabitem = new ItemEntity { CategoryEntity = new ItemCategoryEntity { Name = "Food" } };
 
 			context.TabItems.Add(tabitem);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemRepository(context))
+			using (var repo = new EFItemRepository(context))
 			{
 				var actual = await repo.Find(tabitem.Id);
 				Assert.NotNull(actual.Category);
@@ -49,12 +50,12 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Find_Given_Existing_Id_With_Category_Returns_TabItem_With_Category));
 
-			var tabitem = new TabItem();
+			var tabitem = new ItemEntity();
 
 			context.TabItems.Add(tabitem);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemRepository(context))
+			using (var repo = new EFItemRepository(context))
 			{
 				var actual = await repo.Find(tabitem.Id);
 				Assert.Null(actual.Category);
@@ -65,7 +66,7 @@ namespace Yaba.Entities.Test
 		[Fact]
 		public async void Find_Given_Nonexistent_Id_Returns_Null()
 		{
-			using (var repo = new EFTabItemRepository(Util.GetNewContext(nameof(Find_Given_Nonexistent_Id_Returns_Null))))
+			using (var repo = new EFItemRepository(Util.GetNewContext(nameof(Find_Given_Nonexistent_Id_Returns_Null))))
 			{
 				var actual = await repo.Find(Guid.NewGuid());
 				Assert.Null(actual);
@@ -81,17 +82,17 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(FindFromTab_Given_Tab_Returns_TabItems));
 
-			var tabItems = new List<TabItem>();
+			var tabItems = new List<ItemEntity>();
 			for(var i = 0; i < count; i++)
 			{
-				tabItems.Add(new TabItem());
+				tabItems.Add(new ItemEntity());
 			}
 
-			var tab = new Tab { TabItems = tabItems };
+			var tab = new Tab.TabEntity { TabItems = tabItems };
 			context.Tabs.Add(tab);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemRepository(context))
+			using (var repo = new EFItemRepository(context))
 			{
 				var tabItemsDTO = await repo.FindFromTab(tab.Id);
 				Assert.Equal(count, tabItemsDTO.ToList().Count);
@@ -103,20 +104,20 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(FindFromTab_Given_TabId_Returns_TabItems_With_Same_Values));
 
-			var tabItems = new List<TabItem>();
-			tabItems.Add(new TabItem
+			var tabItems = new List<ItemEntity>();
+			tabItems.Add(new ItemEntity
 			{
 				Amount = 42,
 				Description = "Pizza last week",
-				Category = new TabItemCategory { Name = "Food" }
+				CategoryEntity = new ItemCategoryEntity { Name = "Food" }
 			});
 
-			var tab = new Tab { TabItems = tabItems };
+			var tab = new Tab.TabEntity { TabItems = tabItems };
 
 			context.Tabs.Add(tab);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemRepository(context))
+			using (var repo = new EFItemRepository(context))
 			{
 				var tabItemsDTO = await repo.FindFromTab(tab.Id);
 				var tabItem = tabItemsDTO.First();
@@ -132,12 +133,12 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Update_Given_Tab_Returns_True));
 
-			var tabItem = new TabItem { Amount = 100 };
+			var tabItem = new ItemEntity { Amount = 100 };
 
 			context.TabItems.Add(tabItem);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemRepository(context))
+			using (var repo = new EFItemRepository(context))
 			{
 				var dto = new TabItemSimpleDTO
 				{
@@ -155,7 +156,7 @@ namespace Yaba.Entities.Test
 		public async void Update_Given_Non_Existing_Tab_Returns_False()
 		{
 			var context = Util.GetNewContext(nameof(Update_Given_Tab_Returns_True));
-			using (var repo = new EFTabItemRepository(context))
+			using (var repo = new EFItemRepository(context))
 			{
 				var dto = new TabItemSimpleDTO
 				{
@@ -173,11 +174,11 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Delete_Given_Existing_TabItem_Returns_True));
 
-			var tabItem = new TabItem { Amount = 42 };
+			var tabItem = new ItemEntity { Amount = 42 };
 			context.Add(tabItem);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemRepository(context))
+			using (var repo = new EFItemRepository(context))
 			{
 				var deleted = await repo.Delete(tabItem.Id);
 				Assert.True(deleted);
@@ -189,7 +190,7 @@ namespace Yaba.Entities.Test
 		public async void Delete_Given_Non_Existing_TabItem_Returns_False()
 		{
 			var context = Util.GetNewContext(nameof(Delete_Given_Non_Existing_TabItem_Returns_False));
-			using (var repo = new EFTabItemRepository(context))
+			using (var repo = new EFItemRepository(context))
 			{
 				var deleted = await repo.Delete(Guid.NewGuid());
 				Assert.False(deleted);
@@ -201,11 +202,11 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Create_Given_Valid_TabItem_Returns_Guid));
 
-			var tab = new Tab();
+			var tab = new Tab.TabEntity();
 			context.Tabs.Add(tab);
 			await context.SaveChangesAsync();
 
-			using (var repo = new EFTabItemRepository(context))
+			using (var repo = new EFItemRepository(context))
 			{
 				var dto = new TabItemCreateDTO
 				{
@@ -222,7 +223,7 @@ namespace Yaba.Entities.Test
 		public async void Create_Given_Invalid_TabItem_Returns_EmptyGuid()
 		{
 			var context = Util.GetNewContext(nameof(Create_Given_Valid_TabItem_Returns_Guid));
-			using (var repo = new EFTabItemRepository(context))
+			using (var repo = new EFItemRepository(context))
 			{
 				var dto = new TabItemCreateDTO();
 				var guid = await repo.Create(dto);

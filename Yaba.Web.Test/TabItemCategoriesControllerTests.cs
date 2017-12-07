@@ -3,9 +3,9 @@ using Moq;
 using System;
 using System.Linq;
 using Xunit;
-using Yaba.Common.DTO.TabDTOs;
 using Yaba.Common.Tab;
-using Yaba.Common.Tab.TabItemDTOs;
+using Yaba.Common.Tab.DTO.Item;
+using Yaba.Common.Tab.DTO.ItemCategory;
 using Yaba.Web.Controllers;
 
 namespace Yaba.Web.Test
@@ -15,7 +15,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Get_Given_Existing_Id_Returns_Ok()
 		{
-			var mock = new Mock<ITabItemCategoryRepository>();
+			var mock = new Mock<IItemCategoryRepository>();
 			var guid = Guid.NewGuid();
 			mock.Setup(c => c.Find(guid))
 				.ReturnsAsync(new TabItemCategoryDTO());
@@ -30,7 +30,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Get_Given_Non_Existing_Id_Returns_NotFound()
 		{
-			var mock = new Mock<ITabItemCategoryRepository>();
+			var mock = new Mock<IItemCategoryRepository>();
 			using (var ctrl = new TabItemCategoriesController(mock.Object))
 			{
 				var result = await ctrl.Get(Guid.NewGuid());
@@ -41,7 +41,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Get_Given_Existing_TabItemCategoryDTO_Returns_Ok()
 		{
-			var mock = new Mock<ITabItemCategoryRepository>();
+			var mock = new Mock<IItemCategoryRepository>();
 			var tabItem = new TabItemSimpleDTO() { Id = Guid.NewGuid() };
 			mock.Setup(c => c.FindFromTabItemId(tabItem.Id))
 				.ReturnsAsync(new TabItemCategoryDTO());
@@ -56,7 +56,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Get_Given_Non_Existing_TabItemCategoryDTO_Returns_NotFound()
 		{
-			var mock = new Mock<ITabItemCategoryRepository>();
+			var mock = new Mock<IItemCategoryRepository>();
 			using (var ctrl = new TabItemCategoriesController(mock.Object))
 			{
 				var result = await ctrl.Get(new TabItemSimpleDTO());
@@ -67,7 +67,7 @@ namespace Yaba.Web.Test
 		[Fact(Skip = "It's a Post method :^)")]
 		public async void Post_Given_Valid_TabItemCategory_Returns_CreatedAtActionResult()
 		{
-			var mock = new Mock<ITabItemCategoryRepository>();
+			var mock = new Mock<IItemCategoryRepository>();
 			var tabItem = new TabItemCategoryCreateDTO { Name = "Food" };
 			var guid = Guid.NewGuid();
 			mock.Setup(c => c.Create(tabItem)).
@@ -84,7 +84,7 @@ namespace Yaba.Web.Test
 		[Fact(Skip="It's a Post method :^)")]
 		public async void Post_Given_Invalid_TabItemCategory_Returns_BadRequest()
 		{
-			var mock = new Mock<ITabItemCategoryRepository>();
+			var mock = new Mock<IItemCategoryRepository>();
 
 			using (var ctrl = new TabItemCategoriesController(mock.Object))
 			{
@@ -96,7 +96,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Put_Given_Existing_TabITemCategory_Returns_NoContent()
 		{
-			var mock = new Mock<ITabItemCategoryRepository>();
+			var mock = new Mock<IItemCategoryRepository>();
 			var dto = new TabItemCategoryDTO();
 			mock.Setup(c => c.Update(dto))
 				.ReturnsAsync(true);
@@ -111,7 +111,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Put_Given_Non_Existing_TabItemCategory_Returns_BadRequest()
 		{
-			var mock = new Mock<ITabItemCategoryRepository>();
+			var mock = new Mock<IItemCategoryRepository>();
 
 			using (var ctrl = new TabItemCategoriesController(mock.Object))
 			{
@@ -123,7 +123,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Delete_Given_Existing_TabItemCategory_Returns_NoContent()
 		{
-			var mock = new Mock<ITabItemCategoryRepository>();
+			var mock = new Mock<IItemCategoryRepository>();
 			var guid = Guid.NewGuid();
 			mock.Setup(c => c.Delete(guid))
 				.ReturnsAsync(true);
@@ -138,7 +138,7 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Delete_Given_Non_Existing_TabItemCategory_Returns_BadRequest()
 		{
-			var mock = new Mock<ITabItemCategoryRepository>();
+			var mock = new Mock<IItemCategoryRepository>();
 
 			using (var ctrl = new TabItemCategoriesController(mock.Object))
 			{

@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Yaba.Common.DTO.TabDTOs;
 using Yaba.Common.Tab;
-using Yaba.Common.Tab.TabItemDTOs;
-using Yaba.Entities.TabEntitites;
+using Yaba.Common.Tab.DTO.ItemCategory;
 
-namespace Yaba.Entities
+namespace Yaba.Entities.Tab.Repository
 {
-	public class EFTabItemCategoryRepository : ITabItemCategoryRepository
+	public class EFItemCategoryRepository : IItemCategoryRepository
 	{
 		private readonly IYabaDBContext _context;
-		public EFTabItemCategoryRepository(IYabaDBContext context)
+		public EFItemCategoryRepository(IYabaDBContext context)
 		{
 			_context = context;
 		}
 
 		public async Task<Guid> Create(TabItemCategoryCreateDTO category)
 		{
-			var entity = new TabItemCategory { Name = category.Name };
+			var entity = new ItemCategoryEntity { Name = category.Name };
 			_context.TabItemCategories.Add(entity);
 			await _context.SaveChangesAsync();
 			return entity.Id;
@@ -47,11 +45,11 @@ namespace Yaba.Entities
 		public async Task<TabItemCategoryDTO> FindFromTabItemId(Guid tabItemID)
 		{
 			var tabEntity = _context.TabItems.SingleOrDefault(t => t.Id == tabItemID);
-			if (tabEntity == null || tabEntity.Category == null) return null;
+			if (tabEntity == null || tabEntity.CategoryEntity == null) return null;
 			return new TabItemCategoryDTO
 			{
-				Id = tabEntity.Category.Id,
-				Name = tabEntity.Category.Name,
+				Id = tabEntity.CategoryEntity.Id,
+				Name = tabEntity.CategoryEntity.Name,
 			};
 		}
 
