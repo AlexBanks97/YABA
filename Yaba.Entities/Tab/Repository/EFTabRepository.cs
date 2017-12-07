@@ -19,7 +19,7 @@ namespace Yaba.Entities.Tab.Repository
 
 		public async Task<Guid> CreateTab(TabCreateDTO tab)
 		{
-			var tabEntity = new Tab.TabEntity
+			var tabEntity = new TabEntity
 			{
 				Balance = tab.Balance,
 				State = tab.State
@@ -45,8 +45,9 @@ namespace Yaba.Entities.Tab.Repository
 		{
 			return _context.Tabs.Select(t => new TabDTO
 			{
+				Id = t.Id,
 				Balance = t.Balance,
-				State = t.State
+				State = t.State,
 			}).ToList();
 		}
 
