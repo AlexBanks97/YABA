@@ -29,10 +29,6 @@ namespace Yaba.Entities.Budget.Repository
 				.FirstOrDefault(b => b.Id == id);
 			if (budget == null) return null;
 
-
-
-
-
             return new BudgetDetailsDto
             {
                 Id = budget.Id,
@@ -43,19 +39,17 @@ namespace Yaba.Entities.Budget.Repository
                     {
                         Id = c.Id,
                         Name = c.Name,
-
                         Balance = _context.BudgetEntries.Include(b => b.CategoryEntity.Id)
                                   .Where(b => b.CategoryEntity.Id == c.Id)
                                           .Select(ca => ca.Amount).Sum(),
-                
 
-                    Goal = c.GoalEntity == null ? null : new GoalSimpleDto{
-                        Id = c.GoalEntity.Id,
-                        Amount = c.GoalEntity.Amount,
-                        Recurrence = c.GoalEntity.Recurrence
-                    } 
+                        Goal = c.GoalEntity == null ? null : new GoalSimpleDto{
+                            Id = c.GoalEntity.Id,
+                            Amount = c.GoalEntity.Amount,
+                            Recurrence = c.GoalEntity.Recurrence
+                        } 
                                  
-                }).ToList(),
+                    }).ToList(),
 
 				Recurrings = budget.Recurrings
 					.Select(i => new RecurringSimpleDto { Id = i.Id, Name = i.Name })
