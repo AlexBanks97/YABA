@@ -8,6 +8,7 @@ using Yaba.Common.Budget.DTO;
 using Yaba.Common.Budget.DTO.Goal;
 using Yaba.Common.Budget.DTO.Category;
 using Yaba.Common.Budget.DTO.Recurring;
+using Yaba.Common.Budget.DTO.Entry;
 
 namespace Yaba.Entities.Budget.Repository
 {
@@ -29,19 +30,24 @@ namespace Yaba.Entities.Budget.Repository
 			if (budget == null) return null;
 
 
-            //var categories = _context.BudgetCategories.Where(c => c.)
 
 
-			return new BudgetDetailsDto
-			{
-				Id = budget.Id,
-				Name = budget.Name, 
 
-				Categories = budget.Categories
-					.Select(c => new CategoryGoalDTO
-                    { 
-                    Id = c.Id, 
-                    Name = c.Name,
+            return new BudgetDetailsDto
+            {
+                Id = budget.Id,
+                Name = budget.Name,
+
+                Categories = budget.Categories
+                    .Select(c => new CategoryGoalDTO
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+
+                        Balance = _context.BudgetEntries.Include(b => b.CategoryEntity.Id)
+                                  .Where(b => b.CategoryEntity.Id == c.Id)
+                                          .Select(ca => ca.Amount).Sum(),
+                
 
                     Goal = c.GoalEntity == null ? null : new GoalSimpleDto{
                         Id = c.GoalEntity.Id,
