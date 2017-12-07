@@ -30,9 +30,9 @@ namespace Yaba.Web.Controllers
 		// GET api/budgets/{guid}
 		[HttpGet]
 		[Route("{tabId:Guid}")]
-		public async Task<IActionResult> Get(Guid id)
+		public async Task<IActionResult> Get(Guid tabId)
 		{
-			var tab = await _repository.FindTab(id);
+			var tab = await _repository.FindTab(tabId);
 			if (tab == null) return NotFound(); // Returns 404
 			return Ok(tab); // Returns 200
 		}
@@ -42,7 +42,7 @@ namespace Yaba.Web.Controllers
 		{
 			if (!ModelState.IsValid) return BadRequest(ModelState); // returns 404
 			var guid = await _repository.CreateTab(tab);
-			return CreatedAtAction(nameof(Get), new {id = guid}, null);
+			return CreatedAtAction(nameof(Get), new { tabId = guid}, null);
 		}
 
 		[HttpPut]
