@@ -9,6 +9,7 @@ namespace Yaba.Entities.Tab
 		{
 			return new TabItemSimpleDTO
 			{
+				Id = itemEntity.Id,
 				Amount = itemEntity.Amount,
 				Description = itemEntity.Description,
 			};
