@@ -9,6 +9,7 @@ namespace Yaba.Common.Budget.DTO.Category
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public decimal Balance { get; set; }
         public GoalSimpleDto Goal {get; set; }
 
     }
