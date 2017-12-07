@@ -19,7 +19,7 @@ namespace Yaba.Entities
 		// Tab-related entities
 		DbSet<TabEntity> Tabs { get; set; }
 		DbSet<ItemEntity> TabItems { get; set; }
-		DbSet<ItemCategoryEntity> TabItemCategories { get; set; }
+
 
 		Task<int> SaveChangesAsync(CancellationToken ct = default(CancellationToken));
 	}

@@ -13,8 +13,8 @@ namespace Yaba.Entities
 				return;
 			}
 
-			var myBudget = new Budget.BudgetEntity {Name = "My Budget"};
-			var companyBudget = new Budget.BudgetEntity {Name = "Company Budget"};
+			var myBudget = new Budget.BudgetEntity { Name = "My Budget" };
+			var companyBudget = new Budget.BudgetEntity { Name = "Company Budget" };
 			context.Budgets.AddRange(myBudget, companyBudget);
 
 			var foodCat = new CategoryEntity
@@ -66,24 +66,6 @@ namespace Yaba.Entities
 
 			context.Tabs.AddRange(tabs);
 
-			var TabItemCategories = new[]
-			{
-				new ItemCategoryEntity
-				{
-					Name = "Food"
-				},
-				new ItemCategoryEntity
-				{
-					Name = "Transportaion"
-				},
-				new ItemCategoryEntity
-				{
-					Name = "Nightout"
-				}
-			};
-
-			context.TabItemCategories.AddRange(TabItemCategories);
-
 			var tabItems = new[]
 			{
 				new ItemEntity()
@@ -91,7 +73,6 @@ namespace Yaba.Entities
 					Amount = 200,
 					Description = "For food and drinks",
 					TabEntity = tabs[0],
-					CategoryEntity = TabItemCategories[2]
 				},
 
 				new ItemEntity()
@@ -99,7 +80,6 @@ namespace Yaba.Entities
 					Amount = 100,
 					Description = "Entrance",
 					TabEntity = tabs[1],
-					CategoryEntity = TabItemCategories[2]
 				},
 
 				new ItemEntity()
@@ -107,7 +87,6 @@ namespace Yaba.Entities
 					Amount = 500,
 					Description = "Grocieries",
 					TabEntity = tabs[1],
-					CategoryEntity = TabItemCategories[0]
 				}
 
 			};

@@ -19,11 +19,10 @@ namespace Yaba.Entities
 		// Tab-related entities
 		public DbSet<TabEntity> Tabs { get; set; }
 		public DbSet<ItemEntity> TabItems { get; set; }
-		public DbSet<ItemCategoryEntity> TabItemCategories { get; set; }
 
-		public YabaDBContext() {}
+		public YabaDBContext() { }
 
-		public YabaDBContext(DbContextOptions<YabaDBContext> options) : base(options) {}
+		public YabaDBContext(DbContextOptions<YabaDBContext> options) : base(options) { }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
@@ -34,6 +33,6 @@ namespace Yaba.Entities
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{}
+		{ }
 	}
 }

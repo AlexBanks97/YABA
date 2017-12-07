@@ -12,7 +12,6 @@ namespace Yaba.Entities.Tab
 		public string Description { get; set; }
 		[Required]
 		public TabEntity TabEntity { get; set; }
-		public ItemCategoryEntity CategoryEntity { get; set; }
 		// Add prop for user whom created tab item
 	}
 }
