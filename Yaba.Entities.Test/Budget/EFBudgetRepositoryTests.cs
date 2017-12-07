@@ -40,49 +40,40 @@ namespace Yaba.Entities.Test.Budget
 
         // Add Test for FInd(Id) with balance
         [Fact(DisplayName = "Find_returns_balance")]
-        public async void FindBudget_given_existing_id_returns_budget_with_balance()
+        public async void FindBudget_given_id_returns_with_balance()
         {
-            var context = Util.GetNewContext(nameof(FindBudget_given_existing_id_returns_budget_with_balance));
+            var context = Util.GetNewContext(nameof(FindBudget_given_id_returns_with_balance));
 
-
-            var budget = new BudgetEntity 
-            {
-                Name = "New Budget"
-            };
-
-            //context.Budgets.Add(budget);
+            var budget = new BudgetEntity {Name = "New Budget"};
+            context.Budgets.Add(budget);
 
             var category = new CategoryEntity
             {
                 Name = "CategoryTest",
-                Entries = {}
+                BudgetEntity = budget,
             };
+			context.BudgetCategories.Add(category);
 
-            //context.BudgetCategories.Add(category);
+			var entries = new[]
+			{
+				new EntryEntity {Amount = 65.0m, Description = "Hawaii Pizza", CategoryEntity = category},
+				new EntryEntity {Amount = 120.75m, Description = "Indkøb Netto", CategoryEntity = category},
+				new EntryEntity {Amount = 30.0m, Description = "Kebab", CategoryEntity = category},
+				new EntryEntity {Amount = 82.50m, Description = "Bland-selv slik", CategoryEntity = category},
+				new EntryEntity {Amount = 150.0m, Description = "Post-its", CategoryEntity = category},
+				new EntryEntity {Amount = 150.0m, Description = "Pizza + udlæg for Hans", CategoryEntity = category},
+				// Example of "recieved money" 
+				new EntryEntity {Amount = -75.0m, Description = "Pizzapenge fra Hans", CategoryEntity = category}
+			};
+            context.BudgetEntries.AddRange(entries);
+			context.SaveChangesAsync().Wait();
 
-            var entry = new EntryEntity
+			using (var repo = new EFBudgetRepository(context))
             {
-                Amount = 1000
-            };
-
-            //context.BudgetEntries.Add(entry);
-
-            category.Entries.Add(entry);
-            category.BudgetEntity = budget;
-            entry.CategoryEntity = category;
-            budget.Categories.Add(category);
-
-
-            using (var repo = new EFBudgetRepository(context))
-            {
-                context.Budgets.Add(budget);
-                await context.SaveChangesAsync();
-
                 var budgetDTO = await repo.Find(budget.Id);
-                Assert.Equal(budgetDTO.Categories.FirstOrDefault().Balance, entry.Amount);
+                Assert.Equal(budgetDTO.Categories.FirstOrDefault().Balance, (decimal) 523.25);
             }
         }
-
 
 		[Fact(DisplayName = "FindBudget with existing id returns a budget")]
 		public async void FindBudget_given_existing_id_returns_budget()
