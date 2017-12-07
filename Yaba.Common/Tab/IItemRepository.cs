@@ -6,7 +6,7 @@ using Yaba.Common.Tab.DTO.Item;
 
 namespace Yaba.Common
 {
-	public interface ItemRepository : IDisposable
+	public interface IItemRepository : IDisposable
 	{
 		Task<Guid> Create(TabItemCreateDTO tabItemDTO);
 		Task<TabItemSimpleDTO> Find(Guid id);
