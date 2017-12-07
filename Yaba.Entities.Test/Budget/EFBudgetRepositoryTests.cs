@@ -38,6 +38,52 @@ namespace Yaba.Entities.Test.Budget
 			}
 		}
 
+        // Add Test for FInd(Id) with balance
+        [Fact(DisplayName = "Find_returns_balance")]
+        public async void FindBudget_given_existing_id_returns_budget_with_balance()
+        {
+            var context = Util.GetNewContext(nameof(FindBudget_given_existing_id_returns_budget_with_balance));
+
+
+            var budget = new BudgetEntity 
+            {
+                Name = "New Budget"
+            };
+
+            //context.Budgets.Add(budget);
+
+            var category = new CategoryEntity
+            {
+                Name = "CategoryTest",
+                Entries = {}
+            };
+
+            //context.BudgetCategories.Add(category);
+
+            var entry = new EntryEntity
+            {
+                Amount = 1000
+            };
+
+            //context.BudgetEntries.Add(entry);
+
+            category.Entries.Add(entry);
+            category.BudgetEntity = budget;
+            entry.CategoryEntity = category;
+            budget.Categories.Add(category);
+
+
+            using (var repo = new EFBudgetRepository(context))
+            {
+                context.Budgets.Add(budget);
+                await context.SaveChangesAsync();
+
+                var budgetDTO = await repo.Find(budget.Id);
+                Assert.Equal(budgetDTO.Categories.FirstOrDefault().Balance, entry.Amount);
+            }
+        }
+
+
 		[Fact(DisplayName = "FindBudget with existing id returns a budget")]
 		public async void FindBudget_given_existing_id_returns_budget()
 		{
@@ -119,21 +165,6 @@ namespace Yaba.Entities.Test.Budget
 		}
 
 		[Fact (DisplayName = "UpdateBudget given DTO with non-existing id returns false")]
-		public async void UpdateBudget_given_dto_with_nonexisting_id_returns_false()
-		{
-			var context = Util.GetNewContext(nameof(UpdateBudget_given_dto_with_nonexisting_id_returns_false));
-			using (var repo = new EFBudgetRepository(context))
-			{
-				var dto = new BudgetCreateUpdateDto
-				{
-					Id = Guid.NewGuid(),
-				};
-				var updated = await repo.Update(dto);
-				Assert.False(updated);
-			}
-		}
-
-		[Fact]
 		public async void Delete_given_nonexisting_id_returns_false()
 		{
 			var context = Util.GetNewContext(nameof(Delete_given_nonexisting_id_returns_false));
