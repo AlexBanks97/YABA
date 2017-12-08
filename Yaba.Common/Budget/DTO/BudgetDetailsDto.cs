@@ -11,9 +11,7 @@ namespace Yaba.Common.Budget.DTO
 		public string Name { get; set; }
 
 		public ICollection<CategoryGoalDTO> Categories { get; set; }
-		public Decimal CategoriesTotal { get; set; }
 		public ICollection<RecurringSimpleDto> Recurrings { get; set; }
-		public Decimal RecurringsTotal { get; set; }
 		// public ICollection<BudgetExpense> Expenses { get; set; }
 	}
 }
