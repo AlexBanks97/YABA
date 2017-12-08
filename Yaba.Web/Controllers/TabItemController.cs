@@ -29,7 +29,7 @@ namespace Yaba.Web.Controllers
 			{
 				return NotFound();
 			}
-			return Ok(tabItemId);
+			return Ok(tabItem);
         }
 
         // GET api/values/5
