@@ -29,7 +29,7 @@ namespace Yaba.Web.Controllers
 			{
 				return NotFound();
 			}
-			return Ok(tabItemId);
+			return Ok(tabItem);
         }
 
         // GET api/values/5
@@ -48,7 +48,7 @@ namespace Yaba.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]TabItemCreateDTO tabItem)
         {
-			if(!ModelState.IsValid)
+			if(!ModelState.IsValid || tabItem.TabId == Guid.Empty) // This should probably be outsources to a [ValidGuid] check
 			{
 				return BadRequest(ModelState);
 			}
