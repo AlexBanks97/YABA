@@ -6,7 +6,7 @@ using Yaba.Common.User.DTO;
 
 namespace Yaba.Common
 {
-    public interface IUserRepository
+    public interface IUserRepository : IDisposable
     {
 		Task<UserDetailsDto> AddFriend(Guid myId, Guid otherId);
 
