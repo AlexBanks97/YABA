@@ -34,6 +34,29 @@ namespace Yaba.Entities
 			};
 			context.BudgetCategories.AddRange(foodCat, billCat, officeCat);
 
+
+            var recurrings = new[]
+            {
+                new RecurringEntity{Name = "Paycheck", Amount = 8000, Recurrence = Common.Recurrence.Monthly, BudgetEntity = myBudget},
+                new RecurringEntity{Name = "Netflix", Amount = -89, Recurrence = Common.Recurrence.Monthly, BudgetEntity = myBudget},
+                new RecurringEntity{Name = "Spotify", Amount = -50, Recurrence = Common.Recurrence.Monthly, BudgetEntity = myBudget},
+
+                new RecurringEntity{Name = "SpotiftyOffice", Amount = 89, Recurrence = Common.Recurrence.Monthly, BudgetEntity = companyBudget},
+                new RecurringEntity{Name = "Rent", Amount = -7000, Recurrence = Common.Recurrence.Monthly, BudgetEntity = companyBudget}
+            };
+
+            context.BudgetRecurrings.AddRange(recurrings);
+
+            var goals = new[]
+            {
+                new GoalEntity {Amount = 3000, Recurrence = Common.Recurrence.Monthly, CategoryEntity = foodCat},
+                new GoalEntity {Amount = 500, Recurrence = Common.Recurrence.Monthly, CategoryEntity = billCat},
+                new GoalEntity {Amount = 1000, Recurrence = Common.Recurrence.Monthly, CategoryEntity = officeCat},
+
+            };
+
+            context.BudgetGoals.AddRange(goals);
+
 			var entries = new[]
 			{
 				new EntryEntity {Amount = 65.0m, Description = "Hawaii Pizza", CategoryEntity = foodCat},
