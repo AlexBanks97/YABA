@@ -9,6 +9,7 @@ namespace Yaba.Entities.Tab
 		{
 			return new TabDTO
 			{
+				Id = tabEntity.Id,
 				Balance = tabEntity.Balance,
 				State = tabEntity.State,
 				TabItems = tabEntity.TabItems.ToTabItemSimpleDTO().ToList()

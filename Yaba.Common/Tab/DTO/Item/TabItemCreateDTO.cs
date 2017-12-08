@@ -7,8 +7,9 @@ namespace Yaba.Common.Tab.DTO.Item
     {
 		[Required]
 		public Guid TabId { get; set; }
-
+		public string Description { get; set; }
 		[Required]
 		public decimal Amount { get; set; }
+
 	}
 }

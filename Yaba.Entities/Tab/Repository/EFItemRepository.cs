@@ -20,6 +20,7 @@ namespace Yaba.Entities.Tab.Repository
 			if (tab == null) return Guid.Empty;
 			var tabItem = new ItemEntity
 			{
+				Description = tabItemDTO.Description,
 				TabEntity = tab,
 				Amount = tabItemDTO.Amount,
 			};
@@ -34,6 +35,7 @@ namespace Yaba.Entities.Tab.Repository
 			if (entity == null) return null;
 			return new TabItemSimpleDTO
 			{
+				Id = entity.Id,
 				Amount = entity.Amount,
 				Description = entity.Description,
 			};
@@ -56,7 +58,7 @@ namespace Yaba.Entities.Tab.Repository
 
 			if (entity == null) return false;
 
-			entity.Amount = tabItemDTO.Amount;
+			if (tabItemDTO.Amount != 0) entity.Amount = tabItemDTO.Amount;
 			entity.Description = tabItemDTO.Description ?? entity.Description;
 			_context.TabItems.Update(entity);
 

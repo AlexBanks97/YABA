@@ -52,12 +52,12 @@ namespace Yaba.Web.Controllers
 			{
 				return BadRequest(ModelState);
 			}
-			var tabDto = await _repository.Create(tabItem);
-			return CreatedAtAction(nameof(Get), new { tab = tabDto}, null);
+			var guid = await _repository.Create(tabItem);
+			return CreatedAtAction(nameof(Get), new { tabItemId = guid }, null);
         }
 
 		// PUT api/values/5
-		[HttpPut("{tabItem:Guid}")]
+		[HttpPut]
 		public async Task<IActionResult> Put(Guid tabItemId, [FromBody]TabItemSimpleDTO tabItem)
         {
 			if(!ModelState.IsValid)

@@ -57,10 +57,10 @@ namespace Yaba.Web.Controllers
 
 		[HttpDelete]
 		[Route("{tabId:Guid}")]
-		public async Task<IActionResult> Delete(Guid id)
+		public async Task<IActionResult> Delete(Guid tabId)
 		{
 			if (!ModelState.IsValid) return BadRequest(ModelState);
-			var deleted = await _repository.Delete(id);
+			var deleted = await _repository.Delete(tabId);
 			if (deleted) return NoContent();
 			return NotFound();
 		}
