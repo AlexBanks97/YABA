@@ -8,9 +8,11 @@ namespace Yaba.Common
 {
     public interface IUserRepository
     {
+		Task<UserSimpleDto> AddFriend(Guid myId, Guid otherId);
+
 		Task<UserCreateDto> CreateUser(UserCreateDto user);
 
-		Task<UserDetailsDto> FindUser(Guid userId);
+		Task<UserSimpleDto> FindUser(Guid userId);
 
 		Task<UserDetailsDto> FindAll();
 
