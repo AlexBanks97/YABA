@@ -12,12 +12,12 @@ namespace Yaba.Web.Test
 	public class TabItemControllerTests
     {
 		[Fact]
-		public async void GetTabItem_given_existing_id_returns_ok()
+		public async void Get_given_existing_id_returns_ok_with_correct_information()
 		{
 			var mock = new Mock<IItemRepository>();
 
 			var guid = Guid.NewGuid();
-			var tabItem = new TabItemSimpleDTO();
+			var tabItem = new TabItemSimpleDTO() { Amount = 42, Description = "Pizza friday" };
 
 			mock.Setup(m => m.Find(guid)).ReturnsAsync(tabItem);
 
@@ -25,28 +25,14 @@ namespace Yaba.Web.Test
 			{
 				var response = await controller.Get(guid) as OkObjectResult;
 				Assert.IsType<OkObjectResult>(response);
+				var result = response.Value as TabItemSimpleDTO;
+				Assert.Equal(42, result.Amount);
+				Assert.Equal("Pizza friday", result.Description);
 			}
 		}
 
 		[Fact]
-		public async void GetTabItem_given_TabItem_with_id_returns_id()
-		{
-			var mock = new Mock<IItemRepository>();
-
-			var guid = Guid.NewGuid();
-			var tabItem = new TabItemSimpleDTO { Id = guid, Description = "pizza", Amount = 120 };
-
-			mock.Setup(m => m.Find(guid)).ReturnsAsync(tabItem);
-
-			using (var controller = new TabItemController(mock.Object))
-			{
-				var response = await controller.Get(guid) as OkObjectResult;
-				Assert.Equal(tabItem.Id, response.Value);
-			}
-		}
-
-		[Fact]
-		public async void GetTabItem_given_nonexisting_id_returns_notfound()
+		public async void Get_given_nonexisting_id_returns_notfound()
 		{
 			var guid = Guid.NewGuid();
 			var mock = new Mock<IItemRepository>();
@@ -66,7 +52,7 @@ namespace Yaba.Web.Test
 		{
 			var tabItems = new List<TabItemSimpleDTO>
 			{
-				new TabItemSimpleDTO(),
+				new TabItemSimpleDTO() { Amount = 42 },
 				new TabItemSimpleDTO(),
 			};
 			var mock = new Mock<IItemRepository>();
@@ -96,12 +82,13 @@ namespace Yaba.Web.Test
 		public async void Post_given_tab_returns_createdataction()
 		{
 			var mock = new Mock<IItemRepository>();
+			var guid = Guid.NewGuid();
 			mock.Setup(m => m.Create(It.IsAny<TabItemCreateDTO>()))
-				.ReturnsAsync(Guid.NewGuid());
+				.ReturnsAsync(guid);
 
 			using (var controller = new TabItemController(mock.Object))
 			{
-				var response = await controller.Post(new TabItemCreateDTO { Amount = 120 });
+				var response = await controller.Post(new TabItemCreateDTO { TabId = guid, Amount = 120 });
 				Assert.IsType<CreatedAtActionResult>(response);
 			}
 		}
