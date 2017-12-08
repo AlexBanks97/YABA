@@ -1,6 +1,7 @@
 ﻿using System;
 using Xunit;
-using Yaba.Common.User.DTO;
+using Yaba.Common.User;
+using Yaba.Entities.User;
 using Yaba.Entities.User.Repository;
 
 namespace Yaba.Entities.Test
@@ -12,7 +13,7 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(Find_Given_Existing_Id_Returns_User));
 
-			var user = new UserDetailsDto { Name = "Alexander" };
+			var user = new UserEntity { Name = "Alexander" };
 			context.Add(user);
 			await context.SaveChangesAsync();
 
