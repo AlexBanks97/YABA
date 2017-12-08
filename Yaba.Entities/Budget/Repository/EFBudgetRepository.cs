@@ -52,8 +52,12 @@ namespace Yaba.Entities.Budget.Repository
                     }).ToList(),
 
 				Recurrings = budget.Recurrings
-					.Select(i => new RecurringSimpleDto { Id = i.Id, Name = i.Name })
-					.ToList(),
+					.Select(i => new RecurringSimpleDto { 
+                    Id = i.Id, 
+                    Name = i.Name,
+                    Amount = i.Amount,
+                    Recurrence = i.Recurrence
+                }).ToList(),
 			};
 		}
 
