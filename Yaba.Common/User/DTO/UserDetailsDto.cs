@@ -8,6 +8,8 @@ namespace Yaba.Common.User.DTO
     {
 		public Guid Id { get; set; }
 
-		public int MyProperty { get; set; }
+		public string name { get; set; }
+
+		public ICollection<UserDetailsDto> friends { get; set; }
 	}
 }
