@@ -14,7 +14,7 @@ namespace Yaba.Common
 
 		Task<UserDetailsDto> FindUser(Guid userId);
 
-		Task<ICollection<UserDetailsDto>> FindAll();
+		Task<ICollection<UserSimpleDto>> FindAll();
 
 		Task<bool> Update(Guid userId);
 

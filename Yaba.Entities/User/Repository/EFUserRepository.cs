@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common;
@@ -31,14 +32,30 @@ namespace Yaba.Entities.User.Repository
 			throw new NotImplementedException();
 		}
 
-		public async Task<ICollection<UserDetailsDto>> FindAll()
+		public async Task<ICollection<UserSimpleDto>> FindAll()
 		{
 			throw new NotImplementedException();
 		}
 
 		public async Task<UserDetailsDto> FindUser(Guid userId)
 		{
-			throw new NotImplementedException();
+			var user = _context.Users.SingleOrDefault(u => u.Id == userId);
+			if (user == null) return null;
+			var dto = new UserDetailsDto
+			{
+				Id = user.Id,
+				Name = user.Name,
+			};
+			if (user.Friends != null)
+			{
+				dto.Friends = user.Friends.Select(u => new UserSimpleDto
+				{
+					Id = u.Id,
+					Name = u.Name,
+				}).ToList();
+			}
+
+			return dto;
 		}
 
 		public async Task<bool> Update(Guid userId)
