@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Yaba.Common.Budget;
 using Yaba.Common.Budget.DTO.Category;
 using Yaba.Common.Budget.DTO.Goal;
+using Microsoft.EntityFrameworkCore;
 
 namespace Yaba.Entities.Budget.Repository
 {
@@ -19,7 +20,7 @@ namespace Yaba.Entities.Budget.Repository
 
 		public async Task<ICollection<GoalDto>> Find()
 		{
-			var goals = _context.BudgetGoals;
+			var goals = _context.BudgetGoals.Include(b => b.CategoryEntity);
 
 			var dtos = new List<GoalDto>();
 
