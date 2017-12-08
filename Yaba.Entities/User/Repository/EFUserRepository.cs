@@ -9,32 +9,32 @@ namespace Yaba.Entities.User.Repository
 {
 	public class EFUserRepository : IUserRepository
 	{
-		public Task<bool> AddFriend(Guid myId, Guid otherId)
+		public async Task<bool> AddFriend(Guid myId, Guid otherId)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<Guid> CreateUser(UserCreateDto user)
+		public async Task<Guid> CreateUser(UserCreateDto user)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<bool> Delete(Guid userId)
+		public async Task<bool> Delete(Guid userId)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<ICollection<UserDetailsDto>> FindAll()
+		public async Task<ICollection<UserDetailsDto>> FindAll()
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<UserDetailsDto> FindUser(Guid userId)
+		public async Task<UserDetailsDto> FindUser(Guid userId)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<bool> Update(Guid userId)
+		public async Task<bool> Update(Guid userId)
 		{
 			throw new NotImplementedException();
 		}
