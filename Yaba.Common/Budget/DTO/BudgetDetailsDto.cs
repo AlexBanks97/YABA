@@ -10,7 +10,7 @@ namespace Yaba.Common.Budget.DTO
 		public Guid Id { get; set; }
 		public string Name { get; set; }
 
-		public ICollection<CategorySimpleDto> Categories { get; set; }
+		public ICollection<CategoryGoalDTO> Categories { get; set; }
 		public ICollection<RecurringSimpleDto> Recurrings { get; set; }
 		// public ICollection<BudgetExpense> Expenses { get; set; }
 	}
