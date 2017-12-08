@@ -82,12 +82,13 @@ namespace Yaba.Web.Test
 		public async void Post_given_tab_returns_createdataction()
 		{
 			var mock = new Mock<IItemRepository>();
+			var guid = Guid.NewGuid();
 			mock.Setup(m => m.Create(It.IsAny<TabItemCreateDTO>()))
-				.ReturnsAsync(Guid.NewGuid());
+				.ReturnsAsync(guid);
 
 			using (var controller = new TabItemController(mock.Object))
 			{
-				var response = await controller.Post(new TabItemCreateDTO { Amount = 120 });
+				var response = await controller.Post(new TabItemCreateDTO { TabId = guid, Amount = 120 });
 				Assert.IsType<CreatedAtActionResult>(response);
 			}
 		}
