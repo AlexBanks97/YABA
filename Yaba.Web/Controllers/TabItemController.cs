@@ -57,7 +57,7 @@ namespace Yaba.Web.Controllers
         }
 
 		// PUT api/values/5
-		[HttpPut("{tabItem:Guid}")]
+		[HttpPut]
 		public async Task<IActionResult> Put(Guid tabItemId, [FromBody]TabItemSimpleDTO tabItem)
         {
 			if(!ModelState.IsValid)
