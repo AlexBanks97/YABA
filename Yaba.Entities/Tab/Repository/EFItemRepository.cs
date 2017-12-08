@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,13 +44,13 @@ namespace Yaba.Entities.Tab.Repository
 
 		public async Task<IEnumerable<TabItemSimpleDTO>> FindFromTab(Guid tabId)
 		{
-			var tabItems = _context.TabItems
-				.Where(t => t.TabEntity.Id == tabId)
-				.Select(t => t.ToTabItemSimpleDTO());
 
-			return tabItems;
+			var tab = _context.Tabs
+				.Include(t => t.TabItems)
+				.SingleOrDefault(t => t.Id == tabId);
 
-
+			if (tab == null) return null;
+			return tab.TabItems.ToTabItemSimpleDTO();
 		}
 
 		public async Task<bool> Update(TabItemSimpleDTO tabItemDTO)

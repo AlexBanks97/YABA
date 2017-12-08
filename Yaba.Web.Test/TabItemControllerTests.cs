@@ -68,16 +68,6 @@ namespace Yaba.Web.Test
 			}
 		}
 
-		public async void GetAll_Given_No_TabId_Returns_Forbidden()
-		{
-			using (var ctrl = new TabItemController(null))
-			{
-				var respone = await ctrl.GetAll(null);
-				Assert.IsType<ForbidResult>(respone);
-
-			};
-		}
-
 		[Fact]
 		public async void Post_given_tab_returns_createdataction()
 		{
