@@ -39,6 +39,43 @@ namespace Yaba.Entities.Test.Budget
 			}
 		}
 
+        // Add Test for FInd(Id) with balance
+        [Fact(DisplayName = "Find_returns_balance")]
+        public async void FindBudget_given_id_returns_with_balance()
+        {
+            var context = Util.GetNewContext(nameof(FindBudget_given_id_returns_with_balance));
+
+            var budget = new BudgetEntity {Name = "New Budget"};
+            context.Budgets.Add(budget);
+
+            var category = new CategoryEntity
+            {
+                Name = "CategoryTest",
+                BudgetEntity = budget,
+            };
+			context.BudgetCategories.Add(category);
+
+			var entries = new[]
+			{
+				new EntryEntity {Amount = 65.0m, Description = "Hawaii Pizza", CategoryEntity = category},
+				new EntryEntity {Amount = 120.75m, Description = "Indkøb Netto", CategoryEntity = category},
+				new EntryEntity {Amount = 30.0m, Description = "Kebab", CategoryEntity = category},
+				new EntryEntity {Amount = 82.50m, Description = "Bland-selv slik", CategoryEntity = category},
+				new EntryEntity {Amount = 150.0m, Description = "Post-its", CategoryEntity = category},
+				new EntryEntity {Amount = 150.0m, Description = "Pizza + udlæg for Hans", CategoryEntity = category},
+				// Example of "recieved money" 
+				new EntryEntity {Amount = -75.0m, Description = "Pizzapenge fra Hans", CategoryEntity = category}
+			};
+            context.BudgetEntries.AddRange(entries);
+			context.SaveChangesAsync().Wait();
+
+			using (var repo = new EFBudgetRepository(context))
+            {
+                var budgetDTO = await repo.Find(budget.Id);
+                Assert.Equal(budgetDTO.Categories.FirstOrDefault().Balance, (decimal) 523.25);
+            }
+        }
+
 		[Fact(DisplayName = "FindBudget with existing id returns a budget")]
 		public async void FindBudget_given_existing_id_returns_budget()
 		{
@@ -120,21 +157,6 @@ namespace Yaba.Entities.Test.Budget
 		}
 
 		[Fact (DisplayName = "UpdateBudget given DTO with non-existing id returns false")]
-		public async void UpdateBudget_given_dto_with_nonexisting_id_returns_false()
-		{
-			var context = Util.GetNewContext(nameof(UpdateBudget_given_dto_with_nonexisting_id_returns_false));
-			using (var repo = new EFBudgetRepository(context))
-			{
-				var dto = new BudgetCreateUpdateDto
-				{
-					Id = Guid.NewGuid(),
-				};
-				var updated = await repo.Update(dto);
-				Assert.False(updated);
-			}
-		}
-
-		[Fact]
 		public async void Delete_given_nonexisting_id_returns_false()
 		{
 			var context = Util.GetNewContext(nameof(Delete_given_nonexisting_id_returns_false));
