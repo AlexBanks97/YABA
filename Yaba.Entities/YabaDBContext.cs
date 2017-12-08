@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Yaba.Common.User;
 using Yaba.Entities.Budget;
 using Yaba.Entities.Tab;
 
@@ -19,6 +20,9 @@ namespace Yaba.Entities
 		// Tab-related entities
 		public DbSet<TabEntity> Tabs { get; set; }
 		public DbSet<ItemEntity> TabItems { get; set; }
+
+		// User-related entities
+		public DbSet<UserEntity> Users { get; set; }
 
 		public YabaDBContext() { }
 

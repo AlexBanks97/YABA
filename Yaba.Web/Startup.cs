@@ -10,6 +10,7 @@ using Yaba.Entities;
 using Yaba.Entities.Budget;
 using Yaba.Entities.Budget.Repository;
 using Yaba.Entities.Tab.Repository;
+using Yaba.Entities.User.Repository;
 
 namespace Yaba.Web
 {
@@ -47,6 +48,7 @@ namespace Yaba.Web
 			services.AddScoped<ICategoryRepository, EFCategoryRepository>();
 			services.AddScoped<IGoalRepository, EFGoalRepository>();
 			services.AddScoped<IRecurringRepository, EFRecurringRepository>();
+			services.AddScoped<IUserRepository, EFUserRepository>();
 
 			services.AddSwaggerGen(c =>
 			{
