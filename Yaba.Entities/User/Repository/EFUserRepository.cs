@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common;
@@ -9,32 +10,55 @@ namespace Yaba.Entities.User.Repository
 {
 	public class EFUserRepository : IUserRepository
 	{
-		public Task<bool> AddFriend(Guid myId, Guid otherId)
+		private readonly IYabaDBContext _context;
+
+		public EFUserRepository(IYabaDBContext context)
+		{
+			_context = context;
+		}
+
+		public async Task<bool> AddFriend(Guid myId, Guid otherId)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<Guid> CreateUser(UserCreateDto user)
+		public async Task<Guid> CreateUser(UserCreateDto user)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<bool> Delete(Guid userId)
+		public async Task<bool> Delete(Guid userId)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<ICollection<UserDetailsDto>> FindAll()
+		public async Task<ICollection<UserSimpleDto>> FindAll()
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<UserDetailsDto> FindUser(Guid userId)
+		public async Task<UserDetailsDto> FindUser(Guid userId)
 		{
-			throw new NotImplementedException();
+			var user = _context.Users.SingleOrDefault(u => u.Id == userId);
+			if (user == null) return null;
+			var dto = new UserDetailsDto
+			{
+				Id = user.Id,
+				Name = user.Name,
+			};
+			if (user.Friends != null)
+			{
+				dto.Friends = user.Friends.Select(u => new UserSimpleDto
+				{
+					Id = u.Id,
+					Name = u.Name,
+				}).ToList();
+			}
+
+			return dto;
 		}
 
-		public Task<bool> Update(Guid userId)
+		public async Task<bool> Update(Guid userId)
 		{
 			throw new NotImplementedException();
 		}
@@ -48,7 +72,7 @@ namespace Yaba.Entities.User.Repository
 			{
 				if (disposing)
 				{
-					// TODO: dispose managed state (managed objects).
+					_context.Dispose();
 				}
 
 				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
