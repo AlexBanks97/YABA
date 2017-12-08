@@ -9,6 +9,13 @@ namespace Yaba.Entities.User.Repository
 {
 	public class EFUserRepository : IUserRepository
 	{
+		private readonly IYabaDBContext _context;
+
+		public EFUserRepository(IYabaDBContext context)
+		{
+			_context = context;
+		}
+
 		public async Task<bool> AddFriend(Guid myId, Guid otherId)
 		{
 			throw new NotImplementedException();
@@ -48,7 +55,7 @@ namespace Yaba.Entities.User.Repository
 			{
 				if (disposing)
 				{
-					// TODO: dispose managed state (managed objects).
+					_context.Dispose();
 				}
 
 				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
