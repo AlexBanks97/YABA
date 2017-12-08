@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Yaba.Common.User;
 using Yaba.Entities.Budget;
 using Yaba.Entities.Tab;
 
@@ -19,6 +20,9 @@ namespace Yaba.Entities
 		// Tab-related entities
 		DbSet<TabEntity> Tabs { get; set; }
 		DbSet<ItemEntity> TabItems { get; set; }
+
+		// User-related entities
+		DbSet<UserEntity> Users { get; set; }
 
 
 		Task<int> SaveChangesAsync(CancellationToken ct = default(CancellationToken));

@@ -12,6 +12,6 @@ namespace Yaba.Common.User.DTO
 		[Required]
 		public string Name { get; set; }
 
-		public ICollection<UserDetailsDto> Friends { get; set; }
+		public ICollection<UserSimpleDto> Friends { get; set; }
 	}
 }
