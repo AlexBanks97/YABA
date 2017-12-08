@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Yaba.Common.User.DTO
 {
-    class UserDetailsDto
+    public class UserDetailsDto
     {
 		public Guid Id { get; set; }
 

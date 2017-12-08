@@ -6,7 +6,7 @@ using Yaba.Common.User.DTO;
 
 namespace Yaba.Common
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
 		Task<UserCreateDto> CreateUser(UserCreateDto user);
 

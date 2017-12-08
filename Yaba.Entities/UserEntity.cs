@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Yaba.Common.User
 {
-    class UserEntity
+    public class UserEntity
     {
 		public Guid Id { get; set; }
 

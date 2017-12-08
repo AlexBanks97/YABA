@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Yaba.Common.User.DTO
 {
-    class UserCreateDto
+    public class UserCreateDto
     {
 		[Required]
 		public string Name { get; set; }
