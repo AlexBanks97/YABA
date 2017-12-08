@@ -8,8 +8,8 @@ namespace Yaba.Common.User
     {
 		public Guid Id { get; set; }
 
-		public string name { get; set; }
+		public string Name { get; set; }
 
-		public ICollection<UserEntity> friends { get; set; }
+		public ICollection<UserEntity> Friends { get; set; }
 	}
 }
