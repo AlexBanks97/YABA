@@ -14,7 +14,7 @@ namespace Yaba.Common.Tab.DTO.Item
 		public string Description { get; set; }
 
 		[Required]
-		public TabDTO Tab { get; set; }
+		public TabDto Tab { get; set; }
 
 	}
 

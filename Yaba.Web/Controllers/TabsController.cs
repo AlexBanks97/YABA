@@ -38,7 +38,7 @@ namespace Yaba.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody] TabCreateDTO tab)
+		public async Task<IActionResult> Post([FromBody] TabCreateDto tab)
 		{
 			if (!ModelState.IsValid) return BadRequest(ModelState); // returns 404
 			var guid = await _repository.CreateTab(tab);
@@ -46,7 +46,7 @@ namespace Yaba.Web.Controllers
 		}
 
 		[HttpPut]
-		public async Task<IActionResult> Put([FromBody] TabUpdateDTO tab)
+		public async Task<IActionResult> Put([FromBody] TabUpdateDto tab)
 		{
 			if (!ModelState.IsValid) return BadRequest(ModelState);
 			var success = await _repository.UpdateTab(tab);

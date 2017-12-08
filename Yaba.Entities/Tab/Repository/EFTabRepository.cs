@@ -17,7 +17,7 @@ namespace Yaba.Entities.Tab.Repository
 			_context = context;
 		}
 
-		public async Task<Guid> CreateTab(TabCreateDTO tab)
+		public async Task<Guid> CreateTab(TabCreateDto tab)
 		{
 			var tabEntity = new TabEntity
 			{
@@ -30,7 +30,7 @@ namespace Yaba.Entities.Tab.Repository
 			return tabEntity.Id;
 		}
 
-		public async Task<bool> UpdateTab(TabUpdateDTO tab)
+		public async Task<bool> UpdateTab(TabUpdateDto tab)
 		{
 			var entity = await _context.Tabs.SingleOrDefaultAsync(t => t.Id == tab.Id);
 			if (entity == null) return false;
@@ -41,11 +41,11 @@ namespace Yaba.Entities.Tab.Repository
 			return true;
 		}
 
-		public async Task<ICollection<TabDTO>> FindAllTabs()
+		public async Task<ICollection<TabDto>> FindAllTabs()
 		{
 			return _context.Tabs
 				.Include(t => t.TabItems)
-				.Select(t => new TabDTO
+				.Select(t => new TabDto
 					{
 						Id = t.Id,
 						TabItems = t.TabItems.ToTabItemSimpleDTO(),
@@ -54,7 +54,7 @@ namespace Yaba.Entities.Tab.Repository
 					}).ToList();
 		}
 
-		public async Task<TabDTO> FindTab(Guid id)
+		public async Task<TabDto> FindTab(Guid id)
 		{
 			var tab = await _context.Tabs
 				.Include(t => t.TabItems)

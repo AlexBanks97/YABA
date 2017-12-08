@@ -35,7 +35,7 @@ namespace Yaba.Entities.Budget.Repository
                 Name = budget.Name,
 
                 Categories = budget.Categories
-                    .Select(c => new CategoryGoalDTO
+                    .Select(c => new CategoryGoalDto
                     {
                         Id = c.Id,
                         Name = c.Name,

@@ -78,7 +78,7 @@ namespace Yaba.Entities.Test
 				mock.Setup(m => m.Tabs.Add(It.IsAny<Tab.TabEntity>()))
 				.Callback<Tab.TabEntity>(t => entity = t);
 
-				var tabToAdd = new TabCreateDTO { Balance = 120, State = State.Active };
+				var tabToAdd = new TabCreateDto { Balance = 120, State = State.Active };
 				await repo.CreateTab(tabToAdd);
 			}
 
@@ -97,7 +97,7 @@ namespace Yaba.Entities.Test
 
 			using (var repo = new EFTabRepository(context))
 			{
-				var dto = new TabUpdateDTO
+				var dto = new TabUpdateDto
 				{
 					Id = tab.Id,
 					Balance = 100,
@@ -117,7 +117,7 @@ namespace Yaba.Entities.Test
 			var context = Util.GetNewContext(nameof(UpdateTab_Given_nonexisting_Tab_Returns_False));
 			using (var repo = new EFTabRepository(context))
 			{
-				var updated = await repo.UpdateTab(new TabUpdateDTO { Id = Guid.NewGuid() });
+				var updated = await repo.UpdateTab(new TabUpdateDto { Id = Guid.NewGuid() });
 				Assert.False(updated);
 
 			}

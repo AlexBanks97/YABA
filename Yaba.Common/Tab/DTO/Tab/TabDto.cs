@@ -4,7 +4,7 @@ using Yaba.Common.Tab.DTO.Item;
 
 namespace Yaba.Common.Tab.DTO
 {
-	public class TabDTO
+	public class TabDto
 	{
 		public Guid Id { get; set; }
 		public decimal Balance { get; set; }
