@@ -43,7 +43,7 @@ namespace Yaba.Entities.Budget.Repository
 
 		public async Task<GoalDto> Find(Guid GoalId)
 		{
-			var goal = _context.BudgetGoals.FirstOrDefault(g => g.Id == GoalId);
+			var goal = _context.BudgetGoals.Include(b => b.CategoryEntity).FirstOrDefault(g => g.Id == GoalId);
 			if (goal == null) return null;
 			var category = new CategorySimpleDto
 			{
