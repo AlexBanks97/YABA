@@ -34,13 +34,15 @@ namespace Yaba.Web.Test
 						Description = ti.Description,
 						Id = ti.Id,
 					}),
-				}).ToList().OrderBy(c => c);
+				}).ToList();
 			using (var controller = new TabsController(new EFTabRepository(context)))
 			{
 				var response = await controller.Get() as OkObjectResult;
 				var result = response.Value as ICollection<TabDto>;
-				
-				Assert.Equal(expected, result.OrderBy(c => c));
+				var expectedSet = new HashSet<TabDto>(expected);
+				var resultSet = new HashSet<TabDto>(result);
+
+				Assert.Equal(expectedSet, resultSet);
 			}
 		}
     }
