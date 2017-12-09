@@ -71,7 +71,7 @@ namespace Yaba.Web.Test
 			}
 		}
 
-		[Fact(Skip = "Model states not set up yet")]
+		[Fact]//(Skip = "Model states not set up yet")]
 		public async void post_given_invalid_model_returns_bad_request()
 		{
 			var mock = new Mock<IEntryRepository>();
