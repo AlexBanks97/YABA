@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Yaba.Common
 {
+	// Credit: https://stackoverflow.com/questions/41814069/not-allowing-guid-empty
 	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
 	public class ValidGuidAttribute : ValidationAttribute
     {
