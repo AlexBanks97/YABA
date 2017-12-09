@@ -13,7 +13,7 @@ namespace Yaba.Entities.Test
 				.Options;
 		}
 
-		internal static YabaDBContext GetNewContext(string name)
+		public static YabaDBContext GetNewContext(string name)
 		{
 			var context = new YabaDBContext(GetInMemoryDatabase(name));
 			context.Database.EnsureDeleted();
