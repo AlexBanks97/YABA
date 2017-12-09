@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yaba.Common\Yaba.Common.csproj" />
+    <ProjectReference Include="..\Yaba.Entities.Test\Yaba.Entities.Test.csproj" />
     <ProjectReference Include="..\Yaba.Web\Yaba.Web.csproj" />
   </ItemGroup>
 </Project>
