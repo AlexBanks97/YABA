@@ -14,10 +14,10 @@ namespace Yaba.Web.Test
 		[Fact]
 		public async void Get_tabs()
 		{
-			var tabs = new List<TabDTO>();
-			tabs.Add(new TabDTO());
-			tabs.Add(new TabDTO());
-			tabs.Add(new TabDTO());
+			var tabs = new List<TabDto>();
+			tabs.Add(new TabDto());
+			tabs.Add(new TabDto());
+			tabs.Add(new TabDto());
 
 			var mock = new Mock<ITabRepository>();
 			mock.Setup(m => m.FindAllTabs())
@@ -34,7 +34,7 @@ namespace Yaba.Web.Test
 		[Fact(DisplayName = "Get Tab given GUID returns OK")]
 		public async void Get_given_existing_guid_returns_OK_with_tab()
 		{
-			var tab = new TabDTO { Balance = 42, State = State.Active };
+			var tab = new TabDto { Balance = 42, State = State.Active };
 			var guid = Guid.NewGuid();
 
 			var mock = new Mock<ITabRepository>();
@@ -54,7 +54,7 @@ namespace Yaba.Web.Test
 			var guid = Guid.NewGuid();
 			var mock = new Mock<ITabRepository>();
 			mock.Setup(m => m.FindTab(guid))
-				.ReturnsAsync(default(TabDTO));
+				.ReturnsAsync(default(TabDto));
 
 			using (var controller = new TabsController(mock.Object))
 			{
@@ -67,12 +67,12 @@ namespace Yaba.Web.Test
 		public async void Post_given_valid_tab_returns_201()
 		{
 			var mock = new Mock<ITabRepository>();
-			mock.Setup(m => m.CreateTab(It.IsAny<TabCreateDTO>()))
+			mock.Setup(m => m.CreateTab(It.IsAny<TabCreateDto>()))
 				.ReturnsAsync(Guid.NewGuid());
 
 			using (var ctrl = new TabsController(mock.Object))
 			{
-				var response = await ctrl.Post(new TabCreateDTO
+				var response = await ctrl.Post(new TabCreateDto
 				{
 					Balance = 42,
 					State = State.Active
@@ -86,12 +86,12 @@ namespace Yaba.Web.Test
 		public async void Post_given_invalid_tab_returns_BadRequest()
 		{
 			var mock = new Mock<ITabRepository>();
-			mock.Setup(m => m.CreateTab(It.IsAny<TabCreateDTO>()))
+			mock.Setup(m => m.CreateTab(It.IsAny<TabCreateDto>()))
 				.ReturnsAsync(Guid.NewGuid());
 
 			using (var ctrl = new TabsController(mock.Object))
 			{
-				var response = await ctrl.Post(new TabCreateDTO());
+				var response = await ctrl.Post(new TabCreateDto());
 				Assert.IsType<BadRequestResult>(response);
 			}
 		}
@@ -100,12 +100,12 @@ namespace Yaba.Web.Test
 		public async void Put_Given_Tab_Returns_NoContent()
 		{
 			var mock = new Mock<ITabRepository>();
-			mock.Setup(m => m.UpdateTab(It.IsAny<TabUpdateDTO>()))
+			mock.Setup(m => m.UpdateTab(It.IsAny<TabUpdateDto>()))
 				.ReturnsAsync(true);
 
 			using (var ctrl = new TabsController(mock.Object))
 			{
-				var response = await ctrl.Put(new TabUpdateDTO
+				var response = await ctrl.Put(new TabUpdateDto
 				{
 					Balance = 100,
 					State = State.Active
@@ -118,12 +118,12 @@ namespace Yaba.Web.Test
 		public async void Put_Given_Non_Existing_Tab_Returns_NotFound()
 		{
 			var mock = new Mock<ITabRepository>();
-			mock.Setup(m => m.UpdateTab(It.IsAny<TabUpdateDTO>()))
+			mock.Setup(m => m.UpdateTab(It.IsAny<TabUpdateDto>()))
 				.ReturnsAsync(false);
 
 			using (var ctrl = new TabsController(mock.Object))
 			{
-				var response = await ctrl.Put(new TabUpdateDTO());
+				var response = await ctrl.Put(new TabUpdateDto());
 				Assert.IsType<NotFoundResult>(response);
 			}
 		}

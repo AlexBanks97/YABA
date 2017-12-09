@@ -5,9 +5,9 @@ namespace Yaba.Entities.Tab
 {
 	public static class TabExtensions
 	{
-		public static TabDTO ToDTO(this TabEntity tabEntity)
+		public static TabDto ToDTO(this TabEntity tabEntity)
 		{
-			return new TabDTO
+			return new TabDto
 			{
 				Id = tabEntity.Id,
 				Balance = tabEntity.Balance,

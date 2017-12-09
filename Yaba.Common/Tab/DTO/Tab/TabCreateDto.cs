@@ -1,6 +1,6 @@
 ﻿namespace Yaba.Common.Tab.DTO
 {
-	public class TabCreateDTO
+	public class TabCreateDto
 	{
 		public decimal Balance { get; set; }
 		

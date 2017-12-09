@@ -2,7 +2,7 @@
 
 namespace Yaba.Common.Tab.DTO
 {
-	public class TabUpdateDTO
+	public class TabUpdateDto
 	{
 		public Guid Id { get; set; }
 		public decimal? Balance { get; set; }

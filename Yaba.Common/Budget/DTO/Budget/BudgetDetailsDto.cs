@@ -1,22 +1,17 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using Yaba.Common.Budget.DTO.Category;
 using Yaba.Common.Budget.DTO.Recurring;
 
-
 namespace Yaba.Common.Budget.DTO
 {
-	public class BudgetDto
+	public class BudgetDetailsDto
 	{
-		[Required]
 		public Guid Id { get; set; }
-
-		[Required]
-		[StringLength(50)]
 		public string Name { get; set; }
-		public ICollection<CategoryDto> Categories { get; set; }
+
+		public ICollection<CategoryGoalDto> Categories { get; set; }
 		public ICollection<RecurringSimpleDto> Recurrings { get; set; }
-		public ICollection<ExpenseDto> Expenses { get; set; }
+		// public ICollection<BudgetExpense> Expenses { get; set; }
 	}
 }

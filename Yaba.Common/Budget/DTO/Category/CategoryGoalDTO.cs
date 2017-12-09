@@ -5,7 +5,7 @@ using Yaba.Common.Budget.DTO.Entry;
 
 namespace Yaba.Common.Budget.DTO.Category
 {
-    public class CategoryGoalDTO
+    public class CategoryGoalDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
