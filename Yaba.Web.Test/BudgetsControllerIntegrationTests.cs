@@ -114,5 +114,18 @@ namespace Yaba.Web.Test
 				Assert.Null(budget);
 			}
 		}
+
+		[Fact]
+		public async void delete_given_invalid_id_returns_not_found()
+		{
+			var ctx = Util.GetNewContext(nameof(delete_given_invalid_id_returns_not_found));
+			DbInitializer.Initialize(ctx);
+
+			using (var ctrl = new BudgetsController(new EFBudgetRepository(ctx)))
+			{
+				var result = await ctrl.Delete(Guid.Empty);
+				Assert.IsType<NotFoundResult>(result);
+			}
+		}
 	}
 }
