@@ -37,12 +37,11 @@ namespace Yaba.Web.Test
 				}).ToList();
 			using (var controller = new TabsController(new EFTabRepository(context)))
 			{
+
 				var response = await controller.Get() as OkObjectResult;
 				var result = response.Value as ICollection<TabDto>;
-				var expectedSet = new HashSet<TabDto>(expected);
-				var resultSet = new HashSet<TabDto>(result);
 
-				Assert.Equal(expectedSet, resultSet);
+				Assert.Equal(expected, result);
 			}
 		}
     }
