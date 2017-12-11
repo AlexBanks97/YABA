@@ -10,6 +10,6 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock Text="YABA" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0" FontSize="50"></TextBlock>
         <TextBlock Text="Yet Another Budgeting App" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,200,0,0" FontSize="25"></TextBlock>
-        <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Continue with Facebook" Background="#3B5998" Foreground="White" Click="Button_Click"></Button>
+        <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Continue with Facebook" Background="#3B5998" Foreground="White" Click="Button_Click" FontSize="30"></Button>
     </Grid>
 </Page>
