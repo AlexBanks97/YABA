@@ -30,7 +30,7 @@ namespace Yaba.UWPApp
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			this.Frame.Navigate(typeof(HomePage));
+			this.Frame.Navigate(typeof(NavigationPage));
 		}
 	}
 }
