@@ -9,6 +9,9 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock Text="My Tabs" FontSize="35" HorizontalAlignment="Center"></TextBlock>
+        
+        <!-- Get user tabs and display in ListView -->
+        
         <CommandBar VerticalAlignment="Bottom">
             <AppBarButton Content="Add Tab"/>
         </CommandBar>
