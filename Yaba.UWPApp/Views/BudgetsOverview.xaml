@@ -9,11 +9,27 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock Text="My Budgets" FontSize="35" HorizontalAlignment="Center"></TextBlock>
-        
+
+        <ListView Name="BudgetOverviewList" VerticalAlignment="Top" Margin="5,100,5,40" HorizontalAlignment="Stretch"  IsItemClickEnabled="True" ItemClick="List_Click">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" 
+                            FontSize="24" />
+                        <TextBlock Text="{Binding Id}" 
+                            FontSize="24" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Items>
+
+            </ListView.Items>
+        </ListView>
+
         <!-- Get budgets and display in ListView -->
         
         <CommandBar VerticalAlignment="Bottom">
-            <AppBarButton Content="Add Budget"/>
+            <AppBarButton Content="Add Budget" Click="Button_Click"/>
         </CommandBar>
     </Grid>
 </Page>
