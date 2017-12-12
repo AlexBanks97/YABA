@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Yaba.Common.Budget.DTO;
+using Yaba.UWPApp.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,17 +25,25 @@ namespace Yaba.UWPApp
 	/// </summary>
 	public sealed partial class BudgetsOverview : Page
 	{
+		private readonly BudgetOverviewViewModel _vm;
 		public BudgetsOverview()
 		{
 			this.InitializeComponent();
-
+			_vm = App.ServiceProvider.GetService<BudgetOverviewViewModel>();
+			
 			// change to proper Dto (the one returned from apo)
-			List<BudgetSimpleDto> items = new List<BudgetSimpleDto>
-			{
-				new BudgetSimpleDto(){Id = new Guid(), Name="My Personal Budget" },
-				new BudgetSimpleDto(){Id = new Guid(), Name="My Company Budget" },
-			};
-			BudgetOverviewList.ItemsSource = items;
+			//List<BudgetSimpleDto> items = new List<BudgetSimpleDto>
+			//{
+			//	new BudgetSimpleDto(){Id = new Guid(), Name="My Personal Budget" },
+			//	new BudgetSimpleDto(){Id = new Guid(), Name="My Company Budget" },
+			//};
+			//BudgetOverviewList.ItemsSource = items;
+
+		}
+
+		protected override async void OnNavigatedTo(NavigationEventArgs e)
+		{
+			await _vm.Initialize();
 		}
 
 		private void List_Click(object sender, ItemClickEventArgs e)
