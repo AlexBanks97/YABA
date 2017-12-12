@@ -36,9 +36,9 @@ namespace Yaba.UWPApp
 			BudgetOverviewList.ItemsSource = items;
 		}
 
-		private void List_Click(object sender, RoutedEventArgs e)
+		private void List_Click(object sender, ItemClickEventArgs e)
 		{
-			this.Frame.Navigate(typeof(Yaba.UWPApp.Views.BudgetView));
+			this.Frame.Navigate(typeof(Yaba.UWPApp.Views.BudgetView), e.ClickedItem, null);
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
