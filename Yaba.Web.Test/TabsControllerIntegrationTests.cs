@@ -20,7 +20,8 @@ namespace Yaba.Web.Test
 		public async void GetReturns()
 		{
 			var context = Util.GetNewContext(nameof(GetReturns));
-			DbInitializer.Initialize(context);
+			DbInitializer.InitializeTestData(context);
+
 			var expected = context.Tabs
 				.Include(t => t.TabItems)
 				.Select(b => new TabDto()
@@ -41,7 +42,7 @@ namespace Yaba.Web.Test
 				var response = await controller.Get() as OkObjectResult;
 				var result = response.Value as ICollection<TabDto>;
 
-				Assert.Equal(expected, result);
+                Assert.Equal(expected, result);
 			}
 		}
     }
