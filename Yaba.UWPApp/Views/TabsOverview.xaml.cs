@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using Yaba.Common.Tab.DTO;
 using Yaba.Common.Tab;
 using Yaba.Common;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,20 +28,20 @@ namespace Yaba.UWPApp.Views
 	{
 		public TabsOverview()
 		{
-			
 			this.InitializeComponent();
+
 			List<TabDto> items = new List<TabDto>
 			{
-				new TabDto{Balance=100,State= State.Active,TabItems={ } },
-				new TabDto{Balance=100,State= State.Active,TabItems={ } },
-				new TabDto{Balance=100,State= State.Active,TabItems={ } },
+				new TabDto{ Id = Guid.NewGuid(), Balance=100,State= State.Active,TabItems={ } },
+				new TabDto{ Id = Guid.NewGuid(), Balance=100,State= State.Active,TabItems={ } },
+				new TabDto{ Id = Guid.NewGuid(), Balance=100,State= State.Active,TabItems={ } },
 			};
 			TabOverviewList.ItemsSource = items;
 		}
 
-		private void List_Click(object sender, RoutedEventArgs e)
+		private void List_Click(object sender, ItemClickEventArgs e)
 		{
-			this.Frame.Navigate(typeof(Yaba.UWPApp.Views.BudgetView));
+			this.Frame.Navigate(typeof(SpecificTabPage), e.ClickedItem);
 		}
 
 	}
