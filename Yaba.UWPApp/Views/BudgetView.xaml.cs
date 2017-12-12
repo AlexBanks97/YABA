@@ -12,9 +12,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Yaba.Common.Tab.DTO;
-using Yaba.Common.Tab;
-using Yaba.Common;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,26 +20,11 @@ namespace Yaba.UWPApp.Views
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class TabsOverview : Page
+	public sealed partial class BudgetView : Page
 	{
-		public TabsOverview()
+		public BudgetView()
 		{
-			
 			this.InitializeComponent();
-			List<TabDto> items = new List<TabDto>
-			{
-				new TabDto{Balance=100,State= State.Active,TabItems={ } },
-				new TabDto{Balance=100,State= State.Active,TabItems={ } },
-				new TabDto{Balance=100,State= State.Active,TabItems={ } },
-			};
-			TabOverviewList.ItemsSource = items;
 		}
-
-		private void List_Click(object sender, RoutedEventArgs e)
-		{
-			this.Frame.Navigate(typeof(Yaba.UWPApp.Views.BudgetView));
-		}
-
 	}
-
 }

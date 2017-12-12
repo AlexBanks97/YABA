@@ -11,6 +11,22 @@
         <TextBlock Text="My Tabs" FontSize="35" HorizontalAlignment="Center"></TextBlock>
         
         <!-- Get user tabs and display in ListView -->
+        <ListView Name="TabOverviewList" VerticalAlignment="Top" Margin="5,100,5,40" HorizontalAlignment="Stretch"  IsItemClickEnabled="True" ItemClick="List_Click">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <!-- A Textblock for each element in the dto-->
+                        <TextBlock Text="{Binding Balance}" 
+                            FontSize="24" />
+                        <TextBlock Text="{Binding State}" 
+                            FontSize="24" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Items>
+
+            </ListView.Items>
+        </ListView>
         
         <CommandBar VerticalAlignment="Bottom">
             <AppBarButton Content="Add Tab"/>
