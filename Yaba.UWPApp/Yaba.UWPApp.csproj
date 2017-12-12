@@ -95,9 +95,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MockBudgetRepository.cs" />
     <Compile Include="Models\IoCContainer.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\BudgetDetailViewModel.cs" />
+    <Compile Include="ViewModels\BudgetOverviewViewModel.cs" />
     <Compile Include="Views\BudgetsOverview.xaml.cs">
       <DependentUpon>BudgetsOverview.xaml</DependentUpon>
     </Compile>
