@@ -119,6 +119,9 @@
     <Compile Include="Views\TabsOverview.xaml.cs">
       <DependentUpon>TabsOverview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserGreeting.xaml.cs">
+      <DependentUpon>UserGreeting.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -162,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TabsOverview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserGreeting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
