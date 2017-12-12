@@ -28,10 +28,10 @@ namespace Yaba.UWPApp
 			this.InitializeComponent();
 
 			// change to proper Dto (the one returned from apo)
-			List<BudgetDto> items = new List<BudgetDto>
+			List<BudgetSimpleDto> items = new List<BudgetSimpleDto>
 			{
-				new BudgetDto(){Id = new Guid(), Name="My Personal Budget", Categories = { }, Expenses = { }, Recurrings = { } },
-				new BudgetDto(){Id = new Guid(), Name="My Company Budget", Categories = { }, Expenses = { }, Recurrings = { } },
+				new BudgetSimpleDto(){Id = new Guid(), Name="My Personal Budget" },
+				new BudgetSimpleDto(){Id = new Guid(), Name="My Company Budget" },
 			};
 			BudgetOverviewList.ItemsSource = items;
 		}
