@@ -54,8 +54,8 @@ namespace Yaba.Web.Controllers
 		}
 
 		// PUT api/values/5
-		[HttpPut("{budgetId:Guid}")]
-		public async Task<IActionResult> Put(Guid budgetId, [FromBody] BudgetCreateUpdateDto budget)
+		[HttpPut]
+		public async Task<IActionResult> Put([FromBody] BudgetCreateUpdateDto budget)
 		{
 			if (!ModelState.IsValid)
 			{

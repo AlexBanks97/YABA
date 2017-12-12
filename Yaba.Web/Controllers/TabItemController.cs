@@ -46,7 +46,7 @@ namespace Yaba.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]TabItemCreateDTO tabItem)
         {
-			if(!ModelState.IsValid || tabItem.TabId == Guid.Empty) // This should probably be outsources to a [ValidGuid] check
+			if(!ModelState.IsValid) // This should probably be outsources to a [ValidGuid] check
 			{
 				return BadRequest(ModelState);
 			}

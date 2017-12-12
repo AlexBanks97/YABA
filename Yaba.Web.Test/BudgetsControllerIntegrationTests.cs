@@ -93,7 +93,7 @@ namespace Yaba.Web.Test
 			};
 			using (var ctrl = new BudgetsController(new EFBudgetRepository(ctx)))
 			{
-				await ctrl.Put(FirstBudget.Id, updateBudget);
+				await ctrl.Put(updateBudget);
 				var BudgetAfterUpdate = ctx.Budgets.Find(FirstBudget.Id);
 
 				Assert.NotEqual(updateBudget.Name, FirstBudgetName);
