@@ -44,6 +44,12 @@ namespace Yaba.UWPApp.Views
 			this.Frame.Navigate(typeof(SpecificTabPage), e.ClickedItem);
 		}
 
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			base.OnNavigatedTo(e);
+			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+
+		}
 	}
 
 }

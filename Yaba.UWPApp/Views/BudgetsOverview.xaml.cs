@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using Yaba.Common.Budget.DTO;
 using Yaba.UWPApp.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -44,6 +45,8 @@ namespace Yaba.UWPApp
 		protected override async void OnNavigatedTo(NavigationEventArgs e)
 		{
 			await _vm.Initialize();
+
+			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 		}
 
 		private void List_Click(object sender, ItemClickEventArgs e)
