@@ -68,6 +68,7 @@ namespace Yaba.UWPApp
 				
 			}
 
+			if (name == null) name = "Mr. Mallory";
 
 			Debug.WriteLine($"{sb}");
 			return i;
