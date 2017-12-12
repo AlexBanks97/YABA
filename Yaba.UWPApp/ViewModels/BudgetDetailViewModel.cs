@@ -30,10 +30,10 @@ namespace Yaba.UWPApp.ViewModels
 			Id = dto.Id;
 			Name = dto.Name;
 
-			var details = await repository.Find(Id);
+			/*var details = await repository.Find(Id);
 
 			Categories = details.Categories;
-			Recurrings = details.Recurrings;
+			Recurrings = details.Recurrings;*/
 		}
 	}
 }
