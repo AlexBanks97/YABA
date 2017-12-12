@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Yaba.Common.Budget.DTO;
+using Yaba.UWPApp.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,9 +24,19 @@ namespace Yaba.UWPApp.Views
 	/// </summary>
 	public sealed partial class BudgetView : Page
 	{
+		private readonly BudgetDetailViewModel _vm;
 		public BudgetView()
 		{
 			this.InitializeComponent();
+			
+
+			DataContext = _vm;
+		}
+
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			var w = e.Parameter as BudgetDto;
+			base.OnNavigatedTo(e);
 		}
 	}
 }

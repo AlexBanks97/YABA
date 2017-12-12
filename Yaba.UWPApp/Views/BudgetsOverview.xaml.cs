@@ -28,17 +28,17 @@ namespace Yaba.UWPApp
 			this.InitializeComponent();
 
 			// change to proper Dto (the one returned from apo)
-			List<BudgetDto> items = new List<BudgetDto>
+			List<BudgetSimpleDto> items = new List<BudgetSimpleDto>
 			{
-				new BudgetDto(){Id = new Guid(), Name="My Personal Budget", Categories = { }, Expenses = { }, Recurrings = { } },
-				new BudgetDto(){Id = new Guid(), Name="My Company Budget", Categories = { }, Expenses = { }, Recurrings = { } },
+				new BudgetSimpleDto(){Id = new Guid(), Name="My Personal Budget" },
+				new BudgetSimpleDto(){Id = new Guid(), Name="My Company Budget" },
 			};
 			BudgetOverviewList.ItemsSource = items;
 		}
 
-		private void List_Click(object sender, RoutedEventArgs e)
+		private void List_Click(object sender, ItemClickEventArgs e)
 		{
-			this.Frame.Navigate(typeof(Yaba.UWPApp.Views.BudgetView));
+			this.Frame.Navigate(typeof(Yaba.UWPApp.Views.BudgetView), e.ClickedItem, null);
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
