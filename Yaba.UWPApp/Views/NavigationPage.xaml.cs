@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -27,6 +28,23 @@ namespace Yaba.UWPApp
 		public NavigationPage()
 		{
 			this.InitializeComponent();
+			var rootFrame = ContentFrame;
+			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+			SystemNavigationManager.GetForCurrentView().BackRequested += (s, ee) =>
+			{
+
+				if (rootFrame == null)
+					return;
+
+				// Navigate back if possible, and if the event has not 
+				// already been handled .
+				if (rootFrame.CanGoBack && ee.Handled == false)
+				{
+					ee.Handled = true;
+					rootFrame.GoBack();
+				}
+			};
+
 		}
 
 		private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
