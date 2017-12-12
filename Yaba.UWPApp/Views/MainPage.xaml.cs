@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Auth0.OidcClient;
 using System.Threading.Tasks;
+using System.Text;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -37,43 +38,39 @@ namespace Yaba.UWPApp
 		praffn.eu.auth0.com
 		mb46CJma8ApOBjibmEdJzmcEQaJn976G
 			 */
-
+			var i = 0;
 			var client = new Auth0Client(new Auth0ClientOptions
 			{
 				Domain = "cntest.eu.auth0.com",
-				ClientId = "kpJCzk6eiBai0XVYQ904cgIHGG907PfD"
+				ClientId = "kpJCzk6eiBai0XVYQ904cgIHGG907PfD",
+				ClientSecret = "a2k9vxXuZTXoapriCmugGWNzFxCJnBcR0WwXXFFJxGZuG9E_88evNUQeLKkX_Esw"
 			});
 
 			var loginResult = await client.LoginAsync();
 
+			var sb = new StringBuilder();
 			if (loginResult.IsError)
 			{
-				Debug.WriteLine($"An error occurred during login: {loginResult.Error}");
+				i = 1;
+				sb.AppendLine($"An error occurred during login: {loginResult.Error}");
 			}
-
-			if (!loginResult.IsError)
+			else
 			{
-				Debug.WriteLine($"id_token: {loginResult.IdentityToken}");
-				Debug.WriteLine($"access_token: {loginResult.AccessToken}");
-			}
+				sb.AppendLine($"ID Token: {loginResult.IdentityToken}");
+				sb.AppendLine($"Access Token: {loginResult.AccessToken}");
+				sb.AppendLine($"Refresh Token: {loginResult.RefreshToken}");
 
-			// User info
-			if (!loginResult.IsError)
-			{
-				Debug.WriteLine($"name: {loginResult.User.FindFirst(c => c.Type == "name")?.Value}");
-				Debug.WriteLine($"email: {loginResult.User.FindFirst(c => c.Type == "email")?.Value}");
-			}
+				sb.AppendLine();
 
-			// Claims
-			if (!loginResult.IsError)
-			{
+				sb.AppendLine("-- Claims --");
 				foreach (var claim in loginResult.User.Claims)
 				{
-					Debug.WriteLine($"{claim.Type} = {claim.Value}");
+					sb.AppendLine($"{claim.Type} = {claim.Value}");
 				}
 			}
+			Debug.WriteLine($"{sb}");
 
-			return 0;
+			return i;
 		}
 
 		
@@ -82,7 +79,7 @@ namespace Yaba.UWPApp
 			
 			var x = await LoginResult();
 
-			this.Frame.Navigate(typeof(NavigationPage));
+			if(x == 0) this.Frame.Navigate(typeof(NavigationPage));
 		}
 	}
 }
