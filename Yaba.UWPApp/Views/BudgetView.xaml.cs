@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Navigation;
 using Yaba.Common.Budget.DTO;
 using Yaba.UWPApp.ViewModels;
 
-
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Yaba.UWPApp.Views
