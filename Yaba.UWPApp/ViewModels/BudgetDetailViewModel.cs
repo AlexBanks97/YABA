@@ -16,6 +16,8 @@ namespace Yaba.UWPApp.ViewModels
 
 		public Guid Id { get; set; }
 		public string Name { get; set; }
+		public decimal RecurringTotal { get; set; }
+		public decimal CategoriesTotal { get; set; }
 		public ICollection<CategoryGoalDto> Categories { get; set; }
 		public ICollection<RecurringSimpleDto> Recurrings { get; set; }
 
@@ -28,6 +30,8 @@ namespace Yaba.UWPApp.ViewModels
 		{
 			Id = dto.Id;
 			Name = dto.Name;
+
+			//TODO get details and calculate totals
 
 			/*var details = await repository.Find(Id);
 

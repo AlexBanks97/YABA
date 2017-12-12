@@ -9,14 +9,22 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Name}"/>
+        <TextBlock Grid.Column="0" Grid.Row="0" FontSize="30" Text="{x:Bind _vm.Name}"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Recurring total"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="{x:Bind _vm.RecurringTotal}" TextAlignment="Right"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Categories: "/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="{x:Bind _vm.CategoriesTotal}" TextAlignment="Right"/>
+        <StackPanel Grid.Column="0" Grid.Row="3">
+            
+        </StackPanel>
     </Grid>
 </Page>
