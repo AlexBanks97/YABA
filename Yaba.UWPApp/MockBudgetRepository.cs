@@ -14,8 +14,8 @@ namespace Yaba.UWPApp
 		{
 			return new[]
 			{
-				new BudgetSimpleDto(){Id = new Guid(), Name="My Personal Budget" },
-				new BudgetSimpleDto(){Id = new Guid(), Name="My Company Budget" },
+				new BudgetSimpleDto(){Id = Guid.NewGuid(), Name="My Personal Budget" },
+				new BudgetSimpleDto(){Id = Guid.NewGuid(), Name="My Company Budget" },
 			};
 		}
 

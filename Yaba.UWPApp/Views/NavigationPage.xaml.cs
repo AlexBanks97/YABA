@@ -29,10 +29,9 @@ namespace Yaba.UWPApp
 		{
 			this.InitializeComponent();
 			var rootFrame = ContentFrame;
-			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 			SystemNavigationManager.GetForCurrentView().BackRequested += (s, ee) =>
 			{
-
 				if (rootFrame == null)
 					return;
 
@@ -54,7 +53,7 @@ namespace Yaba.UWPApp
 
 			if (selected.Tag.ToString() == "budgets")
 			{
-				ContentFrame.Navigate(typeof(BudgetsOverview));
+				ContentFrame.Navigate(typeof(BudgetsOverview), "budgets");
 			}
 			else
 			{
