@@ -14,7 +14,6 @@ namespace Yaba.UWPApp.ViewModels
     {
 		private readonly IBudgetRepository repository;
 
-
 		public Guid Id { get; set; }
 		public string Name { get; set; }
 		public ICollection<CategoryGoalDto> Categories { get; set; }
