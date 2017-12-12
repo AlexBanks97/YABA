@@ -10,7 +10,13 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock Text="My Budgets" FontSize="35" HorizontalAlignment="Center"></TextBlock>
 
-        <ListView x:Name="BudgetOverviewList" VerticalAlignment="Top" Margin="5,100,5,40" HorizontalAlignment="Stretch" IsItemClickEnabled="True" ItemClick="List_Click">
+        <ListView x:Name="BudgetOverviewList" 
+                  VerticalAlignment="Top" 
+                  Margin="5,100,5,40" 
+                  HorizontalAlignment="Stretch" 
+                  IsItemClickEnabled="True" 
+                  ItemClick="List_Click"
+                  ItemsSource="{x:Bind _vm.Budgets}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
