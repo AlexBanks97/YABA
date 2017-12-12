@@ -15,7 +15,7 @@ namespace Yaba.Common.Tab.DTO
 		{
 			if (obj is TabDto dto)
 			{
-				return dto.Id == Id && dto.Balance == Balance && dto.TabItems == TabItems && dto.State == State;
+                return dto.Id.Equals(Id) && dto.Balance.Equals(Balance);
 			}
 			return false;
 		}
