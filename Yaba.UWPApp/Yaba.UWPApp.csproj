@@ -97,9 +97,18 @@
     </Compile>
     <Compile Include="MockBudgetRepository.cs" />
     <Compile Include="Models\IoCContainer.cs" />
+    <Compile Include="Models\Repositories\ApiAddress.cs" />
+    <Compile Include="Models\Repositories\Budget\BudgetRepository.cs" />
+    <Compile Include="Models\Repositories\Budget\CategoryRepository.cs" />
+    <Compile Include="Models\Repositories\Budget\EntryRepository.cs" />
+    <Compile Include="Models\Repositories\Budget\GoalRepository.cs" />
+    <Compile Include="Models\Repositories\Budget\RecurringRepository.cs" />
+    <Compile Include="Models\Repositories\Tab\TabItemRepository.cs" />
+    <Compile Include="Models\Repositories\Tab\TabRepository.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\BudgetDetailViewModel.cs" />
     <Compile Include="ViewModels\BudgetOverviewViewModel.cs" />
+    <Compile Include="ViewModels\TabOverviewViewModel.cs" />
     <Compile Include="Views\BudgetsOverview.xaml.cs">
       <DependentUpon>BudgetsOverview.xaml</DependentUpon>
     </Compile>
