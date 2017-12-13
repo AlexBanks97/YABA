@@ -23,6 +23,12 @@ namespace Yaba.UWPApp.Views
 			_vm = App.ServiceProvider.GetService<BudgetDetailViewModel>();
 
 			DataContext = _vm;
+			
+		}
+
+		private void ColorCategoryList()
+		{
+			//yet to be implemented
 		}
 
 		protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -30,6 +36,8 @@ namespace Yaba.UWPApp.Views
 			var budget = e.Parameter as BudgetSimpleDto;
 			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 			await _vm.Initialize(budget);
+
+			ColorCategoryList();
 		}
 	}
 }
