@@ -33,10 +33,23 @@ namespace Yaba.UWPApp.ViewModels
 
 			//TODO get details and calculate totals
 
-			/*var details = await repository.Find(Id);
+			var details = await repository.Find(Id);
 
 			Categories = details.Categories;
-			Recurrings = details.Recurrings;*/
+			Recurrings = details.Recurrings;
+
+			calculateRecurringsTotal();
+			calculateCategoriesTotal();
 		}
+
+	    private void calculateCategoriesTotal()
+	    {
+		    CategoriesTotal = Categories.Sum(c => c.Balance);
+	    }
+
+	    private void calculateRecurringsTotal()
+	    {
+		    RecurringTotal = Recurrings.Sum(r => r.Amount);
+	    }
 	}
 }
