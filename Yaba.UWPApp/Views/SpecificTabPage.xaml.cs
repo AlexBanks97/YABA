@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -42,7 +44,21 @@ namespace Yaba.UWPApp.Views
 			var clickedItem = e.Parameter as TabDto;
 
 			tabTitle.Text = clickedItem.Id.ToString();
+			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
 		}
-	}
+
+	    private void Add_TabItem_Click(object sender, RoutedEventArgs e)
+	    {
+		    addTabItemPopup.IsOpen = true;
+		    this.Frame.Background = new SolidColorBrush { Color = Colors.Black };
+		    this.Frame.Opacity = 0.2;
+		}
+
+	    private void AddTabItemPopup_OnClosed(object sender, object e)
+	    {
+		    addTabItemPopup.IsOpen = false;
+		    this.Frame.Opacity = 1;
+		}
+    }
 }

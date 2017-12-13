@@ -28,22 +28,19 @@ namespace Yaba.UWPApp
 		public NavigationPage()
 		{
 			this.InitializeComponent();
-			var rootFrame = ContentFrame;
-			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-			SystemNavigationManager.GetForCurrentView().BackRequested += (s, ee) =>
-			{
+			setBackButtonFuctionality();
 
-				if (rootFrame == null)
-					return;
 
-				// Navigate back if possible, and if the event has not 
-				// already been handled .
-				if (rootFrame.CanGoBack && ee.Handled == false)
-				{
-					ee.Handled = true;
-					rootFrame.GoBack();
-				}
-			};
+
+		}
+
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			base.OnNavigatedTo(e);
+
+			var parameters = (String) e.Parameter;
+
+			ContentFrame.Navigate(typeof(UserGreeting), parameters);
 
 		}
 
@@ -60,6 +57,25 @@ namespace Yaba.UWPApp
 			{
 				ContentFrame.Navigate(typeof(TabsOverview));
 			}
+		}
+
+		private void setBackButtonFuctionality()
+		{
+			var rootFrame = ContentFrame;
+			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+			SystemNavigationManager.GetForCurrentView().BackRequested += (s, ee) =>
+			{
+				if (rootFrame == null)
+					return;
+
+				// Navigate back if possible, and if the event has not 
+				// already been handled .
+				if (rootFrame.CanGoBack && ee.Handled == false)
+				{
+					ee.Handled = true;
+					rootFrame.GoBack();
+				}
+			};
 		}
 	}
 }

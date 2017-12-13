@@ -119,5 +119,53 @@ namespace Yaba.Entities
 			context.SaveChangesAsync().Wait();
 		}
 
+        public static void InitializeTestData(IYabaDBContext context)
+        {
+            if (context.Budgets.Any() || context.Tabs.Any())
+            {
+                return;
+            }
+
+            var tabs = new[]
+            {
+                new Tab.TabEntity()
+                {
+
+                }
+
+            };
+
+            context.Tabs.AddRange(tabs);
+
+            var tabItems = new[]
+            {
+                new ItemEntity()
+                {
+                    Amount = 200,
+                    Description = "For food and drinks",
+                    TabEntity = tabs[0],
+                },
+
+                new ItemEntity()
+                {
+                    Amount = 100,
+                    Description = "Entrance",
+                    TabEntity = tabs[0],
+                },
+
+                new ItemEntity()
+                {
+                    Amount = 500,
+                    Description = "Grocieries",
+                    TabEntity = tabs[0],
+                }
+
+            };
+
+            context.TabItems.AddRange(tabItems);
+
+            context.SaveChangesAsync().Wait();
+        }
+
 	}
 }
