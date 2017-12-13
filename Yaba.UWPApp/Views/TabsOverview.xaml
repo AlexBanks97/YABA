@@ -55,15 +55,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock FontSize="19" Text="Add New Tab"/>
                     <TextBlock Text="User Id" Grid.Column="0" Grid.Row="1"/>
-                    <TextBlock Text="State" Grid.Column="0" Grid.Row="2"/>
                     <TextBox Grid.Column="1" VerticalAlignment="Top" Grid.Row="1"/>
-
-                    <ComboBox x:Name="TabStateComboBox" DisplayMemberPath="Source" Grid.Column="1" VerticalAlignment="Top" Grid.Row="2">
-                        <ComboBox.Items>
-                            <x:String>"Active"</x:String>
-                            <x:String>"Archived"</x:String>
-                        </ComboBox.Items>
-                    </ComboBox>
                     <Button Grid.Row="2" Grid.Column="1" Content="Save Tab" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                 </Grid>
             </Border>
