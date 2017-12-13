@@ -4,6 +4,7 @@ using Yaba.Common.Budget.DTO;
 using Yaba.UWPApp.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Windows.UI.Core;
+using Yaba.Common.Budget.DTO.Category;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -38,6 +39,14 @@ namespace Yaba.UWPApp.Views
 			await _vm.Initialize(budget);
 
 			ColorCategoryList();
+		}
+
+		private void Categories_OnClick(object sender, ItemClickEventArgs e)
+		{
+			var itemClicked = e.ClickedItem as CategoryGoalDto;
+
+			this.Frame.Navigate(typeof(CategoryPage), itemClicked);
+
 		}
 	}
 }

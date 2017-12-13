@@ -32,11 +32,11 @@
                       VerticalAlignment="Top"
                       HorizontalAlignment="Stretch" 
                       IsItemClickEnabled="True"
-                      
+                      ItemClick="Categories_OnClick"
                       ItemsSource="{x:Bind _vm.Categories}"><!--Margin="5,100,5,40"--><!--ItemClick="List_Click"-->
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel >
+                        <StackPanel>
                             <TextBlock Text="{Binding Name}"
                                        FontSize="24" />
                             <TextBlock Text="{Binding Goal.Amount}" 
