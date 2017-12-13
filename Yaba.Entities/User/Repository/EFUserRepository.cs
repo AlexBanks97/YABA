@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common;
+using Yaba.Common.User;
 using Yaba.Common.User.DTO;
 
 namespace Yaba.Entities.User.Repository
@@ -19,7 +20,14 @@ namespace Yaba.Entities.User.Repository
 
 		public async Task<String> CreateUser(UserCreateDto user)
 		{
-			throw new NotImplementedException();
+            var userEntity = new UserEntity
+            {
+                Name = user.Name
+            };
+
+            _context.Users.Add(userEntity);
+            await _context.SaveChangesAsync();
+            return userEntity.Id;
 		}
 
 		public async Task<bool> Delete(String userId)
