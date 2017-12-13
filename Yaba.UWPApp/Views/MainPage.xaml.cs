@@ -38,12 +38,16 @@ namespace Yaba.UWPApp
 			var i = 0;
 			var client = new Auth0Client(new Auth0ClientOptions
 			{
-				Domain = "cntest.eu.auth0.com",
-				ClientId = "kpJCzk6eiBai0XVYQ904cgIHGG907PfD",
-				ClientSecret = "a2k9vxXuZTXoapriCmugGWNzFxCJnBcR0WwXXFFJxGZuG9E_88evNUQeLKkX_Esw"
+				Domain = "praffn.eu.auth0.com",
+				ClientId = "DRDKy6mF0gWtMFkExlIt0HY2DvqkxPgO",
+				Scope = "openid email profile",
+				//ClientSecret = "a2k9vxXuZTXoapriCmugGWNzFxCJnBcR0WwXXFFJxGZuG9E_88evNUQeLKkX_Esw"
 			});
 
-			var loginResult = await client.LoginAsync();
+			var loginResult = await client.LoginAsync(new
+			{
+				audience = "https://yaba.dev"
+			});
 
 			var sb = new StringBuilder();
 			if (loginResult.IsError)

@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Yaba.Web.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
 	[Route("api/[controller]")]
+	[Authorize]
 	public class ValuesController : Controller
 	{
 		// GET api/values
 		[HttpGet]
-		public IEnumerable<string> Get()
+		public IActionResult Get()
 		{
-			return new string[] { "value1", "value2" };
+			return Ok(HttpContext.User.Claims.Select(c => new
+			{
+				c.Type,
+				c.Value,
+			}));
 		}
 
 		[HttpGet]
