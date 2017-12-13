@@ -32,9 +32,37 @@
         </ListView>
 
         <!-- Get budgets and display in ListView -->
-        
+
         <CommandBar VerticalAlignment="Bottom">
-            <AppBarButton Content="Add Budget" Click="Button_Click"/>
+            <AppBarButton Content="Add Budget" Click="Add_Budget_Click"/>
         </CommandBar>
+        <Popup x:Name="addBudgetPopup" IsOpen="False" IsLightDismissEnabled="True"  
+               Width="320" HorizontalAlignment="Left"
+               HorizontalOffset="50"
+               VerticalOffset="50"
+               Closed="AddBudgetPopup_OnClosed">
+            <Popup.ChildTransitions>
+                <TransitionCollection>
+                    <PaneThemeTransition Edge="Bottom"  />
+                </TransitionCollection>
+            </Popup.ChildTransitions>
+            <Border BorderBrush="Black" BorderThickness="3">
+                <Grid Width="380" Height="500"  Background="{ThemeResource FlyoutBackgroundThemeBrush}" Padding="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="19" Text="Add New Budget"/>
+                    <TextBlock Text="Name" Grid.Column="0" Grid.Row="1"/>
+                    <TextBox Grid.Column="1" VerticalAlignment="Top" Grid.Row="1"/>
+                    <Button Grid.Row="2" Grid.Column="1" Content="Save Budget" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                </Grid>
+            </Border>
+        </Popup>
     </Grid>
 </Page>
