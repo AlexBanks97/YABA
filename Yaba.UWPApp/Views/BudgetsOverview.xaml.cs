@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -54,9 +55,17 @@ namespace Yaba.UWPApp
 			this.Frame.Navigate(typeof(Yaba.UWPApp.Views.BudgetView), e.ClickedItem, null);
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void Add_Budget_Click(object sender, RoutedEventArgs e)
 		{
-			//this.Frame.Navigate(typeof(MainPage));
+			addBudgetPopup.IsOpen = true;
+			this.Frame.Background = new SolidColorBrush { Color = Colors.Black };
+			this.Frame.Opacity = 0.2;
+		}
+
+		private void AddBudgetPopup_OnClosed(object sender, object e)
+		{
+			addBudgetPopup.IsOpen = false;
+			this.Frame.Opacity = 1;
 		}
 	}
 }
