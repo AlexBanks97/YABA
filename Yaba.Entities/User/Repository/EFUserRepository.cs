@@ -22,6 +22,7 @@ namespace Yaba.Entities.User.Repository
 		{
             var userEntity = new UserEntity
             {
+                Id = user.Id,
                 Name = user.Name
             };
 
