@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,9 @@ namespace Yaba.UWPApp.Models
 		private static IServiceProvider ConfigureServices()
 		{
 			IServiceCollection services = new ServiceCollection();
+
+			services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
+			services.AddScoped<DelegatingHandler, AuthorizedHandler>();
 
 			services.AddScoped<IBudgetRepository, MockBudgetRepository>();
 
