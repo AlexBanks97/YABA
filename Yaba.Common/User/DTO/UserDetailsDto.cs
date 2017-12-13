@@ -7,11 +7,9 @@ namespace Yaba.Common.User.DTO
 {
     public class UserDetailsDto
     {
-		public Guid Id { get; set; }
+		public String Id { get; set; }
 
-		[Required]
 		public string Name { get; set; }
 
-		public ICollection<UserSimpleDto> Friends { get; set; }
 	}
 }

@@ -8,16 +8,15 @@ namespace Yaba.Common
 {
     public interface IUserRepository : IDisposable
     {
-		Task<bool> AddFriend(Guid myId, Guid otherId);
 
-		Task<Guid> CreateUser(UserCreateDto user);
+		Task<String> CreateUser(UserCreateDto user);
 
-		Task<UserDetailsDto> FindUser(Guid userId);
+		Task<UserDetailsDto> FindUser(String userId);
 
 		Task<ICollection<UserSimpleDto>> FindAll();
 
-		Task<bool> Update(Guid userId);
+		Task<bool> Update(String userId);
 
-		Task<bool> Delete(Guid userId);
+		Task<bool> Delete(String userId);
     }
 }

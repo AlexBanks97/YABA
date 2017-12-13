@@ -24,7 +24,6 @@ namespace Yaba.Entities
 		// User-related entities
 		DbSet<UserEntity> Users { get; set; }
 
-
 		Task<int> SaveChangesAsync(CancellationToken ct = default(CancellationToken));
 	}
 }

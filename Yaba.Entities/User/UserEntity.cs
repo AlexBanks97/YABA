@@ -6,9 +6,9 @@ namespace Yaba.Common.User
 {
     public class UserEntity
     {
-		public Guid Id { get; set; }
+		public String Id { get; set; }
 
-		public string Name { get; set; }
+        public string Name { get; set; }
 
 		public ICollection<UserEntity> Friends { get; set; }
 	}
