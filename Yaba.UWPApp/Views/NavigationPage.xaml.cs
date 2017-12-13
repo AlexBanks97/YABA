@@ -28,6 +28,39 @@ namespace Yaba.UWPApp
 		public NavigationPage()
 		{
 			this.InitializeComponent();
+			setBackButtonFuctionality();
+
+
+
+		}
+
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			base.OnNavigatedTo(e);
+
+			var parameters = (String) e.Parameter;
+
+			ContentFrame.Navigate(typeof(UserGreeting), parameters);
+
+		}
+
+		private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+		{
+			var selected = args.SelectedItem as NavigationViewItem;
+			if (selected == null) return;
+
+			if (selected.Tag.ToString() == "budgets")
+			{
+				ContentFrame.Navigate(typeof(BudgetsOverview));
+			}
+			else
+			{
+				ContentFrame.Navigate(typeof(TabsOverview));
+			}
+		}
+
+		private void setBackButtonFuctionality()
+		{
 			var rootFrame = ContentFrame;
 			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 			SystemNavigationManager.GetForCurrentView().BackRequested += (s, ee) =>
@@ -43,22 +76,6 @@ namespace Yaba.UWPApp
 					rootFrame.GoBack();
 				}
 			};
-
-		}
-
-		private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-		{
-			var selected = args.SelectedItem as NavigationViewItem;
-			if (selected == null) return;
-
-			if (selected.Tag.ToString() == "budgets")
-			{
-				ContentFrame.Navigate(typeof(BudgetsOverview), "budgets");
-			}
-			else
-			{
-				ContentFrame.Navigate(typeof(TabsOverview));
-			}
 		}
 	}
 }

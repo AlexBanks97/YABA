@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ using Yaba.Entities.Budget;
 using Yaba.Entities.Budget.Repository;
 using Yaba.Entities.Tab.Repository;
 using Yaba.Entities.User.Repository;
+using Yaba.Web.Options;
 
 namespace Yaba.Web
 {
@@ -50,6 +52,18 @@ namespace Yaba.Web
 			services.AddScoped<IRecurringRepository, EFRecurringRepository>();
 			services.AddScoped<IUserRepository, EFUserRepository>();
 
+			var auth0options = new Auth0Options();
+			Configuration.GetSection("Auth0").Bind(auth0options);
+			services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			}).AddJwtBearer(options =>
+			{
+				options.Authority = $"https://{auth0options.Domain}/";
+				options.Audience = auth0options.ApiIdentifier;
+			});
+
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info
@@ -69,6 +83,8 @@ namespace Yaba.Web
 			{
 				app.UseDeveloperExceptionPage();
 			}
+
+			app.UseAuthentication();
 
 			app.UseMvc();
 			app.UseSwagger();
