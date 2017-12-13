@@ -16,6 +16,8 @@ using Yaba.Common.Tab.DTO;
 using Yaba.Common.Tab;
 using Yaba.Common;
 using Windows.UI.Core;
+using Windows.UI;
+using System.Collections.ObjectModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -37,6 +39,8 @@ namespace Yaba.UWPApp.Views
 				new TabDto{ Id = Guid.NewGuid(), Balance=100,State= State.Active,TabItems={ } },
 			};
 			TabOverviewList.ItemsSource = items;
+
+
 		}
 
 		private void List_Click(object sender, ItemClickEventArgs e)
@@ -49,6 +53,19 @@ namespace Yaba.UWPApp.Views
 			base.OnNavigatedTo(e);
 			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 
+		}
+
+		private void Add_Tab_Click(object sender, RoutedEventArgs e)
+		{
+			addTabPopup.IsOpen = true;
+			this.Frame.Background = new SolidColorBrush { Color = Colors.Black };
+			this.Frame.Opacity = 0.2;
+		}
+
+		private void AddTabPopup_OnClosed(object sender, object e)
+		{
+			addTabPopup.IsOpen = false;
+			this.Frame.Opacity = 1;
 		}
 	}
 
