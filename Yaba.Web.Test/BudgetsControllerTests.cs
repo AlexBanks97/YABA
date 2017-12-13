@@ -31,6 +31,26 @@ namespace Yaba.Web.Test
 			}
 		}
 
+		[Fact]
+		public async void Get_given_existing_owner_w_budgets_returns_Ok()
+		{
+			var budgets = new List<BudgetSimpleDto>
+			{
+				new BudgetSimpleDto(),
+				new BudgetSimpleDto(),
+			};
+
+			var mock = new Mock<IBudgetRepository>();
+			mock.Setup(m => m.AllByUser("uid"))
+				.ReturnsAsync(budgets);
+
+			using (var ctrl = new BudgetsController(mock.Object))
+			{
+				var response = await ctrl.Get("uid") as OkObjectResult;
+				Assert.Equal(response.Value, budgets);
+			}
+		}
+
 		[Fact(DisplayName = "Get Budget given GUID returns OK")]
 		public async void Get_given_existing_guid_returns_OK_with_budget()
 		{
