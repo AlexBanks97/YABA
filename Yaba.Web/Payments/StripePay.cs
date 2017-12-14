@@ -11,7 +11,7 @@ namespace Yaba.Web.Payments
 {
     public class StripePay
     {
-	    public bool Pay(StripePayment payment)
+	    public bool Pay(StripePaymentDto payment)
 	    {
 		    var payAmount = (int)(payment.Amount * 100);
 
@@ -20,6 +20,7 @@ namespace Yaba.Web.Payments
 		    var ChargeOptions = new StripeChargeCreateOptions
 		    {
 			    Amount = payAmount,
+				Currency = "dkk",
 			    SourceTokenOrExistingSourceId = payment.Token,
 			    Description = payment.Description,
 			    Capture = true
