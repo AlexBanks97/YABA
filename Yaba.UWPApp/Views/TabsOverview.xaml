@@ -11,7 +11,13 @@
         <TextBlock Text="My Tabs" FontSize="35" HorizontalAlignment="Center"></TextBlock>
         
         <!-- Get user tabs and display in ListView -->
-        <ListView Name="TabOverviewList" VerticalAlignment="Top" Margin="5,100,5,40" HorizontalAlignment="Stretch"  IsItemClickEnabled="True" ItemClick="List_Click">
+        <ListView Name="TabOverviewList" 
+                  VerticalAlignment="Top" 
+                  Margin="5,100,5,40" 
+                  HorizontalAlignment="Stretch"  
+                  IsItemClickEnabled="True" 
+                  ItemClick="List_Click"
+                  ItemsSource="{x:Bind _vm.Tabs}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -23,14 +29,39 @@
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <ListView.Items>
-
-            </ListView.Items>
         </ListView>
-        
+
         <CommandBar VerticalAlignment="Bottom">
-            <AppBarButton Content="Add Tab"/>
+            <AppBarButton Content="Add Tab" Click="Add_Tab_Click"/>
         </CommandBar>
 
+        <Popup x:Name="addTabPopup" IsOpen="False" IsLightDismissEnabled="True"  
+               Width="320" HorizontalAlignment="Left"
+               HorizontalOffset="50"
+               VerticalOffset="50"
+               Closed="AddTabPopup_OnClosed">
+            <Popup.ChildTransitions>
+                <TransitionCollection>
+                    <PaneThemeTransition Edge="Bottom"  />
+                </TransitionCollection>
+            </Popup.ChildTransitions>
+            <Border BorderBrush="Black" BorderThickness="3">
+                <Grid Width="380" Height="500"  Background="{ThemeResource FlyoutBackgroundThemeBrush}" Padding="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="19" Text="Add New Tab"/>
+                    <TextBlock Text="User Id" Grid.Column="0" Grid.Row="1"/>
+                    <TextBox Grid.Column="1" VerticalAlignment="Top" Grid.Row="1"/>
+                    <Button Grid.Row="2" Grid.Column="1" Content="Save Tab" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                </Grid>
+            </Border>
+        </Popup>
     </Grid>
 </Page>

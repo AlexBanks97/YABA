@@ -18,13 +18,38 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" FontSize="30" Text="{x:Bind _vm.Name}"/>
-        <TextBlock Grid.Column="0" Grid.Row="1" Text="Recurring total"/>
-        <TextBlock Grid.Column="0" Grid.Row="1" Text="{x:Bind _vm.RecurringTotal}" TextAlignment="Right"/>
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="Categories: "/>
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="{x:Bind _vm.CategoriesTotal}" TextAlignment="Right"/>
-        <StackPanel Grid.Column="0" Grid.Row="3">
-            
+        <TextBlock Grid.Column="0" Grid.Row="0" Padding="10" FontSize="30" Text="{x:Bind _vm.Name}"/>
+        <StackPanel Grid.Row="1" Padding="10">
+            <TextBlock Text="Recurring total" />
+            <TextBlock Text="{x:Bind _vm.RecurringTotal}" TextAlignment="Right" />
         </StackPanel>
-    </Grid>
-</Page>
+        <StackPanel Grid.Row="2" Padding="10">
+            <TextBlock Text="Categories: "/>
+            <TextBlock Text="{x:Bind _vm.CategoriesTotal}" TextAlignment="Right"/>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="3">
+            <ListView x:Name="BudgetOverviewList" 
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Stretch" 
+                      IsItemClickEnabled="True"
+                      ItemClick="Categories_OnClick"
+                      ItemsSource="{x:Bind _vm.Categories}"><!--Margin="5,100,5,40"--><!--ItemClick="List_Click"-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}"
+                                       FontSize="24" />
+                            <TextBlock Text="{Binding Goal.Amount}" 
+                                       FontSize="24" />
+                            <TextBlock Text="{Binding Balance}" 
+                                       FontSize="24" TextAlignment="Right"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Items>
+
+                </ListView.Items>
+            </ListView>
+        </StackPanel>
+    </Grid>          
+</Page>              
