@@ -12,7 +12,6 @@ namespace Yaba.Common.Budget.DTO.Goal
 		public decimal Amount { get; set; }
 		[Required]
 		public Recurrence Recurrence { get; set; }
-		[Required]
-		public CategorySimpleDto CategoryEntity { get; set; }
+		public Guid CategoryId { get; set; }
 	}
 }
