@@ -33,6 +33,7 @@ namespace Yaba.App.Services
 			// VMs
 			services.AddTransient<MainViewModel>();
 			services.AddTransient<BudgetsViewModel>();
+			services.AddTransient<BudgetsDetailViewModel>();
 
 			//services.AddScoped<ICharacterRepository, CharacterRepository>();
 
