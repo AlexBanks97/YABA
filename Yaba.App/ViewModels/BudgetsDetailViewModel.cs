@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Yaba.App.Models;
 using Yaba.Common.Budget;
+using Yaba.Common.Budget.DTO.Category;
 
 namespace Yaba.App.ViewModels
 {
@@ -19,9 +22,12 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
+		public ObservableCollection<CategoryGoalDto> Categories { get; set; }
+
 		public BudgetsDetailViewModel(IBudgetRepository repository)
 		{
 			_repository = repository;
+			Categories = new ObservableCollection<CategoryGoalDto>();
 		}
 
 		public async Task Initialize(Guid budgetId)
@@ -30,6 +36,8 @@ namespace Yaba.App.ViewModels
 			if (budget == null) return;
 
 			Name = budget.Name;
+			Categories.Clear();
+			Categories.AddRange(budget.Categories);
 		}
 	}
 }

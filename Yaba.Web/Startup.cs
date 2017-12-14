@@ -83,8 +83,11 @@ namespace Yaba.Web
 			{
 				app.UseDeveloperExceptionPage();
 			}
+			if (env.IsProduction())
+			{
+				app.UseAuthentication();
+			}
 
-			app.UseAuthentication();
 
 			app.UseMvc();
 			app.UseSwagger();

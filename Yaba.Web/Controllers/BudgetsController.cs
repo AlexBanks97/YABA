@@ -11,7 +11,7 @@ namespace Yaba.Web.Controllers
 {
 
 	[Route("api/budgets")]
-	[Authorize]
+	//[Authorize]
 	public class BudgetsController : Controller
 	{
 		private readonly IBudgetRepository _repository;
