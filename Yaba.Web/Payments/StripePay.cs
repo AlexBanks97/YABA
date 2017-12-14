@@ -9,7 +9,7 @@ using Yaba.Common.Payment;
 
 namespace Yaba.Web.Payments
 {
-    public class StripePay
+    public class StripePay : IPayment
     {
 	    public bool Pay(StripePaymentDto payment)
 	    {
