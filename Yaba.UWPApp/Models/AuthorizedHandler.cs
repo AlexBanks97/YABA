@@ -12,6 +12,7 @@ namespace Yaba.UWPApp.Models
 
 		public AuthorizedHandler(IAuthenticationHelper helper)
 		{
+			InnerHandler = new HttpClientHandler();
 			_helper = helper;
 		}
 

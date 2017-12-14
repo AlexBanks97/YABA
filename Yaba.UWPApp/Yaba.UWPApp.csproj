@@ -98,8 +98,10 @@
     <Compile Include="MockBudgetRepository.cs" />
     <Compile Include="Models\AuthenticationHelper.cs" />
     <Compile Include="Models\AuthorizedHandler.cs" />
+    <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
     <Compile Include="Models\IoCContainer.cs" />
+    <Compile Include="Models\RestBudgetRepository.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\BudgetDetailViewModel.cs" />

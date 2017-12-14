@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -16,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Yaba.App.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Yaba.Common.Budget.DTO;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -37,7 +39,7 @@ namespace Yaba.App.Views
 
 		private void SetupNavigationView()
 		{
-			NavigationView.MenuItems.Clear();
+			/*NavigationView.MenuItems.Clear();
 			var navItems = _vm.Budgets.Select(i => new NavigationViewItem()
 			{
 				Content = i.Name,
@@ -46,17 +48,17 @@ namespace Yaba.App.Views
 			foreach (var item in navItems)
 			{
 				NavigationView.MenuItems.Add(item);
-			}
+			}*/
 		}
 
 		protected override async void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
 
-			_vm.Budgets.CollectionChanged += (sender, args) => SetupNavigationView();
+			//_vm.Budgets.CollectionChanged += (sender, args) => SetupNavigationView();
 			await _vm.Initialize();
 
-			SetupNavigationView();
+			//SetupNavigationView();
 
 
 			var rootFrame = Window.Current.Content as Frame;
@@ -64,6 +66,11 @@ namespace Yaba.App.Views
 			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
 				? AppViewBackButtonVisibility.Visible
 				: AppViewBackButtonVisibility.Collapsed;
+		}
+
+		private void BudgetsList_OnClick(object sender, ItemClickEventArgs e)
+		{
+			Detail.Navigate(typeof(BudgetDetailView), e.ClickedItem);
 		}
 	}
 }

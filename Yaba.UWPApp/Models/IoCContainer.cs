@@ -21,7 +21,7 @@ namespace Yaba.UWPApp.Models
 			services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
 			services.AddScoped<DelegatingHandler, AuthorizedHandler>();
 
-			services.AddScoped<IBudgetRepository, MockBudgetRepository>();
+			services.AddScoped<IBudgetRepository, RestBudgetRepository>();
 
 			// VMs
 			// AddTransiet, NOT AddScoped, otherwise it adds new things on every page reload ._.

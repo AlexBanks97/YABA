@@ -27,7 +27,8 @@ namespace Yaba.UWPApp.Models
 
 		public string Authority => $"{Instance}{Tenant}";
 */
-		private const string SettingsUser = "user";
+		private const string SettingsUserAccessToken = "user:access_token";
+		private const string SettingsUserIdentityToken = "user:identity_token";
 
 		private readonly ApplicationDataContainer _appSettings;
 
@@ -55,7 +56,8 @@ namespace Yaba.UWPApp.Models
 					AccessToken = loginResult.AccessToken,
 					IdentityToken = loginResult.IdentityToken
 				};
-				_appSettings.Values[SettingsUser] = user;
+				_appSettings.Values[SettingsUserAccessToken] = user.AccessToken;
+				_appSettings.Values[SettingsUserIdentityToken] = user.IdentityToken;
 				return user;
 			}
 			return null;
@@ -63,9 +65,15 @@ namespace Yaba.UWPApp.Models
 
 		public async Task<User> GetAccountAsync()
 		{
-			if (_appSettings.Values["user"] is User user)
+			var accessToken = _appSettings.Values[SettingsUserAccessToken] as string;
+			var identityToken = _appSettings.Values[SettingsUserIdentityToken] as string;
+			if (!string.IsNullOrWhiteSpace(accessToken) && !string.IsNullOrWhiteSpace(identityToken))
 			{
-				return user;
+				return new User
+				{
+					AccessToken = accessToken,
+					IdentityToken = identityToken,
+				};
 			}
 			return await SignInAsync();
 		}

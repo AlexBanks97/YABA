@@ -24,7 +24,9 @@ namespace Yaba.App.Models
 
 		public async Task<BudgetDetailsDto> Find(Guid id)
 		{
-			throw new NotImplementedException();
+			var response = await _client.GetAsync($"api/budgets/{id.ToString()}");
+			if (!response.IsSuccessStatusCode) throw new Exception();
+			return await response.Content.To<BudgetDetailsDto>();
 		}
 
 		public async Task<ICollection<BudgetSimpleDto>> All()
@@ -45,7 +47,12 @@ namespace Yaba.App.Models
 
 		public async Task<Guid> Create(BudgetCreateUpdateDto budget)
 		{
-			throw new NotImplementedException();
+			var response = await _client.PostAsync("api/budgets", budget.ToHttpContent());
+			if (response.IsSuccessStatusCode)
+			{
+				return Guid.Empty;
+			}
+			throw new Exception();
 		}
 
 		public async Task<bool> Update(BudgetCreateUpdateDto budget)
