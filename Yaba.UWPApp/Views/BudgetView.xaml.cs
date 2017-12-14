@@ -3,6 +3,8 @@ using Windows.UI.Xaml.Navigation;
 using Yaba.Common.Budget.DTO;
 using Yaba.UWPApp.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Windows.UI.Core;
+using Yaba.Common.Budget.DTO.Category;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,13 +24,29 @@ namespace Yaba.UWPApp.Views
 			_vm = App.ServiceProvider.GetService<BudgetDetailViewModel>();
 
 			DataContext = _vm;
+			
+		}
+
+		private void ColorCategoryList()
+		{
+			//yet to be implemented
 		}
 
 		protected override async void OnNavigatedTo(NavigationEventArgs e)
 		{
 			var budget = e.Parameter as BudgetSimpleDto;
-
+			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 			await _vm.Initialize(budget);
+
+			ColorCategoryList();
+		}
+
+		private void Categories_OnClick(object sender, ItemClickEventArgs e)
+		{
+			var itemClicked = e.ClickedItem as CategoryGoalDto;
+
+			this.Frame.Navigate(typeof(CategoryPage), itemClicked);
+
 		}
 	}
 }

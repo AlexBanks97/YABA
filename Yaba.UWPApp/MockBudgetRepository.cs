@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Yaba.Common.Budget;
 using Yaba.Common.Budget.DTO;
+using Yaba.Common.Budget.DTO.Category;
+using Yaba.Common.Budget.DTO.Recurring;
 
 namespace Yaba.UWPApp
 {
@@ -34,10 +36,13 @@ namespace Yaba.UWPApp
 			throw new NotImplementedException();
 		}
 
-		public Task<BudgetDetailsDto> Find(Guid id)
+		public async Task<BudgetDetailsDto> Find(Guid id) => new BudgetDetailsDto
 		{
-			throw new NotImplementedException();
-		}
+			Id = Guid.NewGuid(),
+			Name = "blank",
+			Categories = new List<CategoryGoalDto> { new CategoryGoalDto{ Balance = (decimal) 2.0, Goal = null, Id = Guid.NewGuid(), Name = "mad" }},
+			Recurrings = new List<RecurringSimpleDto> { },
+		};
 
 		public Task<bool> Update(BudgetCreateUpdateDto budget)
 		{
