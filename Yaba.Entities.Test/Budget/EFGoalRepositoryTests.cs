@@ -102,15 +102,10 @@ namespace Yaba.Entities.Test.Budget
 			var cat = new CategoryEntity { Name = "pizza" };
 			ctx.BudgetCategories.Add(cat);
 			ctx.SaveChanges();
-			var simpleCat = new CategorySimpleDto
-			{
-				Id = cat.Id,
-				Name = cat.Name
-			};
 			var goal = new GoalCreateDto
 			{
 				Amount = 200,
-				CategoryEntity = simpleCat,
+				CategoryId = cat.Id,
 				Recurrence = Common.Recurrence.Weekly
 			};
 

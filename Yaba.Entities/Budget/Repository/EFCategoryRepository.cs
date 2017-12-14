@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Yaba.Common.Budget;
 using Yaba.Common.Budget.DTO.Category;
 using Yaba.Common.Budget.DTO.Entry;
+using Yaba.Common.Budget.DTO.Goal;
 
 namespace Yaba.Entities.Budget.Repository
 {
@@ -49,6 +50,7 @@ namespace Yaba.Entities.Budget.Repository
 		{
 			var category = await _context.BudgetCategories
 				.Include(c => c.Entries)
+				.Include(c => c.GoalEntity)
 				.SingleOrDefaultAsync(c => c.Id == id);
 			if (category == null)
 			{
@@ -58,6 +60,7 @@ namespace Yaba.Entities.Budget.Repository
 			{
 				Id = category.Id,
 				Name = category.Name,
+				Goal = category.GoalEntity?.ToDto(),
 				Entries = category.Entries
 					.Select(e => new EntrySimpleDto
 					{
