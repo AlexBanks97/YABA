@@ -12,6 +12,7 @@ namespace Yaba.Entities.Budget
 		[StringLength(50)]
 		public string Name { get; set; }
 
+		public string OwnerId { get; set; }
 
 		public ICollection<CategoryEntity> Categories { get; set; }
 		public ICollection<RecurringEntity> Recurrings { get; set; }

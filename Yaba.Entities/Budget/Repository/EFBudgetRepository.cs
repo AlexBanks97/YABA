@@ -16,6 +16,18 @@ namespace Yaba.Entities.Budget.Repository
 	{
 		private readonly IYabaDBContext _context;
 
+		public async Task<ICollection<BudgetSimpleDto>> AllByUser(string ownerId)
+		{
+			return await _context.Budgets
+				.Where(b => b.OwnerId == ownerId)
+				.Select(b => new BudgetSimpleDto
+				{
+					Id = b.Id,
+					Name = b.Name
+				})
+				.ToListAsync();
+		}
+
 		public EFBudgetRepository(IYabaDBContext context)
 		{
 			_context = context;
@@ -66,6 +78,7 @@ namespace Yaba.Entities.Budget.Repository
 			var budgetEntity = new BudgetEntity
 			{
 				Name = budget.Name,
+				OwnerId = budget.OwnerId
 			};
 
 			_context.Budgets.Add(budgetEntity);

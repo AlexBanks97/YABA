@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Yaba.Common;
 using Yaba.Common.Budget;
@@ -10,6 +11,7 @@ namespace Yaba.Web.Controllers
 {
 
 	[Route("api/budgets")]
+	[Authorize]
 	public class BudgetsController : Controller
 	{
 		private readonly IBudgetRepository _repository;
@@ -21,10 +23,13 @@ namespace Yaba.Web.Controllers
 
 		// GET api/budgets
 		[HttpGet]
-		public async Task<IActionResult> Get()
+		public async Task<IActionResult> Get([FromQuery]string owner = null)
 		{
-			var budgets = await _repository.All();
-			return Ok(budgets);
+			if (string.IsNullOrWhiteSpace(owner))
+			{
+				return Ok(await _repository.All());
+			}
+			return Ok(await _repository.AllByUser(owner));
 		}
 
 		// GET api/budgets/{budgetId}

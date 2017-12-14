@@ -6,7 +6,7 @@ namespace Yaba.Common.User.DTO
 {
     public class UserSimpleDto
     {
-		public Guid Id { get; set; }
+		public String Id { get; set; }
 
 		public string Name { get; set; }
 

@@ -39,6 +39,26 @@ namespace Yaba.Entities.Test.Budget
 			}
 		}
 
+		[Fact]
+		public async void AllByUser_returns_all_by_given_user()
+		{
+			var ctx = Util.GetNewContext(nameof(AllByUser_returns_all_by_given_user));
+			var budgetEntities = new[]
+			{
+				new BudgetEntity {OwnerId = "a"},
+				new BudgetEntity {OwnerId = "a"},
+				new BudgetEntity {OwnerId = "b"},
+			};
+			ctx.AddRange(budgetEntities);
+			ctx.SaveChanges();
+
+			using (var repo = new EFBudgetRepository(ctx))
+			{
+				var budgets = await repo.AllByUser("a");
+				Assert.Equal(2, budgets.Count);
+			}
+		}
+
         // Add Test for FInd(Id) with balance
         [Fact(DisplayName = "Find_returns_balance")]
         public async void FindBudget_given_id_returns_with_balance()

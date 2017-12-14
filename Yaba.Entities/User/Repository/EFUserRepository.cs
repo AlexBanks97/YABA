@@ -17,27 +17,26 @@ namespace Yaba.Entities.User.Repository
 			_context = context;
 		}
 
-		public async Task<bool> AddFriend(Guid myId, Guid otherId)
+		public async Task<String> CreateUser(UserCreateDto user)
 		{
 			throw new NotImplementedException();
 		}
 
-		public async Task<Guid> CreateUser(UserCreateDto user)
-		{
-			throw new NotImplementedException();
-		}
-
-		public async Task<bool> Delete(Guid userId)
+		public async Task<bool> Delete(String userId)
 		{
 			throw new NotImplementedException();
 		}
 
 		public async Task<ICollection<UserSimpleDto>> FindAll()
 		{
-			throw new NotImplementedException();
+            return _context.Users.Select(b => new UserSimpleDto
+            {
+                Id = b.Id,
+                Name = b.Name
+            }).ToList();
 		}
 
-		public async Task<UserDetailsDto> FindUser(Guid userId)
+		public async Task<UserDetailsDto> FindUser(String userId)
 		{
 			var user = _context.Users.SingleOrDefault(u => u.Id == userId);
 			if (user == null) return null;
@@ -46,19 +45,11 @@ namespace Yaba.Entities.User.Repository
 				Id = user.Id,
 				Name = user.Name,
 			};
-			if (user.Friends != null)
-			{
-				dto.Friends = user.Friends.Select(u => new UserSimpleDto
-				{
-					Id = u.Id,
-					Name = u.Name,
-				}).ToList();
-			}
 
 			return dto;
 		}
 
-		public async Task<bool> Update(Guid userId)
+		public async Task<bool> Update(String userId)
 		{
 			throw new NotImplementedException();
 		}

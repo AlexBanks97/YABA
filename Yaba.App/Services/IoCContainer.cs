@@ -5,13 +5,12 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Yaba.UWPApp.ViewModels;
+using Yaba.App.Models;
+using Yaba.App.ViewModels;
 using Yaba.Common.Budget;
-using Yaba.UWPApp.Models.Repositories;
-using Yaba.UWPApp.Views;
-using Yaba.Common;
 
-namespace Yaba.UWPApp.Models
+
+namespace Yaba.App.Services
 {
 	public class IoCContainer
 	{
@@ -19,18 +18,22 @@ namespace Yaba.UWPApp.Models
 
 		private static IServiceProvider ConfigureServices()
 		{
+
 			IServiceCollection services = new ServiceCollection();
+
 			services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
 			services.AddScoped<DelegatingHandler, AuthorizedHandler>();
-			services.AddScoped<IBudgetRepository, MockBudgetRepository>();
-			services.AddScoped<ITabRepository, TabRepository>();
+
+			services.AddSingleton<INavigationService>(new NavigationService());
+
+			// repositories
+			services.AddScoped<IBudgetRepository, BudgetRepository>();
+			
 
 			// VMs
-			// AddTransiet, NOT AddScoped, otherwise it adds new things on every page reload ._.
-			services.AddScoped<BudgetDetailViewModel>();
-			services.AddTransient<BudgetOverviewViewModel>();
-			services.AddTransient<TabOverviewViewModel>();
-			
+			services.AddTransient<MainViewModel>();
+			services.AddTransient<BudgetsViewModel>();
+
 			//services.AddScoped<ICharacterRepository, CharacterRepository>();
 
 			return services.BuildServiceProvider();

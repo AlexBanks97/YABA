@@ -10,5 +10,7 @@ namespace Yaba.Common.Budget.DTO
 		[Required]
 		[StringLength(50)]
 		public string Name { get; set; }
+
+		public string OwnerId { get; set; }
 	}
 }

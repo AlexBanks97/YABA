@@ -21,6 +21,11 @@ namespace Yaba.UWPApp
 			};
 		}
 
+		public Task<ICollection<BudgetSimpleDto>> AllByUser(string userId)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<Guid> Create(BudgetCreateUpdateDto budget)
 		{
 			throw new NotImplementedException();

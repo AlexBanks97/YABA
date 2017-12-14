@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yaba.Common", "Yaba.Common\Yaba.Common.csproj", "{8661E567-918F-41EE-8023-829D349A1675}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yaba.Web.Test", "Yaba.Web.Test\Yaba.Web.Test.csproj", "{881FA1E4-4972-41AD-8B2B-A69F2EF6E13D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yaba.UWPApp", "Yaba.UWPApp\Yaba.UWPApp.csproj", "{68AB06A0-C67A-4D52-BCDA-A1575C10B0F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yaba.App", "Yaba.App\Yaba.App.csproj", "{6EF64021-A6E2-4553-8568-47B94D98C82A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,6 +141,26 @@ Global
 		{68AB06A0-C67A-4D52-BCDA-A1575C10B0F8}.Release|x86.ActiveCfg = Release|x86
 		{68AB06A0-C67A-4D52-BCDA-A1575C10B0F8}.Release|x86.Build.0 = Release|x86
 		{68AB06A0-C67A-4D52-BCDA-A1575C10B0F8}.Release|x86.Deploy.0 = Release|x86
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Debug|ARM.ActiveCfg = Debug|ARM
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Debug|ARM.Build.0 = Debug|ARM
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Debug|ARM.Deploy.0 = Debug|ARM
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Debug|x64.ActiveCfg = Debug|x64
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Debug|x64.Build.0 = Debug|x64
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Debug|x64.Deploy.0 = Debug|x64
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Debug|x86.ActiveCfg = Debug|x86
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Debug|x86.Build.0 = Debug|x86
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Debug|x86.Deploy.0 = Debug|x86
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Release|Any CPU.ActiveCfg = Release|x86
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Release|ARM.ActiveCfg = Release|ARM
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Release|ARM.Build.0 = Release|ARM
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Release|ARM.Deploy.0 = Release|ARM
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Release|x64.ActiveCfg = Release|x64
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Release|x64.Build.0 = Release|x64
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Release|x64.Deploy.0 = Release|x64
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Release|x86.ActiveCfg = Release|x86
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Release|x86.Build.0 = Release|x86
+		{6EF64021-A6E2-4553-8568-47B94D98C82A}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
