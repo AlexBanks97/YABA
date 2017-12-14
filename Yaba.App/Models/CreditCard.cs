@@ -8,6 +8,7 @@ namespace Yaba.App.Models
 {
 	public class CreditCard
 	{
+		//TODO: possibly make this a viewModel
 		public string Numbers { get; set; }
 		public string HolderName { get; set; }
 		public string Month { get; set; }
