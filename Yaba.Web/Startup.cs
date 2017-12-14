@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Stripe;
 using Swashbuckle.AspNetCore.Swagger;
 using Yaba.Common;
 using Yaba.Common.Budget;
@@ -40,6 +41,8 @@ namespace Yaba.Web
 					options.UseSqlServer(connectionString);
 				}
 			});
+
+			StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["Priv"]);
 
 			services.AddScoped<IYabaDBContext, YabaDBContext>();
 
