@@ -13,12 +13,12 @@ namespace Yaba.Web.Controllers
     public class PaymentController : Controller
     {
 
-	    private readonly IPayment _payment;
+	    private readonly IPaymentRepository _paymentRepository;
 
 
-		public PaymentController(IPayment payment)
+		public PaymentController(IPaymentRepository paymentRepository)
 		{
-			_payment = payment;
+			_paymentRepository = paymentRepository;
 		}
 
 		// POST: api/Payment
@@ -29,7 +29,7 @@ namespace Yaba.Web.Controllers
 	        {
 		        return BadRequest(ModelState);
 	        }
-	        var success = _payment.Pay(payment);
+	        var success = _paymentRepository.Pay(payment);
 	        if (success)
 	        {
 		        return Ok();

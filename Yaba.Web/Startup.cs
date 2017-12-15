@@ -8,6 +8,7 @@ using Stripe;
 using Swashbuckle.AspNetCore.Swagger;
 using Yaba.Common;
 using Yaba.Common.Budget;
+using Yaba.Common.Payment;
 using Yaba.Entities;
 using Yaba.Entities.Budget;
 using Yaba.Entities.Budget.Repository;
@@ -47,7 +48,7 @@ namespace Yaba.Web
 
 			services.AddScoped<IYabaDBContext, YabaDBContext>();
 
-			services.AddScoped<IPayment, StripePay>();
+			services.AddScoped<IPaymentRepository, StripePay>();
 			services.AddScoped<IBudgetRepository, EFBudgetRepository>();
 			services.AddScoped<ITabRepository, EFTabRepository>();
 			services.AddScoped<IItemRepository, EFItemRepository>();
