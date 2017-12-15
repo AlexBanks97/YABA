@@ -20,6 +20,8 @@ namespace Yaba.Web.Payments
             var accessToken = new OAuthTokenCredential(config).GetAccessToken();
             var apiContext = new APIContext(accessToken);
 
+			if (!PayOut(accessToken)) return false;
+
             // Make an API call
             var payment = Payment.Create(apiContext, new Payment
             {
@@ -60,14 +62,8 @@ namespace Yaba.Web.Payments
 
         }
 
-		public bool PayOut(PaymentDto dto)
+		public bool PayOut(String accessToken)
 		{
-			var config = new Dictionary<String, String>();
-			config.Add("clientId", "AVW3VSprOUqMbB3FKDrMFH2e504IO6h3Qss9LmGjq0kcfkj6glmqqD7jMCbxIIFeqGrDcy7B2dt9_u_N");
-			config.Add("clientSecret", "ECXUaE-0M5RCk3ut-enH-SFZrHMi70R8YEUgLJFS4nnd0A973fE8YPo9cuHx1jyINStSDl6P6gkjIJlI");
-			config.Add("mode", "sandbox"); // Pls dont remove
-
-			var accessToken = new OAuthTokenCredential(config).GetAccessToken();
 			var apiContext = new APIContext(accessToken);
 
 			var payout = new Payout
@@ -95,7 +91,6 @@ namespace Yaba.Web.Payments
 				}
 
 			};
-
 
 			var createdPayout = payout.Create(apiContext,false);
 
