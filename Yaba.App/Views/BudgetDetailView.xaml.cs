@@ -42,7 +42,7 @@ namespace Yaba.App.Views
 
 	    private void CategoriesList_OnClick(object sender, ItemClickEventArgs e)
 	    {
-		    throw new NotImplementedException();
+		    Detail.Navigate(typeof(CategoryDetailPage), e.ClickedItem);
 	    }
     }
 }

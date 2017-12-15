@@ -95,9 +95,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Models\AuthenticationHelper.cs" />
     <Compile Include="Models\AuthorizedHandler.cs" />
     <Compile Include="Models\BudgetRepository.cs" />
+    <Compile Include="Models\CategoryRepository.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
     <Compile Include="Models\User.cs" />
@@ -116,6 +118,9 @@
     </Compile>
     <Compile Include="Views\BudgetsPage.xaml.cs">
       <DependentUpon>BudgetsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CategoryDetailPage.xaml.cs">
+      <DependentUpon>CategoryDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -150,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BudgetsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CategoryDetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

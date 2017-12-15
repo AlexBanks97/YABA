@@ -28,12 +28,15 @@ namespace Yaba.App.Services
 
 			// repositories
 			services.AddScoped<IBudgetRepository, BudgetRepository>();
+			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			
 
 			// VMs
 			services.AddTransient<MainViewModel>();
 			services.AddTransient<BudgetsViewModel>();
 			services.AddTransient<BudgetsDetailViewModel>();
+			services.AddTransient<CategoryViewModel>();
+
 
 			//services.AddScoped<ICharacterRepository, CharacterRepository>();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Yaba.App.Models;
 using Yaba.Common.Budget;
@@ -12,6 +13,8 @@ namespace Yaba.App.ViewModels
 	{
 		private readonly ICategoryRepository _repository;
 
+		private CategoryDetailsDto _category;
+
 		private string _name;
 		public string Name
 		{
@@ -22,6 +25,8 @@ namespace Yaba.App.ViewModels
 				OnPropertyChanged();
 			}
 		}
+		public decimal TotalThisMonth => _category.Entries
+			.Aggregate(0.0m, (total, entry) => total + entry.Amount);
 
 		public ObservableCollection<EntrySimpleDto> Entries { get; private set; }
 
@@ -33,11 +38,11 @@ namespace Yaba.App.ViewModels
 
 		public async Task Initialize(Guid categoryId)
 		{
-			var category = await _repository.Find(categoryId);
+			_category = await _repository.Find(categoryId);
 
-			Name = category.Name;
+			Name = _category.Name;
 			Entries.Clear();
-			Entries.AddRange(category.Entries);
+			Entries.AddRange(_category.Entries);
 		}
 	}
 }
