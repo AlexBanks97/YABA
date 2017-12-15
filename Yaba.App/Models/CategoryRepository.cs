@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Yaba.App.Services;
 using Yaba.Common.Budget;
 using Yaba.Common.Budget.DTO.Category;
 
@@ -11,11 +12,11 @@ namespace Yaba.App.Models
 	{
 		private readonly HttpClient _client;
 
-		public CategoryRepository(DelegatingHandler handler)
+		public CategoryRepository(DelegatingHandler handler, AppConstants constants)
 		{
 			_client = new HttpClient(handler)
 			{
-				BaseAddress = new Uri("http://localhost:50150/api/budgets/"),
+				BaseAddress = constants.BaseApiAddress,
 			};
 		}
 
@@ -36,7 +37,7 @@ namespace Yaba.App.Models
 
 		public async Task<CategoryDetailsDto> Find(Guid id)
 		{
-			var response = await _client.GetAsync($"categories/{id.ToString()}");
+			var response = await _client.GetAsync($"budgets/categories/{id.ToString()}");
 			if (!response.IsSuccessStatusCode) throw new Exception();
 			return await response.Content.To<CategoryDetailsDto>();
 		}

@@ -21,6 +21,9 @@ namespace Yaba.App.Services
 
 			IServiceCollection services = new ServiceCollection();
 
+			// global settings
+			services.AddSingleton(new AppConstants());
+
 			services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
 			services.AddScoped<DelegatingHandler, AuthorizedHandler>();
 
