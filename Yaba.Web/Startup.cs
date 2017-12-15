@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -85,9 +86,11 @@ namespace Yaba.Web
 			}
 			if (env.IsProduction())
 			{
-				app.UseAuthentication();
+				// force https in production
+				app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
 			}
 
+			app.UseAuthentication();
 
 			app.UseMvc();
 			app.UseSwagger();
