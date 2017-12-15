@@ -44,7 +44,12 @@ namespace Yaba.App.Models
 
 		public async Task<Guid?> Create(CategoryCreateDto category)
 		{
-			throw new NotImplementedException();
+			var response = await _client.PostAsync("budgets/categories", category.ToHttpContent());
+			if (response.IsSuccessStatusCode)
+			{
+				return Guid.Empty;
+			}
+			throw new Exception();
 		}
 
 		public async Task<bool> Update(CategorySimpleDto category)
