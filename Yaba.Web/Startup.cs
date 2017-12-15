@@ -14,6 +14,7 @@ using Yaba.Entities.Budget.Repository;
 using Yaba.Entities.Tab.Repository;
 using Yaba.Entities.User.Repository;
 using Yaba.Web.Options;
+using Yaba.Web.Payments;
 
 namespace Yaba.Web
 {
@@ -46,6 +47,7 @@ namespace Yaba.Web
 
 			services.AddScoped<IYabaDBContext, YabaDBContext>();
 
+			services.AddScoped<IPayment, StripePay>();
 			services.AddScoped<IBudgetRepository, EFBudgetRepository>();
 			services.AddScoped<ITabRepository, EFTabRepository>();
 			services.AddScoped<IItemRepository, EFItemRepository>();
