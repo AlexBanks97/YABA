@@ -16,7 +16,7 @@ namespace Yaba.Web.Test
 
             var payment = new PaypalPaymentDto
             {
-                Amount = 100,
+                Amount = "100.00",
                 Description = "Test Transaction"
 
             };

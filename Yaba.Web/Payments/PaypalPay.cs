@@ -9,26 +9,14 @@ namespace Yaba.Web.Payments
 {
     public class PaypalPay 
     {
-        
-        public PaypalPay()
-        {
-            
-
-
-        }
-
-        public bool Pay(PaypalPaymentDto dto){
-            
-            // Authenticate with PayPal
-            //var config = ConfigManager.Instance.GetProperties();
-
+       public bool Pay(PaypalPaymentDto dto){
 
             var config = new Dictionary<String, String>();
             config.Add("clientId","AVW3VSprOUqMbB3FKDrMFH2e504IO6h3Qss9LmGjq0kcfkj6glmqqD7jMCbxIIFeqGrDcy7B2dt9_u_N");
             config.Add("clientSecret", "ECXUaE-0M5RCk3ut-enH-SFZrHMi70R8YEUgLJFS4nnd0A973fE8YPo9cuHx1jyINStSDl6P6gkjIJlI");
             config.Add("mode","sandbox");
 
-
+            // Authenticate with PayPal
             var accessToken = new OAuthTokenCredential(config).GetAccessToken();
             var apiContext = new APIContext(accessToken);
 
@@ -46,30 +34,15 @@ namespace Yaba.Web.Payments
                     new Transaction
                     {
                         description = dto.Description,
-                        invoice_number = "101",
                         amount = new Amount
                         {
-                            currency = "USD",
-                            total = "100.00",
+                            currency = "DKK",
+                            total = dto.Amount,
                             details = new Details
                             {
-                                tax = "15",
-                                shipping = "10",
-                                subtotal = "75"
-                            }
-                        },
-                        item_list = new ItemList
-                        {
-                            items = new List<Item>
-                            {
-                                new Item
-                                {
-                                    name = "Item Name",
-                                    currency = "USD",
-                                    price = "15",
-                                    quantity = "5",
-                                    sku = "sku"
-                                }
+                                //tax = "15",
+                                //shipping = "10",
+                                //subtotal = "75"
                             }
                         }
                     }
@@ -79,11 +52,9 @@ namespace Yaba.Web.Payments
                     return_url = "http://mysite.com/return",
                     cancel_url = "http://mysite.com/cancel"
                 }
-            });
-
+                });
 
             return true;
-
 
         }
     }
