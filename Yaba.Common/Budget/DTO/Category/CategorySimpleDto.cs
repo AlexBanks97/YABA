@@ -10,5 +10,13 @@ namespace Yaba.Common.Budget.DTO.Category
 
 		[Required]
 		public string Name { get; set; }
+
+		public override bool Equals(object obj)
+		{
+			var dto = obj as CategorySimpleDto;
+			return dto != null &&
+				   Id.Equals(dto.Id) &&
+				   Name == dto.Name;
+		}
 	}
 }
