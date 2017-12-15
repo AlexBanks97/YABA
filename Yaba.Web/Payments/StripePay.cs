@@ -13,7 +13,7 @@ namespace Yaba.Web.Payments
     {
 	    public bool Pay(StripePaymentDto payment)
 	    {
-		    var payAmount = (int)(payment.Amount * 100);
+            var payAmount = (int)(Decimal.Parse(payment.Amount) * 100);
 
 		    var ChargeService = new StripeChargeService();
 

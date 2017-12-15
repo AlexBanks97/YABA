@@ -15,7 +15,7 @@ namespace Yaba.Web.Test
 			//Arrange
 		    var payment = new StripePaymentDto
 		    {
-			    Amount = (decimal) 200,
+                Amount = "200",
 			    Description = "hej",
 			    Token = "tok_visa"
 			};

@@ -14,7 +14,7 @@ namespace Yaba.Web.Test
         public void pay_Test_returns_true()
         {
 
-            var payment = new PaypalPaymentDto
+            var payment = new StripePaymentDto
             {
                 Amount = "100.00",
                 Description = "Test Transaction"
