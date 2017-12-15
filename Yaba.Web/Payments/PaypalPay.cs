@@ -7,7 +7,7 @@ using PayPal.Api;
 
 namespace Yaba.Web.Payments
 {
-    public class PaypalPay 
+    public class PaypalPay : IPaymentRepository
     {
        public bool Pay(PaymentDto dto){
 
