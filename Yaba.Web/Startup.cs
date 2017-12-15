@@ -23,16 +23,18 @@ namespace Yaba.Web
 {
 	public class Startup
 	{
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
 		{
+            /* IHostingEnvironment env
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+            */
 
-			//Configuration = configuration;
+			Configuration = configuration;
 		}
 
 		public IConfiguration Configuration { get; }
