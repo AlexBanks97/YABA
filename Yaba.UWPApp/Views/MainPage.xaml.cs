@@ -6,8 +6,10 @@ using Windows.UI.Xaml.Controls;
 using Auth0.OidcClient;
 using System.Threading.Tasks;
 using System.Text;
+using Windows.UI.Xaml.Navigation;
 using Yaba.UWPApp.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Yaba.Common.Budget;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -22,19 +24,11 @@ namespace Yaba.UWPApp
         public MainPage()
         {
             this.InitializeComponent();
-			
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
-			var handler = App.ServiceProvider.GetService<DelegatingHandler>();
-			var c = new HttpClient(handler);
-
-			var x = c.GetAsync(new Uri("http://www.google.com/"));
-
-
-
-			// this.Frame.Navigate(typeof(NavigationPage), name);
+			Frame.Navigate(typeof(NavigationPage), name);
 		}
 	}
 }

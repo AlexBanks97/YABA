@@ -81,7 +81,7 @@ namespace Yaba.Entities.Budget.Repository
 
 		public async Task<Guid> CreateGoal(GoalCreateDto goal)
 		{
-			var cat = _context.BudgetCategories.SingleOrDefault(c => c.Id == goal.CategoryEntity.Id);
+			var cat = _context.BudgetCategories.SingleOrDefault(c => c.Id == goal.CategoryId);
 			var goalEntity = new GoalEntity
 			{
 				Amount = goal.Amount,

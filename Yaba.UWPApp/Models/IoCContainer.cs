@@ -24,7 +24,6 @@ namespace Yaba.UWPApp.Models
 			services.AddScoped<DelegatingHandler, AuthorizedHandler>();
 			services.AddScoped<IBudgetRepository, MockBudgetRepository>();
 			services.AddScoped<ITabRepository, TabRepository>();
-
 			// VMs
 			// AddTransiet, NOT AddScoped, otherwise it adds new things on every page reload ._.
 			services.AddScoped<BudgetDetailViewModel>();
