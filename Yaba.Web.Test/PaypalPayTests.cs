@@ -18,7 +18,6 @@ namespace Yaba.Web.Test
                 Amount = "100.00",
                 Description = "Test Transaction",
                 PaymentProvider = "PayPal"
-
             };
 
             var target = new PaypalPay();
@@ -32,7 +31,7 @@ namespace Yaba.Web.Test
 
         }
 
-		[Fact]
+		[Fact(Skip = "Part of pay_test_returns_true")]
 		public void payout_Test_returns_true()
 		{
 
@@ -41,7 +40,7 @@ namespace Yaba.Web.Test
 				Amount = "100.00",
 				Description = "Test Transaction",
 				PaymentProvider = "PayPal"
-
+			
 			};
 
 			var target = new PaypalPay();
@@ -55,7 +54,7 @@ namespace Yaba.Web.Test
 			var accessToken = new OAuthTokenCredential(config).GetAccessToken();
 
 			//Act
-			var result = target.PayOut(accessToken);
+			var result = target.PayOut(accessToken, payment);
 
 			//Assert
 			Assert.True(result);

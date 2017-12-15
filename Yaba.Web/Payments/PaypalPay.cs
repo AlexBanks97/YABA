@@ -20,7 +20,8 @@ namespace Yaba.Web.Payments
             var accessToken = new OAuthTokenCredential(config).GetAccessToken();
             var apiContext = new APIContext(accessToken);
 
-			if (!PayOut(accessToken)) return false;
+			// If payout to other user fails, stop the transaction
+			if (!PayOut(accessToken,dto)) return false;
 
             // Make an API call
             var payment = Payment.Create(apiContext, new Payment
@@ -62,38 +63,43 @@ namespace Yaba.Web.Payments
 
         }
 
-		public bool PayOut(String accessToken)
+		public bool PayOut(String accessToken, PaymentDto dto)
 		{
 			var apiContext = new APIContext(accessToken);
 
-			var payout = new Payout
-			{
-				sender_batch_header = new PayoutSenderBatchHeader
+			try { 
+				var payout = new Payout
 				{
-					sender_batch_id = "batch_" + System.Guid.NewGuid().ToString().Substring(0, 8),
-					email_subject = "You have a payment",
-					recipient_type = PayoutRecipientType.EMAIL
-				},
-				items = new List<PayoutItem>
-				{
-					new PayoutItem
+					sender_batch_header = new PayoutSenderBatchHeader
 					{
-						recipient_type = PayoutRecipientType.EMAIL,
-						amount = new Currency
+						sender_batch_id = "batch_" + System.Guid.NewGuid().ToString().Substring(0, 8),
+						email_subject = "You have a payment",
+						recipient_type = PayoutRecipientType.EMAIL
+					},
+					items = new List<PayoutItem>
+					{
+						new PayoutItem
 						{
-							value = "0.00", // Set to 0 because senders balance is zero
-							currency = "DKK"
-						},
-						receiver = "christoffer.nissen-buyer@me.com",
-						note = "Thank you.",
-						sender_item_id = "item_1"
+							recipient_type = PayoutRecipientType.EMAIL,
+							amount = new Currency
+							{
+								value = "0.00", // Set to 0 because senders balance is zero
+								currency = "DKK"
+							},
+							receiver = "christoffer.nissen-buyer@me.com",
+							note = "Thank you.",
+							sender_item_id = "item_1"
+						}
 					}
-				}
 
-			};
+				};
 
-			var createdPayout = payout.Create(apiContext,false);
+				var createdPayout = payout.Create(apiContext,false);
 
+			} catch (Exception e)
+			{
+				return false;
+			}
 			return true;
 		}
     }
