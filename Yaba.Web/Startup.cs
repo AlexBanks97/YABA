@@ -5,15 +5,18 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Stripe;
 using Swashbuckle.AspNetCore.Swagger;
 using Yaba.Common;
 using Yaba.Common.Budget;
+using Yaba.Common.Payment;
 using Yaba.Entities;
 using Yaba.Entities.Budget;
 using Yaba.Entities.Budget.Repository;
 using Yaba.Entities.Tab.Repository;
 using Yaba.Entities.User.Repository;
 using Yaba.Web.Options;
+using Yaba.Web.Payments;
 
 namespace Yaba.Web
 {
@@ -42,8 +45,11 @@ namespace Yaba.Web
 				}
 			});
 
+			StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["Priv"]);
+
 			services.AddScoped<IYabaDBContext, YabaDBContext>();
 
+			services.AddScoped<IPaymentRepository, StripePay>();
 			services.AddScoped<IBudgetRepository, EFBudgetRepository>();
 			services.AddScoped<ITabRepository, EFTabRepository>();
 			services.AddScoped<IItemRepository, EFItemRepository>();
