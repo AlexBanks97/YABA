@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 
 using Yaba.Common.Payment;
-using Yaba.Common.Payment.DTO;
+
 using PayPal.Api;
 
 namespace Yaba.Web.Payments
 {
     public class PaypalPay 
     {
-       public bool Pay(StripePaymentDto dto){
+       public bool Pay(PaymentDto dto){
 
             var config = new Dictionary<String, String>();
             config.Add("clientId","AVW3VSprOUqMbB3FKDrMFH2e504IO6h3Qss9LmGjq0kcfkj6glmqqD7jMCbxIIFeqGrDcy7B2dt9_u_N");

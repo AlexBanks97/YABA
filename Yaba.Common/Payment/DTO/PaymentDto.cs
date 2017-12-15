@@ -5,11 +5,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Yaba.Common.Payment
 {
-    public class StripePaymentDto
+    public class PaymentDto
     {
 		[Required]
 	    public String Amount { get; set; }
 	    public string Description { get; set; }
 	    public string Token { get; set; }
+        [Required]
+        public string PaymentProvider { get; set; }
     }
 }

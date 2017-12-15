@@ -11,7 +11,7 @@ namespace Yaba.Web.Payments
 {
     public class StripePay : IPaymentRepository
     {
-	    public bool Pay(StripePaymentDto payment)
+	    public bool Pay(PaymentDto payment)
 	    {
             var payAmount = (int)(Decimal.Parse(payment.Amount) * 100);
 

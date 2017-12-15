@@ -13,11 +13,12 @@ namespace Yaba.Web.Test
 	    public void pay_Test_returns_true()
 	    {
 			//Arrange
-		    var payment = new StripePaymentDto
+		    var payment = new PaymentDto
 		    {
                 Amount = "200",
 			    Description = "hej",
-			    Token = "tok_visa"
+			    Token = "tok_visa",
+                PaymentProvider = "Stripe"
 			};
 
 		    var target = new StripePay();

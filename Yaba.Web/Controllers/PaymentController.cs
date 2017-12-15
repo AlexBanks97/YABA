@@ -23,7 +23,7 @@ namespace Yaba.Web.Controllers
 
 		// POST: api/Payment
 		[HttpPost]
-        public async Task<IActionResult> Post([FromBody]StripePaymentDto payment)
+        public async Task<IActionResult> Post([FromBody]PaymentDto payment)
         {
 	        if (!ModelState.IsValid)
 	        {

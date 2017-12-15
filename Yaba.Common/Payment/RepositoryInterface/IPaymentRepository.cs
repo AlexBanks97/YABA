@@ -2,6 +2,6 @@
 {
     public interface IPaymentRepository
     {
-	    bool Pay(StripePaymentDto pay);
+	    bool Pay(PaymentDto pay);
     }
 }

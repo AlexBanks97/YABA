@@ -9,4 +9,7 @@
     <Folder Include="Payment\DTO\" />
     <Folder Include="Payment\RepositoryInterface\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Payment\DTO\PaypalPaymentDto.cs" />
+  </ItemGroup>
 </Project>

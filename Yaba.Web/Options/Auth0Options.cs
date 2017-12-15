@@ -10,6 +10,5 @@ namespace Yaba.Web.Options
 	    public string Domain { get; set; }
 	    public string ApiIdentifier { get; set; }
 
-		
     }
 }

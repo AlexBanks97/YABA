@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using Yaba.Common.Payment;
-using Yaba.Common.Payment.DTO;
 using Yaba.Web.Payments;
 
 namespace Yaba.Web.Test
@@ -14,13 +13,13 @@ namespace Yaba.Web.Test
         public void pay_Test_returns_true()
         {
 
-            var payment = new StripePaymentDto
+            var payment = new PaymentDto
             {
                 Amount = "100.00",
-                Description = "Test Transaction"
+                Description = "Test Transaction",
+                PaymentProvider = "PayPal"
 
             };
-
 
             var target = new PaypalPay();
             
