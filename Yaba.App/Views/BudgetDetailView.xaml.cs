@@ -39,5 +39,10 @@ namespace Yaba.App.Views
 		    if (!(e.Parameter is BudgetSimpleDto simpleBudget)) throw new Exception();
 		    await _vm.Initialize(simpleBudget.Id);
 	    }
+
+	    private void CategoriesList_OnClick(object sender, ItemClickEventArgs e)
+	    {
+		    Detail.Navigate(typeof(CategoryDetailPage), e.ClickedItem);
+	    }
     }
 }

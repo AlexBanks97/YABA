@@ -21,6 +21,9 @@ namespace Yaba.App.Services
 
 			IServiceCollection services = new ServiceCollection();
 
+			// global settings
+			services.AddSingleton(new AppConstants());
+
 			services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
 			services.AddScoped<DelegatingHandler, AuthorizedHandler>();
 
@@ -28,12 +31,15 @@ namespace Yaba.App.Services
 
 			// repositories
 			services.AddScoped<IBudgetRepository, BudgetRepository>();
+			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			
 
 			// VMs
 			services.AddTransient<MainViewModel>();
 			services.AddTransient<BudgetsViewModel>();
 			services.AddTransient<BudgetsDetailViewModel>();
+			services.AddTransient<CategoryViewModel>();
+
 
 			//services.AddScoped<ICharacterRepository, CharacterRepository>();
 
