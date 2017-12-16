@@ -20,9 +20,6 @@ namespace Yaba.Web.Payments
             var accessToken = new OAuthTokenCredential(config).GetAccessToken();
             var apiContext = new APIContext(accessToken);
 
-			// If payout to other user fails, stop the transaction
-			if (!PayOut(accessToken,dto)) return false;
-
             // Make an API call
             var payment = Payment.Create(apiContext, new Payment
             {
@@ -59,6 +56,23 @@ namespace Yaba.Web.Payments
                 }
                 });
 
+            // If payout to other user fails, stop the transaction
+            if (!PayOut(accessToken, dto)){
+                Refund refund = new Refund();
+                Amount amount = new Amount();
+
+                amount.currency = "DKK";
+                amount.total = dto.Amount;
+                refund.amount = amount;
+                var sale = new Sale()
+                {
+                    id = payment.id
+                };
+
+                var response = sale.Refund(apiContext, refund);   
+                
+            };
+
             return true;
 
         }
@@ -72,7 +86,7 @@ namespace Yaba.Web.Payments
 				{
 					sender_batch_header = new PayoutSenderBatchHeader
 					{
-						sender_batch_id = "batch_" + System.Guid.NewGuid().ToString().Substring(0, 8),
+						sender_batch_id = "batch_" + Guid.NewGuid().ToString().Substring(0, 8),
 						email_subject = "You have a payment",
 						recipient_type = PayoutRecipientType.EMAIL
 					},
@@ -83,7 +97,7 @@ namespace Yaba.Web.Payments
 							recipient_type = PayoutRecipientType.EMAIL,
 							amount = new Currency
 							{
-								value = "0.00", // Set to 0 because senders balance is zero
+								value = "1.00", // Set to 0 because senders balance is zero
 								currency = "DKK"
 							},
 							receiver = "christoffer.nissen-buyer@me.com",

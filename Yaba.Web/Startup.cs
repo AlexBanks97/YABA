@@ -62,7 +62,7 @@ namespace Yaba.Web
 
 			services.AddScoped<IYabaDBContext, YabaDBContext>();
 
-			services.AddScoped<IPaymentRepository, StripePay>();
+			//services.AddScoped<IPaymentRepository, StripePay>();
 			services.AddScoped<IBudgetRepository, EFBudgetRepository>();
 			services.AddScoped<ITabRepository, EFTabRepository>();
 			services.AddScoped<IItemRepository, EFItemRepository>();
