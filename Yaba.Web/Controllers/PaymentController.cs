@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Yaba.Common.Payment;
 using Yaba.Web.Payments;
+using PayPal.Api;
 
 namespace Yaba.Web.Controllers
 {
@@ -40,12 +41,25 @@ namespace Yaba.Web.Controllers
 		    return Forbid();
 	    }
 
+		// For paypal
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
+			// Extract payerId and paymentId from querystring
 			var b = Request.QueryString.Value;
+			var x = b.Substring(1, b.Length-1); // lose ?
+			var xx = x.Split("&");
+			var payerId = xx[2].Split("=")[1];
+			var paymentId = xx[0].Split("=")[1];
 
-			return Ok(b);
+			var s = "PayerId: " + payerId + ", PaymentId: " + paymentId;
+
+			PaypalPay ppp = new PaypalPay();
+			s = ppp.executePayment(paymentId,payerId);
+
+			// If s == success, Payout to other user
+
+			return Ok(s);
 		}
 
 		[HttpGet("{amount}")]
