@@ -18,6 +18,7 @@ namespace Yaba.Web.Controllers
         {
             _repository = repository;
         }
+
         // GET api/tabs
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -29,19 +30,28 @@ namespace Yaba.Web.Controllers
 
         [HttpGet]
         [Route("{Id}")]
-        public async Task<IActionResult> Get(String Id)
+        public async Task<IActionResult> Get(Guid Id)
         {
-            var user = await _repository.FindUser(Id);
+            var user = await _repository.Find(Id);
             if (user == null) return NotFound(); // Returns 404
             return Ok(user); // Returns 200
         }
+
+	    [HttpGet]
+	    [Route("{FbId}")]
+	    public async Task<IActionResult> GetFromFbId(string FbId)
+	    {
+			var user = await _repository.FindFromFacebookId(FbId);
+		    if (user == null) return NotFound(); // Returns 404
+		    return Ok(user); // Returns 200
+		}
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserCreateDto user)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState); // returns 404
             var guid = await _repository.CreateUser(user);
-            return CreatedAtAction(nameof(Get), new { tabId = guid }, null);
+            return CreatedAtAction(nameof(Get), new { Id = guid }, null);
         }
 
 

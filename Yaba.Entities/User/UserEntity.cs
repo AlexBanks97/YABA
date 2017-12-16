@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Yaba.Common.User
 {
     public class UserEntity
     {
-		public String Id { get; set; }
-
+	    public Guid Id { get; set; }
+		[Required]
+		public string FacebookId { get; set; }
+		[Required]
         public string Name { get; set; }
-
-		public ICollection<UserEntity> Friends { get; set; }
 	}
 }
