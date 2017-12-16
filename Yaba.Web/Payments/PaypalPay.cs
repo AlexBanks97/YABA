@@ -56,22 +56,27 @@ namespace Yaba.Web.Payments
                 }
                 });
 
-            // If payout to other user fails, stop the transaction
+            // If payout to other user fails, refund
             if (!PayOut(accessToken, dto)){
+                apiContext = new APIContext(accessToken);
                 Refund refund = new Refund();
                 Amount amount = new Amount();
-
                 amount.currency = "DKK";
-                amount.total = dto.Amount;
+                amount.total = "0.00";
+
                 refund.amount = amount;
+
+
                 var sale = new Sale()
                 {
-                    id = "1L304068UD1406339"
+                    id = payment.id,
+
+
                 };
 
                 var response = sale.Refund(apiContext, refund);   
                 
-            };
+            }
 
             return true;
 
