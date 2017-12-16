@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Yaba.App.Models;
 using System.Linq;
+using System.Net.Http;
 
 namespace Yaba.App.ViewModels
 {
@@ -37,6 +38,7 @@ namespace Yaba.App.ViewModels
 		}
 
 		public ICommand SignInOutCommand { get; }
+		public ICommand PayWithPayPal { get; }
 
 		private bool _isLoggedIn;
 		public bool IsLoggedIn
@@ -64,6 +66,25 @@ namespace Yaba.App.ViewModels
 					SignIn();
 				}
 			});
+
+			PayWithPayPal = new RelayCommand(_ =>
+			{
+
+				// Ask API to create payment
+				HttpClient httpClient = new HttpClient();
+				httpClient.BaseAddress = new System.Uri("http://localhost/5000/api/payment");
+
+
+
+				// Receive payment, and open accept link
+
+				// Execute payment
+
+				// Send money to reciept (payout) 
+
+			});
+
+
 		}
 
 		public async Task Initialize()

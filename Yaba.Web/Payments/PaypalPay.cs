@@ -63,69 +63,76 @@ namespace Yaba.Web.Payments
 
             var payment = paymentobj.Create(apiContext);
 
-            //var paymentGet = Payment.Get(apiContext, payment.id);
-            //var b = Payment.Get(apiContext, paymentobj.id);
-
-
-            // If payout to other user fails, refund
-            if (!PayOut(accessToken, dto)){
-                apiContext = new APIContext(accessToken);
-                if (apiContext.HTTPHeaders == null)
-                {
-                    apiContext.HTTPHeaders = new Dictionary<string, string>();
-                }
-                apiContext.HTTPHeaders["Content-Type"] = "application/json";
-
-                Refund refund = new Refund();
-
-                refund.description = "Refund issued";
-                refund.reason = "Failure to transfer money to recipient";
-                refund.amount = new Amount
-                {
-                    currency = "DKK",
-                    total = dto.Amount,
-                    details = new Details
-                    {
-                        /*
-                        tax = "15",
-                        shipping = "10",
-                        subtotal = "75"
-                        */
-                    }
-                };
-
-
-                var sale = new Sale()
-                {
-                    id = payment.id,
-                    purchase_unit_reference_id = payment.transactions.ToArray()[0].purchase_unit_reference_id,
-                    reason_code = "REFUND",
-                    amount = new Amount
-                    {
-                        currency = "DKK",
-                        total = dto.Amount,
-                        details = new Details
-                        {
-                            /*
-                            tax = "15",
-                            shipping = "10",
-                            subtotal = "75"
-                            */
-                        }
-                    }
-
-                };
-
-                refund.sale_id = sale.id;
-
-                var response = sale.Refund(apiContext, refund);
-
-
-            }
-
-            return true;
+			return true;
 
         }
+
+		public String PayTwo(PaymentDto dto)
+		{
+			var config = new Dictionary<String, String>();
+			config.Add("clientId", "AVW3VSprOUqMbB3FKDrMFH2e504IO6h3Qss9LmGjq0kcfkj6glmqqD7jMCbxIIFeqGrDcy7B2dt9_u_N");
+			config.Add("clientSecret", "ECXUaE-0M5RCk3ut-enH-SFZrHMi70R8YEUgLJFS4nnd0A973fE8YPo9cuHx1jyINStSDl6P6gkjIJlI");
+			config.Add("mode", "sandbox"); // Pls dont remove
+
+			// Authenticate with PayPal
+			var accessToken = new OAuthTokenCredential(config).GetAccessToken();
+			var apiContext = new APIContext(accessToken);
+			if (apiContext.HTTPHeaders == null)
+			{
+				apiContext.HTTPHeaders = new Dictionary<string, string>();
+			}
+			apiContext.HTTPHeaders["Content-Type"] = "application/json";
+
+			// Make an API call
+			var paymentobj = new Payment
+			{
+				intent = "sale",
+				payer = new Payer
+				{
+					payment_method = "paypal"
+				},
+				id = Guid.NewGuid().ToString().Substring(0, 8),
+				transactions = new List<Transaction>
+				{
+					new Transaction
+					{
+						description = dto.Description,
+						amount = new Amount
+						{
+							currency = "DKK",
+							total = dto.Amount,
+							details = new Details
+							{
+                                /*
+                                tax = "15",
+                                shipping = "10",
+                                subtotal = "75"
+                                */
+                            }
+						}
+					}
+				},
+				redirect_urls = new RedirectUrls
+				{
+					return_url = "http://localhost:61462/api/payment/",
+					cancel_url = "http://mysite.com/cancel"
+				}
+			};
+
+			var payment = paymentobj.Create(apiContext);
+
+			var links = payment.links.GetEnumerator();
+			while (links.MoveNext())
+			{
+				var link = links.Current;
+				if (link.rel.ToLower().Trim().Equals("approval_url"))
+				{
+					return link.href.ToString();
+				}
+			}
+
+			return "";
+		}
 
 		public bool PayOut(String accessToken, PaymentDto dto)
 		{
@@ -153,7 +160,7 @@ namespace Yaba.Web.Payments
 							recipient_type = PayoutRecipientType.EMAIL,
 							amount = new Currency
 							{
-								value = "1.00", // Set to 0 because senders balance is zero
+								value = "0.00", // Set to 0 because senders balance is zero
 								currency = "DKK"
 							},
 							receiver = "christoffer.nissen-buyer@me.com",

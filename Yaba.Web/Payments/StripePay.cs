@@ -56,6 +56,12 @@ namespace Yaba.Web.Payments
 			    }
 				return false;
 		    }
+
+			
 	    }
-    }
+		public String PayTwo(PaymentDto dto)
+		{
+			return "";
+		}
+	}
 }

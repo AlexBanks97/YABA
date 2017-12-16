@@ -40,10 +40,55 @@ namespace Yaba.Web.Controllers
 		    return Forbid();
 	    }
 
+		[HttpGet]
+		public async Task<IActionResult> Get()
+		{
+			var b = Request.QueryString.Value;
+
+			return Ok(b);
+		}
+
+		[HttpGet("{amount}")]
+		public async Task<IActionResult> GetCreateUri()
+		{
+			
+			PaymentDto dto = new PaymentDto()
+			{
+				Amount = "100.00",
+				Description = "test",
+				PaymentProvider = "PayPal"
+
+			};
+
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			String success = "";
+			switch (dto.PaymentProvider)
+			{
+				case "PayPal":
+					success = payTwo(new PaypalPay(), dto);
+					break;
+				default:
+					break;
+			}
+			return Ok(success);
+			
+		}
+
+		
+
 	    private Boolean pay(IPaymentRepository repo, PaymentDto payment)
 	    {
 		    return repo.Pay(payment);
 	    }
+
+		private String payTwo(IPaymentRepository repo, PaymentDto payment)
+		{
+			return repo.PayTwo(payment);
+		}
 
 
 	}

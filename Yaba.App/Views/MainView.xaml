@@ -37,6 +37,8 @@
         
         <Button Content="Sign In/Out"
                 Command="{Binding SignInOutCommand}"/>
+        <Button Content="Pay With Paypal"
+                Command="{Binding PayWithPayPal}"/>
         
     </StackPanel>
 </Page>
