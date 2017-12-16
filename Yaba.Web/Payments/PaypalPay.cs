@@ -19,6 +19,11 @@ namespace Yaba.Web.Payments
             // Authenticate with PayPal
             var accessToken = new OAuthTokenCredential(config).GetAccessToken();
             var apiContext = new APIContext(accessToken);
+            if (apiContext.HTTPHeaders == null)
+            {
+                apiContext.HTTPHeaders = new Dictionary<string, string>();
+            }
+            apiContext.HTTPHeaders["Content-Type"] = "application/json";
 
             // Make an API call
             var paymentobj = new Payment
@@ -28,7 +33,7 @@ namespace Yaba.Web.Payments
                 {
                     payment_method = "paypal"
                 },
-
+                id = Guid.NewGuid().ToString().Substring(0, 8),
                 transactions = new List<Transaction>
                 {
                     new Transaction
@@ -58,24 +63,63 @@ namespace Yaba.Web.Payments
 
             var payment = paymentobj.Create(apiContext);
 
+            //var paymentGet = Payment.Get(apiContext, payment.id);
+            //var b = Payment.Get(apiContext, paymentobj.id);
+
+
             // If payout to other user fails, refund
             if (!PayOut(accessToken, dto)){
                 apiContext = new APIContext(accessToken);
-                Refund refund = new Refund();
-                Amount amount = new Amount();
-                amount.currency = "DKK";
-                amount.total = "0.00";
+                if (apiContext.HTTPHeaders == null)
+                {
+                    apiContext.HTTPHeaders = new Dictionary<string, string>();
+                }
+                apiContext.HTTPHeaders["Content-Type"] = "application/json";
 
-                refund.amount = amount;
+                Refund refund = new Refund();
+
+                refund.description = "Refund issued";
+                refund.reason = "Failure to transfer money to recipient";
+                refund.amount = new Amount
+                {
+                    currency = "DKK",
+                    total = dto.Amount,
+                    details = new Details
+                    {
+                        /*
+                        tax = "15",
+                        shipping = "10",
+                        subtotal = "75"
+                        */
+                    }
+                };
+
 
                 var sale = new Sale()
                 {
                     id = payment.id,
+                    purchase_unit_reference_id = payment.transactions.ToArray()[0].purchase_unit_reference_id,
+                    reason_code = "REFUND",
+                    amount = new Amount
+                    {
+                        currency = "DKK",
+                        total = dto.Amount,
+                        details = new Details
+                        {
+                            /*
+                            tax = "15",
+                            shipping = "10",
+                            subtotal = "75"
+                            */
+                        }
+                    }
+
                 };
 
                 refund.sale_id = sale.id;
 
                 var response = sale.Refund(apiContext, refund);
+
 
             }
 
@@ -86,6 +130,12 @@ namespace Yaba.Web.Payments
 		public bool PayOut(String accessToken, PaymentDto dto)
 		{
 			var apiContext = new APIContext(accessToken);
+            if (apiContext.HTTPHeaders == null)
+            {
+                apiContext.HTTPHeaders = new Dictionary<string, string>();
+            }
+            apiContext.HTTPHeaders["Content-Type"] = "application/json";
+
 
 			try { 
 				var payout = new Payout
