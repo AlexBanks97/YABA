@@ -66,7 +66,7 @@ namespace Yaba.Web.Payments
                 refund.amount = amount;
                 var sale = new Sale()
                 {
-                    id = payment.id
+                    id = "1L304068UD1406339"
                 };
 
                 var response = sale.Refund(apiContext, refund);   
