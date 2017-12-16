@@ -21,7 +21,7 @@ namespace Yaba.Web.Payments
             var apiContext = new APIContext(accessToken);
 
             // Make an API call
-            var payment = Payment.Create(apiContext, new Payment
+            var paymentobj = new Payment
             {
                 intent = "sale",
                 payer = new Payer
@@ -54,7 +54,9 @@ namespace Yaba.Web.Payments
                     return_url = "http://mysite.com/return",
                     cancel_url = "http://mysite.com/cancel"
                 }
-                });
+            };
+
+            var payment = paymentobj.Create(apiContext);
 
             // If payout to other user fails, refund
             if (!PayOut(accessToken, dto)){
@@ -66,16 +68,15 @@ namespace Yaba.Web.Payments
 
                 refund.amount = amount;
 
-
                 var sale = new Sale()
                 {
                     id = payment.id,
-
-
                 };
 
-                var response = sale.Refund(apiContext, refund);   
-                
+                refund.sale_id = sale.id;
+
+                var response = sale.Refund(apiContext, refund);
+
             }
 
             return true;
