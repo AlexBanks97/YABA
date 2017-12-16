@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Yaba.Common.Tab.DTO;
+using Yaba.Entities.User;
 
 namespace Yaba.Entities.Tab
 {
@@ -12,6 +13,7 @@ namespace Yaba.Entities.Tab
 				Id = tabEntity.Id,
 				Balance = tabEntity.Balance,
 				State = tabEntity.State,
+				Users = tabEntity.Users.ToUserDto(),
 				TabItems = tabEntity.TabItems.ToTabItemSimpleDTO().ToList()
 			};
 		}
