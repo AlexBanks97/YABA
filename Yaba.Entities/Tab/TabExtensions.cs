@@ -13,7 +13,8 @@ namespace Yaba.Entities.Tab
 				Id = tabEntity.Id,
 				Balance = tabEntity.Balance,
 				State = tabEntity.State,
-				Users = tabEntity.Users.ToUserDto(),
+				UserOne = tabEntity.UserOne,
+				UserTwo = tabEntity.UserTwo,
 				TabItems = tabEntity.TabItems.ToTabItemSimpleDTO().ToList()
 			};
 		}

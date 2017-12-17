@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Yaba.Common.Tab.DTO;
+using Yaba.Common.Tab.DTO.Item;
 
 namespace Yaba.Common.User.DTO
 {
     public class UserDto
     {
 	    public Guid Id { get; set; }
+	    public ICollection<TabDto> Tabs { get; set; }			
 		[Required]
 	    public string FacebookId { get; set; }
 		[Required]
