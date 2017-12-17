@@ -59,7 +59,7 @@ namespace Yaba.Web.Payments
 
 			
 	    }
-		public String PayTwo(PaymentDto dto)
+        public String GetApprovalUri(PaymentDto dto)
 		{
 			return "";
 		}

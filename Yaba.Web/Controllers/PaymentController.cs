@@ -62,15 +62,15 @@ namespace Yaba.Web.Controllers
 			return Ok(s);
 		}
 
-		[HttpGet("{amount}")]
-		public async Task<IActionResult> GetCreateUri()
+        [HttpGet("{amount},{description},{PaymentProvider}")]
+		public async Task<IActionResult> GetCreateUri(String amount, String description, String PaymentProvider)
 		{
 			
 			PaymentDto dto = new PaymentDto()
 			{
-				Amount = "100.00",
-				Description = "test",
-				PaymentProvider = "PayPal"
+                Amount = amount,
+                Description = description,
+                PaymentProvider = PaymentProvider
 
 			};
 
@@ -83,7 +83,7 @@ namespace Yaba.Web.Controllers
 			switch (dto.PaymentProvider)
 			{
 				case "PayPal":
-					success = payTwo(new PaypalPay(), dto);
+                    success = GetApprovalUri(new PaypalPay(), dto);
 					break;
 				default:
 					break;
@@ -99,9 +99,9 @@ namespace Yaba.Web.Controllers
 		    return repo.Pay(payment);
 	    }
 
-		private String payTwo(IPaymentRepository repo, PaymentDto payment)
+        private String GetApprovalUri(IPaymentRepository repo, PaymentDto payment)
 		{
-			return repo.PayTwo(payment);
+            return repo.GetApprovalUri(payment);
 		}
 
 

@@ -9,21 +9,10 @@ namespace Yaba.Web.Payments
 {
     public class PaypalPay : IPaymentRepository
     {
+        // OLD: New methods (GetApprovalUrl/Execute Payment)
        public bool Pay(PaymentDto dto){
 
-            var config = new Dictionary<String, String>();
-            config.Add("clientId","AVW3VSprOUqMbB3FKDrMFH2e504IO6h3Qss9LmGjq0kcfkj6glmqqD7jMCbxIIFeqGrDcy7B2dt9_u_N");
-            config.Add("clientSecret", "ECXUaE-0M5RCk3ut-enH-SFZrHMi70R8YEUgLJFS4nnd0A973fE8YPo9cuHx1jyINStSDl6P6gkjIJlI");
-            config.Add("mode","sandbox"); // Pls dont remove
-
-            // Authenticate with PayPal
-            var accessToken = new OAuthTokenCredential(config).GetAccessToken();
-            var apiContext = new APIContext(accessToken);
-            if (apiContext.HTTPHeaders == null)
-            {
-                apiContext.HTTPHeaders = new Dictionary<string, string>();
-            }
-            apiContext.HTTPHeaders["Content-Type"] = "application/json";
+            APIContext apiContext = GetApiContext();
 
             // Make an API call
             var paymentobj = new Payment
@@ -43,14 +32,7 @@ namespace Yaba.Web.Payments
                         {
                             currency = "DKK",
                             total = dto.Amount,
-                            details = new Details
-                            {
-                                /*
-                                tax = "15",
-                                shipping = "10",
-                                subtotal = "75"
-                                */
-                            }
+                            details = new Details{}
                         }
                     }
                 },
@@ -67,23 +49,11 @@ namespace Yaba.Web.Payments
 
         }
 
-		public String PayTwo(PaymentDto dto)
+        public String GetApprovalUri(PaymentDto dto)
 		{
-			var config = new Dictionary<String, String>();
-			config.Add("clientId", "AVW3VSprOUqMbB3FKDrMFH2e504IO6h3Qss9LmGjq0kcfkj6glmqqD7jMCbxIIFeqGrDcy7B2dt9_u_N");
-			config.Add("clientSecret", "ECXUaE-0M5RCk3ut-enH-SFZrHMi70R8YEUgLJFS4nnd0A973fE8YPo9cuHx1jyINStSDl6P6gkjIJlI");
-			config.Add("mode", "sandbox"); // Pls dont remove
+            APIContext apiContext = GetApiContext();
 
-			// Authenticate with PayPal
-			var accessToken = new OAuthTokenCredential(config).GetAccessToken();
-			var apiContext = new APIContext(accessToken);
-			if (apiContext.HTTPHeaders == null)
-			{
-				apiContext.HTTPHeaders = new Dictionary<string, string>();
-			}
-			apiContext.HTTPHeaders["Content-Type"] = "application/json";
-
-			// Make an API call
+			// Create payment object to be paied.
 			var paymentobj = new Payment
 			{
 				intent = "sale",
@@ -101,73 +71,48 @@ namespace Yaba.Web.Payments
 						{
 							currency = "DKK",
 							total = dto.Amount,
-							details = new Details
-							{
-                                /*
-                                tax = "15",
-                                shipping = "10",
-                                subtotal = "75"
-                                */
-                            }
+                            details = new Details{}
 						}
 					}
 				},
 				redirect_urls = new RedirectUrls
 				{
-					return_url = "http://localhost:61462/api/payment/",
+					return_url = "http://localhost:5000/api/payment/", // Change to production before release
 					cancel_url = "http://mysite.com/cancel"
 				}
 			};
 
 			var payment = paymentobj.Create(apiContext);
 
+            // Extract approval_url
 			var links = payment.links.GetEnumerator();
 			while (links.MoveNext())
 			{
 				var link = links.Current;
 				if (link.rel.ToLower().Trim().Equals("approval_url"))
 				{
-					return link.href.ToString();
+					return link.href;
 				}
 			}
 
-			return "";
+			return "  ";
 		}
 
 		public String executePayment(String paymentId, String payerId)
 		{
-			var config = new Dictionary<String, String>();
-			config.Add("clientId", "AVW3VSprOUqMbB3FKDrMFH2e504IO6h3Qss9LmGjq0kcfkj6glmqqD7jMCbxIIFeqGrDcy7B2dt9_u_N");
-			config.Add("clientSecret", "ECXUaE-0M5RCk3ut-enH-SFZrHMi70R8YEUgLJFS4nnd0A973fE8YPo9cuHx1jyINStSDl6P6gkjIJlI");
-			config.Add("mode", "sandbox"); // Pls dont remove
+            APIContext apiContext = GetApiContext();
 
-			// Authenticate with PayPal
-			var accessToken = new OAuthTokenCredential(config).GetAccessToken();
-			var apiContext = new APIContext(accessToken);
-			if (apiContext.HTTPHeaders == null)
-			{
-				apiContext.HTTPHeaders = new Dictionary<string, string>();
-			}
-			apiContext.HTTPHeaders["Content-Type"] = "application/json";
-
+            // Execute the payment.
 			var paymentExecution = new PaymentExecution() { payer_id = payerId };
 			var payment = new Payment() { id = paymentId };
-
-			// Execute the payment.
 			var executedPayment = payment.Execute(apiContext, paymentExecution);
 
 			return "Success";
 		}
 
-		public bool PayOut(String accessToken, PaymentDto dto)
+		public bool PayOut(PaymentDto dto)
 		{
-			var apiContext = new APIContext(accessToken);
-            if (apiContext.HTTPHeaders == null)
-            {
-                apiContext.HTTPHeaders = new Dictionary<string, string>();
-            }
-            apiContext.HTTPHeaders["Content-Type"] = "application/json";
-
+            APIContext apiContext = GetApiContext();
 
 			try { 
 				var payout = new Payout
@@ -205,5 +150,25 @@ namespace Yaba.Web.Payments
 
 			return true;
 		}
+
+        APIContext GetApiContext()
+        {
+            var config = new Dictionary<String, String>();
+            config.Add("clientId", "AVW3VSprOUqMbB3FKDrMFH2e504IO6h3Qss9LmGjq0kcfkj6glmqqD7jMCbxIIFeqGrDcy7B2dt9_u_N");
+            config.Add("clientSecret", "ECXUaE-0M5RCk3ut-enH-SFZrHMi70R8YEUgLJFS4nnd0A973fE8YPo9cuHx1jyINStSDl6P6gkjIJlI");
+            config.Add("mode", "sandbox"); // Pls dont remove
+
+            // Authenticate with PayPal
+            var accessToken = new OAuthTokenCredential(config).GetAccessToken();
+            var apiContext = new APIContext(accessToken);
+            if (apiContext.HTTPHeaders == null)
+            {
+                apiContext.HTTPHeaders = new Dictionary<string, string>();
+            }
+            apiContext.HTTPHeaders["Content-Type"] = "application/json";
+
+            return apiContext;
+        }
+
     }
 }
