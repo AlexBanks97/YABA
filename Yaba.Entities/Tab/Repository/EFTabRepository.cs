@@ -54,15 +54,8 @@ namespace Yaba.Entities.Tab.Repository
 		{
 			return _context.Tabs
 				.Include(t => t.TabItems)
-				.Select(t => new TabDto
-					{
-						Id = t.Id,
-						TabItems = t.TabItems.ToTabItemSimpleDTO(),
-						Balance = t.Balance,
-						State = t.State,
-						UserOne = t.UserOne.ToUserDto(),
-						UserTwo = t.UserTwo.ToUserDto(),
-					}).ToList();
+				.Select(t => t.ToDTO())
+				.ToList();
 		}
 
 		public async Task<TabDto> FindTab(Guid id)
