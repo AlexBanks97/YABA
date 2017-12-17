@@ -156,8 +156,6 @@ namespace Yaba.Web.Payments
 			// Execute the payment.
 			var executedPayment = payment.Execute(apiContext, paymentExecution);
 
-			//var x = Payment.Get(apiContext,paymentId);
-
 			return "Success";
 		}
 
@@ -204,6 +202,7 @@ namespace Yaba.Web.Payments
 			{
 				return false;
 			}
+
 			return true;
 		}
     }

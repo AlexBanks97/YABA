@@ -31,7 +31,7 @@ namespace Yaba.Web.Test
 
         }
 
-		[Fact(Skip = "Part of pay_test_returns_true")]
+		[Fact]
 		public void payout_Test_returns_true()
 		{
 
