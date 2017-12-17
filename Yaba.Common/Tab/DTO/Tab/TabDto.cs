@@ -13,11 +13,9 @@ namespace Yaba.Common.Tab.DTO
 		public IEnumerable<TabItemSimpleDTO> TabItems { get; set; }
 		public State State { get; set; }
 		[Required]
-		[ValidGuid]
-		public Guid UserOne { get; set; }
+		public UserDto UserOne { get; set; }
 		[Required]
-		[ValidGuid]
-		public Guid UserTwo { get; set; }
+		public UserDto UserTwo { get; set; }
 
 
 		public override bool Equals(object obj)

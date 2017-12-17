@@ -26,7 +26,8 @@ namespace Yaba.Entities.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    OwnerId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,28 +35,16 @@ namespace Yaba.Entities.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TabItemCategories",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    FacebookId = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TabItemCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tabs",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Balance = table.Column<decimal>(nullable: false),
-                    State = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tabs", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,30 +116,30 @@ namespace Yaba.Entities.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TabItems",
+                name: "Tabs",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Amount = table.Column<decimal>(nullable: false),
-                    CategoryEntityId = table.Column<Guid>(nullable: true),
-                    Description = table.Column<string>(maxLength: 150, nullable: true),
-                    TabEntityId = table.Column<Guid>(nullable: false)
+                    Balance = table.Column<decimal>(nullable: false),
+                    State = table.Column<int>(nullable: false),
+                    UserOneId = table.Column<Guid>(nullable: true),
+                    UserTwoId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TabItems", x => x.Id);
+                    table.PrimaryKey("PK_Tabs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TabItems_TabItemCategories_CategoryEntityId",
-                        column: x => x.CategoryEntityId,
-                        principalTable: "TabItemCategories",
+                        name: "FK_Tabs_Users_UserOneId",
+                        column: x => x.UserOneId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TabItems_Tabs_TabEntityId",
-                        column: x => x.TabEntityId,
-                        principalTable: "Tabs",
+                        name: "FK_Tabs_Users_UserTwoId",
+                        column: x => x.UserTwoId,
+                        principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,6 +161,27 @@ namespace Yaba.Entities.Migrations
                         principalTable: "BudgetCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TabItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Amount = table.Column<decimal>(nullable: false),
+                    CreateBy = table.Column<Guid>(nullable: false),
+                    Description = table.Column<string>(maxLength: 150, nullable: true),
+                    TabEntityId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TabItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TabItems_Tabs_TabEntityId",
+                        column: x => x.TabEntityId,
+                        principalTable: "Tabs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -202,14 +212,19 @@ namespace Yaba.Entities.Migrations
                 column: "BudgetEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TabItems_CategoryEntityId",
-                table: "TabItems",
-                column: "CategoryEntityId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TabItems_TabEntityId",
                 table: "TabItems",
                 column: "TabEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tabs_UserOneId",
+                table: "Tabs",
+                column: "UserOneId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tabs_UserTwoId",
+                table: "Tabs",
+                column: "UserTwoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -230,9 +245,6 @@ namespace Yaba.Entities.Migrations
                 name: "BudgetCategories");
 
             migrationBuilder.DropTable(
-                name: "TabItemCategories");
-
-            migrationBuilder.DropTable(
                 name: "Tabs");
 
             migrationBuilder.DropTable(
@@ -240,6 +252,9 @@ namespace Yaba.Entities.Migrations
 
             migrationBuilder.DropTable(
                 name: "BudgetGoals");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

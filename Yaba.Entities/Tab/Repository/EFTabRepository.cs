@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Yaba.Common;
 using Yaba.Common.Tab.DTO;
+using Yaba.Entities.User;
 
 namespace Yaba.Entities.Tab.Repository
 {
@@ -19,12 +20,18 @@ namespace Yaba.Entities.Tab.Repository
 
 		public async Task<Guid> CreateTab(TabCreateDto tab)
 		{
+			var userOne = await _context.Users.SingleOrDefaultAsync(u => u.Id == tab.UserOne);
+			var userTwo = await _context.Users.SingleOrDefaultAsync(u => u.Id == tab.UserTwo);
+
+			if (userOne == null || userTwo == null)
+				throw new Exception();
+
 			var tabEntity = new TabEntity
 			{
 				Balance = tab.Balance,
 				State = tab.State,
-				UserTwo = tab.UserTwo,
-				UserOne = tab.UserOne,
+				UserOne = userOne,
+				UserTwo = userTwo,
 			};
 
 			_context.Tabs.Add(tabEntity);
@@ -47,15 +54,8 @@ namespace Yaba.Entities.Tab.Repository
 		{
 			return _context.Tabs
 				.Include(t => t.TabItems)
-				.Select(t => new TabDto
-					{
-						Id = t.Id,
-						TabItems = t.TabItems.ToTabItemSimpleDTO(),
-						Balance = t.Balance,
-						State = t.State,
-						UserOne = t.UserOne,
-						UserTwo = t.UserTwo,
-					}).ToList();
+				.Select(t => t.ToDTO())
+				.ToList();
 		}
 
 		public async Task<TabDto> FindTab(Guid id)

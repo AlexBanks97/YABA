@@ -18,22 +18,6 @@ namespace Yaba.Entities.User
 				Name = user.Name,
 				FacebookId = user.FacebookId,
 				Id = user.Id,
-				Tabs = user.Tabs.Select(t => new TabDto
-				{
-					Id = t.Id,
-					TabItems = t.TabItems.Select(ti => new TabItemSimpleDTO
-					{
-						Id = ti.Id,
-						Amount = ti.Amount,
-						CreatedBy = ti.CreateBy,
-						Description = ti.Description,
-					}),
-					Balance = t.Balance,
-					State = t.State,
-					UserOne = t.UserOne,
-					UserTwo = t.UserTwo,
-				}).ToList(),
-				
 		    };
 	    }
 	}

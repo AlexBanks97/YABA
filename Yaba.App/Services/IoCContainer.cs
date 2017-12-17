@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Yaba.App.Models;
 using Yaba.App.ViewModels;
+using Yaba.Common;
 using Yaba.Common.Budget;
 
 
@@ -32,13 +33,16 @@ namespace Yaba.App.Services
 			// repositories
 			services.AddScoped<IBudgetRepository, BudgetRepository>();
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
-			
+			services.AddScoped<ITabRepository, TabRepository>();
+			services.AddScoped<IUserRepository, UserRepository>();
+
 
 			// VMs
 			services.AddTransient<MainViewModel>();
 			services.AddTransient<BudgetsViewModel>();
 			services.AddTransient<BudgetsDetailViewModel>();
 			services.AddTransient<CategoryViewModel>();
+			services.AddTransient<TabsPageViewModel>();
 
 
 			//services.AddScoped<ICharacterRepository, CharacterRepository>();

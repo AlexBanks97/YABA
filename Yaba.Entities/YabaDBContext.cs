@@ -37,6 +37,21 @@ namespace Yaba.Entities
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{ }
+		{
+			modelBuilder.Entity<TabEntity>()
+				.HasOne(t => t.UserOne)
+				.WithMany();
+
+			modelBuilder.Entity<TabEntity>()
+				.HasOne(t => t.UserTwo)
+				.WithMany();
+
+			/*
+		odelBuilder.Entity<AnEventUser>()
+			.HasOne(pt => pt.AnEvent)
+			.WithMany(p => p.AnEventUsers)
+			.HasForeignKey(pt => pt.AnEventId); */
+
+		}
 	}
 }
