@@ -54,7 +54,7 @@ namespace Yaba.Web.Test
 			var accessToken = new OAuthTokenCredential(config).GetAccessToken();
 
 			//Act
-			var result = target.PayOut(accessToken, payment);
+			var result = target.PayOut(payment);
 
 			//Assert
 			Assert.True(result);

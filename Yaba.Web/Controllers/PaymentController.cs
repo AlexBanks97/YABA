@@ -14,65 +14,56 @@ namespace Yaba.Web.Controllers
     public class PaymentController : Controller
     {
 		// POST: api/Payment
-		[HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Post([FromBody]PaymentDto payment)
         {
-			if (!ModelState.IsValid)
-		    {
-			    return BadRequest(ModelState);
-		    }
-		    bool success;
-		    switch (payment.PaymentProvider)
-		    {
-			    case "PayPal":
-				    success = pay(new PaypalPay(), payment);
-				    break;
-			    case "Stripe":
-				    success = pay(new StripePay(), payment);
-				    break;
-			    default:
-				    success = false;
-				    break;
-		    }
-		    if (success)
-		    {
-			    return Ok();
-		    }
-		    return Forbid();
-	    }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            bool success;
+            switch (payment.PaymentProvider)
+            {
+                case "PayPal":
+                    success = new PaypalPay().PayOut(payment);
+                    break;
+                case "Stripe":
+                    success = pay(new StripePay(), payment);
+                    break;
+                default:
+                    success = false;
+                    break;
+            }
+            if (success)
+            {
+                return Ok();
+            }
+            return Forbid();
+        }
 
 		// For paypal
 		[HttpGet]
-		public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] String payerId, [FromQuery]String paymentId)
 		{
-			// Extract payerId and paymentId from querystring
-			var b = Request.QueryString.Value;
-			var x = b.Substring(1, b.Length-1); // lose ?
-			var xx = x.Split("&");
-			var payerId = xx[2].Split("=")[1];
-			var paymentId = xx[0].Split("=")[1];
-
 			var s = "PayerId: " + payerId + ", PaymentId: " + paymentId;
-
-			PaypalPay ppp = new PaypalPay();
-			s = ppp.executePayment(paymentId,payerId);
-
-			// If s == success, Payout to other user
-
+            s = new PaypalPay().ExecutePayment(paymentId,payerId);
 			return Ok(s);
+
 		}
 
-        [HttpGet("{amount},{description},{PaymentProvider}")]
-		public async Task<IActionResult> GetCreateUri(String amount, String description, String PaymentProvider)
+        [HttpGet("{amount},{description},{PaymentProvider},{RecipientEmail}")]
+        public async Task<IActionResult> GetCreateUri(String amount, String description, String PaymentProvider, String RecipientEmail)
 		{
 			
 			PaymentDto dto = new PaymentDto()
 			{
                 Amount = amount,
                 Description = description,
-                PaymentProvider = PaymentProvider
+                PaymentProvider = PaymentProvider,
+                RecipientEmail = RecipientEmail
 
 			};
+
 
 			if (!ModelState.IsValid)
 			{
@@ -88,11 +79,11 @@ namespace Yaba.Web.Controllers
 				default:
 					break;
 			}
+
 			return Ok(success);
 			
 		}
 
-		
 
 	    private Boolean pay(IPaymentRepository repo, PaymentDto payment)
 	    {

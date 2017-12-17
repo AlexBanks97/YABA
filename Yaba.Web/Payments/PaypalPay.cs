@@ -77,7 +77,7 @@ namespace Yaba.Web.Payments
 				},
 				redirect_urls = new RedirectUrls
 				{
-					return_url = "http://localhost:5000/api/payment/", // Change to production before release
+                    return_url = "http://localhost:5000/api/payment/", // Change to production before release
 					cancel_url = "http://mysite.com/cancel"
 				}
 			};
@@ -98,7 +98,7 @@ namespace Yaba.Web.Payments
 			return "  ";
 		}
 
-		public String executePayment(String paymentId, String payerId)
+		public String ExecutePayment(String paymentId, String payerId)
 		{
             APIContext apiContext = GetApiContext();
 
@@ -110,7 +110,8 @@ namespace Yaba.Web.Payments
 			return "Success";
 		}
 
-		public bool PayOut(PaymentDto dto)
+        // Should transfer money to payerId from ExecutePayment, and amount from Dto
+        public bool PayOut(PaymentDto dto)
 		{
             APIContext apiContext = GetApiContext();
 
@@ -119,7 +120,7 @@ namespace Yaba.Web.Payments
 				{
 					sender_batch_header = new PayoutSenderBatchHeader
 					{
-						sender_batch_id = "batch_" + Guid.NewGuid().ToString().Substring(0, 8),
+						sender_batch_id = "batch_" + Guid.NewGuid().ToString().Substring(0,8),
 						email_subject = "You have a payment",
 						recipient_type = PayoutRecipientType.EMAIL
 					},
@@ -130,11 +131,11 @@ namespace Yaba.Web.Payments
 							recipient_type = PayoutRecipientType.EMAIL,
 							amount = new Currency
 							{
-								value = "0.00", // Set to 0 because senders balance is zero
+                                value = dto.Amount,
 								currency = "DKK"
 							},
-							receiver = "christoffer.nissen-buyer@me.com",
-							note = "Thank you.",
+                            receiver = dto.RecipientEmail,
+                            note = dto.Description,
 							sender_item_id = "item_1"
 						}
 					}

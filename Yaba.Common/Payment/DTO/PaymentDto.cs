@@ -13,5 +13,6 @@ namespace Yaba.Common.Payment
 	    public string Token { get; set; }
         [Required]
         public string PaymentProvider { get; set; }
+        public string RecipientEmail { get; set; }
     }
 }
