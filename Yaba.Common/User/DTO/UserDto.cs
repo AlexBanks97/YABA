@@ -10,7 +10,7 @@ namespace Yaba.Common.User.DTO
     public class UserDto
     {
 	    public Guid Id { get; set; }
-	    public ICollection<TabDto> Tabs { get; set; }			
+
 		[Required]
 	    public string FacebookId { get; set; }
 		[Required]
@@ -18,8 +18,7 @@ namespace Yaba.Common.User.DTO
 
 		public override bool Equals(object obj)
 		{
-			var dto = obj as UserDto;
-			return dto != null &&
+			return obj is UserDto dto &&
 				   Id.Equals(dto.Id) &&
 				   FacebookId == dto.FacebookId &&
 				   Name == dto.Name;

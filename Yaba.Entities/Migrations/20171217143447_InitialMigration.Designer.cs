@@ -12,8 +12,8 @@ using Yaba.Entities;
 namespace Yaba.Entities.Migrations
 {
     [DbContext(typeof(YabaDBContext))]
-    [Migration("20171207132237_RemoveTabItemCategory")]
-    partial class RemoveTabItemCategory
+    [Migration("20171217143447_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,22 @@ namespace Yaba.Entities.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Yaba.Common.User.UserEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FacebookId")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
 
             modelBuilder.Entity("Yaba.Entities.Budget.BudgetEntity", b =>
                 {
@@ -30,6 +46,8 @@ namespace Yaba.Entities.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
+
+                    b.Property<string>("OwnerId");
 
                     b.HasKey("Id");
 
@@ -146,6 +164,8 @@ namespace Yaba.Entities.Migrations
 
                     b.Property<decimal>("Amount");
 
+                    b.Property<Guid>("CreateBy");
+
                     b.Property<string>("Description")
                         .HasMaxLength(150);
 
@@ -167,7 +187,15 @@ namespace Yaba.Entities.Migrations
 
                     b.Property<int>("State");
 
+                    b.Property<Guid?>("UserOneId");
+
+                    b.Property<Guid?>("UserTwoId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserOneId");
+
+                    b.HasIndex("UserTwoId");
 
                     b.ToTable("Tabs");
                 });
@@ -210,6 +238,17 @@ namespace Yaba.Entities.Migrations
                         .WithMany("TabItems")
                         .HasForeignKey("TabEntityId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Yaba.Entities.Tab.TabEntity", b =>
+                {
+                    b.HasOne("Yaba.Common.User.UserEntity", "UserOne")
+                        .WithMany()
+                        .HasForeignKey("UserOneId");
+
+                    b.HasOne("Yaba.Common.User.UserEntity", "UserTwo")
+                        .WithMany()
+                        .HasForeignKey("UserTwoId");
                 });
 #pragma warning restore 612, 618
         }

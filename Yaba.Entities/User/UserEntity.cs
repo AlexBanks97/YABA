@@ -14,7 +14,5 @@ namespace Yaba.Common.User
 		public string FacebookId { get; set; }
 		[Required]
         public string Name { get; set; }
-
-	    public ICollection<TabEntity> Tabs { get; set; }
 	}
 }
