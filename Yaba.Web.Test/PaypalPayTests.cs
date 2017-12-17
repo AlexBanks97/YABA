@@ -57,7 +57,7 @@ namespace Yaba.Web.Test
 			var result = target.PayOut(payment);
 
 			//Assert
-            Assert.True(result.Equals("true"));
+            Assert.True(result.Equals("Payment was successful..."));
 
 		}
 	}
