@@ -26,7 +26,7 @@ namespace Yaba.Web.Test
             var result = target.Pay(payment);
 
             //Assert
-            Assert.True(result.Equals("true"));
+            Assert.True(result.Equals("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-4JD9752034044773P"));
 
 
         }
