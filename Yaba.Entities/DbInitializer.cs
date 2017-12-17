@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Yaba.Common;
+using Yaba.Common.User;
 using Yaba.Entities.Budget;
 using Yaba.Entities.Tab;
 
@@ -16,6 +19,7 @@ namespace Yaba.Entities
 			var myBudget = new Budget.BudgetEntity { Name = "My Budget" };
 			var companyBudget = new Budget.BudgetEntity { Name = "Company Budget" };
 			context.Budgets.AddRange(myBudget, companyBudget);
+			context.SaveChangesAsync().Wait();
 
 			var foodCat = new CategoryEntity
 			{
@@ -33,9 +37,10 @@ namespace Yaba.Entities
 				BudgetEntity = companyBudget,
 			};
 			context.BudgetCategories.AddRange(foodCat, billCat, officeCat);
+			context.SaveChangesAsync().Wait();
 
 
-            var recurrings = new[]
+			var recurrings = new[]
             {
                 new RecurringEntity{Name = "Paycheck", Amount = 8000, Recurrence = Common.Recurrence.Monthly, BudgetEntity = myBudget},
                 new RecurringEntity{Name = "Netflix", Amount = -89, Recurrence = Common.Recurrence.Monthly, BudgetEntity = myBudget},
@@ -46,8 +51,9 @@ namespace Yaba.Entities
             };
 
             context.BudgetRecurrings.AddRange(recurrings);
+			context.SaveChangesAsync().Wait();
 
-            var goals = new[]
+			var goals = new[]
             {
                 new GoalEntity {Amount = 3000, Recurrence = Common.Recurrence.Monthly, CategoryEntity = foodCat},
                 new GoalEntity {Amount = 500, Recurrence = Common.Recurrence.Monthly, CategoryEntity = billCat},
@@ -56,6 +62,7 @@ namespace Yaba.Entities
             };
 
             context.BudgetGoals.AddRange(goals);
+			context.SaveChangesAsync().Wait();
 
 			var entries = new[]
 			{
@@ -73,21 +80,35 @@ namespace Yaba.Entities
 				new EntryEntity {Amount = 20.0m, Description = "Kuglepen", CategoryEntity = officeCat},
 			};
 			context.BudgetEntries.AddRange(entries);
+			context.SaveChangesAsync().Wait();
+
+			var phil = new UserEntity
+			{
+				FacebookId = Guid.NewGuid().ToString(),
+				Name = "Dr. Phil"
+			};
+			var myQueen = new UserEntity
+			{
+				FacebookId = Guid.NewGuid().ToString(),
+				Name = "Lady Sylvanas"
+			};
+
+			context.Users.AddRange(phil, myQueen);
+			context.SaveChangesAsync().Wait();
 
 			var tabs = new[]
 			{
 				new Tab.TabEntity()
 				{
-
+					UserOne = phil,
+					UserTwo = myQueen,
+					State = State.Active,
 				},
-				new Tab.TabEntity()
-				{
-
-				}
 
 			};
 
 			context.Tabs.AddRange(tabs);
+			context.SaveChangesAsync().Wait();
 
 			var tabItems = new[]
 			{
@@ -102,14 +123,14 @@ namespace Yaba.Entities
 				{
 					Amount = 100,
 					Description = "Entrance",
-					TabEntity = tabs[1],
+					TabEntity = tabs[0],
 				},
 
 				new ItemEntity()
 				{
 					Amount = 500,
 					Description = "Grocieries",
-					TabEntity = tabs[1],
+					TabEntity = tabs[0],
 				}
 
 			};
@@ -134,8 +155,9 @@ namespace Yaba.Entities
                 }
 
             };
+			context.SaveChangesAsync().Wait();
 
-            context.Tabs.AddRange(tabs);
+			context.Tabs.AddRange(tabs);
 
             var tabItems = new[]
             {

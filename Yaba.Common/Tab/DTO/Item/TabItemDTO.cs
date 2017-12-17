@@ -15,6 +15,9 @@ namespace Yaba.Common.Tab.DTO.Item
 
 		[Required]
 		public TabDto Tab { get; set; }
+		[Required]
+		[ValidGuid]
+		public Guid CreatedBy { get; set; }
 
 	}
 

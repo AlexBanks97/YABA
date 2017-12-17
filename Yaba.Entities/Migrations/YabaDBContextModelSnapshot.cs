@@ -23,16 +23,16 @@ namespace Yaba.Entities.Migrations
 
             modelBuilder.Entity("Yaba.Common.User.UserEntity", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("FacebookId")
+                        .IsRequired();
 
-                    b.Property<string>("UserEntityId");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserEntityId");
 
                     b.ToTable("Users");
                 });
@@ -163,6 +163,8 @@ namespace Yaba.Entities.Migrations
 
                     b.Property<decimal>("Amount");
 
+                    b.Property<Guid>("CreateBy");
+
                     b.Property<string>("Description")
                         .HasMaxLength(150);
 
@@ -184,16 +186,17 @@ namespace Yaba.Entities.Migrations
 
                     b.Property<int>("State");
 
+                    b.Property<Guid?>("UserOneId");
+
+                    b.Property<Guid?>("UserTwoId");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Tabs");
-                });
+                    b.HasIndex("UserOneId");
 
-            modelBuilder.Entity("Yaba.Common.User.UserEntity", b =>
-                {
-                    b.HasOne("Yaba.Common.User.UserEntity")
-                        .WithMany("Friends")
-                        .HasForeignKey("UserEntityId");
+                    b.HasIndex("UserTwoId");
+
+                    b.ToTable("Tabs");
                 });
 
             modelBuilder.Entity("Yaba.Entities.Budget.CategoryEntity", b =>
@@ -234,6 +237,17 @@ namespace Yaba.Entities.Migrations
                         .WithMany("TabItems")
                         .HasForeignKey("TabEntityId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Yaba.Entities.Tab.TabEntity", b =>
+                {
+                    b.HasOne("Yaba.Common.User.UserEntity", "UserOne")
+                        .WithMany()
+                        .HasForeignKey("UserOneId");
+
+                    b.HasOne("Yaba.Common.User.UserEntity", "UserTwo")
+                        .WithMany()
+                        .HasForeignKey("UserTwoId");
                 });
 #pragma warning restore 612, 618
         }

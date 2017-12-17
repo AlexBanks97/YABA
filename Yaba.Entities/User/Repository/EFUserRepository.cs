@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Yaba.Common;
 using Yaba.Common.User;
 using Yaba.Common.User.DTO;
@@ -18,50 +19,75 @@ namespace Yaba.Entities.User.Repository
 			_context = context;
 		}
 
-		public async Task<String> CreateUser(UserCreateDto user)
+		public async Task<Guid> CreateUser(UserCreateDto user)
 		{
-            var userEntity = new UserEntity
-            {
-                Id = user.Id,
-                Name = user.Name
-            };
-
-            _context.Users.Add(userEntity);
-            await _context.SaveChangesAsync();
-            return userEntity.Id;
-		}
-
-		public async Task<bool> Delete(String userId)
-		{
-			throw new NotImplementedException();
-		}
-
-		public async Task<ICollection<UserSimpleDto>> FindAll()
-		{
-            return _context.Users.Select(b => new UserSimpleDto
-            {
-                Id = b.Id,
-                Name = b.Name
-            }).ToList();
-		}
-
-		public async Task<UserDetailsDto> FindUser(String userId)
-		{
-			var user = _context.Users.SingleOrDefault(u => u.Id == userId);
-			if (user == null) return null;
-			var dto = new UserDetailsDto
+			var entity = new UserEntity
 			{
-				Id = user.Id,
+				FacebookId = user.FacebookId,
 				Name = user.Name,
 			};
-
-			return dto;
+			_context.Users.Add(entity);
+			await _context.SaveChangesAsync();
+			return entity.Id;
 		}
 
-		public async Task<bool> Update(String userId)
+		public async Task<UserDto> Find(Guid userId)
 		{
-			throw new NotImplementedException();
+			var entity = _context.Users
+				.SingleOrDefault(u => u.Id == userId);
+			if (entity == null) return null;
+			return new UserDto
+			{
+				Id = entity.Id,
+				Name = entity.Name,
+				FacebookId = entity.FacebookId,
+			};
 		}
+
+		public async Task<UserDto> FindFromFacebookId(string facebookId)
+		{
+			var entity = _context.Users
+				.SingleOrDefault(u => u.FacebookId == facebookId);
+			if (entity == null) return null;
+			return new UserDto
+			{
+				Id = entity.Id,
+				Name = entity.Name,
+				FacebookId = entity.FacebookId,
+			};
+		}
+
+		public async Task<ICollection<UserDto>> FindAll()
+		{
+			return _context.Users.Select(u => new UserDto
+			{
+					Name = u.Name,
+					Id = u.Id,
+					FacebookId = u.FacebookId,
+				}).ToList();
+		}
+
+		public async Task<bool> Update(UserDto user)
+		{
+			var entity = _context.Users
+				.SingleOrDefault(u => u.Id == user.Id);
+			if (entity == null) return false;
+
+			entity.Name = user.Name ?? entity.Name;
+			entity.FacebookId = user.FacebookId ?? entity.FacebookId;
+			return true;
+		}
+
+		public async Task<bool> Delete(Guid userId)
+		{
+			var entity = _context.Users.SingleOrDefault(u => u.Id == userId);
+			if (entity == null) return false;
+			_context.Users.Remove(entity);
+			await _context.SaveChangesAsync();
+			return true;
+		}
+
+		
 
 		#region IDisposable Support
 		private bool disposedValue = false; // To detect redundant calls
@@ -96,6 +122,9 @@ namespace Yaba.Entities.User.Repository
 			// TODO: uncomment the following line if the finalizer is overridden above.
 			// GC.SuppressFinalize(this);
 		}
+
+		
 		#endregion
+
 	}
 }

@@ -8,6 +8,7 @@ using Xunit;
 using Yaba.Common.Tab.DTO;
 using Yaba.Common.Tab.DTO.Item;
 using Yaba.Entities;
+using Yaba.Entities.Tab;
 using Yaba.Entities.Tab.Repository;
 using Yaba.Entities.Test;
 using Yaba.Web.Controllers;
@@ -24,18 +25,8 @@ namespace Yaba.Web.Test
 
 			var expected = context.Tabs
 				.Include(t => t.TabItems)
-				.Select(b => new TabDto()
-				{
-					Balance = b.Balance,
-					Id = b.Id,
-					State = b.State,
-					TabItems = b.TabItems.Select(ti => new TabItemSimpleDTO
-					{
-						Amount = ti.Amount,
-						Description = ti.Description,
-						Id = ti.Id,
-					}),
-				}).ToList();
+				.Select(t => t.ToDTO())
+				.ToList();
 			using (var controller = new TabsController(new EFTabRepository(context)))
 			{
 

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Yaba.Common;
+using Yaba.Common.User;
 
 namespace Yaba.Entities.Tab
 {
 	public class ItemEntity
 	{
+		[ValidGuid]
 		public Guid Id { get; set; }
 		[Required]
 		public decimal Amount { get; set; }
@@ -12,6 +15,9 @@ namespace Yaba.Entities.Tab
 		public string Description { get; set; }
 		[Required]
 		public TabEntity TabEntity { get; set; }
+		[Required]
+		[ValidGuid]
+		public Guid CreateBy { get; set; }
 		// Add prop for user whom created tab item
 	}
 }

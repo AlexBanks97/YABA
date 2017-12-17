@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Yaba.Common.Tab.DTO.Item;
+using Yaba.Common.User.DTO;
 
 namespace Yaba.Common.Tab.DTO
 {
@@ -10,6 +12,11 @@ namespace Yaba.Common.Tab.DTO
 		public decimal Balance { get; set; }
 		public IEnumerable<TabItemSimpleDTO> TabItems { get; set; }
 		public State State { get; set; }
+		[Required]
+		public UserDto UserOne { get; set; }
+		[Required]
+		public UserDto UserTwo { get; set; }
+
 
 		public override bool Equals(object obj)
 		{

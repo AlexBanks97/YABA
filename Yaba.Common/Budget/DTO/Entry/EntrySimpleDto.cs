@@ -19,5 +19,14 @@ namespace Yaba.Common.Budget.DTO.Entry
 		[Required]
 		public DateTime Date { get; set; }
 
+		public override bool Equals(object obj)
+		{
+			var dto = obj as EntrySimpleDto;
+			return dto != null &&
+				   Id.Equals(dto.Id) &&
+				   Amount == dto.Amount &&
+				   Description == dto.Description &&
+				   Date == dto.Date;
+		}
 	}
 }
