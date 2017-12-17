@@ -9,7 +9,7 @@ namespace Yaba.Web.Test
 {
     public class PaypalPayTests
     {
-        [Fact]
+        [Fact(Skip ="Requires human authentication")]
         public void pay_Test_returns_true()
         {
 
