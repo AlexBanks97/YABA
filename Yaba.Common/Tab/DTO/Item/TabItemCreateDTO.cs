@@ -11,6 +11,9 @@ namespace Yaba.Common.Tab.DTO.Item
 		public string Description { get; set; }
 		[Required]
 		public decimal Amount { get; set; }
+		[Required]
+		[ValidGuid]
+	    public Guid CreatedBy { get; set; }
 
 	}
 }

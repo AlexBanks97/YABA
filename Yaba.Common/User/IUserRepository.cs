@@ -9,14 +9,16 @@ namespace Yaba.Common
     public interface IUserRepository : IDisposable
     {
 
-		Task<String> CreateUser(UserCreateDto user);
+		Task<Guid> CreateUser(UserCreateDto user);
 
-		Task<UserDetailsDto> FindUser(String userId);
+		Task<UserDto> Find(Guid userId);
 
-		Task<ICollection<UserSimpleDto>> FindAll();
+	    Task<UserDto> FindFromFacebookId(string facebookId);
 
-		Task<bool> Update(String userId);
+		Task<ICollection<UserDto>> FindAll();
 
-		Task<bool> Delete(String userId);
+		Task<bool> Update(UserDto user);
+
+		Task<bool> Delete(Guid userId);
     }
 }

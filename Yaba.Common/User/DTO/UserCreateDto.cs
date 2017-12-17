@@ -8,7 +8,7 @@ namespace Yaba.Common.User.DTO
     public class UserCreateDto
     {
         [Required]
-        public string Id { get; set; }
+        public string FacebookId { get; set; }
 
 		[Required]
 		public string Name { get; set; }

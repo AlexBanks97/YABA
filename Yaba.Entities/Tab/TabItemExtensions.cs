@@ -12,6 +12,7 @@ namespace Yaba.Entities.Tab
 				Id = itemEntity.Id,
 				Amount = itemEntity.Amount,
 				Description = itemEntity.Description,
+				CreatedBy = itemEntity.CreateBy,
 			};
 		}
 

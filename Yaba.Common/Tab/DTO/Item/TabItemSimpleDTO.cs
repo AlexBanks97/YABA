@@ -10,6 +10,10 @@ namespace Yaba.Common.Tab.DTO.Item
 		[Required]
 		public decimal Amount { get; set; }
 
+		[Required]
+		[ValidGuid]
+		public Guid CreatedBy { get; set; }
+
 		[StringLength(150)]
 		public string Description { get; set; }
 		public override bool Equals(object obj)

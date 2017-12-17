@@ -22,7 +22,9 @@ namespace Yaba.Entities.Tab.Repository
 			var tabEntity = new TabEntity
 			{
 				Balance = tab.Balance,
-				State = tab.State
+				State = tab.State,
+				UserTwo = tab.UserTwo,
+				UserOne = tab.UserOne,
 			};
 
 			_context.Tabs.Add(tabEntity);
@@ -51,6 +53,8 @@ namespace Yaba.Entities.Tab.Repository
 						TabItems = t.TabItems.ToTabItemSimpleDTO(),
 						Balance = t.Balance,
 						State = t.State,
+						UserOne = t.UserOne,
+						UserTwo = t.UserTwo,
 					}).ToList();
 		}
 
