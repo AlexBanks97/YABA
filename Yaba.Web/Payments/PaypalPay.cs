@@ -10,52 +10,15 @@ namespace Yaba.Web.Payments
     public class PaypalPay : IPaymentRepository
     {
         // OLD: New methods (GetApprovalUrl/Execute Payment)
-       public bool Pay(PaymentDto dto){
-
-            APIContext apiContext = GetApiContext();
-
-            // Make an API call
-            var paymentobj = new Payment
-            {
-                intent = "sale",
-                payer = new Payer
-                {
-                    payment_method = "paypal"
-                },
-                id = Guid.NewGuid().ToString().Substring(0, 8),
-                transactions = new List<Transaction>
-                {
-                    new Transaction
-                    {
-                        description = dto.Description,
-                        amount = new Amount
-                        {
-                            currency = "DKK",
-                            total = dto.Amount,
-                            details = new Details{}
-                        }
-                    }
-                },
-                redirect_urls = new RedirectUrls
-                {
-                    return_url = "http://mysite.com/return",
-                    cancel_url = "http://mysite.com/cancel"
-                }
-            };
-
-            var payment = paymentobj.Create(apiContext);
-
-			return true;
-
-        }
-
-        public String GetApprovalUri(PaymentDto dto)
+      
+        public String Pay(PaymentDto dto)
 		{
             APIContext apiContext = GetApiContext();
 
 			// Create payment object to be paied.
 			var paymentobj = new Payment
 			{
+                
 				intent = "sale",
 				payer = new Payer
 				{
@@ -66,7 +29,7 @@ namespace Yaba.Web.Payments
 				{
 					new Transaction
 					{
-						description = dto.Description,
+                        description = dto.RecipientEmail,
 						amount = new Amount
 						{
 							currency = "DKK",
@@ -75,6 +38,7 @@ namespace Yaba.Web.Payments
 						}
 					}
 				},
+                note_to_payer = "You will not be able to view the order before payment",
 				redirect_urls = new RedirectUrls
 				{
                     return_url = "http://localhost:5000/api/payment/", // Change to production before release
@@ -107,35 +71,41 @@ namespace Yaba.Web.Payments
 			var payment = new Payment() { id = paymentId };
 			var executedPayment = payment.Execute(apiContext, paymentExecution);
 
-			return "Success";
+            PaymentDto dto = new PaymentDto()
+            {
+                RecipientEmail = executedPayment.transactions[0].description,
+                Amount = executedPayment.transactions[0].amount.total
+            };
+
+            return PayOut(dto);
+
 		}
 
         // Should transfer money to payerId from ExecutePayment, and amount from Dto
-        public bool PayOut(PaymentDto dto)
+        public String PayOut(PaymentDto dto)
 		{
             APIContext apiContext = GetApiContext();
 
-			try { 
-				var payout = new Payout
-				{
-					sender_batch_header = new PayoutSenderBatchHeader
-					{
-						sender_batch_id = "batch_" + Guid.NewGuid().ToString().Substring(0,8),
-						email_subject = "You have a payment",
-						recipient_type = PayoutRecipientType.EMAIL
-					},
-					items = new List<PayoutItem>
-					{
-						new PayoutItem
-						{
-							recipient_type = PayoutRecipientType.EMAIL,
-							amount = new Currency
-							{
+			try {
+                var payout = new Payout
+                {
+                    sender_batch_header = new PayoutSenderBatchHeader
+                    {
+                        sender_batch_id = "batch_" + Guid.NewGuid().ToString().Substring(0, 8),
+                        email_subject = "You have a payment",
+                        recipient_type = PayoutRecipientType.EMAIL
+                    },
+                    items = new List<PayoutItem>
+                    {
+                        new PayoutItem
+                        {
+                            recipient_type = PayoutRecipientType.EMAIL,
+                            amount = new Currency
+                            {
                                 value = dto.Amount,
-								currency = "DKK"
-							},
+                                currency = "DKK"
+                            },
                             receiver = dto.RecipientEmail,
-                            note = dto.Description,
 							sender_item_id = "item_1"
 						}
 					}
@@ -146,10 +116,10 @@ namespace Yaba.Web.Payments
 
 			} catch (Exception e)
 			{
-				return false;
+				return "Payout failed...";
 			}
 
-			return true;
+			return "Payment was successful...";
 		}
 
         APIContext GetApiContext()

@@ -16,7 +16,7 @@ namespace Yaba.Web.Test
             var payment = new PaymentDto
             {
                 Amount = "100.00",
-                Description = "Test Transaction",
+                RecipientEmail = "Chrsitoffer.nissen-buyer@me.com",
                 PaymentProvider = "PayPal"
             };
 
@@ -26,7 +26,7 @@ namespace Yaba.Web.Test
             var result = target.Pay(payment);
 
             //Assert
-            Assert.True(result);
+            Assert.True(result.Equals("true"));
 
 
         }
@@ -38,7 +38,7 @@ namespace Yaba.Web.Test
 			var payment = new PaymentDto
 			{
 				Amount = "100.00",
-				Description = "Test Transaction",
+                RecipientEmail = "Chrsitoffer.nissen-buyer@me.com",
 				PaymentProvider = "PayPal"
 			
 			};
@@ -57,7 +57,7 @@ namespace Yaba.Web.Test
 			var result = target.PayOut(payment);
 
 			//Assert
-			Assert.True(result);
+            Assert.True(result.Equals("true"));
 
 		}
 	}

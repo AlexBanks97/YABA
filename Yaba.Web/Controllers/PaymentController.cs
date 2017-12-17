@@ -21,20 +21,17 @@ namespace Yaba.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            bool success;
+            String message;
             switch (payment.PaymentProvider)
             {
                 case "PayPal":
-                    success = new PaypalPay().PayOut(payment);
-                    break;
-                case "Stripe":
-                    success = pay(new StripePay(), payment);
+                    message = new PaypalPay().PayOut(payment);
                     break;
                 default:
-                    success = false;
+                    message = "false";
                     break;
             }
-            if (success)
+            if (message == "true")
             {
                 return Ok();
             }
@@ -47,54 +44,49 @@ namespace Yaba.Web.Controllers
 		{
 			var s = "PayerId: " + payerId + ", PaymentId: " + paymentId;
             s = new PaypalPay().ExecutePayment(paymentId,payerId);
+
 			return Ok(s);
 
 		}
 
-        [HttpGet("{amount},{description},{PaymentProvider},{RecipientEmail}")]
-        public async Task<IActionResult> GetCreateUri(String amount, String description, String PaymentProvider, String RecipientEmail)
+        [HttpPost("{amount},{PaymentProvider},{token},{RecipientEmail}")]
+        public async Task<IActionResult> GetCreateUri(String amount, String token, String PaymentProvider, String RecipientEmail)
 		{
 			
 			PaymentDto dto = new PaymentDto()
 			{
                 Amount = amount,
-                Description = description,
+                Token = token,
                 PaymentProvider = PaymentProvider,
                 RecipientEmail = RecipientEmail
 
 			};
-
 
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			String success = "";
+			String message = "";
 			switch (dto.PaymentProvider)
 			{
 				case "PayPal":
-                    success = GetApprovalUri(new PaypalPay(), dto);
-					break;
-				default:
-					break;
+                    message = pay(new PaypalPay(), dto);
+                    break;
+				
+				case "Stripe":
+                    message = pay(new StripePay(), dto);
+                    break;
 			}
 
-			return Ok(success);
+            return Ok(message);
 			
 		}
 
-
-	    private Boolean pay(IPaymentRepository repo, PaymentDto payment)
+	    private String pay(IPaymentRepository repo, PaymentDto payment)
 	    {
-		    return repo.Pay(payment);
+            return repo.Pay(payment);
 	    }
-
-        private String GetApprovalUri(IPaymentRepository repo, PaymentDto payment)
-		{
-            return repo.GetApprovalUri(payment);
-		}
-
 
 	}
 }

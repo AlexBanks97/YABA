@@ -16,7 +16,7 @@ namespace Yaba.Web.Test
 		    var payment = new PaymentDto
 		    {
                 Amount = "200",
-			    Description = "hej",
+			    
 			    Token = "tok_visa",
                 PaymentProvider = "Stripe"
 			};
@@ -27,7 +27,7 @@ namespace Yaba.Web.Test
 		    var result = target.Pay(payment);
 
 		    //Assert
-			Assert.True(result);
+            Assert.True(result.Equals("true"));
 	    }
     }
 }

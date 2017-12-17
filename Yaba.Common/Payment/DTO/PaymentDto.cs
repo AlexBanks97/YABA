@@ -9,10 +9,9 @@ namespace Yaba.Common.Payment
     {
 		[Required]
 	    public String Amount { get; set; }
-	    public string Description { get; set; }
-	    public string Token { get; set; }
         [Required]
         public string PaymentProvider { get; set; }
+        public string Token { get; set; }
         public string RecipientEmail { get; set; }
     }
 }
