@@ -50,7 +50,9 @@ namespace Yaba.App.Models
 
 		public async Task<ICollection<TabDto>> FindWithUser(Guid userId)
 		{
-			throw new NotImplementedException();
+			var response = await _client.GetAsync($"tabs?userId={userId.ToString()}");
+			if (!response.IsSuccessStatusCode) throw new Exception();
+			return await response.Content.To<ICollection<TabDto>>();
 		}
 
 		public async Task<bool> Delete(Guid id)

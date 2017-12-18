@@ -20,9 +20,18 @@ namespace Yaba.Web.Controllers
 
 		// GET api/tabs
 		[HttpGet]
-		public async Task<IActionResult> Get()
+		public async Task<IActionResult> Get([FromQuery]Guid? userId = null)
 		{
-			var tabs = await _repository.FindAllTabs();
+			ICollection<TabDto> tabs;
+			if (userId.HasValue)
+			{
+				tabs = await _repository.FindWithUser(userId.Value);
+			}
+			else
+			{
+				tabs = await _repository.FindAllTabs();
+			}
+
 			if (tabs == null) return NotFound();
 			return Ok(tabs);
 		}
