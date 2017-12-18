@@ -36,11 +36,6 @@ namespace Yaba.App.Views
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
-			var tabvm = e.Parameter as TabViewModel;
-
-			if (tabvm == null) throw new Exception();
-
-			DataContext = tabvm;
 		}
 
 		private void TogglePayPalPopup(object sender, RoutedEventArgs e)
@@ -51,14 +46,6 @@ namespace Yaba.App.Views
 				PayPalPopup.IsOpen = false;
 		}
 
-		private void PayUsingPayPal(object sender, RoutedEventArgs e)
-		{
-			//implement paypal here
-
-
-
-		}
-
 		private void ToggleStripePopup(object sender, RoutedEventArgs e)
 		{
 			if (!StripePopup.IsOpen)
@@ -67,9 +54,6 @@ namespace Yaba.App.Views
 				StripePopup.IsOpen = false;
 		}
 
-		private void PayUsingStripe(object sender, RoutedEventArgs e)
-		{
-			
-		}
+
 	}
 }

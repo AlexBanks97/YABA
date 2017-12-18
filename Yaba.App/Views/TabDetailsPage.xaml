@@ -99,9 +99,10 @@
                         <TextBlock Text="Amount" FontSize="25" Grid.Column="0" Grid.Row="1"/>
                         <TextBox Grid.Row="1" Grid.Column="1" Name="PaypalAmount"></TextBox>
                         <TextBlock Text="Recipient Email" FontSize="25" Grid.Column="0" Grid.Row="2"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Name="recipentEmail"></TextBox>
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding PayPalPaymentViewModel.Email}"></TextBox>
+                     
                     </Grid>
-                    <Button Content="Pay" Command="{Binding PayWithPayPal}" HorizontalAlignment="Right"/>
+                    <Button Content="Pay" Command="{Binding PayWithPayPal}" CommandParameter="{Binding PayPalPaymentViewModel}" HorizontalAlignment="Right"/>
                     <Button Content="Cancel" Click="TogglePayPalPopup" HorizontalAlignment="Right"/>
                 </StackPanel>
             </Border>

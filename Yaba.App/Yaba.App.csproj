@@ -99,6 +99,7 @@
     <Compile Include="Models\AuthenticationHelper.cs" />
     <Compile Include="Models\AuthorizedHandler.cs" />
     <Compile Include="Models\BudgetRepository.cs" />
+    <Compile Include="ViewModels\PayPalPaymentViewModel.cs" />
     <Compile Include="ViewModels\StripePaymentViewModel.cs" />
     <Compile Include="Models\CategoryRepository.cs" />
     <Compile Include="Models\Extensions.cs" />

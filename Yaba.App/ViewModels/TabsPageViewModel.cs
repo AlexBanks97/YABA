@@ -114,58 +114,10 @@ namespace Yaba.App.ViewModels
 				await Initialize();
 			});
 
-            PayWithPayPal = new RelayCommand(async _ =>
-            {
-
-                // Get amount and email
-
-                PaymentDto dto = new PaymentDto()
-                {
-                    Amount = "100.00",
-                    PaymentProvider = "PayPal",
-                    Token = "tok_visa",
-                    RecipientEmail = "christoffer.nissen-buyer@me.com"
-                };
-
-                var xx = (await _helper.GetAccountAsync())?.AccessToken;
-                // Ask API to create payment
-                // Receive linkOrMessage, and open accept link if link
-                var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
-
-                if(uriOrSuccess.Equals("true"))
-                {
-                    // Successful stripe payment
-
-
-
-                    // Show success screen
-
-                } 
-                else if(uriOrSuccess.Equals("Failure..."))
-                {
-                    Uri targetUri = new Uri(uriOrSuccess);
-                    ApprovalUri = targetUri.ToString();
-
-                    // Open webview and load uri
-                    DoStuff(targetUri);
-
-                } 
-                else 
-                {
-                    // Failure
-
-                    // Show failrue screen, and ask user to try again
-                }
-
-            });
+            
 
 
 		}
-
-        private static void DoStuff(Uri uri)
-        {
-            //WebView MessageBox.Show(uri);
-        }
 
 		public async Task Initialize()
 		{
