@@ -131,6 +131,8 @@ namespace Yaba.App.ViewModels
                 {
                     // Successful stripe payment
 
+
+
                     // Show success screen
 
                 } 
@@ -140,6 +142,7 @@ namespace Yaba.App.ViewModels
                     ApprovalUri = targetUri;
 
                     // Open webview and load uri
+                    DoStuff();
 
                 } 
                 else 
@@ -151,6 +154,11 @@ namespace Yaba.App.ViewModels
 
             });
 		}
+
+        private static void DoStuff(Uri uri)
+        {
+            MessageBox.Show(uri);
+        }
 
 		public async Task Initialize()
 		{
