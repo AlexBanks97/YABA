@@ -12,7 +12,16 @@ namespace Yaba.App.ViewModels
 {
 	public class TabDetailsViewModel : ViewModelBase
 	{
-		public StripePaymentViewModel StripePaymentViewModel { get; set; }
+		private StripePaymentViewModel _StripePaymentViewModel;
+		public StripePaymentViewModel StripePaymentViewModel
+		{
+			get => _StripePaymentViewModel;
+			set
+			{
+				_StripePaymentViewModel = value;
+				OnPropertyChanged();
+			}
+		}
 
 		private readonly PaymentRepository paymentRepository;
 
@@ -38,6 +47,16 @@ namespace Yaba.App.ViewModels
 				OnPropertyChanged();
 			}
 		}
+		private bool _stripeIsOpen;
+		public bool StripeIsOpen
+		{
+			get => _stripeIsOpen;
+			set
+			{
+				_stripeIsOpen = value;
+				OnPropertyChanged();
+			}
+		}
 
 		public TabDetailsViewModel(PaymentRepository repo)
 		{
@@ -49,6 +68,7 @@ namespace Yaba.App.ViewModels
 				Debug.WriteLine("blah");
 				if (!(e is StripePaymentViewModel cc))
 				{
+					StripeIsOpen = false;
 					Failure = true;
 					return;
 				}
@@ -65,6 +85,8 @@ namespace Yaba.App.ViewModels
 				};
 				await repo.Pay(payment, "");
 
+				StripePaymentViewModel = new StripePaymentViewModel();
+				StripeIsOpen = false;
 				Success = true;
 			});
 		}

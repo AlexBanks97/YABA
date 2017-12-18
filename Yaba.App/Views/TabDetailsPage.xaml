@@ -42,7 +42,7 @@
             </Grid>
             <TextBlock Text="Tab Details" />
         </StackPanel>
-        <Popup VerticalOffset="10" HorizontalOffset="200" x:Name="StripePopup">
+        <Popup VerticalOffset="10" HorizontalOffset="200" x:Name="StripePopup" IsOpen="{Binding StripeIsOpen, Mode=TwoWay}">
             <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
                     Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
                     BorderThickness="1" Width="500" Height="600">
@@ -106,10 +106,10 @@
                 </StackPanel>
             </Border>
         </Popup>
-        <Popup VerticalOffset="10" HorizontalOffset="200" x:Name="SuccessPopup" IsOpen="{Binding Success, Mode=TwoWay}">
+        <Popup VerticalOffset="200" HorizontalOffset="200" x:Name="SuccessPopup" IsOpen="{Binding Success, Mode=TwoWay}">
             <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
                     Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
-                    BorderThickness="1" Width="400" Height="600">
+                    BorderThickness="1" Width="500" Height="200">
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <Grid Margin="10">
                         <TextBlock Text="Success" Foreground="Green" TextAlignment="Center" FontSize="35"></TextBlock>
@@ -118,13 +118,13 @@
                 </StackPanel>
             </Border>
         </Popup>
-        <Popup VerticalOffset="10" HorizontalOffset="200" x:Name="FailurePopup" IsOpen="{Binding Failure, Mode=TwoWay}">
+        <Popup VerticalOffset="200" HorizontalOffset="200" x:Name="FailurePopup" IsOpen="{Binding Failure, Mode=TwoWay}">
             <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
                     Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
-                    BorderThickness="1" Width="400" Height="600">
+                    BorderThickness="1" Width="500" Height="200">
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <Grid Margin="10">
-                        <TextBlock Text="Success" Foreground="Red" TextAlignment="Center" FontSize="35"></TextBlock>    
+                        <TextBlock Text="Failure" Foreground="Red" TextAlignment="Center" FontSize="35"></TextBlock>    
                     </Grid>
                     <Button Content="Dismiss" Click="DismissFailurePopup" HorizontalAlignment="Right"/>
                 </StackPanel>
