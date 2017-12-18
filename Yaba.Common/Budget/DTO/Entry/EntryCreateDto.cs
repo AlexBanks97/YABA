@@ -16,6 +16,6 @@ namespace Yaba.Common.Budget.DTO.Entry
 		public DateTime Date { get; set; }
 
 		[Required]
-		public CategoryDto Category { get; set; }
+		public Guid CategoryId { get; set; }
 	}
 }

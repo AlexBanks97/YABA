@@ -10,11 +10,66 @@
 
     <Page.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <converters:PrettyDateConverter x:Key="PrettyDateConverter" />
     </Page.Resources>
 
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                HorizontalAlignment="Stretch"
                 Padding="10,10,10,10">
         <TextBlock Text="{Binding Name, Converter={StaticResource StringFormatConverter}, ConverterParameter='Ay: {0}'}"
                    FontSize="30" />
+
+        <Button Content="Add new Entry">
+            <Button.Flyout>
+                <Flyout>
+                    <StackPanel>
+                        <TextBlock Text="Description" />
+                        <TextBox PlaceholderText="Enter a description"
+                                 Text="{Binding EntryCreateVM.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="Amount" />
+                        <TextBox PlaceholderText="Enter amount"
+                                 InputScope="Number"
+                                 Text="{Binding EntryCreateVM.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Content="Add"
+                                Command="{Binding AddEntryCommand}"
+                                CommandParameter="{Binding EntryCreateVM}" />
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+
+        <ListView Header="Entries"
+                  SelectionMode="None"
+                  ItemsSource="{Binding Entries}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="0,10,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
+                            <TextBlock Text="{Binding Dto.Description}"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding Dto.Amount, Converter={StaticResource StringFormatConverter}, ConverterParameter='DKK {0}'}"></TextBlock>
+                            <TextBlock Text="{Binding Dto.Date, Converter={StaticResource PrettyDateConverter}}"
+                                       Foreground="LightGray" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Button Command="{Binding RemoveCommand}"
+                                    CommandParameter="{Binding Dto.Id}">
+                                <SymbolIcon Symbol="Delete"></SymbolIcon>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackPanel>
 </Page>
