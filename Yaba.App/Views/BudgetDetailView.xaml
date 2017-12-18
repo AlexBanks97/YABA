@@ -46,7 +46,7 @@
                             <Flyout>
                                 <StackPanel>
                                     <TextBlock Text="Enter category name"
-                                               Margin="0,0,0,10"/>
+                                               Margin="0,10,0,0"/>
                                     <TextBox x:Name="NewCategoryTextBox"
                                              Width="200">
                                         <interactivity:Interaction.Behaviors>
@@ -55,6 +55,19 @@
                                             </core:EventTriggerBehavior>
                                         </interactivity:Interaction.Behaviors>
                                     </TextBox>
+                                    <TextBlock Text="Enter Goal Amount"
+                                               Margin="0,10,0,0"/>
+                                    <TextBox x:Name="CategoryGoalAmount"
+                                             Width="200">
+                                        <interactivity:Interaction.Behaviors>
+                                            <core:EventTriggerBehavior EventName="KeyDown">
+                                                <core:InvokeCommandAction Command="{Binding KeyDownCommand}"></core:InvokeCommandAction>
+                                            </core:EventTriggerBehavior>
+                                        </interactivity:Interaction.Behaviors>
+                                    </TextBox>
+                                    <TextBlock Text="Goal Recurrence"
+                                               Margin="0,10,0,0"/>
+                                    <ComboBox></ComboBox>
                                 </StackPanel>
                             </Flyout>
                         </AppBarButton.Flyout>
