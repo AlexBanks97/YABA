@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using Yaba.App.Models;
+using Yaba.App.Services;
 using Yaba.Common;
 using Yaba.Common.Tab.DTO;
 
@@ -15,7 +16,7 @@ namespace Yaba.App.ViewModels
 	{
 		private readonly ITabRepository _tabRepo;
 		private readonly IUserRepository _userRepo;
-		private readonly IAuthenticationHelper _auth;
+		private readonly IUserHelper _userHelper;
 
 		public ObservableCollection<TabViewModel> Tabs { get; }
 		public ObservableCollection<UserViewModel> Users { get; }
@@ -46,22 +47,24 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
-		public TabsPageViewModel(ITabRepository tabRepo, IUserRepository userRepo, IAuthenticationHelper auth)
+		public TabsPageViewModel(ITabRepository tabRepo, IUserRepository userRepo, IUserHelper userHelper)
 		{
 			_tabRepo = tabRepo;
 			_userRepo = userRepo;
-			_auth = auth;
+			_userHelper = userHelper;
+
 			Tabs = new ObservableCollection<TabViewModel>();
 			Users = new ObservableCollection<UserViewModel>();
 			UserSearchResult = new ObservableCollection<UserViewModel>();
 			RemoveTabCommand = new RelayCommand(RemoveTab);
 
-			TextChangedCommand = new RelayCommand(e =>
+			TextChangedCommand = new RelayCommand(async e =>
 			{
 				if (!(e is string text)) throw new Exception();
 				UserSearchResult.Clear();
+				var currentUser = await _userHelper.GetCurrentUser();
 				var matches = Users
-					.Where(u => u.Name.Contains(text, StringComparison.OrdinalIgnoreCase));
+					.Where(u => u.Name.Contains(text, StringComparison.OrdinalIgnoreCase) && u.Id != currentUser.Id);
 				UserSearchResult.AddRange(matches);
 			});
 
@@ -78,11 +81,11 @@ namespace Yaba.App.ViewModels
 			CreateTabCommand = new RelayCommand(async e =>
 			{
 				var otherUser = SelectedUser;
-				var me = Users.FirstOrDefault(o => o.Name != otherUser.Name);
+				var me = await _userHelper.GetCurrentUser();
 
 				var dto = new TabCreateDto
 				{
-					UserOne = me?.Id ?? Guid.Empty,
+					UserOne = me.Id,
 					UserTwo = otherUser.Id,
 					State = State.Active,
 				};
@@ -94,16 +97,16 @@ namespace Yaba.App.ViewModels
 
 		public async Task Initialize()
 		{
-			var tabs = (await _tabRepo.FindAllTabs()) // <- change to find all with user
-				.Where(t => t.UserTwo != null && t.UserOne != null)
+			var user = await _userHelper.GetCurrentUser();
+			var tabs = (await _tabRepo.FindWithUser(user.Id)) // <- change to find all with user
 				.Select(t => new TabViewModel
 				{
 					Id = t.Id,
 					UserOne =  new UserViewModel(t.UserOne),
 					UserTwo = new UserViewModel(t.UserTwo),
-					UserNotCurrentUser = !t.UserOne.Name.Equals("Dr. Phil")
-						? new UserViewModel(t.UserOne)
-						: new UserViewModel(t.UserTwo)
+					UserNotCurrentUser = t.UserOne.Equals(user)
+						? new UserViewModel(t.UserTwo)
+						: new UserViewModel(t.UserOne),
 				});
 			Tabs.Clear();
 			Tabs.AddRange(tabs);
