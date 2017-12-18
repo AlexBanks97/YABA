@@ -102,16 +102,17 @@ namespace Yaba.App.ViewModels
 			{
 				if (!(e is TabItemViewModel tivm)) throw new Exception();
 
-				var guid = await _itemRepository.Create(new TabItemCreateDTO
+				var kek_dto = new TabItemCreateDTO
 				{
-					Amount = (decimal) tivm.Amount,
+					Amount = (decimal)tivm.Amount,
 					Description = tivm.Description,
 					CreatedBy = (await _userHelper.GetCurrentUser()).Id,
 					TabId = CurrentTabId,
-				});
+				};
 
+				var dto = await _itemRepository.Create(kek_dto);
 
-
+				TabItemList.Add(dto);
 
 			});
 

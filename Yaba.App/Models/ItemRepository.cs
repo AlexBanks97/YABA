@@ -25,16 +25,18 @@ namespace Yaba.App.Models
 			throw new NotImplementedException();
 		}
 
-		public async Task<Guid> Create(TabItemCreateDTO tabItemDTO)
+		public async Task<TabItemSimpleDTO> Create(TabItemCreateDTO tabItemDTO)
 		{
 			var response = await _client.PostAsync("tabitems", tabItemDTO.ToHttpContent());
 			if (!response.IsSuccessStatusCode) throw new Exception();
-			return await response.Content.To<Guid>();
+			return await response.Content.To<TabItemSimpleDTO>();
 		}
 
 		public async Task<TabItemSimpleDTO> Find(Guid id)
 		{
-			throw new NotImplementedException();
+			var response = await _client.GetAsync($"tabitems/{id}");
+			if (!response.IsSuccessStatusCode) throw new Exception("Fuck me sideways?");
+			return await response.Content.To<TabItemSimpleDTO>();
 		}
 
 		public async Task<IEnumerable<TabItemSimpleDTO>> FindFromTab(Guid tabId)

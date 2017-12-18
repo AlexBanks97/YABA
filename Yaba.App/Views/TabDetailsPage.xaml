@@ -7,76 +7,76 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:converters="using:Yaba.App.Converters"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0"
-                           Margin="10,10,10,10"
-                           FontSize="20"
-                           Text="Tab Details" />
-                <CommandBar Grid.Row="2">
-                    <AppBarButton Icon="Add"
-                                  Label="Add"
-                                  AllowFocusOnInteraction="True">
-                        <AppBarButton.Flyout>
-                            <Flyout>
-                                <StackPanel>
-                                    <Button Margin="0,0,0,10" HorizontalAlignment="Stretch" Click="TogglePayPalPopup">
-                                        <TextBlock>PayPal</TextBlock>
-                                    </Button>
-                                    <Button Margin="0,0,0,10" HorizontalAlignment="Stretch" Click="ToggleStripePopup">
-                                        <TextBlock>Stripe</TextBlock>
-                                    </Button>
-                                </StackPanel>
-                            </Flyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                    <AppBarButton Icon="Attach"
-                                  Label="Add Tab Item"
-                                  AllowFocusOnInteraction="True">
-                        <AppBarButton.Flyout>
-                            <Flyout>
-                                <StackPanel>
-                                    <TextBlock Text="Add Tab Item" 
-                                               FontSize="18"/>
-                                    <TextBlock Text="Amount"/>
-                                    <TextBox Width="200"
-                                             Text="{Binding TabItemVM.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             Name="AmountTextBox"
-                                             PlaceholderText="Enter amount"/>
-                                    <TextBlock Text="Description"/>
-                                    <TextBox Width="200"
-                                             Name="DescriptionTextBox"
-                                             Text="{Binding TabItemVM.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             PlaceholderText="Enter description"/>
-                                    <Button Content="Add" 
-                                            Command="{Binding AddTabItemCommand}"
-                                            CommandParameter="{Binding TabItemVM}"/>
-                                    
-                                </StackPanel>
-                            </Flyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                </CommandBar>
-                
-            </Grid>
-            <TextBlock Text="{Binding Name}" />
-            <ListView ItemsSource="TabItemsList">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Description}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <CommandBar Grid.Row="2">
+                <AppBarButton Icon="Add"
+                                Label="Add"
+                                AllowFocusOnInteraction="True">
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <Button Margin="0,0,0,10" HorizontalAlignment="Stretch" Click="TogglePayPalPopup">
+                                    <TextBlock>PayPal</TextBlock>
+                                </Button>
+                                <Button Margin="0,0,0,10" HorizontalAlignment="Stretch" Click="ToggleStripePopup">
+                                    <TextBlock>Stripe</TextBlock>
+                                </Button>
+                            </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton Icon="Attach"
+                                Label="Add Tab Item"
+                                AllowFocusOnInteraction="True">
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <TextBlock Text="Add Tab Item" 
+                                            FontSize="18"/>
+                                <TextBlock Text="Amount"
+                                           Margin="0,10,0,0"/>
+                                <TextBox Width="200"
+                                            Text="{Binding TabItemVM.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            PlaceholderText="Enter amount"/>
+                                <TextBlock Text="Description"
+                                           Margin="0,10,0,0"/>
+                                <TextBox Width="200"
+                                            Text="{Binding TabItemVM.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            PlaceholderText="Enter description"/>
+                                <Button Content="Add tab item"
+                                        Margin="0,10,0,0"
+                                        Command="{Binding AddTabItemCommand}"
+                                        CommandParameter="{Binding TabItemVM}"/>
+
+                            </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+            </CommandBar>
+            <StackPanel Padding="10">
+                <TextBlock Text="{Binding Name}"
+                           FontSize="64"
+                           FontWeight="Thin"/>
+                <ListView ItemsSource="{Binding TabItemList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Description}"
+                                           FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding Amount, Converter={StaticResource StringFormatConverter}, ConverterParameter='DKK {0}'}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
         </StackPanel>
         <Popup VerticalOffset="10" HorizontalOffset="200" x:Name="StripePopup" IsOpen="{Binding StripeIsOpen, Mode=TwoWay}">
             <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
