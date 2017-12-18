@@ -5,9 +5,9 @@ namespace Yaba.App.Models
 {
 	public interface IAuthenticationHelper
 	{
-		Task<User> SignInAsync();
+		Task<AppUser> SignInAsync();
 		Task SignOutAsync();
 		Task<string> AcquireTokenAsync();
-		Task<User> GetAccountAsync();
+		Task<AppUser> GetAccountAsync();
 	}
 }

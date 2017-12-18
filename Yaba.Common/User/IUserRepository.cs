@@ -9,7 +9,7 @@ namespace Yaba.Common
     public interface IUserRepository : IDisposable
     {
 
-		Task<Guid> CreateUser(UserCreateDto user);
+		Task<UserDto> CreateUser(UserCreateDto user);
 
 		Task<UserDto> Find(Guid userId);
 

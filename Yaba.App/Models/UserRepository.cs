@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Yaba.App.Services;
@@ -23,9 +24,11 @@ namespace Yaba.App.Models
 		{
 		}
 
-		public async Task<Guid> CreateUser(UserCreateDto user)
+		public async Task<UserDto> CreateUser(UserCreateDto user)
 		{
-			throw new NotImplementedException();
+			var response = await _client.PostAsync("users", user.ToHttpContent());
+			if (!response.IsSuccessStatusCode) throw new Exception();
+			return await response.Content.To<UserDto>();
 		}
 
 		public async Task<UserDto> Find(Guid userId)
@@ -35,7 +38,13 @@ namespace Yaba.App.Models
 
 		public async Task<UserDto> FindFromFacebookId(string facebookId)
 		{
-			throw new NotImplementedException();
+			var response = await _client.GetAsync($"users/{facebookId}");
+			if (response.IsSuccessStatusCode) return await response.Content.To<UserDto>();
+			if (response.StatusCode == HttpStatusCode.NotFound)
+			{
+				return null;
+			}
+			throw new Exception();
 		}
 
 		public async Task<ICollection<UserDto>> FindAll()

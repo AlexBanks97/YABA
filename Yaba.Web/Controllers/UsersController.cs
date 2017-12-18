@@ -50,8 +50,8 @@ namespace Yaba.Web.Controllers
         public async Task<IActionResult> Post([FromBody] UserCreateDto user)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState); // returns 404
-            var guid = await _repository.CreateUser(user);
-            return CreatedAtAction(nameof(Get), new { Id = guid }, null);
+            var dto = await _repository.CreateUser(user);
+	        return Ok(dto);
         }
 
 

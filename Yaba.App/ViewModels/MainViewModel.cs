@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Yaba.App.Models;
 using System.Linq;
+using Yaba.App.Services;
 using System.Net.Http;
 using Yaba.Common.Payment;
 using System;
@@ -13,19 +15,18 @@ namespace Yaba.App.ViewModels
 	public class MainViewModel : ViewModelBase
 	{
 		private readonly IAuthenticationHelper _authenticationHelper;
-
-		private User _user;
-		public User User
+		private AppUser _appUser;
+		public AppUser AppUser
 		{
-			get => _user;
+			get => _appUser;
 			private set
 			{
-				_user = value;
-				Name = User?.IdentityToken.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value
-				       ?? User?.IdentityToken.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
-				IsLoggedIn = _user != null;
+				_appUser = value;
+				Name = AppUser?.IdentityToken.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value
+				       ?? AppUser?.IdentityToken.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
+				IsLoggedIn = _appUser != null;
 				OnPropertyChanged();
-			}
+			}	
 		}
 
 		private string _name;
@@ -52,7 +53,6 @@ namespace Yaba.App.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
 		public MainViewModel(IAuthenticationHelper authenticationHelper, PaymentRepository paymentRepository)
 		{
 			_authenticationHelper = authenticationHelper;
@@ -86,48 +86,22 @@ namespace Yaba.App.ViewModels
 				// Receive linkOrMessage, and open accept link if link
 				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
 
-			if (uriOrSuccess.Equals("Success"))
-			{
-				// Stripe payment
-				// Show Success Screen
-			}
-			else if (uriOrSuccess.Contains("http"))
-				{
-					//Extract if link
-					Uri targetUri = new Uri(uriOrSuccess);
-
-					// Open link in webView
-
-					// Show success screen if success
-					// Upon redirection from paypal, the payment is executed and payout is issued.
-
-
-
-				}
-			else
-				{
-					// Failure, show sad screen
-				}
-
 			});
-
-
-		}
-
-		public async Task Initialize()
-		{
-			SignIn();
-		}
-
-		private async void SignIn()
-		{
-			User = await _authenticationHelper.GetAccountAsync();
 		}
 
 		private async void SignOut()
 		{
 			await _authenticationHelper.SignOutAsync();
-			User = null;
+		}
+
+		public async Task Initialize()
+		{
+			await SignIn();
+		}
+
+		private async Task SignIn()
+		{
+			await _authenticationHelper.GetAccountAsync();
 		}
 	}
 }

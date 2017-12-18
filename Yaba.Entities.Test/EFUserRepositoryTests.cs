@@ -76,9 +76,8 @@ namespace Yaba.Entities.Test
 		    using (var repo = new EFUserRepository(ctx))
 		    {
 			    var dto = new UserCreateDto {Name = "Alexander", FacebookId = "101238871102"};
-			    var guid = await repo.CreateUser(dto);
-			    var created = ctx.Users.SingleOrDefault(u => u.Id == guid);
-			    Assert.True(guid != Guid.Empty);
+			    var userDto = await repo.CreateUser(dto);
+			    var created = ctx.Users.SingleOrDefault(u => u.Id == userDto.Id);
 				Assert.NotNull(created);
 				Assert.Equal("Alexander", created.Name);
 				Assert.Equal("101238871102", created.FacebookId);
