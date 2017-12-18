@@ -10,6 +10,7 @@ using Yaba.Common.Tab.DTO;
 using Yaba.Common.User;
 using Yaba.Entities.Budget;
 using Yaba.Entities.Budget.Repository;
+using Yaba.Entities.Tab;
 using Yaba.Entities.Tab.Repository;
 
 namespace Yaba.Entities.Test
@@ -69,6 +70,29 @@ namespace Yaba.Entities.Test
 
 				var tabs = await repo.FindAllTabs();
 				Assert.Equal(3, tabs.Count);
+			}
+		}
+
+		[Fact]
+		public async void FindWithUser_returns_all_tabs_with_user()
+		{
+			var ctx = Util.GetNewContext(nameof(FindWithUser_returns_all_tabs_with_user));
+			var u1 = new UserEntity { Name = "one" };
+			var u2 = new UserEntity { Name = "two" };
+			var u3 = new UserEntity { Name = "three" };
+
+			var t1 = new TabEntity {UserOne = u1, UserTwo = u2};
+			var t2 = new TabEntity {UserOne = u2, UserTwo = u1};
+			var t3 = new TabEntity {UserOne = u2, UserTwo = u3};
+
+			ctx.Users.AddRange(u1, u2, u3);
+			ctx.Tabs.AddRange(t1, t2, t3);
+			ctx.SaveChanges();
+
+			using (var repo = new EFTabRepository(ctx))
+			{
+				var tabs = await repo.FindWithUser(u1.Id);
+				Assert.Equal(2, tabs.Count);
 			}
 		}
 
