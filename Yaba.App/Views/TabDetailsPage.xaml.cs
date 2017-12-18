@@ -44,6 +44,7 @@ namespace Yaba.App.Views
 			{
 				// URI launched
 				PayPalPopup.IsOpen = false;
+				SuccessPopup.IsOpen = true;
 			}
 			else
 			{
@@ -84,7 +85,7 @@ namespace Yaba.App.Views
 			_vm.Success = false;
 		}
 
-		public void ActivateFailruePopup()
+		public void ActivateFailurePopup()
 		{
 			FailurePopup.IsOpen = true;
 			_vm.Failure = true;

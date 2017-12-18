@@ -41,7 +41,6 @@ namespace Yaba.App.ViewModels
 		}
 
 		public ICommand SignInOutCommand { get; }
-		public ICommand PayWithPayPal { get; }
 
 		private bool _isLoggedIn;
 		public bool IsLoggedIn
@@ -67,25 +66,6 @@ namespace Yaba.App.ViewModels
 				{
 					SignIn();
 				}
-			});
-
-			PayWithPayPal = new RelayCommand( async _ =>
-			{
-
-				// Ask API to create payment
-
-				PaymentDto dto = new PaymentDto()
-				{
-					Amount = "100.00",
-					PaymentProvider = "PayPal",
-					Token = "tok_visa",
-					RecipientEmail = "christoffer.nissen-buyer@me.com"
-				};
-
-				var xx = (await _authenticationHelper.GetAccountAsync())?.AccessToken;
-				// Receive linkOrMessage, and open accept link if link
-				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
-
 			});
 		}
 
