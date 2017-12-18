@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Yaba.App.Models;
 using Yaba.App.ViewModels;
+using System.Diagnostics;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -36,11 +37,19 @@ namespace Yaba.App.Views
 
 		}
 
-		public void OpenUriInWebView(Uri uri)
+		public async void OpenUriInWebView(Uri uri)
 		{
-			webView1.Visibility = Visibility.Collapsed;
-			webView1.Navigate(uri);
-			webView1.Visibility = Visibility.Visible;
+			
+			var success = await Windows.System.Launcher.LaunchUriAsync(uri);
+			if (success)
+			{
+				// URI launched
+				PayPalPopup.IsOpen = false;
+			}
+			else
+			{
+				// URI launch failed
+			}
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
