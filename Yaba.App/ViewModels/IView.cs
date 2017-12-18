@@ -9,5 +9,6 @@ namespace Yaba.App.ViewModels
 	public interface IView
 	{
 		void OpenUriInWebView(Uri uri);
+		void ActivateFailruePopup();
 	}
 }
