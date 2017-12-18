@@ -46,15 +46,26 @@
                             <Flyout>
                                 <StackPanel>
                                     <TextBlock Text="Enter category name"
-                                               Margin="0,0,0,10"/>
+                                               Margin="0,10,0,0"/>
                                     <TextBox x:Name="NewCategoryTextBox"
-                                             Width="200">
-                                        <interactivity:Interaction.Behaviors>
-                                            <core:EventTriggerBehavior EventName="KeyDown">
-                                                <core:InvokeCommandAction Command="{Binding KeyDownCommand}"></core:InvokeCommandAction>
-                                            </core:EventTriggerBehavior>
-                                        </interactivity:Interaction.Behaviors>
-                                    </TextBox>
+                                             Text="{Binding NewCategoryVM.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Width="200" />
+
+                                    <TextBlock Text="Enter Goal Amount (optional)"
+                                               Margin="0,10,0,0"/>
+                                    <TextBox x:Name="NewCategoryGoalAmount"
+                                             Text="{Binding NewCategoryVM.GoalAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Width="200"/>
+
+                                    <TextBlock Text="Enter Goal Recurrence (optional)"
+                                               Margin="0,10,0,0"/>
+                                    <ComboBox ItemsSource="{Binding Recurrences}"
+                                              SelectedItem="{Binding NewCategoryVM.Recurrence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Width="200"
+                                              PlaceholderText="Pick a recurrence"/>
+                                    <Button Content="Add Category"
+                                            Command="{Binding AddCategory}"
+                                            CommandParameter="{Binding NewCategoryVM}"/>
                                 </StackPanel>
                             </Flyout>
                         </AppBarButton.Flyout>

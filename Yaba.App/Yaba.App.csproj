@@ -104,6 +104,7 @@
     <Compile Include="Models\CategoryRepository.cs" />
     <Compile Include="Models\EntryRepository.cs" />
     <Compile Include="Models\Extensions.cs" />
+    <Compile Include="Models\GoalRepository.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
     <Compile Include="Models\PaymentRepository.cs" />
     <Compile Include="Models\RestBaseRepository.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Services\UserHelper.cs" />
     <Compile Include="ViewModels\BudgetsDetailViewModel.cs" />
     <Compile Include="ViewModels\BudgetsViewModel.cs" />
+    <Compile Include="ViewModels\CategoryCreateViewModel.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\EntryCreateViewModel.cs" />
     <Compile Include="ViewModels\EntryViewModel.cs" />

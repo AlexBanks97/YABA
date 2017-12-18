@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Yaba.App.Services;
@@ -47,7 +48,11 @@ namespace Yaba.App.Models
 			var response = await _client.PostAsync("budgets/categories", category.ToHttpContent());
 			if (response.IsSuccessStatusCode)
 			{
-				return Guid.Empty;
+				var stringGuid = response.Headers.GetValues("Location")
+					.First()
+					.Split("/")
+					.Last();
+				return Guid.Parse(stringGuid);
 			}
 			throw new Exception();
 		}
