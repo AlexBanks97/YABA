@@ -13,11 +13,11 @@ namespace Yaba.App.ViewModels
 	{
 		public StripePaymentViewModel StripePaymentViewModel { get; set; }
 
-		private readonly IPaymentRepository paymentRepository;
+		private readonly PaymentRepository paymentRepository;
 
 		public ICommand PayWithStripe { get; }
 
-		public TabDetailsViewModel(IPaymentRepository repo)
+		public TabDetailsViewModel(PaymentRepository repo)
 		{
 			StripePaymentViewModel = new StripePaymentViewModel();
 			paymentRepository = repo;

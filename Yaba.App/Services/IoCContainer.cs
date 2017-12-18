@@ -36,7 +36,7 @@ namespace Yaba.App.Services
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			services.AddScoped<ITabRepository, TabRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
-			services.AddScoped<IPaymentRepository, PaymentRepository>();
+			services.AddScoped<PaymentRepository, PaymentRepository>();
 
 			// kek
 			services.AddScoped<IUserHelper, UserHelper>();

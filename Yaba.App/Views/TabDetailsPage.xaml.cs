@@ -7,6 +7,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
@@ -24,7 +25,7 @@ namespace Yaba.App.Views
 	/// </summary>
 	public sealed partial class TabDetailsPage : Page
 	{
-		private readonly TabViewModel _vm;
+		private readonly TabDetailsViewModel _vm;
 		public TabDetailsPage()
 		{
 			this.InitializeComponent();
