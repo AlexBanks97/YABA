@@ -43,9 +43,16 @@ namespace Yaba.App.Models
 
 		public async Task<Guid> CreateGoal(GoalCreateDto goal)
 		{
-			var response = await _client.PostAsync("goals", goal.ToHttpContent());
-			if (response == null) throw new Exception();
-			return await response.Content.To<Guid>();
+			var response = await _client.PostAsync("goal", goal.ToHttpContent());
+			if (response.IsSuccessStatusCode)
+			{
+				var stringGuid = response.Headers.GetValues("Location")
+					.First()
+					.Split("/")
+					.Last();
+				return Guid.Parse(stringGuid);
+			}
+			throw new Exception();
 		}
 
 		public async Task<bool> UpdateGoal(GoalDto goal)

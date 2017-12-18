@@ -63,8 +63,26 @@ namespace Yaba.App.ViewModels
 			{
 				if (!(e is CategoryCreateViewModel cvm)) return;
 
-				Debug.WriteLine(cvm);
+				var category = new CategoryCreateDto
+				{
+					BudgetId = _budgetId,
+					Name = cvm.Name,
+				};
+				var categoryGuid = await _categoryRepository.Create(category);
 
+				if (!categoryGuid.HasValue) throw new Exception();
+
+				if (cvm.Recurrence != Recurrence.None && cvm.GoalAmount != 0.0)
+				{
+					var goal = new GoalCreateDto
+					{
+						Amount = (decimal) cvm.GoalAmount,
+						CategoryId = categoryGuid.Value,
+						Recurrence = cvm.Recurrence,
+					};
+					var goalGuid = await _goalRepository.CreateGoal(goal);
+				}
+				await Initialize(_budgetId);
 			});
 		}
 
