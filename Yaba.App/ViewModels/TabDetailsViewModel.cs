@@ -18,6 +18,27 @@ namespace Yaba.App.ViewModels
 
 		public ICommand PayWithStripe { get; }
 
+		private bool _success;
+		public bool Success
+		{
+			get => _success;
+			set
+			{
+				_success = value;
+				OnPropertyChanged();
+			}
+		}
+		private bool _failure;
+		public bool Failure
+		{
+			get => _failure;
+			set
+			{
+				_failure = value;
+				OnPropertyChanged();
+			}
+		}
+
 		public TabDetailsViewModel(PaymentRepository repo)
 		{
 			StripePaymentViewModel = new StripePaymentViewModel();
@@ -26,9 +47,14 @@ namespace Yaba.App.ViewModels
 			PayWithStripe = new RelayCommand(async e =>
 			{
 				Debug.WriteLine("blah");
-				if (!(e is StripePaymentViewModel cc)) return;
+				if (!(e is StripePaymentViewModel cc))
+				{
+					Failure = true;
+					return;
+				}
 				if (!cc.VerifyCreditCardInfo())
 				{
+					Failure = true;
 					return;
 				}
 				var payment = new PaymentDto
@@ -38,6 +64,8 @@ namespace Yaba.App.ViewModels
 					Token = StripeTokenHandler.CardToToken(cc),
 				};
 				await repo.Pay(payment, "");
+
+				Success = true;
 			});
 		}
 	}

@@ -9,7 +9,6 @@ namespace Yaba.App.Models
 {
 	public class StripePaymentViewModel : ViewModelBase
 	{
-
 		private float _amount;
 		public float Amount
 		{

@@ -72,7 +72,7 @@
                         <TextBlock Text="/"></TextBlock>
                         <TextBox Grid.Row="3" Grid.Column="1" Name="expYear" PlaceholderText="Year" Text="{Binding StripePaymentViewModel.Year, Mode=TwoWay}"  Width="0.45" HorizontalAlignment="Right"></TextBox>
                         
-                        <TextBlock Text="Card Number" FontSize="25" Grid.Column="0" Grid.Row="4"/>
+                        <TextBlock Text="CvC" FontSize="25" Grid.Column="0" Grid.Row="4"/>
                         <TextBox Grid.Row="4" Grid.Column="1" Name="CVC" Text="{Binding StripePaymentViewModel.CVC, Mode=TwoWay}"></TextBox>
                     </Grid>
                     <Button Content="Pay" Command="{Binding PayWithStripe}" CommandParameter="{Binding StripePaymentViewModel}" HorizontalAlignment="Right"/>
@@ -103,6 +103,30 @@
                     </Grid>
                     <Button Content="Pay" Command="{Binding PayWithPayPal}" HorizontalAlignment="Right"/>
                     <Button Content="Cancel" Click="TogglePayPalPopup" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Border>
+        </Popup>
+        <Popup VerticalOffset="10" HorizontalOffset="200" x:Name="SuccessPopup" IsOpen="{Binding Success, Mode=TwoWay}">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                    Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                    BorderThickness="1" Width="400" Height="600">
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Grid Margin="10">
+                        <TextBlock Text="Success" Foreground="Green" TextAlignment="Center" FontSize="35"></TextBlock>
+                    </Grid>
+                    <Button Content="Dismiss" Click="DismissSuccessPopup" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Border>
+        </Popup>
+        <Popup VerticalOffset="10" HorizontalOffset="200" x:Name="FailurePopup" IsOpen="{Binding Failure, Mode=TwoWay}">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                    Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                    BorderThickness="1" Width="400" Height="600">
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Grid Margin="10">
+                        <TextBlock Text="Success" Foreground="Red" TextAlignment="Center" FontSize="35"></TextBlock>    
+                    </Grid>
+                    <Button Content="Dismiss" Click="DismissFailurePopup" HorizontalAlignment="Right"/>
                 </StackPanel>
             </Border>
         </Popup>
