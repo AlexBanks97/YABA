@@ -133,7 +133,7 @@ namespace Yaba.App.ViewModels
 
 			if (uriOrSuccess.Equals("true"))
 			{
-				// Successful stripe payment
+				// Successful Stripe payment
 				// Show success screen
 
 			}
@@ -145,13 +145,11 @@ namespace Yaba.App.ViewModels
 					// Open webview and load uri
 
 					View.OpenUriInWebView(ApprovalUri);
-					
-
 				}
 				else
 				{
 					// Failure
-					View.ActivateFailruePopup();
+					View.ActivateFailurePopup();
 					// Show failrue screen, and ask user to try again
 				}
 
