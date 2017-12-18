@@ -17,6 +17,7 @@ namespace Yaba.App.ViewModels
 {
 	public class TabDetailsViewModel : ViewModelBase
 	{
+		public PayPalPaymentViewModel PayPalPaymentViewModel { get; set; }
 		private StripePaymentViewModel _StripePaymentViewModel;
 		public StripePaymentViewModel StripePaymentViewModel
 		{
@@ -40,6 +41,9 @@ namespace Yaba.App.ViewModels
 		public TabItemViewModel TabItemVM { get; set; }
 
 		public ICommand PayWithStripe { get; }
+		public ICommand PayWithPayPal { get; }
+
+		private readonly IAuthenticationHelper _helper;
 
 		public ICommand AddTabItemCommand { get; }
 
@@ -90,10 +94,12 @@ namespace Yaba.App.ViewModels
 		public TabDetailsViewModel(PaymentRepository repo, IItemRepository itemRepository, IUserRepository userRepository, IUserHelper userHelper)
 		{
 			StripePaymentViewModel = new StripePaymentViewModel();
+			if(PayPalPaymentViewModel == null) new PayPalPaymentViewModel();
 			_itemRepository = itemRepository;
 			_userRepository = userRepository;
 			_userHelper = userHelper;
 			paymentRepository = repo;
+			_helper = helper;
 
 			TabItemList = new ObservableCollection<TabItemSimpleDTO>();
 			TabItemVM = new TabItemViewModel();
@@ -141,6 +147,53 @@ namespace Yaba.App.ViewModels
 				StripePaymentViewModel = new StripePaymentViewModel();
 				StripeIsOpen = false;
 				Success = true;
+			});
+
+			PayWithPayPal = new RelayCommand(async _ =>
+			{
+
+				if (!(_ is PayPalPaymentViewModel cc)) return;
+
+
+				// Get amount and email
+
+				PaymentDto dto = new PaymentDto()
+				{
+					Amount = PayPalPaymentViewModel.Amount.ToString(),
+					PaymentProvider = "PayPal",
+					RecipientEmail = PayPalPaymentViewModel.Email
+				};
+
+				var xx = (await _helper.GetAccountAsync())?.AccessToken;
+				// Ask API to create payment
+				// Receive linkOrMessage, and open accept link if link
+				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
+
+				if (uriOrSuccess.Equals("true"))
+				{
+					// Successful stripe payment
+
+
+
+					// Show success screen
+
+				}
+				else if (uriOrSuccess.Equals("Failure..."))
+				{
+					Uri targetUri = new Uri(uriOrSuccess);
+					ApprovalUri = targetUri.ToString();
+
+					// Open webview and load uri
+					
+
+				}
+				else
+				{
+					// Failure
+
+					// Show failrue screen, and ask user to try again
+				}
+
 			});
 		}
 

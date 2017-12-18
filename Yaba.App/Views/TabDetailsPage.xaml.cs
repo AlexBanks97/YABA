@@ -52,14 +52,6 @@ namespace Yaba.App.Views
 				PayPalPopup.IsOpen = false;
 		}
 
-		private void PayUsingPayPal(object sender, RoutedEventArgs e)
-		{
-			//implement paypal here
-
-
-
-		}
-
 		private void ToggleStripePopup(object sender, RoutedEventArgs e)
 		{
 			if (!StripePopup.IsOpen)

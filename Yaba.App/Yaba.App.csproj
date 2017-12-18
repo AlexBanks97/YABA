@@ -101,6 +101,7 @@
     <Compile Include="Models\AuthorizedHandler.cs" />
     <Compile Include="Models\BudgetRepository.cs" />
     <Compile Include="Models\ItemRepository.cs" />
+    <Compile Include="ViewModels\PayPalPaymentViewModel.cs" />
     <Compile Include="ViewModels\StripePaymentViewModel.cs" />
     <Compile Include="Models\CategoryRepository.cs" />
     <Compile Include="Models\EntryRepository.cs" />

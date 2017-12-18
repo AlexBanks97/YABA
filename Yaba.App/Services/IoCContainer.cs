@@ -53,7 +53,7 @@ namespace Yaba.App.Services
 			services.AddTransient<TabDetailsViewModel>();
 			services.AddTransient<TabItemViewModel>();
 			services.AddTransient<CategoryCreateViewModel>();
-
+			services.AddTransient<PayPalPaymentViewModel>();
 
 			//services.AddScoped<ICharacterRepository, CharacterRepository>();
 
