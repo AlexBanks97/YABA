@@ -67,6 +67,7 @@ namespace Yaba.Entities.Budget.Repository
 						Id = e.Id,
 						Amount = e.Amount,
 						Description = e.Description,
+						Date = e.Date,
 					})
 					.ToList(),
 			};
