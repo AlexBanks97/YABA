@@ -37,5 +37,31 @@ namespace Yaba.App.Views
 
 			DataContext = tabvm;
 		}
+
+		private void TogglePayPalPopup(object sender, RoutedEventArgs e)
+		{
+			if (!PayPalPopup.IsOpen)
+				PayPalPopup.IsOpen = true;
+			else
+				PayPalPopup.IsOpen = false;
+		}
+
+		private void PayUsingPayPal(object sender, RoutedEventArgs e)
+		{
+			//implement paypal here
+		}
+
+		private void ToggleStripePopup(object sender, RoutedEventArgs e)
+		{
+			if (!StripePopup.IsOpen)
+				StripePopup.IsOpen = true;
+			else
+				StripePopup.IsOpen = false;
+		}
+
+		private void PayUsingStripe(object sender, RoutedEventArgs e)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

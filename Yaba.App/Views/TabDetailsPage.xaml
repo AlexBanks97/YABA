@@ -5,11 +5,98 @@
     xmlns:local="using:Yaba.App.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           Margin="10,10,10,10"
+                           FontSize="20"
+                           Text="Tab Details" />
+                <CommandBar Grid.Row="2">
+                    <AppBarButton Icon="Add"
+                                  Label="Add"
+                                  AllowFocusOnInteraction="True">
+                        <AppBarButton.Flyout>
+                            <Flyout>
+                                <StackPanel>
+                                    <Button Margin="0,0,0,10" HorizontalAlignment="Stretch" Click="TogglePayPalPopup">
+                                        <TextBlock>PayPal</TextBlock>
+                                    </Button>
+                                    <Button Margin="0,0,0,10" HorizontalAlignment="Stretch" Click="ToggleStripePopup">
+                                        <TextBlock>Stripe</TextBlock>
+                                    </Button>
+                                </StackPanel>
+                            </Flyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                </CommandBar>
+            </Grid>
             <TextBlock Text="Tab Details" />
         </StackPanel>
+        <Popup VerticalOffset="10" HorizontalOffset="200" x:Name="StripePopup">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                    Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                    BorderThickness="1" Width="400" Height="600">
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100"></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Pay Using Stripe" TextAlignment="Center" FontSize="35" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>
+                        <TextBlock Text="Amount" FontSize="25" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Name="StripeAmount"></TextBox>
+                        <TextBlock Text="Card Number" FontSize="25" Grid.Column="0" Grid.Row="2"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="CardNumber"></TextBox>
+                        <TextBlock Text="exp. date" FontSize="25" Grid.Column="0" Grid.Row="2"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="expMonth"></TextBox>
+                        <TextBlock Text="Card Number" FontSize="25" Grid.Column="0" Grid.Row="2"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="blah"></TextBox>
+                    </Grid>
+                    <Button Content="Pay" Click="PayUsingStripe" HorizontalAlignment="Right"/>
+                    <Button Content="Cancel" Click="ToggleStripePopup" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Border>
+        </Popup>
+        <Popup VerticalOffset="10" HorizontalOffset="200" x:Name="PayPalPopup">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                    Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                    BorderThickness="1" Width="400" Height="600">
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Pay Using PayPal" TextAlignment="Center" FontSize="35" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></TextBlock>
+                        <TextBlock Text="Amount" FontSize="25" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Name="PaypalAmount"></TextBox>
+                        <TextBlock Text="Recipient Email" FontSize="25" Grid.Column="0" Grid.Row="2"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="recipentEmail"></TextBox>
+                    </Grid>
+                    <Button Content="Pay" Click="PayUsingPayPal" HorizontalAlignment="Right"/>
+                    <Button Content="Cancel" Click="TogglePayPalPopup" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Border>
+        </Popup>
     </Grid>
 </Page>
