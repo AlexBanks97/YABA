@@ -74,5 +74,17 @@ namespace Yaba.App.Views
 			else
 				StripePopup.IsOpen = false;
 		}
+
+		private void DismissSuccessPopup(object sender, RoutedEventArgs e)
+		{
+			SuccessPopup.IsOpen = false;
+			_vm.Success = false;
+		}
+
+		private void DismissFailurePopup(object sender, RoutedEventArgs e)
+		{
+			FailurePopup.IsOpen = false;
+			_vm.Failure = false;
+		}
 	}
 }

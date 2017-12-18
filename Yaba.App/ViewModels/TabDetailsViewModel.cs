@@ -13,13 +13,55 @@ namespace Yaba.App.ViewModels
 	public class TabDetailsViewModel : ViewModelBase
 	{
 		public IView View { get; set; }
-		public StripePaymentViewModel StripePaymentViewModel { get; set; }
 		public PayPalPaymentViewModel PayPalPaymentViewModel { get; set; }
+		private StripePaymentViewModel _StripePaymentViewModel;
+		public StripePaymentViewModel StripePaymentViewModel
+		{
+			get => _StripePaymentViewModel;
+			set
+			{
+				_StripePaymentViewModel = value;
+				OnPropertyChanged();
+			}
+		}
+
 		private readonly PaymentRepository paymentRepository;
 
 		public ICommand PayWithStripe { get; }
 		public ICommand PayWithPayPal { get; }
 
+		private bool _success;
+		public bool Success
+		{
+			get => _success;
+			set
+			{
+				_success = value;
+				OnPropertyChanged();
+			}
+		}
+		private bool _failure;
+		public bool Failure
+		{
+			get => _failure;
+			set
+			{
+				_failure = value;
+				OnPropertyChanged();
+			}
+		}
+		private bool _stripeIsOpen;
+		public bool StripeIsOpen
+		{
+			get => _stripeIsOpen;
+			set
+			{
+				_stripeIsOpen = value;
+				OnPropertyChanged();
+			}
+		}
+
+		
 		private readonly IAuthenticationHelper _helper;
 
 		private Uri _approvalUri = new Uri("http://www.microsoft.com");
@@ -45,9 +87,15 @@ namespace Yaba.App.ViewModels
 			PayWithStripe = new RelayCommand(async e =>
 			{
 				Debug.WriteLine("blah");
-				if (!(e is StripePaymentViewModel cc)) return;
+				if (!(e is StripePaymentViewModel cc))
+				{
+					StripeIsOpen = false;
+					Failure = true;
+					return;
+				}
 				if (!cc.VerifyCreditCardInfo())
 				{
+					Failure = true;
 					return;
 				}
 				var payment = new PaymentDto
@@ -57,6 +105,10 @@ namespace Yaba.App.ViewModels
 					Token = StripeTokenHandler.CardToToken(cc),
 				};
 				await repo.Pay(payment, "");
+
+				StripePaymentViewModel = new StripePaymentViewModel();
+				StripeIsOpen = false;
+				Success = true;
 			});
 
 			PayWithPayPal = new RelayCommand(async _ =>

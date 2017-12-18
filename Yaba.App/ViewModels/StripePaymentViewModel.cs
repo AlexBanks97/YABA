@@ -9,7 +9,6 @@ namespace Yaba.App.Models
 {
 	public class StripePaymentViewModel : ViewModelBase
 	{
-
 		private float _amount;
 		public float Amount
 		{
@@ -92,7 +91,7 @@ namespace Yaba.App.Models
 
 				if (!Int32.TryParse(_month, out month)
 				    || !Int32.TryParse(_year, out year)
-				    || !Int32.TryParse(_year, out cvc))
+				    || !Int32.TryParse(_cvc, out cvc))
 					return false;
 
 				if (month < 1 || month > 12)
