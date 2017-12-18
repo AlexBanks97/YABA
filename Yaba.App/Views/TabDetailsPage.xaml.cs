@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Yaba.App.Models;
 using Yaba.App.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -61,6 +62,8 @@ namespace Yaba.App.Views
 
 		private void PayUsingStripe(object sender, RoutedEventArgs e)
 		{
+			//var card = new CreditCard
+
 			throw new NotImplementedException();
 		}
 	}

@@ -45,11 +45,13 @@
         <Popup VerticalOffset="10" HorizontalOffset="200" x:Name="StripePopup">
             <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
                     Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
-                    BorderThickness="1" Width="400" Height="600">
+                    BorderThickness="1" Width="500" Height="600">
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <Grid Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100"></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
                             <RowDefinition Height="50"></RowDefinition>
                             <RowDefinition Height="50"></RowDefinition>
                         </Grid.RowDefinitions>
@@ -58,14 +60,20 @@
                             <ColumnDefinition Width="0.5*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Pay Using Stripe" TextAlignment="Center" FontSize="35" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>
+                        
                         <TextBlock Text="Amount" FontSize="25" Grid.Column="0" Grid.Row="1"/>
                         <TextBox Grid.Row="1" Grid.Column="1" Name="StripeAmount"></TextBox>
+                        
                         <TextBlock Text="Card Number" FontSize="25" Grid.Column="0" Grid.Row="2"/>
                         <TextBox Grid.Row="2" Grid.Column="1" Name="CardNumber"></TextBox>
-                        <TextBlock Text="exp. date" FontSize="25" Grid.Column="0" Grid.Row="2"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Name="expMonth"></TextBox>
-                        <TextBlock Text="Card Number" FontSize="25" Grid.Column="0" Grid.Row="2"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Name="blah"></TextBox>
+                        
+                        <TextBlock Text="exp. date" FontSize="25" Grid.Column="0" Grid.Row="3"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Name="expMonth" PlaceholderText="Month" Width="0.45" HorizontalAlignment="Left"></TextBox>
+                        <TextBlock Text="/"></TextBlock>
+                        <TextBox Grid.Row="3" Grid.Column="1" Name="expYear" PlaceholderText="Year" Width="0.45" HorizontalAlignment="Right"></TextBox>
+                        
+                        <TextBlock Text="Card Number" FontSize="25" Grid.Column="0" Grid.Row="4"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" Name="CVC"></TextBox>
                     </Grid>
                     <Button Content="Pay" Click="PayUsingStripe" HorizontalAlignment="Right"/>
                     <Button Content="Cancel" Click="ToggleStripePopup" HorizontalAlignment="Right"/>
