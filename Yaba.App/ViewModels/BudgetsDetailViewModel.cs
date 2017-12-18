@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Yaba.App.Models;
+using Yaba.Common;
 using Yaba.Common.Budget;
 using Yaba.Common.Budget.DTO;
 using Yaba.Common.Budget.DTO.Category;
+using Yaba.Common.Budget.DTO.Goal;
 
 namespace Yaba.App.ViewModels
 {
@@ -16,8 +19,12 @@ namespace Yaba.App.ViewModels
 	{
 		private readonly IBudgetRepository _budgetRepository;
 		private readonly ICategoryRepository _categoryRepository;
+		private readonly IGoalRepository _goalRepository;
 
 		private Guid _budgetId;
+
+		public ObservableCollection<Recurrence> Recurrences { get; }
+		
 
 		private string _name;
 		public string Name
@@ -30,33 +37,34 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
+		public CategoryCreateViewModel NewCategoryVM { get; } = new CategoryCreateViewModel();
+
 		public ObservableCollection<CategoryGoalDto> Categories { get; set; }
 
 		public ICommand KeyDownCommand { get; }
+		public ICommand AddCategory { get;  }
 
-		public BudgetsDetailViewModel(IBudgetRepository budgetRepository, ICategoryRepository categoryRepository)
+		public BudgetsDetailViewModel(IBudgetRepository budgetRepository, ICategoryRepository categoryRepository, IGoalRepository goalRepository)
 		{
 			_budgetRepository = budgetRepository;
 			_categoryRepository = categoryRepository;
+			_goalRepository = goalRepository;
 
 			Categories = new ObservableCollection<CategoryGoalDto>();
+			Recurrences = new ObservableCollection<Recurrence>();
 
-			KeyDownCommand = new RelayCommand(async e =>
+			foreach (var rec in Enum.GetNames(typeof(Recurrence)))
 			{
-				if (!(e is KeyRoutedEventArgs ke)) return;
-				if (ke.Key != VirtualKey.Enter) return;
-				if (!(ke.OriginalSource is TextBox textBox)) return;
+				var t = (Recurrence) Enum.Parse(typeof(Recurrence), rec);
+				Recurrences.Add(t);
+			}
 
-				var name = textBox.Text;
-				if (string.IsNullOrWhiteSpace(name)) return;
-				var category = new CategoryCreateDto
-				{
-					Name = name,
-					BudgetId = _budgetId
-				};
-				await _categoryRepository.Create(category);
-				await Initialize(_budgetId);
-				textBox.Text = "";
+			AddCategory = new RelayCommand(async e =>
+			{
+				if (!(e is CategoryCreateViewModel cvm)) return;
+
+				Debug.WriteLine(cvm);
+
 			});
 		}
 
