@@ -28,7 +28,6 @@ namespace Yaba.Web.Test
             //Assert
             Assert.True(result.Equals("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-4JD9752034044773P"));
 
-
         }
 
 		[Fact]
@@ -39,8 +38,8 @@ namespace Yaba.Web.Test
 			{
 				Amount = "100.00",
                 RecipientEmail = "Chrsitoffer.nissen-buyer@me.com",
-				PaymentProvider = "PayPal"
-			
+				PaymentProvider = "PayPal",
+				Token = "tok_visa"
 			};
 
 			var target = new PaypalPay();

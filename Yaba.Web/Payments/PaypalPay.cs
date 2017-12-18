@@ -102,7 +102,7 @@ namespace Yaba.Web.Payments
                             recipient_type = PayoutRecipientType.EMAIL,
                             amount = new Currency
                             {
-                                value = dto.Amount,
+                                value = "0.00", // Set to 0 for testing purposes
                                 currency = "DKK"
                             },
                             receiver = dto.RecipientEmail,

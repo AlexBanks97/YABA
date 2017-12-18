@@ -57,6 +57,11 @@ namespace Yaba.App.Views
 				: AppViewBackButtonVisibility.Collapsed;
 		}
 
+		public void setWebViewUrl(Uri uri)
+		{
+			WebView1.Navigate(uri);
+		}
+
 		private void GridView_OnItemClick(object sender, ItemClickEventArgs e)
 		{
 			var item = e.ClickedItem;

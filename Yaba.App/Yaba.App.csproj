@@ -103,6 +103,7 @@
     <Compile Include="Models\CategoryRepository.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
+    <Compile Include="Models\PaymentRepository.cs" />
     <Compile Include="Models\StripeTokenHandler.cs" />
     <Compile Include="Models\TabRepository.cs" />
     <Compile Include="Models\User.cs" />

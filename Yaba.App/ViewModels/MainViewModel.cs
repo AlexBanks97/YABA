@@ -5,6 +5,8 @@ using System.Windows.Input;
 using Yaba.App.Models;
 using System.Linq;
 using System.Net.Http;
+using Yaba.Common.Payment;
+using System;
 
 namespace Yaba.App.ViewModels
 {
@@ -51,7 +53,7 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
-		public MainViewModel(IAuthenticationHelper authenticationHelper)
+		public MainViewModel(IAuthenticationHelper authenticationHelper, PaymentRepository paymentRepository)
 		{
 			_authenticationHelper = authenticationHelper;
 
@@ -67,20 +69,42 @@ namespace Yaba.App.ViewModels
 				}
 			});
 
-			PayWithPayPal = new RelayCommand(_ =>
+			PayWithPayPal = new RelayCommand( async _ =>
 			{
 
 				// Ask API to create payment
-				HttpClient httpClient = new HttpClient();
-				httpClient.BaseAddress = new System.Uri("http://localhost/5000/api/payment");
+
+				PaymentDto dto = new PaymentDto()
+				{
+					Amount = "100.00",
+					PaymentProvider = "PayPal",
+					Token = "tok_visa",
+					RecipientEmail = "christoffer.nissen-buyer@me.com"
+				};
+
+				var xx = (await _authenticationHelper.GetAccountAsync())?.AccessToken;
+				// Receive linkOrMessage, and open accept link if link
+				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
+
+				if (uriOrSuccess.Equals("Success"))
+				{
+					// Stripe payment
+					// Show Success Screen
+				}
+				else
+				{
+					//Determine if link
+					// Open link in webView
+					Uri targetUri = new Uri(uriOrSuccess);
 
 
 
-				// Receive payment, and open accept link
+					// Show success screen if success
+					// Upon redirection from paypal, the payment is executed and payout is issued.
 
-				// Execute payment
 
-				// Send money to reciept (payout) 
+
+				}
 
 			});
 

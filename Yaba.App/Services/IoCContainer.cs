@@ -35,7 +35,7 @@ namespace Yaba.App.Services
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			services.AddScoped<ITabRepository, TabRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
-
+			services.AddScoped<PaymentRepository, PaymentRepository>();
 
 			// VMs
 			services.AddTransient<MainViewModel>();

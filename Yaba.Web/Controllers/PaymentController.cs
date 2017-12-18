@@ -10,49 +10,52 @@ using PayPal.Api;
 
 namespace Yaba.Web.Controllers
 {
-    [Route("api/Payment")]
-    public class PaymentController : Controller
-    {
+	[Route("api/Payment")]
+	public class PaymentController : Controller
+	{
 		// POST: api/Payment
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody]PaymentDto payment)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            String message;
-            switch (payment.PaymentProvider)
-            {
-                case "PayPal":
-                    message = new PaypalPay().PayOut(payment);
-                    break;
-                default:
-                    message = "false";
-                    break;
-            }
-            if (message == "true")
-            {
-                return Ok();
-            }
-            return Forbid();
-        }
+		[HttpPost]
+		public async Task<IActionResult> Post([FromBody] PaymentDto payment)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			String message;
+			switch (payment.PaymentProvider)
+			{
+				case "PayPal":
+					message = new PaypalPay().PayOut(payment);
+					break;
+				default:
+					message = "false";
+					break;
+			}
+			if (message == "true")
+			{
+				return Ok();
+			}
+			return Forbid();
+		}
 
 		// For paypal
 		[HttpGet]
-        public async Task<IActionResult> Get([FromQuery] String payerId, [FromQuery]String paymentId)
+		public async Task<IActionResult> Get([FromQuery] String payerId, [FromQuery]String paymentId)
 		{
 			var s = "PayerId: " + payerId + ", PaymentId: " + paymentId;
-            s = new PaypalPay().ExecutePayment(paymentId,payerId);
+			s = new PaypalPay().ExecutePayment(paymentId, payerId);
 
 			return Ok(s);
 
 		}
 
-        [HttpPost("{amount},{PaymentProvider},{token},{RecipientEmail}")]
-        public async Task<IActionResult> GetCreateUri(String amount, String token, String PaymentProvider, String RecipientEmail)
+		[HttpPost]
+		[Route("/api/payment/GetUrl")]
+        public async Task<IActionResult> GetCreateUri([FromBody] PaymentDto dto)
 		{
-			
+
+			/*
 			PaymentDto dto = new PaymentDto()
 			{
                 Amount = amount,
@@ -61,6 +64,7 @@ namespace Yaba.Web.Controllers
                 RecipientEmail = RecipientEmail
 
 			};
+			*/
 
 			if (!ModelState.IsValid)
 			{
