@@ -160,9 +160,9 @@ namespace Yaba.Entities.Test
 		}
 
 		[Fact]
-		public async void Create_Given_Valid_TabItem_Returns_Guid()
+		public async void Create_Given_Valid_TabItem_Returns_Dto()
 		{
-			var context = Util.GetNewContext(nameof(Create_Given_Valid_TabItem_Returns_Guid));
+			var context = Util.GetNewContext(nameof(Create_Given_Valid_TabItem_Returns_Dto));
 
 			var tab = new Tab.TabEntity();
 			context.Tabs.Add(tab);
@@ -175,21 +175,21 @@ namespace Yaba.Entities.Test
 					Amount = 42,
 					TabId = tab.Id,
 				};
-				var guid = await repo.Create(dto);
-				var entity = context.TabItems.SingleOrDefault(t => t.Id == guid);
+				var createdDto = await repo.Create(dto);
+				var entity = context.TabItems.SingleOrDefault(t => t.Id == createdDto.Id);
 				Assert.NotNull(entity);
 			}
 		}
 
 		[Fact]
-		public async void Create_Given_Invalid_TabItem_Returns_EmptyGuid()
+		public async void Create_Given_Invalid_TabItem_Returns_Null()
 		{
-			var context = Util.GetNewContext(nameof(Create_Given_Valid_TabItem_Returns_Guid));
+			var context = Util.GetNewContext(nameof(Create_Given_Invalid_TabItem_Returns_Null));
 			using (var repo = new EFItemRepository(context))
 			{
-				var dto = new TabItemCreateDTO();
-				var guid = await repo.Create(dto);
-				Assert.Equal(Guid.Empty, guid);
+				var createDto = new TabItemCreateDTO();
+				var simpleDto = await repo.Create(createDto);
+				Assert.Null(simpleDto);
 			}
 		}
 	}

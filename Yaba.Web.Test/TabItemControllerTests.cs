@@ -69,17 +69,17 @@ namespace Yaba.Web.Test
 		}
 
 		[Fact]
-		public async void Post_given_tab_returns_createdataction()
+		public async void Post_given_tab_returns_Ok()
 		{
 			var mock = new Mock<IItemRepository>();
-			var guid = Guid.NewGuid();
+			var dto = new TabItemSimpleDTO {Amount = 10, Id = Guid.NewGuid()};
 			mock.Setup(m => m.Create(It.IsAny<TabItemCreateDTO>()))
-				.ReturnsAsync(guid);
+				.ReturnsAsync(dto);
 
 			using (var controller = new TabItemController(mock.Object))
 			{
-				var response = await controller.Post(new TabItemCreateDTO { TabId = guid, Amount = 120 });
-				Assert.IsType<CreatedAtActionResult>(response);
+				var response = await controller.Post(new TabItemCreateDTO { TabId = dto.Id, Amount = 120 });
+				Assert.IsType<OkObjectResult>(response);
 			}
 		}
 
