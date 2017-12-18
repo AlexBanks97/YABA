@@ -26,9 +26,10 @@ namespace Yaba.App.Views
 	public sealed partial class TabDetailsPage : Page
 	{
 		private readonly TabDetailsViewModel _vm;
+
 		public TabDetailsPage()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 			_vm = App.ServiceProvider.GetService<TabDetailsViewModel>();
 			DataContext = _vm;
 		}
@@ -53,7 +54,5 @@ namespace Yaba.App.Views
 			else
 				StripePopup.IsOpen = false;
 		}
-
-
 	}
 }

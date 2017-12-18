@@ -11,6 +11,7 @@ namespace Yaba.App.Models
 	{
 		public static string CardToToken(StripePaymentViewModel stripePaymentViewModel)
 		{
+			StripeConfiguration.SetApiKey("sk_test_8yW3G8TPwHiXeS6x6M8lNsQT");
 			var stripeTokenCreateOptions = new StripeTokenCreateOptions
 			{
 				Card = new StripeCreditCardOptions
