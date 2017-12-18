@@ -86,24 +86,27 @@ namespace Yaba.App.ViewModels
 				// Receive linkOrMessage, and open accept link if link
 				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
 
-				if (uriOrSuccess.Equals("Success"))
+			if (uriOrSuccess.Equals("Success"))
+			{
+				// Stripe payment
+				// Show Success Screen
+			}
+			else if (uriOrSuccess.Contains("http"))
 				{
-					// Stripe payment
-					// Show Success Screen
-				}
-				else
-				{
-					//Determine if link
-					// Open link in webView
+					//Extract if link
 					Uri targetUri = new Uri(uriOrSuccess);
 
-
+					// Open link in webView
 
 					// Show success screen if success
 					// Upon redirection from paypal, the payment is executed and payout is issued.
 
 
 
+				}
+			else
+				{
+					// Failure, show sad screen
 				}
 
 			});
@@ -118,7 +121,8 @@ namespace Yaba.App.ViewModels
 
 		private async void SignIn()
 		{
-			User = await _authenticationHelper.GetAccountAsync();}
+			User = await _authenticationHelper.GetAccountAsync();
+		}
 
 		private async void SignOut()
 		{
