@@ -18,6 +18,8 @@ namespace Yaba.App.ViewModels
 		private readonly IUserRepository _userRepo;
 		private readonly IUserHelper _userHelper;
 
+
+
 		public ObservableCollection<TabViewModel> Tabs { get; }
 		public ObservableCollection<UserViewModel> Users { get; }
 		public ObservableCollection<UserViewModel> UserSearchResult { get; }
@@ -33,10 +35,22 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
+        private string _approvalUri = "";
+        public string ApprovalUri
+        {
+            get => _approvalUri;
+            set
+            {
+                _approvalUri = value;
+                OnPropertyChanged();
+            }
+        }
+
 		public ICommand TextChangedCommand { get; set; }
 		public ICommand SuggestionChosenCommand { get; set; }
 		public ICommand CreateTabCommand { get; set; }
 		public ICommand RemoveTabCommand { get; set; }
+        public ICommand PayWithPayPal { get; }
 
 		private async void RemoveTab(object o)
 		{
@@ -52,6 +66,7 @@ namespace Yaba.App.ViewModels
 			_tabRepo = tabRepo;
 			_userRepo = userRepo;
 			_userHelper = userHelper;
+
 
 			Tabs = new ObservableCollection<TabViewModel>();
 			Users = new ObservableCollection<UserViewModel>();
@@ -93,6 +108,48 @@ namespace Yaba.App.ViewModels
 				await _tabRepo.CreateTab(dto);
 				await Initialize();
 			});
+
+            PayWithPayPal = new RelayCommand(async _ =>
+            {
+
+                // Get amount and email
+
+                PaymentDto dto = new PaymentDto()
+                {
+                    Amount = "100.00",
+                    PaymentProvider = "PayPal",
+                    Token = "tok_visa",
+                    RecipientEmail = "christoffer.nissen-buyer@me.com"
+                };
+
+                var xx = (await _authenticationHelper.GetAccountAsync())?.AccessToken;
+                // Ask API to create payment
+                // Receive linkOrMessage, and open accept link if link
+                var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
+
+                if(uriOrSuccess.Equals("true"))
+                {
+                    // Successful stripe payment
+
+                    // Show success screen
+
+                } 
+                else if(uriOrSuccess.Equals("Failure..."))
+                {
+                    Uri targetUri = new Uri(uriOrSuccess);
+                    ApprovalUri = targetUri;
+
+                    // Open webview and load uri
+
+                } 
+                else 
+                {
+                    // Failure
+
+                    // Show failrue screen, and ask user to try again
+                }
+
+            });
 		}
 
 		public async Task Initialize()

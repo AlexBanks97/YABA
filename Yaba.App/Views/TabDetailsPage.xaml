@@ -93,7 +93,7 @@
                         <TextBlock Text="Recipient Email" FontSize="25" Grid.Column="0" Grid.Row="2"/>
                         <TextBox Grid.Row="2" Grid.Column="1" Name="recipentEmail"></TextBox>
                     </Grid>
-                    <Button Content="Pay" Click="PayUsingPayPal" HorizontalAlignment="Right"/>
+                    <Button Content="Pay" Command="{Binding PayWithPayPal}" HorizontalAlignment="Right"/>
                     <Button Content="Cancel" Click="TogglePayPalPopup" HorizontalAlignment="Right"/>
                 </StackPanel>
             </Border>
