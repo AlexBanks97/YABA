@@ -6,35 +6,91 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Yaba.Common.Payment;
 using Yaba.Web.Payments;
+using PayPal.Api;
 
 namespace Yaba.Web.Controllers
 {
-    [Route("api/Payment")]
-    public class PaymentController : Controller
-    {
-
-	    private readonly IPaymentRepository _paymentRepository;
-
-
-		public PaymentController(IPaymentRepository paymentRepository)
-		{
-			_paymentRepository = paymentRepository;
-		}
-
+	[Route("api/Payment")]
+	public class PaymentController : Controller
+	{
 		// POST: api/Payment
 		[HttpPost]
-        public async Task<IActionResult> Post([FromBody]StripePaymentDto payment)
-        {
-	        if (!ModelState.IsValid)
-	        {
-		        return BadRequest(ModelState);
-	        }
-	        var success = _paymentRepository.Pay(payment);
-	        if (success)
-	        {
-		        return Ok();
-	        }
-	        return Forbid();
-        }
-    }
+		public async Task<IActionResult> Post([FromBody] PaymentDto payment)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			String message;
+			switch (payment.PaymentProvider)
+			{
+				case "PayPal":
+					message = new PaypalPay().PayOut(payment);
+					break;
+				default:
+					message = "false";
+					break;
+			}
+			if (message == "true")
+			{
+				return Ok();
+			}
+			return Forbid();
+		}
+
+		// For paypal
+		[HttpGet]
+		public async Task<IActionResult> Get([FromQuery] String payerId, [FromQuery]String paymentId)
+		{
+			var s = "PayerId: " + payerId + ", PaymentId: " + paymentId;
+			s = new PaypalPay().ExecutePayment(paymentId, payerId);
+
+			return Ok(s);
+
+		}
+
+		[HttpPost]
+		[Route("/api/payment/GetUrl")]
+        public async Task<IActionResult> GetCreateUri([FromBody] PaymentDto dto)
+		{
+
+			/*
+			PaymentDto dto = new PaymentDto()
+			{
+                Amount = amount,
+                Token = token,
+                PaymentProvider = PaymentProvider,
+                RecipientEmail = RecipientEmail
+
+			};
+			*/
+
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			String message = "";
+			switch (dto.PaymentProvider)
+			{
+				case "PayPal":
+                    message = pay(new PaypalPay(), dto);
+                    break;
+				
+				case "Stripe":
+                    message = pay(new StripePay(), dto);
+                    break;
+			}
+
+            return Ok(message);
+			
+		}
+
+	    private String pay(IPaymentRepository repo, PaymentDto payment)
+	    {
+            return repo.Pay(payment);
+	    }
+
+	}
 }

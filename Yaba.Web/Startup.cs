@@ -17,13 +17,23 @@ using Yaba.Entities.Tab.Repository;
 using Yaba.Entities.User.Repository;
 using Yaba.Web.Options;
 using Yaba.Web.Payments;
+using PayPal;
 
 namespace Yaba.Web
 {
 	public class Startup
 	{
-		public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration)
 		{
+            /* IHostingEnvironment env
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
+            */
+
 			Configuration = configuration;
 		}
 
@@ -47,9 +57,12 @@ namespace Yaba.Web
 
 			StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["Priv"]);
 
+            //services.Configure<PayPal.SDKConfigHandler>(Configuration.GetSection("PayPal"));
+            //services.Configure<IConfiguration>(Configuration.GetSection("PayPal"));
+
 			services.AddScoped<IYabaDBContext, YabaDBContext>();
 
-			services.AddScoped<IPaymentRepository, StripePay>();
+			//services.AddScoped<IPaymentRepository, StripePay>();
 			services.AddScoped<IBudgetRepository, EFBudgetRepository>();
 			services.AddScoped<ITabRepository, EFTabRepository>();
 			services.AddScoped<IItemRepository, EFItemRepository>();

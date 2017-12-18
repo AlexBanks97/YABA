@@ -6,14 +6,15 @@ using System.Windows.Input;
 using Yaba.App.Models;
 using System.Linq;
 using Yaba.App.Services;
+using System.Net.Http;
+using Yaba.Common.Payment;
+using System;
 
 namespace Yaba.App.ViewModels
 {
 	public class MainViewModel : ViewModelBase
 	{
 		private readonly IAuthenticationHelper _authenticationHelper;
-		private readonly IUserHelper _userHelper;
-
 		private AppUser _appUser;
 		public AppUser AppUser
 		{
@@ -25,7 +26,7 @@ namespace Yaba.App.ViewModels
 				       ?? AppUser?.IdentityToken.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
 				IsLoggedIn = _appUser != null;
 				OnPropertyChanged();
-			}
+			}	
 		}
 
 		private string _name;
@@ -40,6 +41,7 @@ namespace Yaba.App.ViewModels
 		}
 
 		public ICommand SignInOutCommand { get; }
+		public ICommand PayWithPayPal { get; }
 
 		private bool _isLoggedIn;
 		public bool IsLoggedIn
@@ -51,11 +53,9 @@ namespace Yaba.App.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
-		public MainViewModel(IAuthenticationHelper authenticationHelper, IUserHelper userHelper)
+		public MainViewModel(IAuthenticationHelper authenticationHelper, PaymentRepository paymentRepository)
 		{
 			_authenticationHelper = authenticationHelper;
-			_userHelper = userHelper;
 
 			SignInOutCommand = new RelayCommand(_ =>
 			{
@@ -68,23 +68,40 @@ namespace Yaba.App.ViewModels
 					SignIn();
 				}
 			});
-		}
 
-		public async Task Initialize()
-		{
-			SignIn();
-			var user = await _userHelper.GetCurrentUser();
-			Debug.WriteLine(user);
-		}
+			PayWithPayPal = new RelayCommand( async _ =>
+			{
 
-		private async void SignIn()
-		{
-			AppUser = await _authenticationHelper.GetAccountAsync();}
+				// Ask API to create payment
+
+				PaymentDto dto = new PaymentDto()
+				{
+					Amount = "100.00",
+					PaymentProvider = "PayPal",
+					Token = "tok_visa",
+					RecipientEmail = "christoffer.nissen-buyer@me.com"
+				};
+
+				var xx = (await _authenticationHelper.GetAccountAsync())?.AccessToken;
+				// Receive linkOrMessage, and open accept link if link
+				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
+
+			});
+		}
 
 		private async void SignOut()
 		{
 			await _authenticationHelper.SignOutAsync();
-			AppUser = null;
+		}
+
+		public async Task Initialize()
+		{
+			await SignIn();
+		}
+
+		private async Task SignIn()
+		{
+			await _authenticationHelper.GetAccountAsync();
 		}
 	}
 }

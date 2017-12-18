@@ -11,9 +11,9 @@ namespace Yaba.Web.Payments
 {
     public class StripePay : IPaymentRepository
     {
-	    public bool Pay(StripePaymentDto payment)
+	    public String Pay(PaymentDto payment)
 	    {
-		    var payAmount = (int)(payment.Amount * 100);
+            var payAmount = (int)(Decimal.Parse(payment.Amount) * 100);
 
 		    var ChargeService = new StripeChargeService();
 
@@ -22,13 +22,12 @@ namespace Yaba.Web.Payments
 			    Amount = payAmount,
 				Currency = "dkk",
 			    SourceTokenOrExistingSourceId = payment.Token,
-			    Description = payment.Description,
 			    Capture = true
 		    };
 			try
 		    {
 				ChargeService.Create(ChargeOptions);
-			    return true;
+			    return "true";
 		    }
 		    catch (StripeException e)
 		    {
@@ -54,8 +53,14 @@ namespace Yaba.Web.Payments
 					    // Unknown Error Type
 					    break;
 			    }
-				return false;
+				return "false";
 		    }
+
+			
 	    }
-    }
+        public String GetApprovalUri(PaymentDto dto)
+		{
+			return "";
+		}
+	}
 }
