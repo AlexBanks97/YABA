@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Yaba.App.Models;
 using Yaba.App.Services;
 using Yaba.Common;
+using Yaba.Common.Payment;
 using Yaba.Common.Tab.DTO;
 
 namespace Yaba.App.ViewModels
@@ -17,6 +18,8 @@ namespace Yaba.App.ViewModels
 		private readonly ITabRepository _tabRepo;
 		private readonly IUserRepository _userRepo;
 		private readonly IUserHelper _userHelper;
+		private readonly IAuthenticationHelper _helper;
+		private readonly PaymentRepository paymentRepository;
 
 
 
@@ -51,6 +54,7 @@ namespace Yaba.App.ViewModels
 		public ICommand CreateTabCommand { get; set; }
 		public ICommand RemoveTabCommand { get; set; }
         public ICommand PayWithPayPal { get; }
+		public ICommand PayWithStripe { get; }
 
 		private async void RemoveTab(object o)
 		{
@@ -61,12 +65,13 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
-		public TabsPageViewModel(ITabRepository tabRepo, IUserRepository userRepo, IUserHelper userHelper)
+		public TabsPageViewModel(ITabRepository tabRepo, IUserRepository userRepo, IUserHelper userHelper, IAuthenticationHelper helper, PaymentRepository repo)
 		{
 			_tabRepo = tabRepo;
 			_userRepo = userRepo;
 			_userHelper = userHelper;
-
+			_helper = helper;
+			paymentRepository = repo;
 
 			Tabs = new ObservableCollection<TabViewModel>();
 			Users = new ObservableCollection<UserViewModel>();
@@ -122,7 +127,7 @@ namespace Yaba.App.ViewModels
                     RecipientEmail = "christoffer.nissen-buyer@me.com"
                 };
 
-                var xx = (await _authenticationHelper.GetAccountAsync())?.AccessToken;
+                var xx = (await _helper.GetAccountAsync())?.AccessToken;
                 // Ask API to create payment
                 // Receive linkOrMessage, and open accept link if link
                 var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
@@ -139,10 +144,10 @@ namespace Yaba.App.ViewModels
                 else if(uriOrSuccess.Equals("Failure..."))
                 {
                     Uri targetUri = new Uri(uriOrSuccess);
-                    ApprovalUri = targetUri;
+                    ApprovalUri = targetUri.ToString();
 
                     // Open webview and load uri
-                    DoStuff();
+                    DoStuff(targetUri);
 
                 } 
                 else 
@@ -153,11 +158,13 @@ namespace Yaba.App.ViewModels
                 }
 
             });
+
+
 		}
 
         private static void DoStuff(Uri uri)
         {
-            MessageBox.Show(uri);
+            //WebView MessageBox.Show(uri);
         }
 
 		public async Task Initialize()

@@ -7,19 +7,19 @@ using Stripe;
 
 namespace Yaba.App.Models
 {
-	public class StripeServices 
+	public static class StripeTokenHandler 
 	{
-		public string CardToToken(CreditCard creditCard)
+		public static string CardToToken(StripePaymentViewModel stripePaymentViewModel)
 		{
 			var stripeTokenCreateOptions = new StripeTokenCreateOptions
 			{
 				Card = new StripeCreditCardOptions
 				{
-					Number = creditCard.Numbers,
-					ExpirationMonth = Int32.Parse(creditCard.Month),
-					ExpirationYear = Int32.Parse(creditCard.Year),
-					Cvc = creditCard.Cvc,
-					Name = creditCard.HolderName
+					Number = stripePaymentViewModel.Numbers,
+					ExpirationMonth = Int32.Parse(stripePaymentViewModel.Month),
+					ExpirationYear = Int32.Parse(stripePaymentViewModel.Year),
+					Cvc = stripePaymentViewModel.CVC,
+					Name = stripePaymentViewModel.HolderName
 				}
 			};
 

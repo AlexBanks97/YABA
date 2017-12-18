@@ -1,12 +1,17 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Windows.Input;
+using Yaba.App.Models;
 using Yaba.Common;
+using Yaba.Common.Payment;
 using Yaba.Common.Tab.DTO.Item;
 
 namespace Yaba.App.ViewModels
 {
 	public class TabViewModel : ViewModelBase
 	{
+		public StripePaymentViewModel StripePaymentViewModel { get; set; }
+
 		private Guid _id;
 		public Guid Id
 		{
@@ -52,6 +57,31 @@ namespace Yaba.App.ViewModels
 				_userNotCurrentUser = value;
 				OnPropertyChanged();
 			}
+		}
+
+		public ICommand PayWithStripe { get; }
+
+		public TabViewModel()
+		{
+			StripePaymentViewModel = new StripePaymentViewModel();
+
+
+
+			PayWithStripe = new RelayCommand(async e =>
+			{
+				if (!(e is StripePaymentViewModel cc)) return;
+				if (!cc.VerifyCreditCardInfo())
+				{
+					//return error
+				}
+				var payment = new PaymentDto
+				{
+					PaymentProvider = "Stripe",
+					Token = StripeTokenHandler.CardToToken(cc),
+				};
+				//tokenize the shit
+				//do payment
+			});
 		}
 	}
 }

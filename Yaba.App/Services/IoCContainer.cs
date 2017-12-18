@@ -46,6 +46,7 @@ namespace Yaba.App.Services
 			services.AddTransient<BudgetsDetailViewModel>();
 			services.AddTransient<CategoryViewModel>();
 			services.AddTransient<TabsPageViewModel>();
+			services.AddTransient<TabViewModel>();
 
 
 			//services.AddScoped<ICharacterRepository, CharacterRepository>();

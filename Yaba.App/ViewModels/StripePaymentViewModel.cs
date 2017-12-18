@@ -7,7 +7,7 @@ using Yaba.App.ViewModels;
 
 namespace Yaba.App.Models
 {
-	public class CreditCard : ViewModelBase
+	public class StripePaymentViewModel : ViewModelBase
 	{
 		//TODO: possibly make this a viewModel
 		private string _numbers;

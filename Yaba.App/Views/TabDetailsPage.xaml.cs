@@ -24,9 +24,12 @@ namespace Yaba.App.Views
 	/// </summary>
 	public sealed partial class TabDetailsPage : Page
 	{
+		private readonly TabViewModel _vm;
 		public TabDetailsPage()
 		{
 			this.InitializeComponent();
+			_vm = App.ServiceProvider.GetService<TabDetailsPage>();
+			DataContext = _vm;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -65,9 +68,7 @@ namespace Yaba.App.Views
 
 		private void PayUsingStripe(object sender, RoutedEventArgs e)
 		{
-			//var card = new CreditCard
-
-			throw new NotImplementedException();
+			
 		}
 	}
 }
