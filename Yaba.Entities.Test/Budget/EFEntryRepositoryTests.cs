@@ -27,7 +27,7 @@ namespace Yaba.Entities.Test.Budget
 			{
 				Amount = 2,
 				Description = "hey",
-				Category = new CategoryDto { Id = cat.Id,Name = cat.Name}
+				CategoryId = cat.Id,
 			};
 
 			EntryEntity actual = null;

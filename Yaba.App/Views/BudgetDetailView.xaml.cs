@@ -26,6 +26,7 @@ namespace Yaba.App.Views
     public sealed partial class BudgetDetailView : Page
     {
 	    private readonly BudgetsDetailViewModel _vm;
+		
         public BudgetDetailView()
         {
             InitializeComponent();
@@ -43,6 +44,11 @@ namespace Yaba.App.Views
 	    private void CategoriesList_OnClick(object sender, ItemClickEventArgs e)
 	    {
 		    Detail.Navigate(typeof(CategoryDetailPage), e.ClickedItem);
+	    }
+
+	    private void CategoryGoalRecurrence_Changed(object sender, SelectionChangedEventArgs e)
+	    {
+		    var selection = e.AddedItems[0];
 	    }
     }
 }
