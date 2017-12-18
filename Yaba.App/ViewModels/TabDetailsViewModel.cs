@@ -36,7 +36,7 @@ namespace Yaba.App.ViewModels
 		public TabDetailsViewModel(PaymentRepository repo, IAuthenticationHelper helper)
 		{
 			StripePaymentViewModel = new StripePaymentViewModel();
-			if(PayPalPaymentViewModel == null) new PayPalPaymentViewModel();
+			PayPalPaymentViewModel = new PayPalPaymentViewModel();
 			
 			paymentRepository = repo;
 			_helper = helper;

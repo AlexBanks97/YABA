@@ -96,10 +96,12 @@
                             <ColumnDefinition Width="0.5*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Pay Using PayPal" TextAlignment="Center" FontSize="35" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></TextBlock>
-                        <TextBlock Text="Amount" FontSize="25" Grid.Column="0" Grid.Row="1"/>
-                        <TextBox Grid.Row="1" Grid.Column="1" Name="PaypalAmount"></TextBox>
+                        
+                        <TextBlock Text="Amount" FontSize="25" Grid.Column="0" Grid.Row="1" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Name="PaypalAmount" Text="{Binding PayPalPaymentViewModel.Amount, Mode=TwoWay}"></TextBox>
+                        
                         <TextBlock Text="Recipient Email" FontSize="25" Grid.Column="0" Grid.Row="2"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding PayPalPaymentViewModel.Email}"></TextBox>
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding PayPalPaymentViewModel.Email, Mode=TwoWay}"></TextBox>
                      
                     </Grid>
                     <Button Content="Pay" Command="{Binding PayWithPayPal}" CommandParameter="{Binding PayPalPaymentViewModel}" HorizontalAlignment="Right"/>
