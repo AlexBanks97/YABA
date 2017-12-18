@@ -61,6 +61,17 @@ namespace Yaba.Entities.Tab.Repository
 			return tabs.Select(t => t.ToDTO()).ToList();
 		}
 
+		public async Task<ICollection<TabDto>> FindWithUser(Guid userId)
+		{
+			return _context.Tabs
+				.Include(t => t.TabItems)
+				.Include(t => t.UserTwo)
+				.Include(t => t.UserOne)
+				.Where(t => t.UserOne.Id == userId || t.UserTwo.Id == userId)
+				.Select(t => t.ToDTO())
+				.ToList();
+		}
+
 		public async Task<TabDto> FindTab(Guid id)
 		{
 			var tab = await _context.Tabs

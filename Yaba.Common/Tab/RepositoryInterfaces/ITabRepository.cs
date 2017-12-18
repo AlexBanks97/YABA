@@ -14,6 +14,7 @@ namespace Yaba.Common
 		Task<bool> UpdateTab(TabUpdateDto tab);
 
 		Task<ICollection<TabDto>> FindAllTabs();
+		Task<ICollection<TabDto>> FindWithUser(Guid userId);
 		Task<bool> Delete(Guid id);
 	}
 }
