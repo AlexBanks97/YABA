@@ -23,7 +23,7 @@ namespace Yaba.App.Views
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class TabDetailsPage : Page
+	public sealed partial class TabDetailsPage : Page, IView
 	{
 		private readonly TabDetailsViewModel _vm;
 
@@ -32,6 +32,15 @@ namespace Yaba.App.Views
 			InitializeComponent();
 			_vm = App.ServiceProvider.GetService<TabDetailsViewModel>();
 			DataContext = _vm;
+			(DataContext as TabDetailsViewModel).View = this as IView; //
+
+		}
+
+		public void OpenUriInWebView(Uri uri)
+		{
+			webView1.Visibility = Visibility.Collapsed;
+			webView1.Navigate(uri);
+			webView1.Visibility = Visibility.Visible;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -43,6 +52,8 @@ namespace Yaba.App.Views
 			_vm.Initialize(tabvm.Id, tabvm.UserNotCurrentUser.Name);
 
 		}
+
+
 
 		private void TogglePayPalPopup(object sender, RoutedEventArgs e)
 		{
