@@ -12,6 +12,7 @@ namespace Yaba.App.ViewModels
 {
 	public class TabDetailsViewModel : ViewModelBase
 	{
+		public IView View { get; set; }
 		public StripePaymentViewModel StripePaymentViewModel { get; set; }
 		public PayPalPaymentViewModel PayPalPaymentViewModel { get; set; }
 		private readonly PaymentRepository paymentRepository;
@@ -21,8 +22,8 @@ namespace Yaba.App.ViewModels
 
 		private readonly IAuthenticationHelper _helper;
 
-		private string _approvalUri = "";
-		public string ApprovalUri
+		private Uri _approvalUri = new Uri("http://www.microsoft.com");
+		public Uri ApprovalUri
 		{
 			get => _approvalUri;
 			set
@@ -78,21 +79,23 @@ namespace Yaba.App.ViewModels
 				// Receive linkOrMessage, and open accept link if link
 				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
 
-				if (uriOrSuccess.Equals("true"))
-				{
-					// Successful stripe payment
+			if (uriOrSuccess.Equals("true"))
+			{
+				// Successful stripe payment
 
 
 
-					// Show success screen
+				// Show success screen
 
-				}
-				else if (uriOrSuccess.Equals("Failure..."))
+			}
+			else if (uriOrSuccess.Contains("http"))
 				{
 					Uri targetUri = new Uri(uriOrSuccess);
-					ApprovalUri = targetUri.ToString();
+					ApprovalUri = targetUri;
 
 					// Open webview and load uri
+
+					View.OpenUriInWebView(ApprovalUri);
 					
 
 				}
