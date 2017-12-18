@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Yaba.App.Models;
 using System.Linq;
+using System.Net.Http;
+using Yaba.Common.Payment;
+using System;
 
 namespace Yaba.App.ViewModels
 {
@@ -37,6 +40,7 @@ namespace Yaba.App.ViewModels
 		}
 
 		public ICommand SignInOutCommand { get; }
+		public ICommand PayWithPayPal { get; }
 
 		private bool _isLoggedIn;
 		public bool IsLoggedIn
@@ -49,7 +53,7 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
-		public MainViewModel(IAuthenticationHelper authenticationHelper)
+		public MainViewModel(IAuthenticationHelper authenticationHelper, PaymentRepository paymentRepository)
 		{
 			_authenticationHelper = authenticationHelper;
 
@@ -64,6 +68,50 @@ namespace Yaba.App.ViewModels
 					SignIn();
 				}
 			});
+
+			PayWithPayPal = new RelayCommand( async _ =>
+			{
+
+				// Ask API to create payment
+
+				PaymentDto dto = new PaymentDto()
+				{
+					Amount = "100.00",
+					PaymentProvider = "PayPal",
+					Token = "tok_visa",
+					RecipientEmail = "christoffer.nissen-buyer@me.com"
+				};
+
+				var xx = (await _authenticationHelper.GetAccountAsync())?.AccessToken;
+				// Receive linkOrMessage, and open accept link if link
+				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
+
+			if (uriOrSuccess.Equals("Success"))
+			{
+				// Stripe payment
+				// Show Success Screen
+			}
+			else if (uriOrSuccess.Contains("http"))
+				{
+					//Extract if link
+					Uri targetUri = new Uri(uriOrSuccess);
+
+					// Open link in webView
+
+					// Show success screen if success
+					// Upon redirection from paypal, the payment is executed and payout is issued.
+
+
+
+				}
+			else
+				{
+					// Failure, show sad screen
+				}
+
+			});
+
+
 		}
 
 		public async Task Initialize()
@@ -73,7 +121,8 @@ namespace Yaba.App.ViewModels
 
 		private async void SignIn()
 		{
-			User = await _authenticationHelper.GetAccountAsync();}
+			User = await _authenticationHelper.GetAccountAsync();
+		}
 
 		private async void SignOut()
 		{
