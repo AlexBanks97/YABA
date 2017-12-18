@@ -9,7 +9,18 @@ namespace Yaba.App.Models
 {
 	public class StripePaymentViewModel : ViewModelBase
 	{
-		//TODO: possibly make this a viewModel
+
+		private float _amount;
+		public float Amount
+		{
+			get => _amount;
+			set
+			{
+				_amount = value;
+				OnPropertyChanged();
+			}
+		}
+
 		private string _numbers;
 		public string Numbers
 		{

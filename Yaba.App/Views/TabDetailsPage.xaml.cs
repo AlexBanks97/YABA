@@ -28,7 +28,7 @@ namespace Yaba.App.Views
 		public TabDetailsPage()
 		{
 			this.InitializeComponent();
-			_vm = App.ServiceProvider.GetService<TabDetailsPage>();
+			_vm = App.ServiceProvider.GetService<TabDetailsViewModel>();
 			DataContext = _vm;
 		}
 

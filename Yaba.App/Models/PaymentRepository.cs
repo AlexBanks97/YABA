@@ -15,7 +15,7 @@ using Yaba.Common.Payment;
 namespace Yaba.App.Models
 {
 
-	public class PaymentRepository
+	public class PaymentRepository : IPaymentRepository
 	{
 		private readonly HttpClient _client;
 		public PaymentRepository(DelegatingHandler handler, AppConstants constants, IAuthenticationHelper authenticationHelper)
@@ -24,10 +24,6 @@ namespace Yaba.App.Models
 			{
 				BaseAddress = constants.BaseApiAddress,
 			};
-
-
-
-			
 		}
 		public void Dispose()
 		{
@@ -63,6 +59,11 @@ namespace Yaba.App.Models
 
 			var String = await response.Content.ReadAsStringAsync();
 			return String;
+		}
+
+		public string Pay(PaymentDto pay)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
