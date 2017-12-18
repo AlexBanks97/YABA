@@ -38,10 +38,10 @@ namespace Yaba.App.Views
 		{
 			base.OnNavigatedTo(e);
 			var tabvm = e.Parameter as TabViewModel;
+			if (tabvm == null) throw new Exception();
+			_vm.CurrentTabId = tabvm.Id;
+			_vm.Initialize(tabvm.Id, tabvm.UserNotCurrentUser.Name);
 
-			//if (tabvm == null) throw new Exception();
-
-			//DataContext = tabvm;
 		}
 
 		private void TogglePayPalPopup(object sender, RoutedEventArgs e)

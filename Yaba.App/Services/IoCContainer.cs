@@ -36,6 +36,7 @@ namespace Yaba.App.Services
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			services.AddScoped<ITabRepository, TabRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IItemRepository, ItemRepository>();
 			services.AddScoped<PaymentRepository, PaymentRepository>();
 
 			// kek
@@ -48,6 +49,7 @@ namespace Yaba.App.Services
 			services.AddTransient<CategoryViewModel>();
 			services.AddTransient<TabsPageViewModel>();
 			services.AddTransient<TabDetailsViewModel>();
+			services.AddTransient<TabItemViewModel>();
 
 
 			//services.AddScoped<ICharacterRepository, CharacterRepository>();

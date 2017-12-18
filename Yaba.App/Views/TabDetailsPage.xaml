@@ -38,9 +38,45 @@
                             </Flyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
+                    <AppBarButton Icon="Attach"
+                                  Label="Add Tab Item"
+                                  AllowFocusOnInteraction="True">
+                        <AppBarButton.Flyout>
+                            <Flyout>
+                                <StackPanel>
+                                    <TextBlock Text="Add Tab Item" 
+                                               FontSize="18"/>
+                                    <TextBlock Text="Amount"/>
+                                    <TextBox Width="200"
+                                             Text="{Binding TabItemVM.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Name="AmountTextBox"
+                                             PlaceholderText="Enter amount"/>
+                                    <TextBlock Text="Description"/>
+                                    <TextBox Width="200"
+                                             Name="DescriptionTextBox"
+                                             Text="{Binding TabItemVM.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             PlaceholderText="Enter description"/>
+                                    <Button Content="Add" 
+                                            Command="{Binding AddTabItemCommand}"
+                                            CommandParameter="{Binding TabItemVM}"/>
+                                    
+                                </StackPanel>
+                            </Flyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
                 </CommandBar>
+                
             </Grid>
-            <TextBlock Text="Tab Details" />
+            <TextBlock Text="{Binding Name}" />
+            <ListView ItemsSource="TabItemsList">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Description}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackPanel>
         <Popup VerticalOffset="10" HorizontalOffset="200" x:Name="StripePopup" IsOpen="{Binding StripeIsOpen, Mode=TwoWay}">
             <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
