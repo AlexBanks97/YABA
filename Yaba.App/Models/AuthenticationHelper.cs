@@ -27,13 +27,13 @@ namespace Yaba.App.Models
 		}
 
 
-		public async Task<User> SignInAsync()
+		public async Task<AppUser> SignInAsync()
 		{
 			var loginResult = await _client.LoginAsync(new {audience = "https://yaba.dev"});
 
 			if (!loginResult.IsError)
 			{
-				var user = new User(loginResult.AccessToken, loginResult.IdentityToken);
+				var user = new AppUser(loginResult.AccessToken, loginResult.IdentityToken);
 				_appData.Values[SettingsUserAccessToken] = loginResult.AccessToken;
 				_appData.Values[SettingsUserIdentityToken] = loginResult.IdentityToken;
 				return user;
@@ -41,13 +41,13 @@ namespace Yaba.App.Models
 			return null;
 		}
 
-		public async Task<User> GetAccountAsync()
+		public async Task<AppUser> GetAccountAsync()
 		{
 			var accessToken = _appData.Values[SettingsUserAccessToken] as string;
 			var identityToken = _appData.Values[SettingsUserIdentityToken] as string;
 			if (!string.IsNullOrWhiteSpace(accessToken) && !string.IsNullOrWhiteSpace(identityToken))
 			{
-				return new User(accessToken, identityToken);
+				return new AppUser(accessToken, identityToken);
 			}
 			return await SignInAsync();
 		}

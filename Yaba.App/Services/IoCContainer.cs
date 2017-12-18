@@ -36,6 +36,9 @@ namespace Yaba.App.Services
 			services.AddScoped<ITabRepository, TabRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 
+			// kek
+			services.AddScoped<IUserHelper, UserHelper>();
+
 
 			// VMs
 			services.AddTransient<MainViewModel>();
