@@ -14,62 +14,71 @@
             <NavigationViewItem Content="Test"></NavigationViewItem>
         </NavigationView.MenuItems>
     </NavigationView> -->
-
-    <SplitView PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-               IsPaneOpen="True"
-               OpenPaneLength="248"
-               CompactPaneLength="48"
-               DisplayMode="Inline">
-        <SplitView.Pane>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0"
-                           Margin="10,10,10,10"
-                           FontSize="20"
-                           Text="Budgets" />
-                <ListView Grid.Row="1"
-                          Margin="0,10,0,0"
-                          ItemsSource="{Binding Budgets}"
-                          IsItemClickEnabled="True"
-                          ItemClick="BudgetsList_OnClick">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Name}"></TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <CommandBar Grid.Row="2">
-                    <AppBarButton Icon="Add"
-                                  Label="Add"
-                                  AllowFocusOnInteraction="True">
-                        <AppBarButton.Flyout>
-                            <Flyout>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <SplitView Grid.Row="0" Grid.Column="0"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                   IsPaneOpen="True"
+                   OpenPaneLength="248"
+                   CompactPaneLength="48"
+                   DisplayMode="Inline">
+            <SplitView.Pane>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Margin="10,10,10,10"
+                               FontSize="20"
+                               Text="Budgets" />
+                    <ListView Grid.Row="1"
+                              Margin="0,10,0,0"
+                              ItemsSource="{Binding Budgets}"
+                              IsItemClickEnabled="True"
+                              ItemClick="BudgetsList_OnClick">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Text="Enter budget name"
-                                               Margin="0,0,0,10"/>
-                                    <TextBox x:Name="NewBudgetTextBox"
-                                             Text="{Binding NewBudgetName, Mode=TwoWay}"
-                                             Width="200">
-                                        <interactivity:Interaction.Behaviors>
-                                            <core:EventTriggerBehavior EventName="KeyDown">
-                                                <core:InvokeCommandAction Command="{Binding KeyDownCommand}"></core:InvokeCommandAction>
-                                            </core:EventTriggerBehavior>
-                                        </interactivity:Interaction.Behaviors>
-                                    </TextBox>
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
                                 </StackPanel>
-                            </Flyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                </CommandBar>
-            </Grid>
-        </SplitView.Pane>
-
-        <Frame x:Name="Detail" />
-    </SplitView>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <CommandBar Grid.Row="2">
+                        <AppBarButton Icon="Add"
+                                      Label="Add"
+                                      AllowFocusOnInteraction="True">
+                            <AppBarButton.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBlock Text="Enter budget name"
+                                                   Margin="0,0,0,10"/>
+                                        <TextBox x:Name="NewBudgetTextBox"
+                                                 Text="{Binding NewBudgetName, Mode=TwoWay}"
+                                                 Width="200">
+                                            <interactivity:Interaction.Behaviors>
+                                                <core:EventTriggerBehavior EventName="KeyDown">
+                                                    <core:InvokeCommandAction Command="{Binding KeyDownCommand}"></core:InvokeCommandAction>
+                                                </core:EventTriggerBehavior>
+                                            </interactivity:Interaction.Behaviors>
+                                        </TextBox>
+                                    </StackPanel>
+                                </Flyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
+                    </CommandBar>
+                </Grid>
+            </SplitView.Pane>
+            <Frame x:Name="Detail" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </SplitView>
+    </Grid>
 </Page>
