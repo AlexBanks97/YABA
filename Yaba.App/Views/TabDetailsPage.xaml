@@ -62,18 +62,18 @@
                         <TextBlock Text="Pay Using Stripe" TextAlignment="Center" FontSize="35" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>
                         
                         <TextBlock Text="Amount" FontSize="25" Grid.Column="0" Grid.Row="1"/>
-                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding StripePaymentViewModel.Amount}"></TextBox>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding StripePaymentViewModel.Amount, Mode=TwoWay}"></TextBox>
                         
                         <TextBlock Text="Card Number" FontSize="25" Grid.Column="0" Grid.Row="2"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Name="CardNumber"></TextBox>
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="CardNumber" Text="{Binding StripePaymentViewModel.Numbers, Mode=TwoWay}"></TextBox>
                         
                         <TextBlock Text="exp. date" FontSize="25" Grid.Column="0" Grid.Row="3"/>
-                        <TextBox Grid.Row="3" Grid.Column="1" Name="expMonth" PlaceholderText="Month" Width="0.45" HorizontalAlignment="Left"></TextBox>
+                        <TextBox Grid.Row="3" Grid.Column="1" Name="expMonth" PlaceholderText="Month" Text="{Binding StripePaymentViewModel.Month, Mode=TwoWay}" Width="0.45" HorizontalAlignment="Left"></TextBox>
                         <TextBlock Text="/"></TextBlock>
-                        <TextBox Grid.Row="3" Grid.Column="1" Name="expYear" PlaceholderText="Year" Width="0.45" HorizontalAlignment="Right"></TextBox>
+                        <TextBox Grid.Row="3" Grid.Column="1" Name="expYear" PlaceholderText="Year" Text="{Binding StripePaymentViewModel.Year, Mode=TwoWay}"  Width="0.45" HorizontalAlignment="Right"></TextBox>
                         
                         <TextBlock Text="Card Number" FontSize="25" Grid.Column="0" Grid.Row="4"/>
-                        <TextBox Grid.Row="4" Grid.Column="1" Name="CVC"></TextBox>
+                        <TextBox Grid.Row="4" Grid.Column="1" Name="CVC" Text="{Binding StripePaymentViewModel.CVC, Mode=TwoWay}"></TextBox>
                     </Grid>
                     <Button Content="Pay" Command="{Binding PayWithStripe}" CommandParameter="{Binding StripePaymentViewModel}" HorizontalAlignment="Right"/>
                     <Button Content="Cancel" Click="ToggleStripePopup" HorizontalAlignment="Right"/>

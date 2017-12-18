@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using Yaba.Common.Payment;
 
 namespace Yaba.App.ViewModels
 {
-	public class TabDetailsViewModel
+	public class TabDetailsViewModel : ViewModelBase
 	{
 		public StripePaymentViewModel StripePaymentViewModel { get; set; }
 
@@ -24,6 +25,7 @@ namespace Yaba.App.ViewModels
 
 			PayWithStripe = new RelayCommand(async e =>
 			{
+				Debug.WriteLine("blah");
 				if (!(e is StripePaymentViewModel cc)) return;
 				if (!cc.VerifyCreditCardInfo())
 				{
@@ -35,8 +37,7 @@ namespace Yaba.App.ViewModels
 					PaymentProvider = "Stripe",
 					Token = StripeTokenHandler.CardToToken(cc),
 				};
-				//tokenize the shit
-				//do payment
+				await repo.Pay(payment, "");
 			});
 		}
 	}

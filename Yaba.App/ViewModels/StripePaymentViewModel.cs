@@ -97,7 +97,7 @@ namespace Yaba.App.Models
 
 				if (month < 1 || month > 12)
 					return false;
-				else if (year < 1990 || year > new DateTime().Year)
+				else if (year < DateTime.Now.Year)
 					return false;
 				else if (_cvc.Length != 3)
 					return false;

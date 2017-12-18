@@ -26,9 +26,10 @@ namespace Yaba.App.Views
 	public sealed partial class TabDetailsPage : Page
 	{
 		private readonly TabDetailsViewModel _vm;
+
 		public TabDetailsPage()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 			_vm = App.ServiceProvider.GetService<TabDetailsViewModel>();
 			DataContext = _vm;
 		}
@@ -38,9 +39,9 @@ namespace Yaba.App.Views
 			base.OnNavigatedTo(e);
 			var tabvm = e.Parameter as TabViewModel;
 
-			if (tabvm == null) throw new Exception();
+			//if (tabvm == null) throw new Exception();
 
-			DataContext = tabvm;
+			//DataContext = tabvm;
 		}
 
 		private void TogglePayPalPopup(object sender, RoutedEventArgs e)
@@ -65,11 +66,6 @@ namespace Yaba.App.Views
 				StripePopup.IsOpen = true;
 			else
 				StripePopup.IsOpen = false;
-		}
-
-		private void PayUsingStripe(object sender, RoutedEventArgs e)
-		{
-			
 		}
 	}
 }
