@@ -39,7 +39,6 @@ namespace Yaba.App.Views
 
 		public async void OpenUriInWebView(Uri uri)
 		{
-			
 			var success = await Windows.System.Launcher.LaunchUriAsync(uri);
 			if (success)
 			{
@@ -48,6 +47,7 @@ namespace Yaba.App.Views
 			}
 			else
 			{
+				FailurePopup.IsOpen = true;
 				// URI launch failed
 			}
 		}
@@ -61,8 +61,6 @@ namespace Yaba.App.Views
 			_vm.Initialize(tabvm.Id, tabvm.UserNotCurrentUser.Name);
 
 		}
-
-
 
 		private void TogglePayPalPopup(object sender, RoutedEventArgs e)
 		{
@@ -84,6 +82,12 @@ namespace Yaba.App.Views
 		{
 			SuccessPopup.IsOpen = false;
 			_vm.Success = false;
+		}
+
+		public void ActivateFailruePopup()
+		{
+			FailurePopup.IsOpen = true;
+			_vm.Failure = true;
 		}
 
 		private void DismissFailurePopup(object sender, RoutedEventArgs e)

@@ -174,9 +174,6 @@ namespace Yaba.App.ViewModels
 			if (uriOrSuccess.Equals("true"))
 			{
 				// Successful stripe payment
-
-
-
 				// Show success screen
 
 			}
@@ -194,7 +191,7 @@ namespace Yaba.App.ViewModels
 				else
 				{
 					// Failure
-
+					View.ActivateFailruePopup();
 					// Show failrue screen, and ask user to try again
 				}
 
