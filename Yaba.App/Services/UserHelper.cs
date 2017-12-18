@@ -26,7 +26,22 @@ namespace Yaba.App.Services
 			var uacc = await _auth.GetAccountAsync();
 			var fbId = uacc.IdentityToken.Subject
 				?.Split('|')[1];
-			_currentUser = await _userRepo.FindFromFacebookId(fbId);
+
+			var user = await _userRepo.FindFromFacebookId(fbId);
+			if (user == null)
+			{
+				var name = uacc.IdentityToken.Claims
+					.FirstOrDefault(c => c.Type == "name")
+					?.Value;
+				var dto = new UserCreateDto
+				{
+					Name = name,
+					FacebookId = fbId,
+				};
+				user = await _userRepo.CreateUser(dto);
+			}
+
+			_currentUser = user;
 			return _currentUser;
 		}
 	}

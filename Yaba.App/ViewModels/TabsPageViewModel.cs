@@ -95,6 +95,7 @@ namespace Yaba.App.ViewModels
 		public async Task Initialize()
 		{
 			var tabs = (await _tabRepo.FindAllTabs()) // <- change to find all with user
+				.Where(t => t.UserTwo != null && t.UserOne != null)
 				.Select(t => new TabViewModel
 				{
 					Id = t.Id,

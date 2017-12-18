@@ -105,13 +105,15 @@
     <Compile Include="Models\IAuthenticationHelper.cs" />
     <Compile Include="Models\StripeTokenHandler.cs" />
     <Compile Include="Models\TabRepository.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AppConstants.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\IoCContainer.cs" />
+    <Compile Include="Services\IUserHelper.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\UserHelper.cs" />
     <Compile Include="ViewModels\BudgetsDetailViewModel.cs" />
     <Compile Include="ViewModels\BudgetsViewModel.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />

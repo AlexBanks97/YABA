@@ -19,7 +19,7 @@ namespace Yaba.Entities.User.Repository
 			_context = context;
 		}
 
-		public async Task<Guid> CreateUser(UserCreateDto user)
+		public async Task<UserDto> CreateUser(UserCreateDto user)
 		{
 			var entity = new UserEntity
 			{
@@ -28,7 +28,7 @@ namespace Yaba.Entities.User.Repository
 			};
 			_context.Users.Add(entity);
 			await _context.SaveChangesAsync();
-			return entity.Id;
+			return entity.ToUserDto();
 		}
 
 		public async Task<UserDto> Find(Guid userId)
