@@ -45,21 +45,19 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
-		public ObservableCollection<EntryViewModel> Entries { get; private set; }
-
 		public CategoryPageViewModel(ICategoryRepository repository, IEntryRepository entryRepository)
 		{
 			_repository = repository;
 			_entryRepository = entryRepository;
-			Entries = new ObservableCollection<EntryViewModel>();
 
 			RemoveEntryCommand = new RelayCommand(async o =>
 			{
 				if (!(o is Guid id)) return;
 				var deleted = await _entryRepository.DeleteBudgetEntry(id);
 				if (!deleted) return;
-				var entry = Entries.FirstOrDefault(e => e.Id == id);
-				Entries.Remove(entry);
+				var entry = Category.Entries.FirstOrDefault(e => e.Id == id);
+				Category.Entries.Remove(entry);
+				
 			});
 
 			AddEntryCommand = new RelayCommand(async o =>
