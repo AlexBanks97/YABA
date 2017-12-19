@@ -74,18 +74,7 @@
                                     </AutoSuggestBox>
                                     <Button Content="Create Tab"
                                             Command="{Binding CreateTabCommand}"/>
-                                    <!--
-                                    <TextBlock Text="Enter category name"
-                                               Margin="0,0,0,10"/>
-                                    <TextBox x:Name="NewTabTextBox"
-                                             Width="200">
-                                        <interactivity:Interaction.Behaviors>
-                                            <core:EventTriggerBehavior EventName="KeyDown">
-                                                <core:InvokeCommandAction Command="{Binding KeyDownCommand}"></core:InvokeCommandAction>
-                                            </core:EventTriggerBehavior>
-                                        </interactivity:Interaction.Behaviors>
-                                    </TextBox>
-                                    -->
+                                    
                                 </StackPanel>
                             </Flyout>
                         </AppBarButton.Flyout>

@@ -18,6 +18,18 @@ namespace Yaba.App.ViewModels
 	public class TabDetailsViewModel : ViewModelBase
 	{
 		public IView View { get; set; }
+        public Guid CurrentTabId { private get; set; }
+        private readonly PaymentRepository paymentRepository;
+        private readonly IItemRepository _itemRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IUserHelper _userHelper;
+        public ObservableCollection<TabItemSimpleDTO> TabItemList { get; set; }
+        public TabItemViewModel TabItemVM { get; set; }
+        public ICommand PayWithStripe { get; }
+        public ICommand PayWithPayPal { get; }
+        private readonly IAuthenticationHelper _helper;
+        public ICommand AddTabItemCommand { get; }
+
 		public PayPalPaymentViewModel PayPalPaymentViewModel { get; set; }
 		private StripePaymentViewModel _StripePaymentViewModel;
 		public StripePaymentViewModel StripePaymentViewModel
@@ -129,6 +141,7 @@ namespace Yaba.App.ViewModels
 				};
 
 				saveTabItem(createDto);
+
 			});
 
 			PayWithStripe = new RelayCommand(async e =>
@@ -151,13 +164,15 @@ namespace Yaba.App.ViewModels
 					PaymentProvider = "Stripe",
 					Token = StripeTokenHandler.CardToToken(cc),
 				};
-				await repo.Pay(payment, "");
 
+                var xx = (await _helper.GetAccountAsync())?.AccessToken;
+                await repo.Pay(payment, xx.RawData);
 				await CreateAndSaveTabItemFromAmount(StripePaymentViewModel.Amount);
 
 				StripePaymentViewModel = new StripePaymentViewModel();
 				StripeIsOpen = false;
 				Success = true;
+
 			});
 
 			PayWithPayPal = new RelayCommand(async _ =>
@@ -177,20 +192,19 @@ namespace Yaba.App.ViewModels
 				var xx = (await _helper.GetAccountAsync())?.AccessToken;
 				// Ask API to create payment
 				// Receive linkOrMessage, and open accept link if link
-				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
+                var linkOrMessage = await paymentRepository.Pay(dto, xx.RawData);
 
-			if (uriOrSuccess.Equals("true"))
+                if (linkOrMessage.Equals("true"))
 			{
 				// Successful Stripe payment
 				// Show success screen
 
 			}
-			else if (uriOrSuccess.Contains("http"))
+                else if (linkOrMessage.Contains("http"))
 				{
-					Uri targetUri = new Uri(uriOrSuccess);
+                    Uri targetUri = new Uri(linkOrMessage);
 
 					// Open webview and load uri
-
 					View.OpenUriInWebView(targetUri);
 
 					await CreateAndSaveTabItemFromAmount(PayPalPaymentViewModel.Amount);
@@ -222,7 +236,6 @@ namespace Yaba.App.ViewModels
 		private async void saveTabItem(TabItemCreateDTO createDto)
 		{
 			var dto = await _itemRepository.Create(createDto);
-
 			TabItemList.Add(dto);
 		}
 
@@ -230,7 +243,6 @@ namespace Yaba.App.ViewModels
 		{
 			var tabItems = await _itemRepository.FindFromTab(tabId);
 			Name = notCurrentUserName;
-
 			TabItemList.Clear();
 			TabItemList.AddRange(tabItems);
 

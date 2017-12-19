@@ -13,12 +13,7 @@
     <Page.Resources>
         <converters:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
     </Page.Resources>
-    
-    <!--<NavigationView x:Name="NavigationView">
-        <NavigationView.MenuItems>
-            <NavigationViewItem Content="Test"></NavigationViewItem>
-        </NavigationView.MenuItems>
-    </NavigationView> -->
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
