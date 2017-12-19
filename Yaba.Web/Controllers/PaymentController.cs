@@ -13,7 +13,7 @@ namespace Yaba.Web.Controllers
 	[Route("api/Payment")]
 	public class PaymentController : Controller
 	{
-		// POST: api/Payment
+
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] PaymentDto payment)
 		{
@@ -32,11 +32,13 @@ namespace Yaba.Web.Controllers
 					message = "false";
 					break;
 			}
+
 			if (message == "true")
 			{
 				return Ok();
 			}
 			return Forbid();
+
 		}
 
 		// For paypal
@@ -58,17 +60,6 @@ namespace Yaba.Web.Controllers
 		[Route("/api/payment/GetUrl")]
         public async Task<IActionResult> GetCreateUri([FromBody] PaymentDto dto)
 		{
-
-			/*
-			PaymentDto dto = new PaymentDto()
-			{
-                Amount = amount,
-                Token = token,
-                PaymentProvider = PaymentProvider,
-                RecipientEmail = RecipientEmail
-
-			};
-			*/
 
 			if (!ModelState.IsValid)
 			{
