@@ -18,7 +18,6 @@ namespace Yaba.App.ViewModels
 	public class TabDetailsViewModel : ViewModelBase
 	{
 		public IView View { get; set; }
-		public StripePaymentViewModel StripePaymentViewModel { get; set; }
 		public PayPalPaymentViewModel PayPalPaymentViewModel { get; set; }
 		private StripePaymentViewModel _StripePaymentViewModel;
 		public StripePaymentViewModel StripePaymentViewModel
@@ -93,22 +92,10 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
-		private readonly IAuthenticationHelper _helper;
-		public TabDetailsViewModel(PaymentRepository repo, IItemRepository itemRepository, IUserRepository userRepository, IUserHelper userHelper)
-		{
-			get => _approvalUri;
-			set
-			{
-				_approvalUri = value;
-				OnPropertyChanged();
-			}
-		}
-
-
-		public TabDetailsViewModel(PaymentRepository repo, IAuthenticationHelper helper)
+        public TabDetailsViewModel(PaymentRepository repo, IItemRepository itemRepository, IUserRepository userRepository, IUserHelper userHelper)
 		{
 			StripePaymentViewModel = new StripePaymentViewModel();
-			if(PayPalPaymentViewModel == null) new PayPalPaymentViewModel();
+			if(PayPalPaymentViewModel == null) PayPalPaymentViewModel = new PayPalPaymentViewModel();
 			_itemRepository = itemRepository;
 			_userRepository = userRepository;
 			_userHelper = userHelper;
