@@ -41,7 +41,7 @@
                                   Command="{Binding RemoveTabCommand}"
                                   CommandParameter="{Binding SelectedItem, ElementName=TabsList}">
                     </AppBarButton>
-                    <AppBarButton Icon="Add"
+                    <AppBarButton Icon="AddFriend"
                                   Label="Add"
                                   AllowFocusOnInteraction="True">
                         <AppBarButton.Flyout>

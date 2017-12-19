@@ -4,16 +4,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Yaba.App.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:converters="using:Yaba.App.Converters"
     mc:Ignorable="d">
+    
+    <Page.Resources>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+    </Page.Resources>
 
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
 
         <TextBlock Text="Yaba"
-                   FontSize="42"/>
-        <TextBlock Text="{Binding User.Name}"
+                   FontSize="82"
+                   FontWeight="Thin"
+                   HorizontalAlignment="Center"/>
+        <TextBlock Visibility="{Binding User, Converter={StaticResource NullToVisibilityConverter}}"
+                   FontWeight="Light"
+                   HorizontalAlignment="Center"
+                   Margin="0,20,0,50"
+                   Text="{Binding User.Name,
+                          Converter={StaticResource StringFormatConverter},
+                          ConverterParameter='Hi {0}!'}"
                    FontSize="36"/>
 
         <GridView x:Name="GridView"
@@ -35,7 +49,8 @@
             </GridView.ItemTemplate>
         </GridView>
         <WebView x:Name="WebView1" />
-        <Button Content="Sign In/Out"
+        <Button Content="Sign In / Out"
+                HorizontalAlignment="Center"
                 Command="{Binding SignInOutCommand}"/>
     </StackPanel>
 </Page>
