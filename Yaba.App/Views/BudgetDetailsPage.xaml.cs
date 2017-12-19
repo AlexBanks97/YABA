@@ -23,11 +23,11 @@ namespace Yaba.App.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BudgetDetailView : Page
+    public sealed partial class BudgetDetailsPage : Page
     {
 	    private readonly BudgetsDetailViewModel _vm;
 		
-        public BudgetDetailView()
+        public BudgetDetailsPage()
         {
             InitializeComponent();
 	        _vm = App.ServiceProvider.GetService<BudgetsDetailViewModel>();
@@ -37,18 +37,9 @@ namespace Yaba.App.Views
 	    protected override async void OnNavigatedTo(NavigationEventArgs e)
 	    {
 		    base.OnNavigatedTo(e);
-		    if (!(e.Parameter is BudgetSimpleDto simpleBudget)) throw new Exception();
-		    await _vm.Initialize(simpleBudget.Id);
-	    }
-
-	    private void CategoriesList_OnClick(object sender, ItemClickEventArgs e)
-	    {
-		    Detail.Navigate(typeof(CategoryDetailPage), e.ClickedItem);
-	    }
-
-	    private void CategoryGoalRecurrence_Changed(object sender, SelectionChangedEventArgs e)
-	    {
-		    var selection = e.AddedItems[0];
+		    if (!(e.Parameter is BudgetViewModel budget)) return;
+		    _vm.Frame = Detail;
+		    await _vm.Initialize(budget);
 	    }
     }
 }

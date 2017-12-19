@@ -14,7 +14,7 @@ namespace Yaba.Common.Budget
 
 		Task<EntryDetailsDto> Find(Guid BudgetEntryId);
 
-		Task<Guid> CreateBudgetEntry(EntryCreateDto entry);
+		Task<EntrySimpleDto> CreateBudgetEntry(EntryCreateDto entry);
 
 		Task<bool> UpdateBudgetEntry(EntryDto entry);
 

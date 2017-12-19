@@ -95,6 +95,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\DateTimeConverter.cs" />
+    <Compile Include="Converters\DateTimeToDateTimeOffsetConverter.cs" />
+    <Compile Include="Converters\ItemCountToVisibilityConverter.cs" />
+    <Compile Include="Converters\NullToBooleanConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\PrettyDateConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Models\AuthenticationHelper.cs" />
@@ -120,19 +125,21 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\UserHelper.cs" />
     <Compile Include="ViewModels\BudgetsDetailViewModel.cs" />
-    <Compile Include="ViewModels\BudgetsViewModel.cs" />
+    <Compile Include="ViewModels\BudgetsPageViewModel.cs" />
+    <Compile Include="ViewModels\BudgetViewModel.cs" />
     <Compile Include="ViewModels\CategoryCreateViewModel.cs" />
+    <Compile Include="ViewModels\CategoryPageViewModel.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
-    <Compile Include="ViewModels\EntryCreateViewModel.cs" />
     <Compile Include="ViewModels\EntryViewModel.cs" />
+    <Compile Include="ViewModels\GoalViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\TabsPageViewModel.cs" />
     <Compile Include="ViewModels\TabViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="Views\BudgetDetailView.xaml.cs">
-      <DependentUpon>BudgetDetailView.xaml</DependentUpon>
+    <Compile Include="Views\BudgetDetailsPage.xaml.cs">
+      <DependentUpon>BudgetDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BudgetsPage.xaml.cs">
       <DependentUpon>BudgetsPage.xaml</DependentUpon>
@@ -171,7 +178,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Views\BudgetDetailView.xaml">
+    <Page Include="Views\BudgetDetailsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
