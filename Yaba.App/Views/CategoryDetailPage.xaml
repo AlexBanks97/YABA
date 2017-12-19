@@ -11,65 +11,106 @@
     <Page.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
         <converters:PrettyDateConverter x:Key="PrettyDateConverter" />
+        <converters:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
+        <converters:ItemCountToVisibilityConverter x:Key="ItemCountToVisibilityConverter" />
     </Page.Resources>
 
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                HorizontalAlignment="Stretch"
-                Padding="10,10,10,10">
-        <TextBlock Text="{Binding Name, Converter={StaticResource StringFormatConverter}, ConverterParameter='Ay: {0}'}"
-                   FontSize="30" />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-        <Button Content="Add new Entry">
-            <Button.Flyout>
-                <Flyout>
-                    <StackPanel>
-                        <TextBlock Text="Description" />
-                        <TextBox PlaceholderText="Enter a description"
-                                 Text="{Binding EntryCreateVM.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBlock Text="Amount" />
-                        <TextBox PlaceholderText="Enter amount"
-                                 InputScope="Number"
-                                 Text="{Binding EntryCreateVM.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button Content="Add"
-                                Command="{Binding AddEntryCommand}"
-                                CommandParameter="{Binding EntryCreateVM}" />
-                    </StackPanel>
-                </Flyout>
-            </Button.Flyout>
-        </Button>
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Category.Name}"
+                       FontSize="64"
+                       FontWeight="Thin"/>
+            
+            <Button Grid.Column="1"
+                    Content="Add new Entry">
+                <Button.Flyout>
+                    <Flyout>
+                        <StackPanel>
+                            <TextBlock Text="Description" />
+                            <TextBox PlaceholderText="Enter a description"
+                                     Text="{Binding NewEntryVM.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="Amount" />
+                            <TextBox PlaceholderText="Enter amount"
+                                     InputScope="Number"
+                                     Text="{Binding NewEntryVM.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Text="Date" />
+                            <DatePicker Date="{Binding NewEntryVM.Date, Converter={StaticResource DateTimeToDateTimeOffsetConverter}, Mode=TwoWay}"/>
+                            <Button Content="Add"
+                                    Command="{Binding AddEntryCommand}"
+                                    CommandParameter="{Binding NewEntryVM}" />
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <TextBlock Text="{Binding Category.MonthlyUsage,
+                              Converter={StaticResource StringFormatConverter},
+                              ConverterParameter='You have spent DKK {0} this month'}" />
+        </Grid>
+        
+        <StackPanel Grid.Row="2"
+                    Margin="0,30,0,0">
 
-        <ListView Header="Entries"
-                  SelectionMode="None"
-                  ItemsSource="{Binding Entries}">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="0,10,0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
-                            <TextBlock Text="{Binding Dto.Description}"
-                                       FontSize="16"
-                                       FontWeight="SemiBold"/>
-                            <TextBlock Text="{Binding Dto.Amount, Converter={StaticResource StringFormatConverter}, ConverterParameter='DKK {0}'}"></TextBlock>
-                            <TextBlock Text="{Binding Dto.Date, Converter={StaticResource PrettyDateConverter}}"
-                                       Foreground="LightGray" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1">
-                            <Button Command="{Binding RemoveCommand}"
-                                    CommandParameter="{Binding Dto.Id}">
-                                <SymbolIcon Symbol="Delete"></SymbolIcon>
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackPanel>
+            <ListView Header="Entries"
+                      VerticalContentAlignment="Stretch"
+                      SelectionMode="None"
+                      ItemsSource="{Binding Category.Entries}"
+                      Visibility="{Binding Category.Entries.Count, Converter={StaticResource ItemCountToVisibilityConverter}}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="0,10,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
+                                <TextBlock Text="{Binding Description}"
+                                                FontSize="16"
+                                                FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding Amount, Converter={StaticResource StringFormatConverter}, ConverterParameter='DKK {0}'}"></TextBlock>
+                                <TextBlock Text="{Binding Date, Converter={StaticResource PrettyDateConverter}}"
+                                                Foreground="LightGray" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <Button Command="{Binding RemoveCommand}"
+                                            CommandParameter="{Binding Dto.Id}">
+                                    <SymbolIcon Symbol="Delete"></SymbolIcon>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackPanel HorizontalAlignment="Center"
+                        Visibility="{Binding Category.Entries.Count, Converter={StaticResource ItemCountToVisibilityConverter}, ConverterParameter='False', UpdateSourceTrigger=PropertyChanged}"
+                        Margin="0,70,0,0">
+                <TextBlock Text="Seems like you have no entries…"
+                           FontSize="26" />
+                <TextBlock Text='Press the "Add New Entry" button above, to begin adding an entry' />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
 </Page>

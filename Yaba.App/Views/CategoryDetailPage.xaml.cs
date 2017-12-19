@@ -25,11 +25,11 @@ namespace Yaba.App.Views
 	/// </summary>
 	public sealed partial class CategoryDetailPage : Page
 	{
-		private readonly CategoryViewModel _vm;
+		private readonly CategoryPageViewModel _vm;
 		public CategoryDetailPage()
 		{
 			InitializeComponent();
-			_vm = App.ServiceProvider.GetService<CategoryViewModel>();
+			_vm = App.ServiceProvider.GetService<CategoryPageViewModel>();
 			DataContext = _vm;
 		}
 
@@ -37,8 +37,8 @@ namespace Yaba.App.Views
 		{
 			base.OnNavigatedTo(e);
 
-			if (!(e.Parameter is CategoryGoalDto category)) throw new Exception();
-			await _vm.Initialize(category.Id);
+			if (!(e.Parameter is CategoryViewModel category)) return;
+			await _vm.Initialize(category);
 		}
 	}
 }

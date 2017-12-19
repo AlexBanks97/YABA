@@ -11,6 +11,7 @@ namespace Yaba.Common.Budget.DTO.Category
         public string Name { get; set; }
         public decimal Balance { get; set; }
         public GoalSimpleDto Goal {get; set; }
+	    public ICollection<EntrySimpleDto> Entries { get; set; }
 
     }
 }

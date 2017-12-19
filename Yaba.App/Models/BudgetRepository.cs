@@ -46,12 +46,12 @@ namespace Yaba.App.Models
 			return budgets;
 		}
 
-		public async Task<Guid> Create(BudgetCreateUpdateDto budget)
+		public async Task<BudgetSimpleDto> Create(BudgetCreateUpdateDto budget)
 		{
 			var response = await _client.PostAsync("budgets", budget.ToHttpContent());
 			if (response.IsSuccessStatusCode)
 			{
-				return Guid.Empty;
+				return await response.Content.To<BudgetSimpleDto>();
 			}
 			throw new Exception();
 		}
@@ -63,7 +63,8 @@ namespace Yaba.App.Models
 
 		public async Task<bool> Delete(Guid budgetId)
 		{
-			throw new NotImplementedException();
+			var response = await _client.DeleteAsync($"budgets/{budgetId.ToString()}");
+			return response.IsSuccessStatusCode;
 		}
 	}
 }

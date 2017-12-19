@@ -12,9 +12,10 @@ using Yaba.Entities;
 namespace Yaba.Entities.Migrations
 {
     [DbContext(typeof(YabaDBContext))]
-    partial class YabaDBContextModelSnapshot : ModelSnapshot
+    [Migration("20171218200409_CascadeMig")]
+    partial class CascadeMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,8 +216,7 @@ namespace Yaba.Entities.Migrations
                 {
                     b.HasOne("Yaba.Entities.Budget.CategoryEntity", "CategoryEntity")
                         .WithMany("Entries")
-                        .HasForeignKey("CategoryEntityId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CategoryEntityId");
                 });
 
             modelBuilder.Entity("Yaba.Entities.Budget.ExpenseEntity", b =>

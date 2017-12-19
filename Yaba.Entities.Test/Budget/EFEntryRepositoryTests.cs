@@ -31,15 +31,12 @@ namespace Yaba.Entities.Test.Budget
 			};
 
 			EntryEntity actual = null;
-			Guid id = new Guid();
 			using(var repo = new EFEntryRepository(ctx))
 			{
-				id = await repo.CreateBudgetEntry(entry);
-				actual = ctx.BudgetEntries.Find(id);
+				var dto = await repo.CreateBudgetEntry(entry);
+				Assert.Equal("hey", dto.Description);
 			}
-			Assert.NotNull(id);
-			Assert.Equal(actual.Description, entry.Description);
-			Assert.Equal(actual.Amount, entry.Amount);
+			
 		}
 
 
