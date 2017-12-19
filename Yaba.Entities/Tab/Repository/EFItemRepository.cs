@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Yaba.Common;
 using Yaba.Common.Tab.DTO.Item;
+using Yaba.Entities.User;
 
 namespace Yaba.Entities.Tab.Repository
 {
@@ -18,12 +19,13 @@ namespace Yaba.Entities.Tab.Repository
 		public async Task<TabItemSimpleDTO> Create(TabItemCreateDTO tabItemDTO)
 		{
 			var tab = _context.Tabs.SingleOrDefault(t => t.Id == tabItemDTO.TabId);
-			if (tab == null) return null;
+			var user = _context.Users.SingleOrDefault(u => u.Id == tabItemDTO.CreatedBy);
+			if (tab == null || user == null) return null;
 			var tabItem = new ItemEntity
 			{
 				Description = tabItemDTO.Description,
 				TabEntity = tab,
-				CreateBy = tabItemDTO.CreatedBy,
+				CreatedBy = user,
 				Amount = tabItemDTO.Amount,
 			};
 			_context.TabItems.Add(tabItem);
@@ -39,7 +41,7 @@ namespace Yaba.Entities.Tab.Repository
 			{
 				Id = entity.Id,
 				Amount = entity.Amount,
-				CreatedBy = entity.CreateBy,
+				CreatedBy = entity.CreatedBy?.ToUserDto(),
 				Description = entity.Description,
 			};
 		}
@@ -49,10 +51,13 @@ namespace Yaba.Entities.Tab.Repository
 
 			var tab = _context.Tabs
 				.Include(t => t.TabItems)
+					.ThenInclude(ti => ti.CreatedBy)
 				.SingleOrDefault(t => t.Id == tabId);
 
 			if (tab == null) return null;
-			return tab.TabItems.ToTabItemSimpleDTO();
+			return tab.TabItems
+				.Select(t => t.ToTabItemSimpleDTO())
+				.ToList();
 		}
 
 		public async Task<bool> Update(TabItemSimpleDTO tabItemDTO)

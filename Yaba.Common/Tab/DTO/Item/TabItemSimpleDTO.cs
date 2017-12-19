@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Yaba.Common.User.DTO;
 
 namespace Yaba.Common.Tab.DTO.Item
 {
@@ -11,8 +12,7 @@ namespace Yaba.Common.Tab.DTO.Item
 		public decimal Amount { get; set; }
 
 		[Required]
-		[ValidGuid]
-		public Guid CreatedBy { get; set; }
+		public UserDto CreatedBy { get; set; }
 
 		[StringLength(150)]
 		public string Description { get; set; }

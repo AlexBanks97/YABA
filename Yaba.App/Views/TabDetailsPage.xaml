@@ -65,6 +65,17 @@
                 <TextBlock Text="{Binding Name}"
                            FontSize="64"
                            FontWeight="Thin"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Balance:"
+                               FontSize="28"/>
+                    <TextBlock FontSize="28" 
+                               Text="DKK"
+                               Margin="10,0,10,0"/>
+                    <TextBlock Text="{Binding ComputedBalance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               FontSize="28"/>
+                    
+                </StackPanel>
+                
                 <ListView ItemsSource="{Binding TabItemList}">
                     <ListView.ItemTemplate>
                         <DataTemplate>

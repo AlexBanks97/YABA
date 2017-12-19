@@ -30,6 +30,17 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
+		private decimal _computedBalance;
+		public decimal ComputedBalance
+		{
+			get => _computedBalance;
+			set
+			{
+				_computedBalance = value;
+				OnPropertyChanged();
+			}
+		}
+
 		public Guid CurrentTabId { private get; set; }
 
 		private readonly PaymentRepository paymentRepository;
@@ -222,6 +233,19 @@ namespace Yaba.App.ViewModels
 
 			TabItemList.Clear();
 			TabItemList.AddRange(tabItems);
+
+			var currentUser = await _userHelper.GetCurrentUser();
+
+			ComputedBalance = TabItemList
+				.Aggregate(0.0m, ((amount, tabItem) =>
+				{
+					if (tabItem.CreatedBy.Id == currentUser.Id)
+					{
+						return amount + tabItem.Amount;
+					}
+					return amount - tabItem.Amount;
+				}));
+
 		}
 	}
 }

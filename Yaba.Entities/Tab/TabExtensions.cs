@@ -15,7 +15,7 @@ namespace Yaba.Entities.Tab
 				State = tabEntity.State,
 				UserOne = tabEntity.UserOne?.ToUserDto(),
 				UserTwo = tabEntity.UserTwo?.ToUserDto(),
-				TabItems = tabEntity.TabItems.ToTabItemSimpleDTO().ToList()
+				TabItems = tabEntity.TabItems.Select(t => t.ToTabItemSimpleDTO()),
 			};
 		}
 	}
