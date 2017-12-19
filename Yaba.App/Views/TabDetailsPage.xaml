@@ -17,7 +17,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
             <CommandBar Grid.Row="2">
-                <AppBarButton Icon="Add"
+                <AppBarButton Icon="Send"
                                 Label="Add"
                                 AllowFocusOnInteraction="True">
                     <AppBarButton.Flyout>
@@ -33,7 +33,7 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Icon="Attach"
+                <AppBarButton Icon="Add"
                                 Label="Add Tab Item"
                                 AllowFocusOnInteraction="True">
                     <AppBarButton.Flyout>
