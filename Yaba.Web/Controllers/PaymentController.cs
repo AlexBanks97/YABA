@@ -45,6 +45,10 @@ namespace Yaba.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get([FromQuery] String payerId, [FromQuery]String paymentId)
 		{
+			if (payerId == null || paymentId == null)
+			{
+				return BadRequest();
+			}
 			var s = "PayerId: " + payerId + ", PaymentId: " + paymentId;
 			s = new PaypalPay().ExecutePayment(paymentId, payerId);
 
