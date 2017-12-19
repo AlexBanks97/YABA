@@ -30,16 +30,27 @@ namespace Yaba.App.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
+		
 		public ICommand PayWithPayPal { get; }
-
-		public ICommand SignInOutCommand { get; set; }
+		public ICommand SignInOutCommand { get; }
 
 		
 		public MainViewModel(IAuthenticationHelper authenticationHelper, PaymentRepository paymentRepository, IUserHelper userHelper)
 		{
 			_authenticationHelper = authenticationHelper;
 			_userHelper = userHelper;
+
+			SignInOutCommand = new RelayCommand(async o =>
+			{
+				if (User != null)
+				{
+					await SignOut();
+				}
+				else
+				{
+					await SignIn();
+				}
+			});
 
 			PayWithPayPal = new RelayCommand( async _ =>
 			{
@@ -58,18 +69,6 @@ namespace Yaba.App.ViewModels
 				// Receive linkOrMessage, and open accept link if link
 				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
 
-			});
-
-			SignInOutCommand = new RelayCommand(async o =>
-			{
-				if (User != null)
-				{
-					await SignOut();
-				}
-				else
-				{
-					await SignIn();
-				}
 			});
 		}
 

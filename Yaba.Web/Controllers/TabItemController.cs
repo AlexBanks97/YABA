@@ -50,8 +50,8 @@ namespace Yaba.Web.Controllers
 			{
 				return BadRequest(ModelState);
 			}
-			var guid = await _repository.Create(tabItem);
-			return CreatedAtAction(nameof(Get), new { tabItemId = guid }, null);
+			var dto = await _repository.Create(tabItem);
+	        return Ok(dto);
         }
 
 		// PUT api/values/5

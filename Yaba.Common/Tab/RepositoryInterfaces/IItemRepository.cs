@@ -8,7 +8,7 @@ namespace Yaba.Common
 {
 	public interface IItemRepository : IDisposable
 	{
-		Task<Guid> Create(TabItemCreateDTO tabItemDTO);
+		Task<TabItemSimpleDTO> Create(TabItemCreateDTO tabItemDTO);
 		Task<TabItemSimpleDTO> Find(Guid id);
 		Task<IEnumerable<TabItemSimpleDTO>> FindFromTab(Guid tabId);
 		Task<bool> Update(TabItemSimpleDTO tabItemDTO);

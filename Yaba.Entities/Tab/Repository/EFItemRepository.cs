@@ -15,19 +15,20 @@ namespace Yaba.Entities.Tab.Repository
 		{
 			_context = context;
 		}
-		public async Task<Guid> Create(TabItemCreateDTO tabItemDTO)
+		public async Task<TabItemSimpleDTO> Create(TabItemCreateDTO tabItemDTO)
 		{
 			var tab = _context.Tabs.SingleOrDefault(t => t.Id == tabItemDTO.TabId);
-			if (tab == null) return Guid.Empty;
+			if (tab == null) return null;
 			var tabItem = new ItemEntity
 			{
 				Description = tabItemDTO.Description,
 				TabEntity = tab,
+				CreateBy = tabItemDTO.CreatedBy,
 				Amount = tabItemDTO.Amount,
 			};
 			_context.TabItems.Add(tabItem);
 			await _context.SaveChangesAsync();
-			return tabItem.Id;
+			return tabItem.ToTabItemSimpleDTO();
 		}
 
 		public async Task<TabItemSimpleDTO> Find(Guid id)
@@ -38,6 +39,7 @@ namespace Yaba.Entities.Tab.Repository
 			{
 				Id = entity.Id,
 				Amount = entity.Amount,
+				CreatedBy = entity.CreateBy,
 				Description = entity.Description,
 			};
 		}
