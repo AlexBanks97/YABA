@@ -33,7 +33,9 @@ namespace Yaba.App.Models
 
 		public async Task<ICollection<CategorySimpleDto>> FindFromBudget(Guid budgetId)
 		{
-			throw new NotImplementedException();
+			var response = await _client.GetAsync($"budgets/categories?budgetId={budgetId.ToString()}");
+			if (!response.IsSuccessStatusCode) throw new Exception();
+			return await response.Content.To<ICollection<CategorySimpleDto>>();
 		}
 
 		public async Task<CategoryDetailsDto> Find(Guid id)
@@ -64,7 +66,8 @@ namespace Yaba.App.Models
 
 		public async Task<bool> Delete(Guid id)
 		{
-			throw new NotImplementedException();
+			var response = await _client.DeleteAsync($"budgets/categories/{id.ToString()}");
+			return response.IsSuccessStatusCode;
 		}
 	}
 }

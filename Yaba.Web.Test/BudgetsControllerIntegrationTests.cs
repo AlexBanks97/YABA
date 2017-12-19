@@ -73,9 +73,8 @@ namespace Yaba.Web.Test
 			};
 			using (var ctrl = new BudgetsController(new EFBudgetRepository(ctx)))
 			{
-				var createdId = await ctrl.Post(budget) as CreatedAtActionResult;
-				var ctxBudget = ctx.Budgets.Find(createdId.RouteValues.First().Value); //find budget from id
-				Assert.Equal(budget.Name, ctxBudget.Name);
+				var response = await ctrl.Post(budget) as OkObjectResult;
+				Assert.IsType<BudgetSimpleDto>(response?.Value);
 			}
 		}
 

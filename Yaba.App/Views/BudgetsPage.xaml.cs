@@ -28,12 +28,12 @@ namespace Yaba.App.Views
 	/// </summary>
 	public sealed partial class BudgetsPage : Page
 	{
-		private readonly BudgetsViewModel _vm;
+		private readonly BudgetsPageViewModel _vm;
 		public BudgetsPage()
 		{
 			InitializeComponent();
 
-			_vm = App.ServiceProvider.GetService<BudgetsViewModel>();
+			_vm = App.ServiceProvider.GetService<BudgetsPageViewModel>();
 			DataContext = _vm;
 		}
 
@@ -56,6 +56,7 @@ namespace Yaba.App.Views
 			base.OnNavigatedTo(e);
 
 			//_vm.Budgets.CollectionChanged += (sender, args) => SetupNavigationView();
+			_vm.Frame = Detail;
 			await _vm.Initialize();
 
 			//SetupNavigationView();
@@ -70,7 +71,7 @@ namespace Yaba.App.Views
 
 		private void BudgetsList_OnClick(object sender, ItemClickEventArgs e)
 		{
-			Detail.Navigate(typeof(BudgetDetailView), e.ClickedItem);
+			Detail.Navigate(typeof(BudgetDetailsPage), e.ClickedItem);
 		}
 	}
 }

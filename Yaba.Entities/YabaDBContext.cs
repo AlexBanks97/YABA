@@ -46,12 +46,15 @@ namespace Yaba.Entities
 				.HasOne(t => t.UserTwo)
 				.WithMany();
 
-			/*
-		odelBuilder.Entity<AnEventUser>()
-			.HasOne(pt => pt.AnEvent)
-			.WithMany(p => p.AnEventUsers)
-			.HasForeignKey(pt => pt.AnEventId); */
+			modelBuilder.Entity<BudgetEntity>()
+				.HasMany(b => b.Categories)
+				.WithOne(c => c.BudgetEntity)
+				.OnDelete(DeleteBehavior.Cascade);
 
+			modelBuilder.Entity<CategoryEntity>()
+				.HasMany(c => c.Entries)
+				.WithOne(e => e.CategoryEntity)
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

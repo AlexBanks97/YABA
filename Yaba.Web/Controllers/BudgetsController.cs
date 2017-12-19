@@ -53,9 +53,9 @@ namespace Yaba.Web.Controllers
 			{
 				return BadRequest(ModelState);
 			}
-			var guid = await _repository.Create(budget);
+			var dto = await _repository.Create(budget);
 
-			return CreatedAtAction(nameof(Get), new { budgetId = guid }, null);
+			return Ok(dto);
 		}
 
 		// PUT api/values/5

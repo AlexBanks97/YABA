@@ -1,28 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
+using Windows.UI.Xaml.Controls.Maps;
 using Yaba.App.Models;
-using Yaba.Common.Budget;
+using Yaba.Common;
 using Yaba.Common.Budget.DTO.Category;
-using Yaba.Common.Budget.DTO.Entry;
 
 namespace Yaba.App.ViewModels
 {
 	public class CategoryViewModel : ViewModelBase
 	{
-		private readonly ICategoryRepository _repository;
-		private readonly IEntryRepository _entryRepository;
 
-		private CategoryDetailsDto _category;
-
-		public EntryCreateViewModel EntryCreateVM { get; } = new EntryCreateViewModel();
-
-		public ICommand AddEntryCommand { get; }
-		public ICommand RemoveEntryCommand { get; }
+		private Guid _id;
+		public Guid Id
+		{
+			get => _id;
+			set
+			{
+				_id = value;
+				OnPropertyChanged();
+			}
+		}
 
 		private string _name;
 		public string Name
@@ -34,60 +32,112 @@ namespace Yaba.App.ViewModels
 				OnPropertyChanged();
 			}
 		}
-		public decimal TotalThisMonth => _category.Entries
-			.Aggregate(0.0m, (total, entry) => total + entry.Amount);
 
-		public ObservableCollection<EntryViewModel> Entries { get; private set; }
 
-		public CategoryViewModel(ICategoryRepository repository, IEntryRepository entryRepository)
+		private GoalViewModel _goal;
+		public GoalViewModel Goal
 		{
-			_repository = repository;
-			_entryRepository = entryRepository;
-			Entries = new ObservableCollection<EntryViewModel>();
-
-			RemoveEntryCommand = new RelayCommand(async o =>
+			get => _goal;
+			set
 			{
-				if (!(o is Guid id)) return;
-				var deleted = await _entryRepository.DeleteBudgetEntry(id);
-				if (!deleted) return;
-				var entry = Entries.FirstOrDefault(e => e.Dto.Id == id);
-				Entries.Remove(entry);
-			});
-
-			AddEntryCommand = new RelayCommand(async o =>
-			{
-				if (!(o is EntryCreateViewModel evm)) return;
-				if (evm.Amount == 0.0) return;
-				var dto = new EntryCreateDto
-				{
-					Amount = (decimal) evm.Amount,
-					Date = DateTime.Now,
-					Description = evm.Description,
-					CategoryId = _category.Id,
-				};
-				await _entryRepository.CreateBudgetEntry(dto);
-				await Initialize(_category.Id);
-
-				evm.Amount = 0;
-				evm.Description = "";
-			});
+				_goal = value;
+				OnPropertyChanged();
+			}
 		}
 
-		public async Task Initialize(Guid categoryId)
+
+		private ObservableCollection<EntryViewModel> _Entries = new ObservableCollection<EntryViewModel>();
+		public ObservableCollection<EntryViewModel> Entries
 		{
-			_category = await _repository.Find(categoryId);
+			get => _Entries;
+			set
+			{
+				_Entries = value;
+				OnPropertyChanged();
+			}
+		}
 
-			Name = _category.Name;
+		public CategoryViewModel()
+		{
+			Entries.CollectionChanged += (sender, args) =>
+			{
+				OnPropertyChanged(nameof(UsagePercentage));
+				OnPropertyChanged(nameof(UsedInTimeSpan));
+			};
+		}
 
-			var sortedEntries = _category.Entries
-				.OrderByDescending(e => e.Date)
-				.Select(e => new EntryViewModel
+		public string PrettyUsage => Goal == null ? string.Empty : $"{UsedInTimeSpan}/{Goal.Amount}";
+
+		public CategoryViewModel(CategoryGoalDto simple) : base()
+		{
+			Id = simple.Id;
+			Name = simple.Name;
+			Goal = simple.Goal != null
+				? new GoalViewModel(simple.Goal)
+				: null;
+			Entries.AddRange(simple.Entries.Select(e => new EntryViewModel(e)));
+		}
+
+		public int UsagePercentage
+		{
+			get
+			{
+				if (Goal == null) return 0;
+				return (int) ((UsedInTimeSpan / (float) Goal.Amount) * 100);
+			}
+		}
+
+		public float MonthlyUsage
+		{
+			get
+			{
+				var earliest = DateTime.Now.Subtract(TimeSpan.FromDays(30));
+				return Entries
+					.Where(entry => entry.Date > earliest)
+					.Select(entry => entry.Amount)
+					.Sum();
+			}
+		}
+
+		public float UsedInTimeSpan
+		{
+			get
+			{
+				if (Goal == null) return 0f;
+
+				TimeSpan span;
+
+				switch (Goal.Recurrence)
 				{
-					Dto = e,
-					RemoveCommand = RemoveEntryCommand,
-				});
-			Entries.Clear();
-			Entries.AddRange(sortedEntries);
+					case Recurrence.None:
+						return 0;
+						break;
+					case Recurrence.Daily:
+						span = TimeSpan.FromDays(1);
+						break;
+					case Recurrence.Weekly:
+						span = TimeSpan.FromDays(7);
+
+						break;
+					case Recurrence.Monthly:
+						span = TimeSpan.FromDays(30);
+						break;
+					case Recurrence.Yearly:
+						span = TimeSpan.FromDays(365);
+						break;
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
+
+				var earliest = DateTime.Now.Subtract(span);
+
+				var totalInSpan = Entries
+					.Where(entry => entry.Date > earliest)
+					.Select(entry => entry.Amount)
+					.Sum();
+
+				return totalInSpan;
+			}
 		}
 	}
 }

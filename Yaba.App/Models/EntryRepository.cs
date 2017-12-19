@@ -33,11 +33,11 @@ namespace Yaba.App.Models
 			throw new NotImplementedException();
 		}
 
-		public async Task<Guid> CreateBudgetEntry(EntryCreateDto entry)
+		public async Task<EntrySimpleDto> CreateBudgetEntry(EntryCreateDto entry)
 		{
 			var response = await Client.PostAsync("budgets/entries", entry.ToHttpContent());
 			if (!response.IsSuccessStatusCode) throw new Exception();
-			return Guid.Empty;
+			return await response.Content.To<EntrySimpleDto>();
 		}
 
 		public async Task<bool> UpdateBudgetEntry(EntryDto entry)

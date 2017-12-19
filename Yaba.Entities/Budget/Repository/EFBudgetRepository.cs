@@ -36,7 +36,10 @@ namespace Yaba.Entities.Budget.Repository
 		public async Task<BudgetDetailsDto> Find(Guid id)
 		{
             var budget = _context.Budgets
-                .Include(b => b.Categories).ThenInclude(c => c.GoalEntity)
+				.Include(b => b.Categories)
+					.ThenInclude(c => c.GoalEntity)
+                .Include(b => b.Categories)
+					.ThenInclude(c => c.Entries)
 				.Include(b => b.Recurrings)
 				.FirstOrDefault(b => b.Id == id);
 			if (budget == null) return null;
@@ -49,6 +52,13 @@ namespace Yaba.Entities.Budget.Repository
                 Categories = budget.Categories
                     .Select(c => new CategoryGoalDto
                     {
+						Entries = c.Entries.Select(e => new EntrySimpleDto
+						{
+							Amount = e.Amount,
+							Date = e.Date,
+							Description = e.Description,
+							Id = e.Id,
+						}).ToList(),
                         Id = c.Id,
                         Name = c.Name,
                         Balance = _context.BudgetEntries.Include(b => b.CategoryEntity.Id)
@@ -73,7 +83,7 @@ namespace Yaba.Entities.Budget.Repository
 			};
 		}
 
-		public async Task<Guid> Create(BudgetCreateUpdateDto budget)
+		public async Task<BudgetSimpleDto> Create(BudgetCreateUpdateDto budget)
 		{
 			var budgetEntity = new BudgetEntity
 			{
@@ -83,7 +93,11 @@ namespace Yaba.Entities.Budget.Repository
 
 			_context.Budgets.Add(budgetEntity);
 			await _context.SaveChangesAsync();
-			return budgetEntity.Id;
+			return new BudgetSimpleDto
+			{
+				Id = budgetEntity.Id,
+				Name = budgetEntity.Name,
+			};
 		}
 
 		public async Task<ICollection<BudgetSimpleDto>> All()

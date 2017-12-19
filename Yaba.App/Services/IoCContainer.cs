@@ -46,9 +46,9 @@ namespace Yaba.App.Services
 
 			// VMs
 			services.AddTransient<MainViewModel>();
-			services.AddTransient<BudgetsViewModel>();
+			services.AddTransient<BudgetsPageViewModel>();
 			services.AddTransient<BudgetsDetailViewModel>();
-			services.AddTransient<CategoryViewModel>();
+			services.AddTransient<CategoryPageViewModel>();
 			services.AddTransient<TabsPageViewModel>();
 			services.AddTransient<TabDetailsViewModel>();
 			services.AddTransient<TabItemViewModel>();
