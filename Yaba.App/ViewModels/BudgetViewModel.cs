@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Yaba.Common.Budget.DTO;
+using Yaba.Common.Budget.DTO.Recurring;
 
 namespace Yaba.App.ViewModels
 {
@@ -36,6 +37,18 @@ namespace Yaba.App.ViewModels
 			set
 			{
 				_categories = value;
+				OnPropertyChanged();
+			}
+		}
+
+
+		private ObservableCollection<RecurringViewModel> _recurrings = new ObservableCollection<RecurringViewModel>();
+		public ObservableCollection<RecurringViewModel> Recurrings
+		{
+			get => _recurrings;
+			set
+			{
+				_recurrings = value;
 				OnPropertyChanged();
 			}
 		}

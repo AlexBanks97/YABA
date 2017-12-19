@@ -46,9 +46,9 @@ namespace Yaba.Web.Controllers
 			{
 				return BadRequest(ModelState);
 			}
-			var guid = await _repository.CreateBudgetRecurring(recurring);
-			return CreatedAtAction(nameof(Get), new { incomeId = guid }, null);
-        }
+			var dto = await _repository.CreateBudgetRecurring(recurring);
+			return Ok(dto);
+		}
 
         // PUT api/values/5
         [HttpPut("{recurringId:Guid}")]
