@@ -9,65 +9,37 @@ using Yaba.App.Services;
 using System.Net.Http;
 using Yaba.Common.Payment;
 using System;
+using Yaba.Common.User.DTO;
 
 namespace Yaba.App.ViewModels
 {
 	public class MainViewModel : ViewModelBase
 	{
 		private readonly IAuthenticationHelper _authenticationHelper;
-		private AppUser _appUser;
-		public AppUser AppUser
-		{
-			get => _appUser;
-			private set
-			{
-				_appUser = value;
-				Name = AppUser?.IdentityToken.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value
-				       ?? AppUser?.IdentityToken.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
-				IsLoggedIn = _appUser != null;
-				OnPropertyChanged();
-			}	
-		}
+		private readonly IUserHelper _userHelper;
 
-		private string _name;
-		public string Name
+
+
+		private UserDto _user;
+		public UserDto User
 		{
-			get => _name;
+			get => _user;
 			set
 			{
-				_name = value;
+				_user = value;
 				OnPropertyChanged();
 			}
 		}
 
-		public ICommand SignInOutCommand { get; }
 		public ICommand PayWithPayPal { get; }
 
-		private bool _isLoggedIn;
-		public bool IsLoggedIn
-		{
-			get => _isLoggedIn;
-			private set
-			{
-				_isLoggedIn = value;
-				OnPropertyChanged();
-			}
-		}
-		public MainViewModel(IAuthenticationHelper authenticationHelper, PaymentRepository paymentRepository)
+		public ICommand SignInOutCommand { get; set; }
+
+		
+		public MainViewModel(IAuthenticationHelper authenticationHelper, PaymentRepository paymentRepository, IUserHelper userHelper)
 		{
 			_authenticationHelper = authenticationHelper;
-
-			SignInOutCommand = new RelayCommand(_ =>
-			{
-				if (IsLoggedIn)
-				{
-					SignOut();
-				}
-				else
-				{
-					SignIn();
-				}
-			});
+			_userHelper = userHelper;
 
 			PayWithPayPal = new RelayCommand( async _ =>
 			{
@@ -87,11 +59,18 @@ namespace Yaba.App.ViewModels
 				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
 
 			});
-		}
 
-		private async void SignOut()
-		{
-			await _authenticationHelper.SignOutAsync();
+			SignInOutCommand = new RelayCommand(async o =>
+			{
+				if (User != null)
+				{
+					await SignOut();
+				}
+				else
+				{
+					await SignIn();
+				}
+			});
 		}
 
 		public async Task Initialize()
@@ -101,7 +80,13 @@ namespace Yaba.App.ViewModels
 
 		private async Task SignIn()
 		{
-			await _authenticationHelper.GetAccountAsync();
+			User = await _userHelper.GetCurrentUser();
+		}
+
+		private async Task SignOut()
+		{
+			await _userHelper.SignOut();
+			User = null;
 		}
 	}
 }

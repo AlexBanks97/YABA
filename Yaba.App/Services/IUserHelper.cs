@@ -6,5 +6,6 @@ namespace Yaba.App.Services
 	public interface IUserHelper
 	{
 		Task<UserDto> GetCurrentUser();
+		Task SignOut();
 	}
 }

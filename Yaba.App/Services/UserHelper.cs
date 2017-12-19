@@ -44,5 +44,11 @@ namespace Yaba.App.Services
 			_currentUser = user;
 			return _currentUser;
 		}
+
+		public async Task SignOut()
+		{
+			await _auth.SignOutAsync();
+			_currentUser = null;
+		}
 	}
 }
