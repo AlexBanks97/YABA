@@ -97,7 +97,7 @@ namespace Yaba.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, YabaDBContext context)
 		{
 			if (env.IsDevelopment())
 			{
@@ -117,6 +117,8 @@ namespace Yaba.Web
 			{
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "Yaba REST API");
 			});
+
+			context.Database.EnsureCreated();
 		}
 	}
 }

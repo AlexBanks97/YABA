@@ -13,7 +13,7 @@ namespace Yaba.Web
 		{
 			var host = BuildWebHost(args);
 
-			using (var scope = host.Services.CreateScope())
+			/* using (var scope = host.Services.CreateScope())
 			{
 				var services = scope.ServiceProvider;
 				try
@@ -29,7 +29,7 @@ namespace Yaba.Web
 				{
 					// ignored
 				}
-			}
+			} */
 
 			host.Run();
 		}
