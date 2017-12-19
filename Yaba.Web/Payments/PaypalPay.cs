@@ -41,7 +41,7 @@ namespace Yaba.Web.Payments
                 note_to_payer = "You will not be able to view the order before payment",
 				redirect_urls = new RedirectUrls
 				{
-                    return_url = "http://localhost:50150/api/payment/", // Change to production before release
+                    return_url = "https://yaba.azurewebsites.net/api/payment/", // Change to production before release
 					cancel_url = "http://mysite.com/cancel"
 				}
 			};
