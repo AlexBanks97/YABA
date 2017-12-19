@@ -114,9 +114,6 @@ namespace Yaba.App.ViewModels
 				await Initialize();
 			});
 
-            
-
-
 		}
 
 		public async Task Initialize()

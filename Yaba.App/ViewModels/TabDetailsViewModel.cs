@@ -92,7 +92,7 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
-        public TabDetailsViewModel(PaymentRepository repo, IItemRepository itemRepository, IUserRepository userRepository, IUserHelper userHelper)
+        public TabDetailsViewModel(PaymentRepository repo, IAuthenticationHelper helper, IItemRepository itemRepository, IUserRepository userRepository, IUserHelper userHelper)
 		{
 			StripePaymentViewModel = new StripePaymentViewModel();
 			if(PayPalPaymentViewModel == null) PayPalPaymentViewModel = new PayPalPaymentViewModel();
@@ -179,11 +179,11 @@ namespace Yaba.App.ViewModels
 			else if (uriOrSuccess.Contains("http"))
 				{
 					Uri targetUri = new Uri(uriOrSuccess);
-					ApprovalUri = targetUri;
+					//ApprovalUri = targetUri;
 
 					// Open webview and load uri
 
-					View.OpenUriInWebView(ApprovalUri);
+					View.OpenUriInWebView(targetUri);
 				}
 				else
 				{
