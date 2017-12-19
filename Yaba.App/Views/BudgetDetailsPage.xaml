@@ -29,6 +29,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0"
                            Margin="10,10,10,10"
@@ -75,9 +76,41 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <CommandBar Grid.Row="2">
+                
+                <ListView Grid.Row="2"
+                          SelectionMode="None"
+                          ItemsSource="{Binding Budget.Recurrings}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                                   Text="{Binding Amount,
+                                                          Converter={StaticResource StringFormatConverter},
+                                                          ConverterParameter='DKK {0}'}"
+                                                   Foreground="DarkGray" />
+                                        <TextBlock Grid.Column="1"
+                                                   Text="{Binding Recurrence}"
+                                                   Foreground="DarkGray" />
+                                    </Grid>
+                                </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+                <CommandBar Grid.Row="3">
                     <AppBarButton Icon="Add"
-                                  Label="Add"
+                                  Label="Add Category"
                                   AllowFocusOnInteraction="True">
                         <AppBarButton.Flyout>
                             <Flyout>
@@ -111,7 +144,31 @@
                                   Label="Remove"
                                   IsEnabled="{Binding SelectedItem, ElementName=CategoryList, Converter={StaticResource NullToBooleanConverter}}"
                                   Command="{Binding DeleteCategoryCommand}"
-                                  CommandParameter="{Binding SelectedItem, ElementName=CategoryList}"></AppBarButton>
+                                  CommandParameter="{Binding SelectedItem, ElementName=CategoryList}"/>
+                    
+                    <CommandBar.SecondaryCommands>
+                            <AppBarButton Icon="Add"
+                                          Label="Add Recurring"
+                                          AllowFocusOnInteraction="True">
+                                <AppBarButton.Flyout>
+                                    <Flyout>
+                                        <StackPanel>
+                                            <TextBlock Text="Name" />
+                                            <TextBox Text="{Binding NewRecurringVM.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <TextBlock Text="Amount" />
+                                            <TextBox Text="{Binding NewRecurringVM.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <TextBlock Text="Recurrence" />
+                                            <ComboBox ItemsSource="{Binding Recurrences}"
+                                                      SelectedItem="{Binding NewRecurringVM.Recurrence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <Button Content="Add Recurring"
+                                                    Command="{Binding AddRecurringCommand}"
+                                                    CommandParameter="{Binding NewRecurringVM}"/>
+                                        </StackPanel>
+                                    </Flyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
+                        </CommandBar.SecondaryCommands>
+                    
                 </CommandBar>
             </Grid>
             </Border>

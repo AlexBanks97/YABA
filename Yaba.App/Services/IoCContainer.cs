@@ -40,6 +40,7 @@ namespace Yaba.App.Services
 			services.AddScoped<IEntryRepository, EntryRepository>();
 			services.AddScoped<PaymentRepository, PaymentRepository>();
 			services.AddScoped<IGoalRepository, GoalRepository>();
+			services.AddScoped<IRecurringRepository, RecurringRepository>();
 
 			// kek
 			services.AddScoped<IUserHelper, UserHelper>();

@@ -14,7 +14,7 @@ namespace Yaba.Common.Budget
 
 		Task<ICollection<RecurringSimpleDto>> FindAllBudgetRecurrings();
 
-		Task<Guid> CreateBudgetRecurring(RecurringCreateDto recurring);
+		Task<RecurringSimpleDto> CreateBudgetRecurring(RecurringCreateDto recurring);
 
 		Task<bool> DeleteBudgetRecurring(Guid budgetRecurring);
 

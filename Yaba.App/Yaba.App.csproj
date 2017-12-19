@@ -115,6 +115,7 @@
     <Compile Include="Models\GoalRepository.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
     <Compile Include="Models\PaymentRepository.cs" />
+    <Compile Include="Models\RecurringRepository.cs" />
     <Compile Include="Services\StripeTokenHandler.cs" />
     <Compile Include="Models\RestBaseRepository.cs" />
     <Compile Include="Models\TabRepository.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="ViewModels\EntryViewModel.cs" />
     <Compile Include="ViewModels\GoalViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RecurringViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\TabDetailsViewModel.cs" />
     <Compile Include="ViewModels\TabItemViewModel.cs" />

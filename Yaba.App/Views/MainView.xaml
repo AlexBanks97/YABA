@@ -13,7 +13,7 @@
 
         <TextBlock Text="Yaba"
                    FontSize="42"/>
-        <TextBlock Text="{Binding Name}"
+        <TextBlock Text="{Binding User.Name}"
                    FontSize="36"/>
 
         <GridView x:Name="GridView"

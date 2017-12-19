@@ -9,69 +9,67 @@ using Yaba.App.Services;
 using System.Net.Http;
 using Yaba.Common.Payment;
 using System;
+using Yaba.Common.User.DTO;
 
 namespace Yaba.App.ViewModels
 {
 	public class MainViewModel : ViewModelBase
 	{
 		private readonly IAuthenticationHelper _authenticationHelper;
-		private AppUser _appUser;
-		public AppUser AppUser
-		{
-			get => _appUser;
-			private set
-			{
-				_appUser = value;
-				Name = AppUser?.IdentityToken.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value
-				       ?? AppUser?.IdentityToken.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
-				IsLoggedIn = _appUser != null;
-				OnPropertyChanged();
-			}	
-		}
+		private readonly IUserHelper _userHelper;
 
-		private string _name;
-		public string Name
+
+
+		private UserDto _user;
+		public UserDto User
 		{
-			get => _name;
+			get => _user;
 			set
 			{
-				_name = value;
+				_user = value;
 				OnPropertyChanged();
 			}
 		}
-
+		
+		public ICommand PayWithPayPal { get; }
 		public ICommand SignInOutCommand { get; }
 
-		private bool _isLoggedIn;
-		public bool IsLoggedIn
-		{
-			get => _isLoggedIn;
-			private set
-			{
-				_isLoggedIn = value;
-				OnPropertyChanged();
-			}
-		}
-		public MainViewModel(IAuthenticationHelper authenticationHelper, PaymentRepository paymentRepository)
+		
+		public MainViewModel(IAuthenticationHelper authenticationHelper, PaymentRepository paymentRepository, IUserHelper userHelper)
 		{
 			_authenticationHelper = authenticationHelper;
+			_userHelper = userHelper;
 
-			SignInOutCommand = new RelayCommand(_ =>
+			SignInOutCommand = new RelayCommand(async o =>
 			{
-				if (IsLoggedIn)
+				if (User != null)
 				{
-					SignOut();
+					await SignOut();
 				}
 				else
 				{
-					SignIn();
+					await SignIn();
 				}
 			});
-		}
 
-		private async void SignOut()
-		{
-			await _authenticationHelper.SignOutAsync();
+			PayWithPayPal = new RelayCommand( async _ =>
+			{
+
+				// Ask API to create payment
+
+				PaymentDto dto = new PaymentDto()
+				{
+					Amount = "100.00",
+					PaymentProvider = "PayPal",
+					Token = "tok_visa",
+					RecipientEmail = "christoffer.nissen-buyer@me.com"
+				};
+
+				var xx = (await _authenticationHelper.GetAccountAsync())?.AccessToken;
+				// Receive linkOrMessage, and open accept link if link
+				var uriOrSuccess = await paymentRepository.Pay(dto, xx.RawData);
+
+			});
 		}
 
 		public async Task Initialize()
@@ -81,7 +79,13 @@ namespace Yaba.App.ViewModels
 
 		private async Task SignIn()
 		{
-			await _authenticationHelper.GetAccountAsync();
+			User = await _userHelper.GetCurrentUser();
+		}
+
+		private async Task SignOut()
+		{
+			await _userHelper.SignOut();
+			User = null;
 		}
 	}
 }

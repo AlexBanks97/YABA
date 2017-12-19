@@ -15,7 +15,7 @@
         <converters:ItemCountToVisibilityConverter x:Key="ItemCountToVisibilityConverter" />
     </Page.Resources>
 
-    <Grid>
+    <Grid x:Name="Root">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -64,14 +64,14 @@
                               Converter={StaticResource StringFormatConverter},
                               ConverterParameter='You have spent DKK {0} this month'}" />
         </Grid>
-        
+
         <StackPanel Grid.Row="2"
                     Margin="0,30,0,0">
-
             <ListView Header="Entries"
+                      x:Name="EntriesList"
                       VerticalContentAlignment="Stretch"
                       SelectionMode="None"
-                      ItemsSource="{Binding Category.Entries}"
+                      ItemsSource="{Binding Category.Entries, UpdateSourceTrigger=PropertyChanged}"
                       Visibility="{Binding Category.Entries.Count, Converter={StaticResource ItemCountToVisibilityConverter}}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -94,8 +94,8 @@
                                                 Foreground="LightGray" />
                             </StackPanel>
                             <StackPanel Grid.Column="1">
-                                <Button Command="{Binding RemoveCommand}"
-                                            CommandParameter="{Binding Dto.Id}">
+                                <Button Command="{Binding ElementName=EntriesList, Path=DataContext.RemoveEntryCommand}"
+                                        CommandParameter="{Binding Id}">
                                     <SymbolIcon Symbol="Delete"></SymbolIcon>
                                 </Button>
                             </StackPanel>

@@ -18,12 +18,12 @@ namespace Yaba.Entities.Budget.Repository
 			_context = context;
 		}
 
-		public async Task<Guid> CreateBudgetRecurring(RecurringCreateDto recurring)
+		public async Task<RecurringSimpleDto> CreateBudgetRecurring(RecurringCreateDto recurring)
 		{
 			var budget = await _context.Budgets.SingleOrDefaultAsync(b => b.Id == recurring.BudgetId);
 			if (budget == null)
 			{
-				return Guid.Empty;
+				return null;
 			}
 
 			var newBudgetRecurring = new RecurringEntity
@@ -36,7 +36,13 @@ namespace Yaba.Entities.Budget.Repository
 
 			_context.BudgetRecurrings.Add(newBudgetRecurring);
 			await _context.SaveChangesAsync();
-			return newBudgetRecurring.Id;
+			return new RecurringSimpleDto
+			{
+				Amount = newBudgetRecurring.Amount,
+				Id = newBudgetRecurring.Id,
+				Name = newBudgetRecurring.Name,
+				Recurrence = newBudgetRecurring.Recurrence,
+			};
 		}
 
 		public async Task<ICollection<RecurringSimpleDto>> FindAllBudgetRecurrings()
