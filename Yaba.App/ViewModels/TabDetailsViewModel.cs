@@ -53,23 +53,6 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
-		public Guid CurrentTabId { private get; set; }
-
-		private readonly PaymentRepository paymentRepository;
-		private readonly IItemRepository _itemRepository;
-		private readonly IUserRepository _userRepository;
-		private readonly IUserHelper _userHelper;
-
-		public ObservableCollection<TabItemSimpleDTO> TabItemList { get; set; }
-
-		public TabItemViewModel TabItemVM { get; set; }
-
-		public ICommand PayWithStripe { get; }
-		public ICommand PayWithPayPal { get; }
-
-		private readonly IAuthenticationHelper _helper;
-
-		public ICommand AddTabItemCommand { get; }
 
 		private bool _success;
 		public bool Success
