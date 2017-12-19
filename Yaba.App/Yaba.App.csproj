@@ -110,7 +110,6 @@
     <Compile Include="Models\PaymentRepository.cs" />
     <Compile Include="Services\StripeTokenHandler.cs" />
     <Compile Include="Models\RestBaseRepository.cs" />
-    <Compile Include="Models\StripeTokenHandler.cs" />
     <Compile Include="Models\TabRepository.cs" />
     <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\UserRepository.cs" />
