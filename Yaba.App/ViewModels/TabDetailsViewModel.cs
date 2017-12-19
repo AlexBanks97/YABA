@@ -109,7 +109,7 @@ namespace Yaba.App.ViewModels
 			{
 				if (!(e is TabItemViewModel tivm)) throw new Exception();
 
-				var kek_dto = new TabItemCreateDTO
+				var createDto = new TabItemCreateDTO
 				{
 					Amount = (decimal)tivm.Amount,
 					Description = tivm.Description,
@@ -117,10 +117,7 @@ namespace Yaba.App.ViewModels
 					TabId = CurrentTabId,
 				};
 
-				var dto = await _itemRepository.Create(kek_dto);
-
-				TabItemList.Add(dto);
-
+				saveTabItem(createDto);
 			});
 
 			PayWithStripe = new RelayCommand(async e =>
@@ -145,6 +142,8 @@ namespace Yaba.App.ViewModels
 				};
 				await repo.Pay(payment, "");
 
+				await CreateAndSaveTabItemFromAmount(StripePaymentViewModel.Amount);
+
 				StripePaymentViewModel = new StripePaymentViewModel();
 				StripeIsOpen = false;
 				Success = true;
@@ -154,7 +153,6 @@ namespace Yaba.App.ViewModels
 			{
 
 				if (!(_ is PayPalPaymentViewModel cc)) return;
-
 
 				// Get amount and email
 
@@ -179,11 +177,12 @@ namespace Yaba.App.ViewModels
 			else if (uriOrSuccess.Contains("http"))
 				{
 					Uri targetUri = new Uri(uriOrSuccess);
-					//ApprovalUri = targetUri;
 
 					// Open webview and load uri
 
 					View.OpenUriInWebView(targetUri);
+
+					await CreateAndSaveTabItemFromAmount(PayPalPaymentViewModel.Amount);
 				}
 				else
 				{
@@ -193,6 +192,25 @@ namespace Yaba.App.ViewModels
 				}
 
 			});
+		}
+
+		private async Task CreateAndSaveTabItemFromAmount(float amount)
+		{
+			var createDto = new TabItemCreateDTO
+			{
+				Amount = (decimal)StripePaymentViewModel.Amount,
+				Description = "Payment",
+				CreatedBy = (await _userHelper.GetCurrentUser()).Id,
+				TabId = CurrentTabId,
+			};
+			saveTabItem(createDto);
+		}
+
+		private async void saveTabItem(TabItemCreateDTO createDto)
+		{
+			var dto = await _itemRepository.Create(createDto);
+
+			TabItemList.Add(dto);
 		}
 
 		public async void Initialize(Guid tabId, string notCurrentUserName)
