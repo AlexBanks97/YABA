@@ -85,14 +85,14 @@ namespace Yaba.Web.Test
 		public async void Post_Creates_New_DTO_With_Content_Returns_Created_At_Action()
 		{
 			var mock = new Mock<IRecurringRepository>();
-
+			var dto = new RecurringSimpleDto();
 			mock.Setup(m => m.CreateBudgetRecurring(It.IsAny<RecurringCreateDto>()))
-				.ReturnsAsync(Guid.NewGuid);
+				.ReturnsAsync(dto);
 
 			using (var controller = new RecurringController(mock.Object))
 			{
-				var response = await controller.Post(new RecurringCreateDto { Name = "Paycheck" });
-				Assert.IsType<CreatedAtActionResult>(response);
+				var response = await controller.Post(new RecurringCreateDto {Name = "Paycheck"}) as OkObjectResult;
+				Assert.Equal(dto, response?.Value);
 			}
 		}
 
