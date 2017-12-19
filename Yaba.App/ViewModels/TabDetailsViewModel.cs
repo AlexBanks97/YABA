@@ -196,9 +196,11 @@ namespace Yaba.App.ViewModels
 
 		private async Task CreateAndSaveTabItemFromAmount(float amount)
 		{
+			
+
 			var createDto = new TabItemCreateDTO
 			{
-				Amount = (decimal)StripePaymentViewModel.Amount,
+				Amount = Decimal.Parse(amount.ToString()),
 				Description = "Payment",
 				CreatedBy = (await _userHelper.GetCurrentUser()).Id,
 				TabId = CurrentTabId,
