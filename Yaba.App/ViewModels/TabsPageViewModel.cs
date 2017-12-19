@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Yaba.App.Models;
 using Yaba.App.Services;
 using Yaba.Common;
+using Yaba.Common.Payment;
 using Yaba.Common.Tab.DTO;
 
 namespace Yaba.App.ViewModels
@@ -17,6 +18,10 @@ namespace Yaba.App.ViewModels
 		private readonly ITabRepository _tabRepo;
 		private readonly IUserRepository _userRepo;
 		private readonly IUserHelper _userHelper;
+		private readonly IAuthenticationHelper _helper;
+		private readonly PaymentRepository paymentRepository;
+
+
 
 		public ObservableCollection<TabViewModel> Tabs { get; }
 		public ObservableCollection<UserViewModel> Users { get; }
@@ -33,10 +38,23 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
+        private string _approvalUri = "";
+        public string ApprovalUri
+        {
+            get => _approvalUri;
+            set
+            {
+                _approvalUri = value;
+                OnPropertyChanged();
+            }
+        }
+
 		public ICommand TextChangedCommand { get; set; }
 		public ICommand SuggestionChosenCommand { get; set; }
 		public ICommand CreateTabCommand { get; set; }
 		public ICommand RemoveTabCommand { get; set; }
+        public ICommand PayWithPayPal { get; }
+		public ICommand PayWithStripe { get; }
 
 		private async void RemoveTab(object o)
 		{
@@ -47,11 +65,13 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
-		public TabsPageViewModel(ITabRepository tabRepo, IUserRepository userRepo, IUserHelper userHelper)
+		public TabsPageViewModel(ITabRepository tabRepo, IUserRepository userRepo, IUserHelper userHelper, IAuthenticationHelper helper, PaymentRepository repo)
 		{
 			_tabRepo = tabRepo;
 			_userRepo = userRepo;
 			_userHelper = userHelper;
+			_helper = helper;
+			paymentRepository = repo;
 
 			Tabs = new ObservableCollection<TabViewModel>();
 			Users = new ObservableCollection<UserViewModel>();
@@ -93,6 +113,7 @@ namespace Yaba.App.ViewModels
 				await _tabRepo.CreateTab(dto);
 				await Initialize();
 			});
+
 		}
 
 		public async Task Initialize()

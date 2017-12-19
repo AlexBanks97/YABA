@@ -21,7 +21,7 @@ namespace Yaba.Web
 					var context = services.GetRequiredService<IYabaDBContext>();
 					using (context)
 					{
-						(context as DbContext).Database.MigrateAsync().Wait();
+						//(context as DbContext).Database.MigrateAsync().Wait();
 						DbInitializer.Initialize(context);
 					}
 				}

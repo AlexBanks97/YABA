@@ -9,6 +9,7 @@ using Yaba.App.Models;
 using Yaba.App.ViewModels;
 using Yaba.Common;
 using Yaba.Common.Budget;
+using Yaba.Common.Payment;
 
 
 namespace Yaba.App.Services
@@ -35,6 +36,7 @@ namespace Yaba.App.Services
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			services.AddScoped<ITabRepository, TabRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IItemRepository, ItemRepository>();
 			services.AddScoped<IEntryRepository, EntryRepository>();
 			services.AddScoped<PaymentRepository, PaymentRepository>();
 			services.AddScoped<IGoalRepository, GoalRepository>();
@@ -48,8 +50,10 @@ namespace Yaba.App.Services
 			services.AddTransient<BudgetsDetailViewModel>();
 			services.AddTransient<CategoryPageViewModel>();
 			services.AddTransient<TabsPageViewModel>();
+			services.AddTransient<TabDetailsViewModel>();
+			services.AddTransient<TabItemViewModel>();
 			services.AddTransient<CategoryCreateViewModel>();
-
+			services.AddTransient<PayPalPaymentViewModel>();
 
 			//services.AddScoped<ICharacterRepository, CharacterRepository>();
 
