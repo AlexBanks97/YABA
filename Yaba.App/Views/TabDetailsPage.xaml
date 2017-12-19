@@ -65,6 +65,8 @@
                 <TextBlock Text="{Binding Name}"
                            FontSize="64"
                            FontWeight="Thin"/>
+                <TextBlock Text="{Binding ComputedBalance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           FontSize="28"/>
                 <ListView ItemsSource="{Binding TabItemList}">
                     <ListView.ItemTemplate>
                         <DataTemplate>

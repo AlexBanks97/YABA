@@ -30,6 +30,17 @@ namespace Yaba.App.ViewModels
 			}
 		}
 
+		private decimal _computedBalance;
+		public decimal ComputedBalance
+		{
+			get => _computedBalance;
+			set
+			{
+				_computedBalance = value;
+				OnPropertyChanged();
+			}
+		}
+
 		public Guid CurrentTabId { private get; set; }
 
 		private readonly PaymentRepository paymentRepository;
@@ -222,6 +233,9 @@ namespace Yaba.App.ViewModels
 
 			TabItemList.Clear();
 			TabItemList.AddRange(tabItems);
+
+			ComputedBalance = TabItemList.Select(t => t.Amount).Sum();
+
 		}
 	}
 }
