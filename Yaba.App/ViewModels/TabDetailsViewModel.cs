@@ -234,7 +234,17 @@ namespace Yaba.App.ViewModels
 			TabItemList.Clear();
 			TabItemList.AddRange(tabItems);
 
-			ComputedBalance = TabItemList.Select(t => t.Amount).Sum();
+			var currentUser = await _userHelper.GetCurrentUser();
+
+			ComputedBalance = TabItemList
+				.Aggregate(0.0m, ((amount, tabItem) =>
+				{
+					if (tabItem.CreatedBy == currentUser.Id)
+					{
+						return amount + tabItem.Amount;
+					}
+					return amount - tabItem.Amount;
+				}));
 
 		}
 	}
