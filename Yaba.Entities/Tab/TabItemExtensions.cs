@@ -13,16 +13,8 @@ namespace Yaba.Entities.Tab
 				Id = itemEntity.Id,
 				Amount = itemEntity.Amount,
 				Description = itemEntity.Description,
-				CreatedBy = itemEntity.CreatedBy.ToUserDto(),
+				CreatedBy = itemEntity.CreatedBy?.ToUserDto(),
 			};
-		}
-
-		public static IEnumerable<TabItemSimpleDTO> ToTabItemSimpleDTO(this IEnumerable<ItemEntity> tabItems)
-		{
-			foreach (var tabItem in tabItems)
-			{
-				yield return tabItem.ToTabItemSimpleDTO();
-			}
 		}
 	}
 }

@@ -41,7 +41,7 @@ namespace Yaba.Entities.Tab.Repository
 			{
 				Id = entity.Id,
 				Amount = entity.Amount,
-				CreatedBy = entity.CreatedBy.ToUserDto(),
+				CreatedBy = entity.CreatedBy?.ToUserDto(),
 				Description = entity.Description,
 			};
 		}
@@ -55,7 +55,9 @@ namespace Yaba.Entities.Tab.Repository
 				.SingleOrDefault(t => t.Id == tabId);
 
 			if (tab == null) return null;
-			return tab.TabItems.ToTabItemSimpleDTO();
+			return tab.TabItems
+				.Select(t => t.ToTabItemSimpleDTO())
+				.ToList();
 		}
 
 		public async Task<bool> Update(TabItemSimpleDTO tabItemDTO)

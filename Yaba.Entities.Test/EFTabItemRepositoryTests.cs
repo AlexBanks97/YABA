@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Yaba.Common.Tab.DTO.Item;
+using Yaba.Common.User;
 using Yaba.Entities.Tab;
 using Yaba.Entities.Tab.Repository;
 
@@ -16,7 +17,6 @@ namespace Yaba.Entities.Test
 			var context = Util.GetNewContext(nameof(Find_Given_Existing_Id_And_Amount_Returns_TabItem));
 
 			var tabitem = new ItemEntity { Amount = 42 };
-
 			context.TabItems.Add(tabitem);
 			await context.SaveChangesAsync();
 
@@ -68,25 +68,31 @@ namespace Yaba.Entities.Test
 		{
 			var context = Util.GetNewContext(nameof(FindFromTab_Given_TabId_Returns_TabItems_With_Same_Values));
 
-			var tabItems = new List<ItemEntity>();
-			tabItems.Add(new ItemEntity
-			{
-				Amount = 42,
-				Description = "Pizza last week",
-			});
-
-			var tab = new Tab.TabEntity { TabItems = tabItems };
-
+			var tab = new TabEntity();
 			context.Tabs.Add(tab);
+			var tabItems = new[]
+			{
+				new ItemEntity
+				{
+					Amount = 42,
+					Description = "Pizza last week",
+					TabEntity = tab,
+				},
+				new ItemEntity
+				{
+					Amount = 100.0m,
+					Description = "hehe",
+					TabEntity = tab,
+				},
+			};
+			context.TabItems.AddRange(tabItems);
+
 			await context.SaveChangesAsync();
 
 			using (var repo = new EFItemRepository(context))
 			{
-				var tabItemsDTO = await repo.FindFromTab(tab.Id);
-				var tabItem = tabItemsDTO.First();
-				Assert.Equal(1, tabItemsDTO.Count());
-				Assert.Equal(42, tabItem.Amount);
-				Assert.Equal("Pizza last week", tabItem.Description);
+				var dto = await repo.FindFromTab(tab.Id);
+				Assert.NotNull(dto);
 			}
 		}
 
@@ -163,9 +169,10 @@ namespace Yaba.Entities.Test
 		public async void Create_Given_Valid_TabItem_Returns_Dto()
 		{
 			var context = Util.GetNewContext(nameof(Create_Given_Valid_TabItem_Returns_Dto));
-
 			var tab = new Tab.TabEntity();
+			var user = new UserEntity();
 			context.Tabs.Add(tab);
+			context.Users.Add(user);
 			await context.SaveChangesAsync();
 
 			using (var repo = new EFItemRepository(context))
@@ -174,6 +181,7 @@ namespace Yaba.Entities.Test
 				{
 					Amount = 42,
 					TabId = tab.Id,
+					CreatedBy = user.Id
 				};
 				var createdDto = await repo.Create(dto);
 				var entity = context.TabItems.SingleOrDefault(t => t.Id == createdDto.Id);
