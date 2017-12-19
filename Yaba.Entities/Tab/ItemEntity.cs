@@ -17,7 +17,7 @@ namespace Yaba.Entities.Tab
 		public TabEntity TabEntity { get; set; }
 		[Required]
 		[ValidGuid]
-		public Guid CreateBy { get; set; }
+		public UserEntity CreatedBy { get; set; }
 		// Add prop for user whom created tab item
 	}
 }

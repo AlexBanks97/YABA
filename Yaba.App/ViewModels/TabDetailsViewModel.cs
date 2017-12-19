@@ -239,7 +239,7 @@ namespace Yaba.App.ViewModels
 			ComputedBalance = TabItemList
 				.Aggregate(0.0m, ((amount, tabItem) =>
 				{
-					if (tabItem.CreatedBy == currentUser.Id)
+					if (tabItem.CreatedBy.Id == currentUser.Id)
 					{
 						return amount + tabItem.Amount;
 					}

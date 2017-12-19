@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Yaba.Common.Tab.DTO.Item;
+using Yaba.Entities.User;
 
 namespace Yaba.Entities.Tab
 {
@@ -12,7 +13,7 @@ namespace Yaba.Entities.Tab
 				Id = itemEntity.Id,
 				Amount = itemEntity.Amount,
 				Description = itemEntity.Description,
-				CreatedBy = itemEntity.CreateBy,
+				CreatedBy = itemEntity.CreatedBy.ToUserDto(),
 			};
 		}
 
