@@ -1,10 +1,9 @@
 # 💸 &nbsp;&nbsp; Y A B A &nbsp;&nbsp; [![Build Status](https://travis-ci.com/praffn/YABA.svg?token=ygVuHxbjsy4ghqmgtPST&branch=develop)](https://travis-ci.com/praffn/YABA)
 
-<center><h1>🎉&nbsp;&nbsp;300 Commits Celebration&nbsp;&nbsp;🎈</h1></center>
-
-<center><h1>🎉&nbsp;&nbsp;100 Tests Celebration&nbsp;&nbsp;🎈</h1></center>
-
-<center><h1>🎉&nbsp;&nbsp;200 Commits Celebration&nbsp;&nbsp;🎈</h1></center>
+## What is YABA?
+Yet Another Budgeting App (YABA), is a tool that allows you to create budgets for yourself and track spendings of various expenses under different categories.
+Furthermore YABA has a feature called *Tabs*, which allows two users to create a tab where they can track spendings with each other. 
+YABA has been created as an exam product for the course [BDSA](https://mit.itu.dk/ucs/cb_www/course.sml?course_id=1921735&mode=search&lang=en&print_friendly_p=t&goto=1513816107.000), fall semester of 2017 at the IT University of Copenhagen.
 
 ## Database migrations
 To run migrations make sure you are scoped to the `Yaba.Entities`.
