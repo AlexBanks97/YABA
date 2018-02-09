@@ -26,3 +26,4 @@ namespace Yaba.Common.Tab.DTO.Item
 		}
 	}
 }
+

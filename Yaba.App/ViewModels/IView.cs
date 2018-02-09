@@ -12,3 +12,4 @@ namespace Yaba.App.ViewModels
 		void ActivateFailurePopup();
 	}
 }
+
